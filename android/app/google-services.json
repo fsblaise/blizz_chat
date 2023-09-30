@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "446227026702",
+    "project_id": "blizz-chat-61069",
+    "storage_bucket": "blizz-chat-61069.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:446227026702:android:d6a664fef9fea0c1977d5f",
+        "android_client_info": {
+          "package_name": "com.example.blizz_chat"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBiFK9uTu7gQpmC2n_GdHaPb31_tHocccE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
