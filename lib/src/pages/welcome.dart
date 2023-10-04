@@ -15,15 +15,12 @@ class WelcomePage extends StatelessWidget {
       children: [
         const Icon(
           Icons.chat,
-          size: 200,
+          size: 169,
           color: Colors.deepPurple,
-        ),
-        const SizedBox(
-          height: 50,
         ),
         const Text(
           'Blizz Chat',
-          style: TextStyle(fontSize: 72, fontWeight: FontWeight.bold),
+          style: TextStyle(fontSize: 64, fontWeight: FontWeight.bold),
           textAlign: TextAlign.center,
         ),
         const SizedBox(
@@ -31,11 +28,11 @@ class WelcomePage extends StatelessWidget {
         ),
         const Text(
           'End-to-end instant messaging for everyone',
-          style: TextStyle(fontSize: 32),
+          style: TextStyle(fontSize: 26),
           textAlign: TextAlign.center,
         ),
         const SizedBox(
-          height: 50,
+          height: 15,
         ),
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -47,7 +44,7 @@ class WelcomePage extends StatelessWidget {
               },
               child: const Text('Continue'),
               style: ButtonStyle(
-                  minimumSize: MaterialStatePropertyAll(Size(150, 60))),
+                  minimumSize: MaterialStatePropertyAll(Size(120, 40))),
             ),
           ],
         )

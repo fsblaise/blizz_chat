@@ -70,7 +70,7 @@ class _MainAppState extends State<MainApp> {
             : Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  const WelcomePage(),
+                  const Expanded(child: WelcomePage()),
                   TextButton(onPressed: login, child: const Text('test login'))
                 ],
               ),
