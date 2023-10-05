@@ -1,3 +1,7 @@
+import 'package:blizz_chat/src/pages/home.dart';
+import 'package:blizz_chat/src/widgets/auth_text_field.dart';
+import 'package:blizz_chat/src/widgets/button_expanded.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class AuthPage extends StatefulWidget {
@@ -13,18 +17,28 @@ class _AuthPageState extends State<AuthPage> {
   switchForms() {
     setState(() {
       isLogin = !isLogin;
-      print('pressed');
     });
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: isLogin
-          ? SignIn(switchPressed: switchForms)
-          : SignUp(
-              switchPressed: switchForms,
+      body: SafeArea(child: LayoutBuilder(
+        builder: (BuildContext context, BoxConstraints viewportConstraints) {
+          return SingleChildScrollView(
+              child: ConstrainedBox(
+            constraints: BoxConstraints(
+              minHeight: viewportConstraints.maxHeight,
             ),
+            child: IntrinsicHeight(
+                child: isLogin
+                    ? SignIn(switchPressed: switchForms)
+                    : SignUp(
+                        switchPressed: switchForms,
+                      )),
+          ));
+        },
+      )),
     );
   }
 }
@@ -75,7 +89,7 @@ class _SignInState extends State<SignIn> {
                 controller: passwordController,
                 icon: const Icon(Icons.lock),
                 hint: 'Password'),
-            FormButton(
+            ExpandedButton(
               onTap: signIn,
               text: 'Sign In',
             ),
@@ -106,129 +120,173 @@ class SignUp extends StatefulWidget {
 }
 
 class _SignUpState extends State<SignUp> {
-  final emailController = TextEditingController();
-  final passwordController = TextEditingController();
-  final confirmPasswordController = TextEditingController();
-  signUp() {}
+  final _emailController = TextEditingController();
+  final _passwordController = TextEditingController();
+  final _confirmPasswordController = TextEditingController();
+  final _nameController = TextEditingController();
+  final List<int> steps = [1, 2];
+  int currentStep = 1;
+
+  switchSteps() {
+    setState(() {
+      currentStep = 2;
+    });
+  }
+
+  signUp() {
+    setState(() {
+      Navigator.push(
+          context, CupertinoPageRoute(builder: (context) => const HomePage()));
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
     return Column(
-      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-      crossAxisAlignment: CrossAxisAlignment.center,
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        const Column(
+        Expanded(
+          child: AnimatedSwitcher(
+            duration: const Duration(milliseconds: 300),
+            reverseDuration: const Duration(milliseconds: 0),
+            transitionBuilder: (child, animation) => SlideTransition(
+                position:
+                    Tween<Offset>(begin: const Offset(1, 0), end: Offset.zero)
+                        .animate(animation),
+                child: child),
+            child: currentStep == 1
+                ? AuthStep(
+                    emailController: _emailController,
+                    passwordController: _passwordController,
+                    confirmPasswordController: _confirmPasswordController,
+                    continueTap: switchSteps,
+                    switchPressed: widget.switchPressed,
+                  )
+                : PersonalStep(
+                    nameController: _nameController,
+                    submitTap: signUp,
+                  ),
+          ),
+        ),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Text(
-              'Welcome newcomer!',
-              style: TextStyle(fontSize: 46, fontWeight: FontWeight.bold),
-              textAlign: TextAlign.center,
-            )
+            for (var step in steps)
+              Padding(
+                padding: const EdgeInsets.all(4.0),
+                child: Icon(
+                  Icons.circle,
+                  color: currentStep == step ? Colors.deepPurple : Colors.grey,
+                  size: 16,
+                ),
+              )
           ],
         ),
-        Column(
-          children: [
-            const Text(
-              'Please register an account',
-              style: TextStyle(fontSize: 18),
-            ),
-            AuthTextField(
-                obscure: false,
-                controller: emailController,
-                icon: const Icon(Icons.email),
-                hint: 'Email address'),
-            AuthTextField(
-                obscure: true,
-                controller: passwordController,
-                icon: const Icon(Icons.lock),
-                hint: 'Password'),
-            AuthTextField(
-                obscure: true,
-                controller: confirmPasswordController,
-                icon: const Icon(Icons.lock),
-                hint: 'Confirm password'),
-            FormButton(
-              onTap: signUp,
-              text: 'Sign Up',
-            ),
-            const SizedBox(width: 334, child: Divider(thickness: 1)),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                const Text('Already a member?'),
-                TextButton(
-                    onPressed: widget.switchPressed,
-                    child: const Text('Login now'))
-              ],
-            )
-          ],
+        const SizedBox(
+          height: 10,
         )
       ],
     );
   }
 }
 
-class AuthTextField extends StatelessWidget {
-  const AuthTextField({
-    super.key,
-    required this.controller,
-    required this.icon,
-    required this.hint,
-    required this.obscure,
-  });
-
-  final TextEditingController controller;
-  final Icon icon;
-  final String hint;
-  final bool obscure;
+class AuthStep extends StatelessWidget {
+  final TextEditingController emailController;
+  final TextEditingController passwordController;
+  final TextEditingController confirmPasswordController;
+  final Function() continueTap;
+  final Function() switchPressed;
+  const AuthStep(
+      {super.key,
+      required this.emailController,
+      required this.passwordController,
+      required this.confirmPasswordController,
+      required this.continueTap,
+      required this.switchPressed});
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        SizedBox(
-          width: 350,
-          child: Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: TextField(
-              obscureText: obscure,
-              controller: controller,
-              decoration: InputDecoration(
-                  hintText: hint,
-                  prefixIcon: icon,
-                  border: const OutlineInputBorder(
-                      gapPadding: 5,
-                      borderRadius: BorderRadius.all(Radius.circular(10)))),
-            ),
+    return Container(
+      color: Theme.of(context).colorScheme.background,
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        children: [
+          const Text(
+            'Welcome newcomer!',
+            style: TextStyle(fontSize: 46, fontWeight: FontWeight.bold),
+            textAlign: TextAlign.center,
           ),
-        ),
-      ],
+          Column(
+            children: [
+              const Text(
+                'Please register an account',
+                style: TextStyle(fontSize: 18),
+              ),
+              AuthTextField(
+                  obscure: false,
+                  controller: emailController,
+                  icon: const Icon(Icons.email),
+                  hint: 'Email address'),
+              AuthTextField(
+                  obscure: true,
+                  controller: passwordController,
+                  icon: const Icon(Icons.lock),
+                  hint: 'Password'),
+              AuthTextField(
+                  obscure: true,
+                  controller: confirmPasswordController,
+                  icon: const Icon(Icons.lock),
+                  hint: 'Confirm password'),
+              ExpandedButton(
+                onTap: continueTap,
+                text: 'Continue',
+              ),
+              const SizedBox(width: 334, child: Divider(thickness: 1)),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const Text('Already a member?'),
+                  TextButton(
+                      onPressed: switchPressed, child: const Text('Login now'))
+                ],
+              )
+            ],
+          )
+        ],
+      ),
     );
   }
 }
 
-class FormButton extends StatelessWidget {
-  final void Function() onTap;
-  final String text;
-
-  const FormButton({super.key, required this.onTap, required this.text});
+class PersonalStep extends StatelessWidget {
+  final TextEditingController nameController;
+  final Function() submitTap;
+  const PersonalStep(
+      {super.key, required this.nameController, required this.submitTap});
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      width: 350,
-      height: 60,
-      child: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: FilledButton(
-          onPressed: onTap,
-          style: ButtonStyle(
-            shape: MaterialStateProperty.all(RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(10))),
+    return Container(
+      color: Theme.of(context).colorScheme.background,
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        children: [
+          const Text(
+            "Before using the app:\nWhat's your name?",
+            style: TextStyle(fontSize: 32, fontWeight: FontWeight.bold),
+            textAlign: TextAlign.center,
           ),
-          child: Text(text),
-        ),
+          Column(
+            children: [
+              AuthTextField(
+                  obscure: false,
+                  controller: nameController,
+                  icon: const Icon(Icons.email),
+                  hint: 'Full Name'),
+              ExpandedButton(onTap: submitTap, text: 'Sign Up')
+            ],
+          )
+        ],
       ),
     );
   }

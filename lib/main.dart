@@ -1,4 +1,5 @@
 import 'package:blizz_chat/src/pages/contacts.dart';
+import 'package:blizz_chat/src/pages/home.dart';
 import 'package:blizz_chat/src/pages/map.dart';
 import 'package:blizz_chat/src/pages/settings.dart';
 import 'package:blizz_chat/src/pages/stories.dart';
@@ -25,20 +26,7 @@ class MainApp extends StatefulWidget {
 }
 
 class _MainAppState extends State<MainApp> {
-  int selectedPage = 0;
   bool isLoggedIn = false;
-
-  void onPageChanged(int index) {
-    setState(() {
-      selectedPage = index;
-    });
-  }
-
-  void login() {
-    setState(() {
-      isLoggedIn = true;
-    });
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -47,37 +35,7 @@ class _MainAppState extends State<MainApp> {
           useMaterial3: true,
           colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
           fontFamily: GoogleFonts.inter().fontFamily),
-      home: Scaffold(
-        body: isLoggedIn
-            ? [
-                Container(
-                  alignment: Alignment.center,
-                  child: const ContactsPage(),
-                ),
-                Container(
-                  alignment: Alignment.center,
-                  child: const StoriesPage(),
-                ),
-                Container(
-                  alignment: Alignment.center,
-                  child: const MapPage(),
-                ),
-                Container(
-                  alignment: Alignment.center,
-                  child: const SettingsPage(),
-                ),
-              ][selectedPage]
-            : Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  const Expanded(child: WelcomePage()),
-                  TextButton(onPressed: login, child: const Text('test login'))
-                ],
-              ),
-        bottomNavigationBar: isLoggedIn
-            ? Navigation(selectedIndex: selectedPage, onChanged: onPageChanged)
-            : null,
-      ),
+      home: isLoggedIn ? const HomePage() : const Scaffold(body: WelcomePage()),
     );
   }
 }

@@ -14,7 +14,6 @@ class Navigation extends StatelessWidget {
         NavigationDestination(icon: Icon(Icons.people), label: 'Contacts'),
         NavigationDestination(icon: Icon(Icons.photo_filter), label: 'Stories'),
         NavigationDestination(icon: Icon(Icons.explore), label: 'Map'),
-        NavigationDestination(icon: Icon(Icons.settings), label: 'Settings'),
       ],
       selectedIndex: selectedIndex,
       onDestinationSelected: onChanged,
