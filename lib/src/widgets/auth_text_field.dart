@@ -7,12 +7,16 @@ class AuthTextField extends StatelessWidget {
     required this.icon,
     required this.hint,
     required this.obscure,
+    required this.validator,
+    required this.onChanged,
   });
 
   final TextEditingController controller;
   final Icon icon;
   final String hint;
   final bool obscure;
+  final String? Function(String?)? validator;
+  final Function() onChanged;
 
   @override
   Widget build(BuildContext context) {
@@ -23,9 +27,13 @@ class AuthTextField extends StatelessWidget {
           width: 350,
           child: Padding(
             padding: const EdgeInsets.all(8.0),
-            child: TextField(
+            child: TextFormField(
               obscureText: obscure,
               controller: controller,
+              validator: validator,
+              onChanged: (_) {
+                onChanged();
+              },
               decoration: InputDecoration(
                   hintText: hint,
                   prefixIcon: icon,

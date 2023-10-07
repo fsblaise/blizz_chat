@@ -1,4 +1,6 @@
+import 'package:blizz_chat/src/models/user.model.dart';
 import 'package:blizz_chat/src/pages/home.dart';
+import 'package:blizz_chat/src/services/auth.service.dart';
 import 'package:blizz_chat/src/widgets/auth_text_field.dart';
 import 'package:blizz_chat/src/widgets/button_expanded.dart';
 import 'package:flutter/cupertino.dart';
@@ -82,11 +84,25 @@ class _SignInState extends State<SignIn> {
             AuthTextField(
                 obscure: false,
                 controller: emailController,
+                onChanged: () {},
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return 'Please enter some text';
+                  }
+                  return null;
+                },
                 icon: const Icon(Icons.email),
                 hint: 'Email address'),
             AuthTextField(
                 obscure: true,
                 controller: passwordController,
+                onChanged: () {},
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return 'Please enter some text';
+                  }
+                  return null;
+                },
                 icon: const Icon(Icons.lock),
                 hint: 'Password'),
             ExpandedButton(
@@ -123,49 +139,103 @@ class _SignUpState extends State<SignUp> {
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
   final _confirmPasswordController = TextEditingController();
-  final _nameController = TextEditingController();
+  final TextEditingController _nameController = TextEditingController();
   final List<int> steps = [1, 2];
   int currentStep = 1;
 
+  final _signUpKey = GlobalKey<FormState>();
+  final AuthService auth = AuthService();
+  bool isValid = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _emailController.addListener(isFormValid);
+    _passwordController.addListener(isFormValid);
+    _confirmPasswordController.addListener(isFormValid);
+    _nameController.addListener(isFormValid);
+  }
+
+  isFormValid() {
+    setState(() {
+      isValid = _signUpKey != null &&
+          _signUpKey.currentState != null &&
+          _signUpKey.currentState!.validate();
+    });
+  }
+
   switchSteps() {
     setState(() {
-      currentStep = 2;
+      if (currentStep == 2) {
+        currentStep = 1;
+        isValid = true;
+      } else {
+        currentStep = 2;
+        isValid = _nameController.text.trim().isNotEmpty;
+      }
     });
   }
 
   signUp() {
-    setState(() {
-      Navigator.push(
-          context, CupertinoPageRoute(builder: (context) => const HomePage()));
-    });
+    if (_passwordController.text.trim() ==
+            _confirmPasswordController.text.trim() &&
+        _signUpKey.currentState!.validate()) {
+      FbUser user = FbUser(_emailController.text.trim(),
+          DateTime.now().toIso8601String(), _nameController.text.trim());
+      print('successful signup');
+      print(user.fullName);
+      print(user.email);
+      print(user.created);
+    }
+    // setState(() {
+    //   Navigator.push(
+    //       context, CupertinoPageRoute(builder: (context) => const HomePage()));
+    // });
   }
 
   @override
   Widget build(BuildContext context) {
     return Column(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Expanded(
-          child: AnimatedSwitcher(
-            duration: const Duration(milliseconds: 300),
-            reverseDuration: const Duration(milliseconds: 0),
-            transitionBuilder: (child, animation) => SlideTransition(
-                position:
-                    Tween<Offset>(begin: const Offset(1, 0), end: Offset.zero)
-                        .animate(animation),
-                child: child),
-            child: currentStep == 1
-                ? AuthStep(
-                    emailController: _emailController,
-                    passwordController: _passwordController,
-                    confirmPasswordController: _confirmPasswordController,
-                    continueTap: switchSteps,
-                    switchPressed: widget.switchPressed,
-                  )
-                : PersonalStep(
-                    nameController: _nameController,
-                    submitTap: signUp,
-                  ),
+        if (currentStep == 2)
+          Padding(
+            padding: const EdgeInsets.only(top: 16, left: 16),
+            child: IconButton(
+                onPressed: switchSteps, icon: const Icon(Icons.arrow_back)),
+          ),
+        Form(
+          key: _signUpKey,
+          autovalidateMode: AutovalidateMode.always,
+          child: Expanded(
+            child: AnimatedSwitcher(
+              duration: const Duration(milliseconds: 300),
+              reverseDuration: const Duration(milliseconds: 0),
+              transitionBuilder: (child, animation) => SlideTransition(
+                  position: currentStep == 2
+                      ? Tween<Offset>(
+                              begin: const Offset(1, 0), end: Offset.zero)
+                          .animate(animation)
+                      : Tween<Offset>(
+                              begin: const Offset(-1, 0), end: Offset.zero)
+                          .animate(animation),
+                  child: child),
+              child: currentStep == 1
+                  ? AuthStep(
+                      emailController: _emailController,
+                      passwordController: _passwordController,
+                      confirmPasswordController: _confirmPasswordController,
+                      checkValidity: isFormValid,
+                      continueTap: isValid ? switchSteps : null,
+                      switchPressed: widget.switchPressed,
+                    )
+                  : PersonalStep(
+                      nameController: _nameController,
+                      checkValidity: isFormValid,
+                      submitTap: isValid ? signUp : null,
+                    ),
+            ),
           ),
         ),
         Row(
@@ -194,15 +264,17 @@ class AuthStep extends StatelessWidget {
   final TextEditingController emailController;
   final TextEditingController passwordController;
   final TextEditingController confirmPasswordController;
-  final Function() continueTap;
+  final dynamic continueTap;
   final Function() switchPressed;
+  final Function() checkValidity;
   const AuthStep(
       {super.key,
       required this.emailController,
       required this.passwordController,
       required this.confirmPasswordController,
       required this.continueTap,
-      required this.switchPressed});
+      required this.switchPressed,
+      required this.checkValidity});
 
   @override
   Widget build(BuildContext context) {
@@ -225,16 +297,39 @@ class AuthStep extends StatelessWidget {
               AuthTextField(
                   obscure: false,
                   controller: emailController,
+                  onChanged: checkValidity,
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Please enter some text';
+                    }
+                    return null;
+                  },
                   icon: const Icon(Icons.email),
                   hint: 'Email address'),
               AuthTextField(
                   obscure: true,
                   controller: passwordController,
+                  onChanged: checkValidity,
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Please enter some text';
+                    }
+                    return null;
+                  },
                   icon: const Icon(Icons.lock),
                   hint: 'Password'),
               AuthTextField(
                   obscure: true,
                   controller: confirmPasswordController,
+                  onChanged: checkValidity,
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Please enter some text';
+                    } else if (value.trim() != passwordController.text.trim()) {
+                      return 'Passwords are not matching';
+                    }
+                    return null;
+                  },
                   icon: const Icon(Icons.lock),
                   hint: 'Confirm password'),
               ExpandedButton(
@@ -260,9 +355,13 @@ class AuthStep extends StatelessWidget {
 
 class PersonalStep extends StatelessWidget {
   final TextEditingController nameController;
-  final Function() submitTap;
+  final dynamic submitTap;
+  final Function() checkValidity;
   const PersonalStep(
-      {super.key, required this.nameController, required this.submitTap});
+      {super.key,
+      required this.nameController,
+      required this.submitTap,
+      required this.checkValidity});
 
   @override
   Widget build(BuildContext context) {
@@ -281,7 +380,14 @@ class PersonalStep extends StatelessWidget {
               AuthTextField(
                   obscure: false,
                   controller: nameController,
-                  icon: const Icon(Icons.email),
+                  onChanged: checkValidity,
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Please enter some text';
+                    }
+                    return null;
+                  },
+                  icon: const Icon(Icons.person),
                   hint: 'Full Name'),
               ExpandedButton(onTap: submitTap, text: 'Sign Up')
             ],

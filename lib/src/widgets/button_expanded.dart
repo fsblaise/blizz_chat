@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class ExpandedButton extends StatelessWidget {
-  final void Function() onTap;
+  final dynamic onTap;
   final String text;
 
   const ExpandedButton({super.key, required this.onTap, required this.text});

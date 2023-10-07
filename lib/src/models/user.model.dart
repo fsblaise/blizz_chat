@@ -1,14 +1,15 @@
-class User {
-  final String id;
+class FbUser {
+  late String id;
   final String email;
-  final DateTime created;
-  late String fullName;
+  final String created;
+  final String fullName;
   late String profileURL;
   late Map<String, String> contacts;
   late Map<String, dynamic> location;
   late Map<String, dynamic> settings;
 
-  User(this.id, this.email, this.created) {
+  FbUser(this.email, this.created, this.fullName) {
+    profileURL = '';
     contacts = {};
     location = {
       'useLocation': false,
