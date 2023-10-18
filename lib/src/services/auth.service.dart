@@ -22,4 +22,9 @@ class AuthService {
       print(e);
     }
   }
+
+  Future signIn(String email, String password) async {
+    return await auth.signInWithEmailAndPassword(
+        email: email, password: password);
+  }
 }

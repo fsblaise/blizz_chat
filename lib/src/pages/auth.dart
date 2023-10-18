@@ -57,8 +57,16 @@ class SignIn extends StatefulWidget {
 class _SignInState extends State<SignIn> {
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
+  final AuthService auth = AuthService();
 
-  signIn() {}
+  signIn() {
+    auth
+        .signIn(emailController.text.trim(), passwordController.text.trim())
+        .then((value) => {
+              Navigator.push(context,
+                  CupertinoPageRoute(builder: (context) => const HomePage()))
+            });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -177,15 +185,20 @@ class _SignUpState extends State<SignUp> {
   }
 
   signUp() {
-    if (_passwordController.text.trim() ==
-            _confirmPasswordController.text.trim() &&
-        _signUpKey.currentState!.validate()) {
+    String password = _passwordController.text.trim();
+    String confirmPassword = _confirmPasswordController.text.trim();
+    if (password == confirmPassword && _signUpKey.currentState!.validate()) {
       FbUser user = FbUser(_emailController.text.trim(),
           DateTime.now().toIso8601String(), _nameController.text.trim());
-      print('successful signup');
-      print(user.fullName);
-      print(user.email);
-      print(user.created);
+      // print('successful signup');
+      // print(user.fullName);
+      // print(user.email);
+      // print(user.created);
+      auth.signUp(user, password).then((value) => {
+            // print("Hello"),
+            Navigator.push(context,
+                CupertinoPageRoute(builder: (context) => const HomePage()))
+          });
     }
     // setState(() {
     //   Navigator.push(
