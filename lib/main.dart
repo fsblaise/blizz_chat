@@ -4,7 +4,9 @@ import 'package:blizz_chat/src/pages/map.dart';
 import 'package:blizz_chat/src/pages/settings.dart';
 import 'package:blizz_chat/src/pages/stories.dart';
 import 'package:blizz_chat/src/pages/welcome.dart';
+import 'package:blizz_chat/src/services/auth_service.dart';
 import 'package:blizz_chat/src/widgets/navigation.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -26,16 +28,22 @@ class MainApp extends StatefulWidget {
 }
 
 class _MainAppState extends State<MainApp> {
-  bool isLoggedIn = false;
+  User? user;
+  final AuthService auth = AuthService();
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    user = auth.getLoggedInUser();
+  }
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      theme: ThemeData(
-          useMaterial3: true,
-          colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-          fontFamily: GoogleFonts.inter().fontFamily),
-      home: isLoggedIn ? const HomePage() : const Scaffold(body: WelcomePage()),
-    );
+        theme: ThemeData(
+            useMaterial3: true,
+            colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+            fontFamily: GoogleFonts.inter().fontFamily),
+        home: user != null ? const HomePage() : const WelcomePage());
   }
 }

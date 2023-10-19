@@ -1,6 +1,6 @@
-import 'package:blizz_chat/src/models/user.model.dart';
+import 'package:blizz_chat/src/models/user_model.dart';
 import 'package:blizz_chat/src/pages/home.dart';
-import 'package:blizz_chat/src/services/auth.service.dart';
+import 'package:blizz_chat/src/services/auth_service.dart';
 import 'package:blizz_chat/src/widgets/auth_text_field.dart';
 import 'package:blizz_chat/src/widgets/button_expanded.dart';
 import 'package:flutter/cupertino.dart';
@@ -60,12 +60,10 @@ class _SignInState extends State<SignIn> {
   final AuthService auth = AuthService();
 
   signIn() {
-    auth
-        .signIn(emailController.text.trim(), passwordController.text.trim())
-        .then((value) => {
-              Navigator.push(context,
-                  CupertinoPageRoute(builder: (context) => const HomePage()))
-            });
+    auth.signIn(emailController.text.trim(), passwordController.text.trim()).then((value) => {
+          Navigator.pushAndRemoveUntil(
+              context, CupertinoPageRoute(builder: (context) => const HomePage()), (route) => false)
+        });
   }
 
   @override
@@ -122,9 +120,7 @@ class _SignInState extends State<SignIn> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 const Text('Not a member yet?'),
-                TextButton(
-                    onPressed: widget.switchPressed,
-                    child: const Text('Register now'))
+                TextButton(onPressed: widget.switchPressed, child: const Text('Register now'))
               ],
             )
           ],
@@ -166,9 +162,7 @@ class _SignUpState extends State<SignUp> {
 
   isFormValid() {
     setState(() {
-      isValid = _signUpKey != null &&
-          _signUpKey.currentState != null &&
-          _signUpKey.currentState!.validate();
+      isValid = _signUpKey != null && _signUpKey.currentState != null && _signUpKey.currentState!.validate();
     });
   }
 
@@ -188,16 +182,15 @@ class _SignUpState extends State<SignUp> {
     String password = _passwordController.text.trim();
     String confirmPassword = _confirmPasswordController.text.trim();
     if (password == confirmPassword && _signUpKey.currentState!.validate()) {
-      FbUser user = FbUser(_emailController.text.trim(),
-          DateTime.now().toIso8601String(), _nameController.text.trim());
+      FbUser user = FbUser(_emailController.text.trim(), DateTime.now().toIso8601String(), _nameController.text.trim());
       // print('successful signup');
       // print(user.fullName);
       // print(user.email);
       // print(user.created);
       auth.signUp(user, password).then((value) => {
             // print("Hello"),
-            Navigator.push(context,
-                CupertinoPageRoute(builder: (context) => const HomePage()))
+            Navigator.pushAndRemoveUntil(
+                context, CupertinoPageRoute(builder: (context) => const HomePage()), (route) => false)
           });
     }
     // setState(() {
@@ -215,8 +208,7 @@ class _SignUpState extends State<SignUp> {
         if (currentStep == 2)
           Padding(
             padding: const EdgeInsets.only(top: 16, left: 16),
-            child: IconButton(
-                onPressed: switchSteps, icon: const Icon(Icons.arrow_back)),
+            child: IconButton(onPressed: switchSteps, icon: const Icon(Icons.arrow_back)),
           ),
         Form(
           key: _signUpKey,
@@ -227,12 +219,8 @@ class _SignUpState extends State<SignUp> {
               reverseDuration: const Duration(milliseconds: 0),
               transitionBuilder: (child, animation) => SlideTransition(
                   position: currentStep == 2
-                      ? Tween<Offset>(
-                              begin: const Offset(1, 0), end: Offset.zero)
-                          .animate(animation)
-                      : Tween<Offset>(
-                              begin: const Offset(-1, 0), end: Offset.zero)
-                          .animate(animation),
+                      ? Tween<Offset>(begin: const Offset(1, 0), end: Offset.zero).animate(animation)
+                      : Tween<Offset>(begin: const Offset(-1, 0), end: Offset.zero).animate(animation),
                   child: child),
               child: currentStep == 1
                   ? AuthStep(
@@ -354,8 +342,7 @@ class AuthStep extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   const Text('Already a member?'),
-                  TextButton(
-                      onPressed: switchPressed, child: const Text('Login now'))
+                  TextButton(onPressed: switchPressed, child: const Text('Login now'))
                 ],
               )
             ],
@@ -370,11 +357,7 @@ class PersonalStep extends StatelessWidget {
   final TextEditingController nameController;
   final dynamic submitTap;
   final Function() checkValidity;
-  const PersonalStep(
-      {super.key,
-      required this.nameController,
-      required this.submitTap,
-      required this.checkValidity});
+  const PersonalStep({super.key, required this.nameController, required this.submitTap, required this.checkValidity});
 
   @override
   Widget build(BuildContext context) {
