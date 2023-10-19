@@ -18,36 +18,51 @@ class SettingsSheet extends StatelessWidget {
           showModalBottomSheet(
               context: context,
               showDragHandle: true,
+              isDismissible: true,
+              enableDrag: true,
+              isScrollControlled: true,
               builder: (context) {
-                return SizedBox(
-                  height: 200,
-                  child: Center(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.stretch,
-                      children: [
-                        TextButton(
-                          onPressed: () async {
-                            await auth.logOut();
-                            Navigator.pushAndRemoveUntil(context,
-                                CupertinoPageRoute(builder: (context) => const WelcomePage()), (route) => false);
-                          },
-                          child: const Padding(
-                            padding: EdgeInsets.only(left: 8),
-                            child: Row(
-                              children: [
-                                Icon(Icons.logout),
-                                SizedBox(
-                                  width: 15,
+                return DraggableScrollableSheet(
+                  expand: false,
+                  initialChildSize: 0.3,
+                  minChildSize: 0.2,
+                  maxChildSize: 1,
+                  builder: (context, scrollController) => SingleChildScrollView(
+                    // uncomment this when you want resizing capabilities
+                    // controller: scrollController,
+                    child: SizedBox(
+                      height: 200,
+                      child: Center(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.stretch,
+                          children: [
+                            TextButton(
+                              onPressed: () async {
+                                await auth.logOut();
+                                Navigator.pop(context);
+                                Navigator.pushAndRemoveUntil(context,
+                                    CupertinoPageRoute(builder: (context) => const WelcomePage()), (route) => false);
+                              },
+                              child: const Padding(
+                                padding: EdgeInsets.only(left: 8),
+                                child: Row(
+                                  children: [
+                                    // TODO: add more buttons later, and also a user segment/options page could come here
+                                    Icon(Icons.logout),
+                                    SizedBox(
+                                      width: 15,
+                                    ),
+                                    Text(
+                                      'Logout',
+                                      style: TextStyle(fontSize: 18),
+                                    )
+                                  ],
                                 ),
-                                Text(
-                                  'Logout',
-                                  style: TextStyle(fontSize: 18),
-                                )
-                              ],
-                            ),
-                          ),
-                        )
-                      ],
+                              ),
+                            )
+                          ],
+                        ),
+                      ),
                     ),
                   ),
                 );
