@@ -55,10 +55,15 @@ class SettingsSheet extends StatelessWidget {
                                     Text(
                                       'Logout',
                                       style: TextStyle(fontSize: 18),
-                                    )
+                                    ),
                                   ],
                                 ),
                               ),
+                            ),
+                            ListTile(
+                              leading: const Icon(Icons.share),
+                              title: const Text('Share'),
+                              onTap: () {},
                             )
                           ],
                         ),

@@ -10,10 +10,8 @@ class AuthService {
     try {
       UserCredential authUser = await auth.createUserWithEmailAndPassword(email: user.email, password: password);
       user.id = (authUser.user?.uid).toString();
-      await fStore
-          .collection('Users')
-          .doc(user.id)
-          .set({'id': user.id, 'email': user.email, 'created': user.created, 'fullName': user.fullName});
+      Map<String, dynamic> jsonUser = user.toJson();
+      await fStore.collection('Users').doc(user.id).set(jsonUser);
       return user;
     } catch (e) {
       print(e);

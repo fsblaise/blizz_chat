@@ -1,3 +1,8 @@
+import 'package:json_annotation/json_annotation.dart';
+
+part 'user_model.g.dart';
+
+@JsonSerializable()
 class FbUser {
   late String id;
   final String email;
@@ -20,4 +25,6 @@ class FbUser {
       'accentColor': '',
     };
   }
+
+  Map<String, dynamic> toJson() => _$FbUserToJson(this);
 }
