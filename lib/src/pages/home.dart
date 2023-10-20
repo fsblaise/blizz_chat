@@ -40,12 +40,7 @@ class _HomeState extends State<HomePage> {
           actions: [SettingsSheet(auth: auth)],
         ),
         body: [
-          SafeArea(
-            child: Container(
-              alignment: Alignment.center,
-              child: const ContactsPage(),
-            ),
-          ),
+          const ContactsPage(),
           SafeArea(
             child: Container(
               alignment: Alignment.center,
