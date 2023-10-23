@@ -6,4 +6,5 @@ This is a simple chat/social app with an elegant design, with authentication, wh
 ## Technical details
 The app is being developed using Flutter framework and the Dart language.<br>
 For database it uses Google Firebase.<br>
+I am currently implementing Riverpod for state management.<br>
 In the future I will implement Signal's end-2-end encryption API.
