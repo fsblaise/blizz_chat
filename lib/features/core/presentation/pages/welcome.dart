@@ -1,4 +1,4 @@
-import 'package:blizz_chat/src/pages/auth.dart';
+import 'package:blizz_chat/features/auth/presentation/pages/auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 

@@ -33,25 +33,25 @@ class _ContactsPageState extends State<ContactsPage> {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Padding(
-            padding: EdgeInsets.symmetric(horizontal: 16),
+            padding: const EdgeInsets.symmetric(horizontal: 16),
             child: Container(
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(25),
-                color: Color.fromRGBO(150, 150, 150, 0.2),
+                color: const Color.fromRGBO(150, 150, 150, 0.2),
               ),
-              child: TextField(
+              child: const TextField(
                 decoration:
                     InputDecoration(hintText: 'Search', border: InputBorder.none, prefixIcon: Icon(Icons.search)),
               ),
             ),
           ),
-          SizedBox(
+          const SizedBox(
             height: 15,
           ),
           SegmentedButton(
               segments: [
-                ButtonSegment(value: Segments.my, label: Text('My contacts')),
-                ButtonSegment(value: Segments.add, label: Text('Add new contacts'))
+                const ButtonSegment(value: Segments.my, label: Text('My contacts')),
+                const ButtonSegment(value: Segments.add, label: Text('Add new contacts'))
               ],
               selected: {
                 selected
@@ -62,11 +62,11 @@ class _ContactsPageState extends State<ContactsPage> {
                   selected = selection.first;
                 });
               },
-              style: ButtonStyle(
+              style: const ButtonStyle(
                 tapTargetSize: MaterialTapTargetSize.shrinkWrap,
                 visualDensity: VisualDensity(horizontal: -2, vertical: -2),
               )),
-          SizedBox(
+          const SizedBox(
             height: 15,
           ),
           selected == Segments.my
@@ -76,7 +76,7 @@ class _ContactsPageState extends State<ContactsPage> {
                             title: Text(contact),
                           ))
                       .toList())
-              : Text('Add new contacts')
+              : const Text('Add new contacts')
         ],
       ),
     );

@@ -1,40 +1,43 @@
-import 'package:blizz_chat/src/pages/contacts.dart';
-import 'package:blizz_chat/src/pages/home.dart';
-import 'package:blizz_chat/src/pages/map.dart';
-import 'package:blizz_chat/src/pages/settings.dart';
-import 'package:blizz_chat/src/pages/stories.dart';
-import 'package:blizz_chat/src/pages/welcome.dart';
-import 'package:blizz_chat/src/services/auth_service.dart';
-import 'package:blizz_chat/src/widgets/navigation.dart';
+import 'package:blizz_chat/features/auth/infrastructure/auth_provider.dart';
+import 'package:blizz_chat/features/auth/infrastructure/auth_repository.dart';
+import 'package:blizz_chat/features/contacts/presentation/pages/contacts.dart';
+import 'package:blizz_chat/features/core/presentation/pages/home.dart';
+import 'package:blizz_chat/features/map/presentation/pages/map.dart';
+import 'package:blizz_chat/features/stories/presentation/pages/stories.dart';
+import 'package:blizz_chat/features/core/presentation/pages/welcome.dart';
+import 'package:blizz_chat/features/core/presentation/services/auth_service.dart';
+import 'package:blizz_chat/features/core/presentation/widgets/navigation.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'firebase_options.dart';
+import 'config/firebase_options.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-  runApp(const MainApp());
+  runApp(const ProviderScope(child: MainApp()));
 }
 
-class MainApp extends StatefulWidget {
+class MainApp extends ConsumerStatefulWidget {
   const MainApp({super.key});
 
   @override
-  State<MainApp> createState() => _MainAppState();
+  ConsumerState<MainApp> createState() => _MainAppState();
 }
 
-class _MainAppState extends State<MainApp> {
+class _MainAppState extends ConsumerState<MainApp> {
   User? user;
-  final AuthService auth = AuthService();
+  late AuthRepository _auth;
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    user = auth.getLoggedInUser();
+    _auth = ref.read(authRepositoryProvider);
+    user = _auth.getLoggedInUser();
   }
 
   @override

@@ -1,5 +1,6 @@
-import 'package:blizz_chat/src/pages/welcome.dart';
-import 'package:blizz_chat/src/services/auth_service.dart';
+import 'package:blizz_chat/features/auth/infrastructure/auth_repository.dart';
+import 'package:blizz_chat/features/core/presentation/pages/welcome.dart';
+import 'package:blizz_chat/features/core/presentation/services/auth_service.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -9,7 +10,7 @@ class SettingsSheet extends StatelessWidget {
     required this.auth,
   });
 
-  final AuthService auth;
+  final AuthRepository auth;
 
   @override
   Widget build(BuildContext context) {

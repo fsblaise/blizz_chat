@@ -1,10 +1,13 @@
-import 'package:blizz_chat/src/models/user_model.dart';
-import 'package:blizz_chat/src/pages/home.dart';
-import 'package:blizz_chat/src/services/auth_service.dart';
-import 'package:blizz_chat/src/widgets/auth_text_field.dart';
-import 'package:blizz_chat/src/widgets/button_expanded.dart';
+import 'package:blizz_chat/features/auth/infrastructure/auth_provider.dart';
+import 'package:blizz_chat/features/auth/infrastructure/auth_repository.dart';
+import 'package:blizz_chat/features/core/domain/user_model.dart';
+import 'package:blizz_chat/features/core/presentation/pages/home.dart';
+import 'package:blizz_chat/features/core/presentation/services/auth_service.dart';
+import 'package:blizz_chat/features/auth/presentation/widgets/auth_text_field.dart';
+import 'package:blizz_chat/features/auth/presentation/widgets/button_expanded.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class AuthPage extends StatefulWidget {
   const AuthPage({super.key});
@@ -45,25 +48,32 @@ class _AuthPageState extends State<AuthPage> {
   }
 }
 
-class SignIn extends StatefulWidget {
+class SignIn extends ConsumerStatefulWidget {
   final void Function() switchPressed;
 
   const SignIn({super.key, required this.switchPressed});
 
   @override
-  State<SignIn> createState() => _SignInState();
+  ConsumerState<SignIn> createState() => _SignInState();
 }
 
-class _SignInState extends State<SignIn> {
+class _SignInState extends ConsumerState<SignIn> {
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
-  final AuthService auth = AuthService();
+  late AuthRepository _auth;
 
   signIn() {
-    auth.signIn(emailController.text.trim(), passwordController.text.trim()).then((value) => {
+    _auth.signIn(emailController.text.trim(), passwordController.text.trim()).then((value) => {
           Navigator.pushAndRemoveUntil(
               context, CupertinoPageRoute(builder: (context) => const HomePage()), (route) => false)
         });
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    _auth = ref.read(authRepositoryProvider);
   }
 
   @override
@@ -130,16 +140,16 @@ class _SignInState extends State<SignIn> {
   }
 }
 
-class SignUp extends StatefulWidget {
+class SignUp extends ConsumerStatefulWidget {
   final void Function() switchPressed;
 
   const SignUp({super.key, required this.switchPressed});
 
   @override
-  State<SignUp> createState() => _SignUpState();
+  ConsumerState<SignUp> createState() => _SignUpState();
 }
 
-class _SignUpState extends State<SignUp> {
+class _SignUpState extends ConsumerState<SignUp> {
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
   final _confirmPasswordController = TextEditingController();
@@ -148,12 +158,15 @@ class _SignUpState extends State<SignUp> {
   int currentStep = 1;
 
   final _signUpKey = GlobalKey<FormState>();
-  final AuthService auth = AuthService();
+  late AuthRepository _auth;
   bool isValid = false;
 
   @override
   void initState() {
     super.initState();
+
+    _auth = ref.read(authRepositoryProvider);
+
     _emailController.addListener(isFormValid);
     _passwordController.addListener(isFormValid);
     _confirmPasswordController.addListener(isFormValid);
@@ -187,7 +200,7 @@ class _SignUpState extends State<SignUp> {
       // print(user.fullName);
       // print(user.email);
       // print(user.created);
-      auth.signUp(user, password).then((value) => {
+      _auth.signUp(user, password).then((value) => {
             // print("Hello"),
             Navigator.pushAndRemoveUntil(
                 context, CupertinoPageRoute(builder: (context) => const HomePage()), (route) => false)
