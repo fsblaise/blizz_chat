@@ -4,7 +4,7 @@ part 'user_model.g.dart';
 
 @JsonSerializable()
 class FbUser {
-  late String id;
+  final String id;
   final String email;
   final String created;
   final String fullName;
@@ -13,7 +13,7 @@ class FbUser {
   late Map<String, dynamic> location;
   late Map<String, dynamic> settings;
 
-  FbUser(this.email, this.created, this.fullName) {
+  FbUser(this.email, this.created, this.fullName, this.id) {
     profileURL = '';
     contacts = {};
     location = {

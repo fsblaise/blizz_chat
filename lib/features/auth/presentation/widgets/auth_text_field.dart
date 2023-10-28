@@ -3,20 +3,20 @@ import 'package:flutter/material.dart';
 class AuthTextField extends StatelessWidget {
   const AuthTextField({
     super.key,
-    required this.controller,
     required this.icon,
     required this.hint,
     required this.obscure,
-    required this.validator,
+    required this.errorText,
+    required this.initialValue,
     required this.onChanged,
   });
 
-  final TextEditingController controller;
   final Icon icon;
   final String hint;
   final bool obscure;
-  final String? Function(String?)? validator;
-  final Function() onChanged;
+  final String? errorText;
+  final String initialValue;
+  final ValueChanged<String>? onChanged;
 
   @override
   Widget build(BuildContext context) {
@@ -29,17 +29,13 @@ class AuthTextField extends StatelessWidget {
             padding: const EdgeInsets.all(8.0),
             child: TextFormField(
               obscureText: obscure,
-              controller: controller,
-              validator: validator,
-              onChanged: (_) {
-                onChanged();
-              },
+              onChanged: onChanged,
+              initialValue: initialValue,
               decoration: InputDecoration(
+                  errorText: errorText,
                   hintText: hint,
                   prefixIcon: icon,
-                  border: const OutlineInputBorder(
-                      gapPadding: 5,
-                      borderRadius: BorderRadius.all(Radius.circular(10)))),
+                  border: const OutlineInputBorder(gapPadding: 5, borderRadius: BorderRadius.all(Radius.circular(10)))),
             ),
           ),
         ),

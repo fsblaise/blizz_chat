@@ -1,22 +1,28 @@
+import 'package:blizz_chat/features/auth/domain/sign_up_form.dart';
+import 'package:blizz_chat/features/auth/domain/sign_up_repository.dart';
 import 'package:blizz_chat/features/core/domain/user_model.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-class AuthRepository {
-  const AuthRepository(this._auth, this._fStore);
+class AuthRepository extends SignUpRepository {
+  AuthRepository(this._auth, this._fStore);
 
   final FirebaseAuth _auth;
   final FirebaseFirestore _fStore;
 
-  Future signUp(FbUser user, String password) async {
+  @override
+  Future<FbUser?> signUp({required SignUpForm signUpForm}) async {
     try {
-      UserCredential authUser = await _auth.createUserWithEmailAndPassword(email: user.email, password: password);
-      user.id = (authUser.user?.uid).toString();
+      UserCredential authUser =
+          await _auth.createUserWithEmailAndPassword(email: signUpForm.email, password: signUpForm.password);
+      FbUser user =
+          FbUser(signUpForm.email, DateTime.now().toIso8601String(), signUpForm.name, (authUser.user?.uid).toString());
       Map<String, dynamic> jsonUser = user.toJson();
       await _fStore.collection('Users').doc(user.id).set(jsonUser);
       return user;
     } catch (e) {
       print(e);
+      return null;
     }
   }
 

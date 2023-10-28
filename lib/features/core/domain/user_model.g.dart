@@ -10,8 +10,8 @@ FbUser _$FbUserFromJson(Map<String, dynamic> json) => FbUser(
       json['email'] as String,
       json['created'] as String,
       json['fullName'] as String,
+      json['id'] as String,
     )
-      ..id = json['id'] as String
       ..profileURL = json['profileURL'] as String
       ..contacts = Map<String, String>.from(json['contacts'] as Map)
       ..location = json['location'] as Map<String, dynamic>
