@@ -1,10 +1,7 @@
 import 'package:blizz_chat/features/auth/application/sign_up_controller.dart';
 import 'package:blizz_chat/features/auth/domain/sign_up_form.dart';
-import 'package:blizz_chat/features/auth/infrastructure/auth_provider.dart';
-import 'package:blizz_chat/features/auth/infrastructure/auth_repository.dart';
 import 'package:blizz_chat/features/auth/presentation/widgets/auth_text_field.dart';
 import 'package:blizz_chat/features/auth/presentation/widgets/button_expanded.dart';
-import 'package:blizz_chat/features/core/domain/user_model.dart';
 import 'package:blizz_chat/features/core/presentation/pages/home.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -23,15 +20,6 @@ class _SignUpState extends ConsumerState<SignUp> {
   final List<int> steps = [1, 2];
   int currentStep = 1;
 
-  late AuthRepository _auth;
-
-  @override
-  void initState() {
-    super.initState();
-
-    _auth = ref.read(authRepositoryProvider);
-  }
-
   switchSteps() {
     setState(() {
       if (currentStep == 2) {
@@ -42,26 +30,16 @@ class _SignUpState extends ConsumerState<SignUp> {
     });
   }
 
-  signUp() {
-    print('signup');
-    // String password = _passwordController.text.trim();
-    // String confirmPassword = _confirmPasswordController.text.trim();
-    // if (password == confirmPassword && _signUpKey.currentState!.validate()) {
-    //   FbUser user = FbUser(_emailController.text.trim(), DateTime.now().toIso8601String(), _nameController.text.trim());
-    //   // print('successful signup');
-    //   // print(user.fullName);
-    //   // print(user.email);
-    //   // print(user.created);
-    //   _auth.signUp(user, password).then((value) => {
-    //         // print("Hello"),
-    //         Navigator.pushAndRemoveUntil(
-    //             context, CupertinoPageRoute(builder: (context) => const HomePage()), (route) => false)
-    //       });
-    // }
-    // setState(() {
-    //   Navigator.push(
-    //       context, CupertinoPageRoute(builder: (context) => const HomePage()));
-    // });
+  signUp() async {
+    final scaffoldMessenger = ScaffoldMessenger.of(ref.context);
+    final signUpController = ref.read(signUpControllerProvider.notifier);
+    try {
+      final user = await signUpController.signUp();
+      Navigator.pushAndRemoveUntil(
+          context, CupertinoPageRoute(builder: (context) => const HomePage()), (route) => false);
+    } catch (e) {
+      scaffoldMessenger.showSnackBar(const SnackBar(content: Text('Failed to sign up')));
+    }
   }
 
   @override
