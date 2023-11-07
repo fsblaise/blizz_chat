@@ -1,6 +1,5 @@
 import 'package:blizz_chat/features/auth/infrastructure/auth_provider.dart';
 import 'package:blizz_chat/features/auth/infrastructure/auth_repository.dart';
-import 'package:blizz_chat/features/auth/presentation/widgets/auth_text_field.dart';
 import 'package:blizz_chat/features/auth/presentation/widgets/button_expanded.dart';
 import 'package:blizz_chat/features/core/presentation/pages/home.dart';
 import 'package:flutter/cupertino.dart';
