@@ -30,7 +30,7 @@ class _SignUpState extends ConsumerState<SignUp> {
     });
   }
 
-  signUp() async {
+  _signUp() async {
     final scaffoldMessenger = ScaffoldMessenger.of(ref.context);
     final signUpController = ref.read(signUpControllerProvider.notifier);
     try {
@@ -71,7 +71,7 @@ class _SignUpState extends ConsumerState<SignUp> {
                   )
                 : PersonalStep(
                     signUpForm: signUpForm,
-                    submitTap: signUp,
+                    submitTap: _signUp,
                   ),
           ),
         ),

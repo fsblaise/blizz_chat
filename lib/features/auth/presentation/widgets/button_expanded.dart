@@ -16,8 +16,7 @@ class ExpandedButton extends StatelessWidget {
         child: FilledButton(
           onPressed: onTap,
           style: ButtonStyle(
-            shape: MaterialStateProperty.all(RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(10))),
+            shape: MaterialStateProperty.all(RoundedRectangleBorder(borderRadius: BorderRadius.circular(10))),
           ),
           child: Text(text),
         ),
