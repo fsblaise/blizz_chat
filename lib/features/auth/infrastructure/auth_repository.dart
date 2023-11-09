@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:blizz_chat/features/auth/domain/sign_in_form.dart';
 import 'package:blizz_chat/features/auth/domain/sign_up_form.dart';
 import 'package:blizz_chat/features/core/domain/user_model.dart';
@@ -34,6 +36,19 @@ class AuthRepository {
 
   User? getLoggedInUser() {
     return _auth.currentUser;
+  }
+
+  Future<FbUser?> getUserById(String id) async {
+    try {
+      DocumentSnapshot userSnapshot = await _fStore.collection('Users').doc(id).get();
+      final userMap = userSnapshot.data() as Map<String, dynamic>;
+      FbUser userObj = FbUser.fromJson(userMap);
+      print(userObj.fullName);
+      return null;
+      // return user.data() as FbUser;
+    } catch (e) {
+      rethrow;
+    }
   }
 
   userStream() {

@@ -1,5 +1,7 @@
 import 'package:blizz_chat/features/auth/infrastructure/auth_repository.dart';
 import 'package:blizz_chat/features/core/presentation/pages/welcome.dart';
+import 'package:blizz_chat/features/profile/presentation/profile.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -17,25 +19,39 @@ class SettingsSheet extends StatelessWidget {
         onPressed: () {
           showModalBottomSheet(
               context: context,
-              showDragHandle: true,
               isDismissible: true,
               enableDrag: true,
               isScrollControlled: true,
               builder: (context) {
                 return DraggableScrollableSheet(
                   expand: false,
-                  initialChildSize: 0.3,
-                  minChildSize: 0.2,
+                  initialChildSize: 0.18,
+                  minChildSize: 0.18,
                   maxChildSize: 1,
                   builder: (context, scrollController) => SingleChildScrollView(
                     // uncomment this when you want resizing capabilities
-                    // controller: scrollController,
+                    controller: scrollController,
                     child: SizedBox(
-                      height: 200,
                       child: Center(
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.stretch,
                           children: [
+                            Padding(
+                              padding: const EdgeInsets.symmetric(vertical: 16.0),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Container(
+                                    width: 40,
+                                    height: 6,
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(25),
+                                      color: const Color.fromRGBO(150, 150, 150, 1),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
                             TextButton(
                               onPressed: () async {
                                 await auth.logOut();
@@ -63,8 +79,13 @@ class SettingsSheet extends StatelessWidget {
                             ListTile(
                               leading: const Icon(Icons.share),
                               title: const Text('Share'),
-                              onTap: () {},
-                            )
+                              onTap: () async {
+                                User? user = auth.getLoggedInUser();
+                                await auth.getUserById(user!.uid);
+                              },
+                            ),
+                            Divider(),
+                            ProfileWidget()
                           ],
                         ),
                       ),

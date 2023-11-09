@@ -1,8 +1,10 @@
+import 'package:blizz_chat/features/contacts/presentation/widgets/add_contacts.dart';
+import 'package:blizz_chat/features/contacts/presentation/widgets/my_contacts.dart';
 import 'package:flutter/material.dart';
 
 enum Segments { my, add }
 
-List<String> contacts = [
+List<String> _contacts = [
   'Contact1',
   'Contact2',
   'Contact3',
@@ -25,6 +27,7 @@ class ContactsPage extends StatefulWidget {
 }
 
 class _ContactsPageState extends State<ContactsPage> {
+  String _keyword = '';
   Segments selected = Segments.my;
   @override
   Widget build(BuildContext context) {
@@ -39,9 +42,12 @@ class _ContactsPageState extends State<ContactsPage> {
                 borderRadius: BorderRadius.circular(25),
                 color: const Color.fromRGBO(150, 150, 150, 0.2),
               ),
-              child: const TextField(
+              child: TextField(
+                onSubmitted: (value) => setState(() {
+                  _keyword = value;
+                }),
                 decoration:
-                    InputDecoration(hintText: 'Search', border: InputBorder.none, prefixIcon: Icon(Icons.search)),
+                    const InputDecoration(hintText: 'Search', border: InputBorder.none, prefixIcon: Icon(Icons.search)),
               ),
             ),
           ),
@@ -49,9 +55,9 @@ class _ContactsPageState extends State<ContactsPage> {
             height: 15,
           ),
           SegmentedButton(
-              segments: [
-                const ButtonSegment(value: Segments.my, label: Text('My contacts')),
-                const ButtonSegment(value: Segments.add, label: Text('Add new contacts'))
+              segments: const [
+                ButtonSegment(value: Segments.my, label: Text('My contacts')),
+                ButtonSegment(value: Segments.add, label: Text('Add new contacts'))
               ],
               selected: {
                 selected
@@ -69,14 +75,7 @@ class _ContactsPageState extends State<ContactsPage> {
           const SizedBox(
             height: 15,
           ),
-          selected == Segments.my
-              ? Column(
-                  children: contacts
-                      .map((contact) => ListTile(
-                            title: Text(contact),
-                          ))
-                      .toList())
-              : const Text('Add new contacts')
+          selected == Segments.my ? MyContactsWidget(contacts: _contacts) : AddContactsWidget(keyword: _keyword)
         ],
       ),
     );

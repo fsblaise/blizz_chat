@@ -27,4 +27,5 @@ class FbUser {
   }
 
   Map<String, dynamic> toJson() => _$FbUserToJson(this);
+  factory FbUser.fromJson(Map<String, dynamic> json) => _$FbUserFromJson(json);
 }

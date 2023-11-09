@@ -21,6 +21,7 @@ class _HomeState extends ConsumerState<HomePage> {
   late AuthRepository _auth;
 
   void onPageChanged(int index) {
+    if (selectedPage == index) return;
     setState(() {
       prevPages.add(selectedPage);
       selectedPage = index;
