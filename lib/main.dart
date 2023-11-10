@@ -17,30 +17,44 @@ void main() async {
   runApp(const ProviderScope(child: MainApp()));
 }
 
-class MainApp extends ConsumerStatefulWidget {
+class MainApp extends ConsumerWidget {
   const MainApp({super.key});
 
   @override
-  ConsumerState<MainApp> createState() => _MainAppState();
-}
-
-class _MainAppState extends ConsumerState<MainApp> {
-  User? user;
-  late AuthRepository _auth;
-  @override
-  void initState() {
-    super.initState();
-    _auth = ref.read(authRepositoryProvider);
-    user = _auth.getLoggedInUser();
-  }
-
-  @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return MaterialApp(
         theme: ThemeData(
             useMaterial3: true,
             colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
             fontFamily: GoogleFonts.inter().fontFamily),
-        home: user != null ? const HomePage() : const WelcomePage());
+        home: const AuthWidget());
+  }
+}
+
+class AuthWidget extends ConsumerWidget {
+  const AuthWidget({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final user = ref.watch(userStreamProvider);
+
+    return user.when(data: (user) {
+      if (user != null) {
+        return const HomePage();
+      } else {
+        return const WelcomePage();
+      }
+    }, error: (e, s) {
+      return const WelcomePage();
+    }, loading: () {
+      return const Scaffold(
+        body: SafeArea(
+            child: Center(
+          child: CircularProgressIndicator(),
+        )),
+      );
+    });
   }
 }

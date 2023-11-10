@@ -6,12 +6,12 @@ part of 'contacts_provider.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$contactsRepostoryHash() => r'd4a74423e3182c5c821e82bba091684fcfed2811';
+String _$contactsRepostoryHash() => r'72164bac9019fddd3009038308bd350537cc8c48';
 
 /// See also [contactsRepostory].
 @ProviderFor(contactsRepostory)
 final contactsRepostoryProvider =
-    AutoDisposeProvider<ContactsRepositoryImpl>.internal(
+    AutoDisposeProvider<ContactsRepository>.internal(
   contactsRepostory,
   name: r'contactsRepostoryProvider',
   debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
@@ -21,6 +21,6 @@ final contactsRepostoryProvider =
   allTransitiveDependencies: null,
 );
 
-typedef ContactsRepostoryRef = AutoDisposeProviderRef<ContactsRepositoryImpl>;
+typedef ContactsRepostoryRef = AutoDisposeProviderRef<ContactsRepository>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member

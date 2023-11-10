@@ -11,7 +11,13 @@ AuthRepository authRepository(AuthRepositoryRef ref) {
 }
 
 @riverpod
-Stream<User?> user(UserRef ref) {
+Stream<User?> userStream(UserStreamRef ref) {
   FirebaseAuth auth = ref.read(firebaseAuthProvider);
   return auth.authStateChanges();
+}
+
+@riverpod
+User? loggedInUser(LoggedInUserRef ref) {
+  FirebaseAuth auth = ref.read(firebaseAuthProvider);
+  return auth.currentUser;
 }

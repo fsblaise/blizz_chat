@@ -7,12 +7,12 @@ part of 'contacts_controller.dart';
 // **************************************************************************
 
 String _$contactsControllerHash() =>
-    r'ff2951e8549a976c111e17c60e728bbd1d878aea';
+    r'569b0e3eaf03108f0d1d949370bb10335a2eeb82';
 
 /// See also [ContactsController].
 @ProviderFor(ContactsController)
-final contactsControllerProvider =
-    AutoDisposeNotifierProvider<ContactsController, List<FbUser>>.internal(
+final contactsControllerProvider = AutoDisposeAsyncNotifierProvider<
+    ContactsController, List<Map<String, String>>>.internal(
   ContactsController.new,
   name: r'contactsControllerProvider',
   debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
@@ -22,6 +22,7 @@ final contactsControllerProvider =
   allTransitiveDependencies: null,
 );
 
-typedef _$ContactsController = AutoDisposeNotifier<List<FbUser>>;
+typedef _$ContactsController
+    = AutoDisposeAsyncNotifier<List<Map<String, String>>>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member
