@@ -22,17 +22,29 @@ class ContactsController extends _$ContactsController {
     // mimicking the firebase logic,
     // so we can update the contacts list locally within the state
     final prevState = await future;
-    prevState.add({'id': contact.id, 'fullName': contact.fullName});
-    ref.notifyListeners();
+    state = AsyncData([
+      ...prevState,
+      {'id': contact.id, 'fullName': contact.fullName}
+    ]);
   }
 
-  Future<void> removeContact(FbUser contact) async {
+  Future<void> removeContact(Map<String, String> contact) async {
     final user = ref.watch(loggedInUserProvider);
-    ref.watch(contactsRepostoryProvider).removeContact(contact.id, user!.uid);
+    ref
+        .watch(contactsRepostoryProvider)
+        .removeContact(contact['id'] as String, contact['fullName'] as String, user!.uid);
     // mimicking the firebase logic,
     // so we can update the contacts list locally within the state
     final prevState = await future;
-    prevState.removeWhere((element) => element['id'] == contact.id);
+    prevState.removeWhere((element) => element['id'] == contact['id']);
     ref.notifyListeners();
+  }
+
+  Future<List<FbUser?>> getUsers(String keyword) async {
+    if (keyword.contains('@')) {
+      return ref.watch(contactsRepostoryProvider).getUserByEmail(keyword);
+    } else {
+      return ref.watch(contactsRepostoryProvider).getUsersByFullName(keyword);
+    }
   }
 }

@@ -6,5 +6,7 @@ abstract class BaseContactsRepository extends CollectionsRepository {
 
   Future<List<Map<String, String>>> getContacts(String userId);
   Future<void> addContact(FbUser contact, String userId);
-  Future<void> removeContact(String deleteId, String userId);
+  Future<void> removeContact(String deleteId, String deleteName, String userId);
+  Future<List<FbUser?>> getUserByEmail(String email);
+  Future<List<FbUser?>> getUsersByFullName(String fullName);
 }

@@ -1,23 +1,25 @@
+import 'package:blizz_chat/features/contacts/application/contacts_controller.dart';
 import 'package:blizz_chat/features/contacts/presentation/widgets/add_contacts.dart';
 import 'package:blizz_chat/features/contacts/presentation/widgets/my_contacts.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 enum Segments { my, add }
 
-List<String> _contacts = [
-  'Contact1',
-  'Contact2',
-  'Contact3',
-  'Contact4',
-  'Contact5',
-  'Contact6',
-  'Contact7',
-  'Contact8',
-  'Contact9',
-  'Contact10',
-  'Contact11',
-  'Contact12'
-];
+// List<String> _contacts = [
+//   'Contact1',
+//   'Contact2',
+//   'Contact3',
+//   'Contact4',
+//   'Contact5',
+//   'Contact6',
+//   'Contact7',
+//   'Contact8',
+//   'Contact9',
+//   'Contact10',
+//   'Contact11',
+//   'Contact12'
+// ];
 
 class ContactsPage extends StatefulWidget {
   const ContactsPage({super.key});
@@ -29,6 +31,14 @@ class ContactsPage extends StatefulWidget {
 class _ContactsPageState extends State<ContactsPage> {
   String _keyword = '';
   Segments selected = Segments.my;
+  final TextEditingController _searchController = TextEditingController();
+
+  @override
+  void dispose() {
+    super.dispose();
+    _searchController.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
@@ -43,6 +53,7 @@ class _ContactsPageState extends State<ContactsPage> {
                 color: const Color.fromRGBO(150, 150, 150, 0.2),
               ),
               child: TextField(
+                controller: _searchController,
                 onSubmitted: (value) => setState(() {
                   _keyword = value;
                 }),
@@ -66,6 +77,8 @@ class _ContactsPageState extends State<ContactsPage> {
               onSelectionChanged: (Set<Segments> selection) {
                 setState(() {
                   selected = selection.first;
+                  _keyword = '';
+                  _searchController.clear();
                 });
               },
               style: const ButtonStyle(
@@ -75,7 +88,7 @@ class _ContactsPageState extends State<ContactsPage> {
           const SizedBox(
             height: 15,
           ),
-          selected == Segments.my ? MyContactsWidget(contacts: _contacts) : AddContactsWidget(keyword: _keyword)
+          selected == Segments.my ? MyContactsWidget(keyword: _keyword) : AddContactsWidget(keyword: _keyword)
         ],
       ),
     );

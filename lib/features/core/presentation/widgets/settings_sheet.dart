@@ -84,7 +84,7 @@ class SettingsSheet extends StatelessWidget {
                                 await auth.getUserById(user!.uid);
                               },
                             ),
-                            Divider(),
+                            const Divider(),
                             ProfileWidget()
                           ],
                         ),
