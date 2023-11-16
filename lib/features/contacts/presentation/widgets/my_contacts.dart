@@ -1,4 +1,6 @@
+import 'package:blizz_chat/features/chat/presentation/chat.dart';
 import 'package:blizz_chat/features/contacts/application/contacts_controller.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -29,6 +31,10 @@ class MyContactsWidget extends ConsumerWidget {
     }
   }
 
+  _openChat(context) {
+    Navigator.push(context, CupertinoPageRoute(builder: (context) => const ChatPage()));
+  }
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final contacts = ref.watch(contactsControllerProvider);
@@ -38,6 +44,7 @@ class MyContactsWidget extends ConsumerWidget {
           children: filteredContacts
               .map(
                 (contact) => ListTile(
+                  onTap: () => _openChat(context),
                   onLongPress: () => showModalBottomSheet(
                       showDragHandle: true,
                       enableDrag: true,
