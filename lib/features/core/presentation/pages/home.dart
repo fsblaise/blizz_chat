@@ -48,7 +48,7 @@ class _HomeState extends ConsumerState<HomePage> {
       },
       child: Scaffold(
         appBar: AppBar(
-          title: Text(['Contacts', 'Stories', 'Map'][selectedPage]),
+          title: Text(['Chats', 'Stories', 'Map'][selectedPage]),
           automaticallyImplyLeading: false,
           actions: [SettingsSheet(auth: _auth)],
         ),

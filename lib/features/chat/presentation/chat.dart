@@ -105,16 +105,3 @@ class ChatPage extends ConsumerWidget {
     );
   }
 }
-
-class Items extends StatelessWidget {
-  const Items({
-    super.key,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return const Column(
-      children: [],
-    );
-  }
-}
