@@ -1,49 +1,60 @@
-import 'package:blizz_chat/src/pages/contacts.dart';
-import 'package:blizz_chat/src/pages/home.dart';
-import 'package:blizz_chat/src/pages/map.dart';
-import 'package:blizz_chat/src/pages/settings.dart';
-import 'package:blizz_chat/src/pages/stories.dart';
-import 'package:blizz_chat/src/pages/welcome.dart';
-import 'package:blizz_chat/src/services/auth_service.dart';
-import 'package:blizz_chat/src/widgets/navigation.dart';
+import 'package:blizz_chat/features/auth/infrastructure/auth_provider.dart';
+import 'package:blizz_chat/features/auth/infrastructure/auth_repository.dart';
+import 'package:blizz_chat/features/core/presentation/pages/home.dart';
+import 'package:blizz_chat/features/core/presentation/pages/welcome.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'firebase_options.dart';
+import 'config/firebase_options.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-  runApp(const MainApp());
+  runApp(const ProviderScope(child: MainApp()));
 }
 
-class MainApp extends StatefulWidget {
+class MainApp extends ConsumerWidget {
   const MainApp({super.key});
 
   @override
-  State<MainApp> createState() => _MainAppState();
-}
-
-class _MainAppState extends State<MainApp> {
-  User? user;
-  final AuthService auth = AuthService();
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-    user = auth.getLoggedInUser();
-  }
-
-  @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return MaterialApp(
         theme: ThemeData(
             useMaterial3: true,
             colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
             fontFamily: GoogleFonts.inter().fontFamily),
-        home: user != null ? const HomePage() : const WelcomePage());
+        home: const AuthWidget());
+  }
+}
+
+class AuthWidget extends ConsumerWidget {
+  const AuthWidget({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final user = ref.watch(userStreamProvider);
+
+    return user.when(data: (user) {
+      if (user != null) {
+        return const HomePage();
+      } else {
+        return const WelcomePage();
+      }
+    }, error: (e, s) {
+      return const WelcomePage();
+    }, loading: () {
+      return const Scaffold(
+        body: SafeArea(
+            child: Center(
+          child: CircularProgressIndicator(),
+        )),
+      );
+    });
   }
 }
