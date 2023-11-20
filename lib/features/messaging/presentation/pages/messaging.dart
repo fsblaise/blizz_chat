@@ -1,3 +1,4 @@
+import 'package:blizz_chat/features/messaging/application/messaging_controller.dart';
 import 'package:blizz_chat/features/messaging/presentation/widgets/message_bubble.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -31,6 +32,7 @@ class _MessagingPageState extends ConsumerState<MessagingPage> {
 
   @override
   Widget build(BuildContext context) {
+    final messages = ref.watch(MessagingControllerProvider(widget.chat['id']));
     return Scaffold(
       appBar: AppBar(
         titleSpacing: 0,
@@ -60,55 +62,138 @@ class _MessagingPageState extends ConsumerState<MessagingPage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Expanded(
-              child: ListView(
-                shrinkWrap: true,
-                children: [
-                  MessageBubble(
-                    onReply: () {
-                      focusNode.requestFocus();
-                    },
-                    type: MessageType.to,
-                    msg: 'Hello',
+            switch (messages) {
+              AsyncValue(:final error?) => const Text('Something went wrong!'),
+              AsyncValue(:final valueOrNull?) => Flexible(
+                  child: ListView(
+                    shrinkWrap: true,
+                    reverse: true,
+                    children: [
+                      ...valueOrNull.map((e) => MessageBubble(
+                          msg: e.text,
+                          type: MessageType.from,
+                          onReply: () {
+                            focusNode.requestFocus();
+                          })),
+                      // MessageBubble(
+                      //   onReply: () {
+                      //     focusNode.requestFocus();
+                      //   },
+                      //   type: MessageType.to,
+                      //   msg: 'Hello',
+                      // ),
+                      // MessageBubble(
+                      //   onReply: () {
+                      //     focusNode.requestFocus();
+                      //   },
+                      //   type: MessageType.from,
+                      //   msg: 'Hi!',
+                      // ),
+                      // MessageBubble(
+                      //   onReply: () {
+                      //     focusNode.requestFocus();
+                      //   },
+                      //   type: MessageType.to,
+                      //   msg: 'Wassup?',
+                      // ),
+                      // MessageBubble(
+                      //   onReply: () {
+                      //     focusNode.requestFocus();
+                      //   },
+                      //   type: MessageType.from,
+                      //   msg: 'Im fine, how bout you?',
+                      // ),
+                      // MessageBubble(
+                      //   onReply: () {
+                      //     focusNode.requestFocus();
+                      //   },
+                      //   type: MessageType.to,
+                      //   msg: 'Great!',
+                      // ),
+                      // MessageBubble(
+                      //   onReply: () {
+                      //     focusNode.requestFocus();
+                      //   },
+                      //   type: MessageType.to,
+                      //   msg: 'Actually ive just learned flutteraaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
+                      // ),
+                      // MessageBubble(
+                      //   onReply: () {
+                      //     focusNode.requestFocus();
+                      //   },
+                      //   type: MessageType.to,
+                      //   msg: 'Actually ive just learned flutteraaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
+                      // ),
+                      // MessageBubble(
+                      //   onReply: () {
+                      //     focusNode.requestFocus();
+                      //   },
+                      //   type: MessageType.to,
+                      //   msg: 'Actually ive just learned flutteraaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
+                      // ),
+                      // MessageBubble(
+                      //   onReply: () {
+                      //     focusNode.requestFocus();
+                      //   },
+                      //   type: MessageType.to,
+                      //   msg: 'Actually ive just learned flutteraaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
+                      // ),
+                      // MessageBubble(
+                      //   onReply: () {
+                      //     focusNode.requestFocus();
+                      //   },
+                      //   type: MessageType.to,
+                      //   msg: 'Actually ive just learned flutteraaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
+                      // ),
+                      // MessageBubble(
+                      //   onReply: () {
+                      //     focusNode.requestFocus();
+                      //   },
+                      //   type: MessageType.to,
+                      //   msg: 'Actually ive just learned flutteraaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
+                      // ),
+                      // MessageBubble(
+                      //   onReply: () {
+                      //     focusNode.requestFocus();
+                      //   },
+                      //   type: MessageType.to,
+                      //   msg: 'Actually ive just learned flutteraaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
+                      // ),
+                      // MessageBubble(
+                      //   onReply: () {
+                      //     focusNode.requestFocus();
+                      //   },
+                      //   type: MessageType.to,
+                      //   msg: 'Actually ive just learned flutteraaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
+                      // ),
+                      // MessageBubble(
+                      //   onReply: () {
+                      //     focusNode.requestFocus();
+                      //   },
+                      //   type: MessageType.to,
+                      //   msg: 'Actually ive just learned flutteraaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
+                      // ),
+                      // MessageBubble(
+                      //   onReply: () {
+                      //     focusNode.requestFocus();
+                      //   },
+                      //   type: MessageType.to,
+                      //   msg: 'Actually ive just learned flutteraaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
+                      // ),
+                      // MessageBubble(
+                      //   onReply: () {
+                      //     focusNode.requestFocus();
+                      //   },
+                      //   type: MessageType.to,
+                      //   msg: 'Actually ive just learned flutteraaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
+                      // ),
+                    ],
                   ),
-                  MessageBubble(
-                    onReply: () {
-                      focusNode.requestFocus();
-                    },
-                    type: MessageType.from,
-                    msg: 'Hi!',
-                  ),
-                  MessageBubble(
-                    onReply: () {
-                      focusNode.requestFocus();
-                    },
-                    type: MessageType.to,
-                    msg: 'Wassup?',
-                  ),
-                  MessageBubble(
-                    onReply: () {
-                      focusNode.requestFocus();
-                    },
-                    type: MessageType.from,
-                    msg: 'Im fine, how bout you?',
-                  ),
-                  MessageBubble(
-                    onReply: () {
-                      focusNode.requestFocus();
-                    },
-                    type: MessageType.to,
-                    msg: 'Great!',
-                  ),
-                  MessageBubble(
-                    onReply: () {
-                      focusNode.requestFocus();
-                    },
-                    type: MessageType.to,
-                    msg: 'Actually ive just learned flutteraaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
-                  ),
-                ],
-              ),
-            ),
+                ),
+              _ => const Center(
+                  child: CircularProgressIndicator(),
+                )
+            },
             BottomAppBar(
               elevation: 0,
               child: Row(
