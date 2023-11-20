@@ -1,6 +1,7 @@
-import 'package:blizz_chat/features/contacts/application/contacts_controller.dart';
-import 'package:blizz_chat/features/contacts/presentation/widgets/add_contacts.dart';
-import 'package:blizz_chat/features/contacts/presentation/widgets/my_contacts.dart';
+import 'package:blizz_chat/features/chats/presentation/widgets/my_chats.dart';
+import 'package:blizz_chat/features/chats/application/chats_controller.dart';
+import 'package:blizz_chat/features/chats/presentation/widgets/add_chats.dart';
+import 'package:blizz_chat/features/chats/presentation/widgets/my_chats.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -21,14 +22,14 @@ enum Segments { my, add }
 //   'Contact12'
 // ];
 
-class ContactsPage extends StatefulWidget {
-  const ContactsPage({super.key});
+class ChatsPage extends StatefulWidget {
+  const ChatsPage({super.key});
 
   @override
-  State<ContactsPage> createState() => _ContactsPageState();
+  State<ChatsPage> createState() => _ChatsPageState();
 }
 
-class _ContactsPageState extends State<ContactsPage> {
+class _ChatsPageState extends State<ChatsPage> {
   String _keyword = '';
   Segments selected = Segments.my;
   final TextEditingController _searchController = TextEditingController();
@@ -67,7 +68,7 @@ class _ContactsPageState extends State<ContactsPage> {
           ),
           SegmentedButton(
               segments: const [
-                ButtonSegment(value: Segments.my, label: Text('My contacts')),
+                ButtonSegment(value: Segments.my, label: Text('My chats')),
                 ButtonSegment(value: Segments.add, label: Text('Add new contacts'))
               ],
               selected: {
@@ -88,7 +89,7 @@ class _ContactsPageState extends State<ContactsPage> {
           const SizedBox(
             height: 15,
           ),
-          selected == Segments.my ? MyContactsWidget(keyword: _keyword) : AddContactsWidget(keyword: _keyword)
+          selected == Segments.my ? MyChatsWidget(keyword: _keyword) : AddChatsWidget(keyword: _keyword)
         ],
       ),
     );

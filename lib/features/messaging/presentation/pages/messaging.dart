@@ -1,11 +1,36 @@
+import 'package:blizz_chat/features/messaging/presentation/widgets/message_bubble.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class ChatPage extends ConsumerWidget {
-  const ChatPage({super.key});
+class MessagingPage extends ConsumerStatefulWidget {
+  final Map<String, dynamic> chat;
+  const MessagingPage({required this.chat, super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<MessagingPage> createState() => _MessagingPageState();
+}
+
+class _MessagingPageState extends ConsumerState<MessagingPage> {
+  late TextEditingController msgController;
+  late FocusNode focusNode;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    focusNode = FocusNode();
+    msgController = TextEditingController();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    msgController.dispose();
+    focusNode.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         titleSpacing: 0,
@@ -23,7 +48,7 @@ class ChatPage extends ConsumerWidget {
                 child: Icon(Icons.person),
               ),
             ),
-            const Text('Person Name'),
+            Text(widget.chat['name']),
           ],
         ),
         actions: [IconButton(onPressed: () {}, icon: const Icon(Icons.more_vert))],
@@ -39,29 +64,47 @@ class ChatPage extends ConsumerWidget {
               child: ListView(
                 shrinkWrap: true,
                 children: [
-                  Container(
-                    color: Colors.blue,
-                    height: 150,
+                  MessageBubble(
+                    onReply: () {
+                      focusNode.requestFocus();
+                    },
+                    type: MessageType.to,
+                    msg: 'Hello',
                   ),
-                  Container(
-                    color: Colors.red,
-                    height: 150,
+                  MessageBubble(
+                    onReply: () {
+                      focusNode.requestFocus();
+                    },
+                    type: MessageType.from,
+                    msg: 'Hi!',
                   ),
-                  Container(
-                    color: Colors.blue,
-                    height: 150,
+                  MessageBubble(
+                    onReply: () {
+                      focusNode.requestFocus();
+                    },
+                    type: MessageType.to,
+                    msg: 'Wassup?',
                   ),
-                  Container(
-                    color: Colors.red,
-                    height: 150,
+                  MessageBubble(
+                    onReply: () {
+                      focusNode.requestFocus();
+                    },
+                    type: MessageType.from,
+                    msg: 'Im fine, how bout you?',
                   ),
-                  Container(
-                    color: Colors.blue,
-                    height: 150,
+                  MessageBubble(
+                    onReply: () {
+                      focusNode.requestFocus();
+                    },
+                    type: MessageType.to,
+                    msg: 'Great!',
                   ),
-                  Container(
-                    color: Colors.blue,
-                    height: 150,
+                  MessageBubble(
+                    onReply: () {
+                      focusNode.requestFocus();
+                    },
+                    type: MessageType.to,
+                    msg: 'Actually ive just learned flutteraaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
                   ),
                 ],
               ),
@@ -81,9 +124,11 @@ class ChatPage extends ConsumerWidget {
                         child: Row(
                           children: [
                             IconButton(onPressed: () {}, icon: const Icon(Icons.emoji_emotions_outlined)),
-                            const Expanded(
+                            Expanded(
                               child: TextField(
-                                decoration: InputDecoration(hintText: 'Message something', border: InputBorder.none),
+                                focusNode: focusNode,
+                                decoration:
+                                    const InputDecoration(hintText: 'Message something', border: InputBorder.none),
                               ),
                             ),
                             IconButton(onPressed: () {}, icon: const Icon(Icons.camera_alt_outlined))
