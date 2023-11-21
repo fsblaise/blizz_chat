@@ -1,17 +1,20 @@
 import 'package:blizz_chat/features/messaging/domain/base_messaging_repository.dart';
 import 'package:blizz_chat/features/messaging/domain/message_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class MessagingRepository extends BaseMessagingRepository {
-  MessagingRepository(this._fStore) : super(_fStore);
+  MessagingRepository(this._fStore, this._auth, this.chatId) : super(_fStore);
 
   final FirebaseFirestore _fStore;
+  final FirebaseAuth _auth;
+  final String chatId;
 
   /// Returns a list of maps, <br>
   /// where each map contains an id and a name for a chat. <br>
   /// It references a chat document in a different collection.
   @override
-  Future<List<Message>> getMoreMessages(String chatId) async {
+  Future<List<Message>> getMoreMessages() async {
     try {
       // TODO: rewrite this to fetch more messages on call from the last loaded message
       List<Message> messages = [];
@@ -30,7 +33,7 @@ class MessagingRepository extends BaseMessagingRepository {
   }
 
   @override
-  Stream<List<Message>> getMessageStream(String chatId) {
+  Stream<List<Message>> getMessageStream() {
     try {
       return chatCollection
           .doc(chatId)
@@ -51,28 +54,22 @@ class MessagingRepository extends BaseMessagingRepository {
     }
   }
 
-  /// Adds a user (contact) to the contacts array of the logged in user.<br>
-  /// Also adds a chat reference object to the chats array.
   @override
-  Future<Message> addMessage(Message msg) async {
+  Future<Message> addMessage(String msgText) async {
     try {
-      return Message('id', 'from', 'to', 'text', 'timestamp');
+      final msg = Message(chatCollection.doc().id, _auth.currentUser!.uid, msgText, DateTime.now().toIso8601String());
+      await chatCollection.doc(chatId).collection('Messages').add(msg.toJson());
+      return msg;
     } catch (e) {
       print(e);
       rethrow;
     }
   }
 
-  /// Deletes a chat from the chats array of the logged in user.<br>
-  /// Also deletes that chat from the database.
   @override
   Future<void> removeMessage(String msgId) async {
     try {
-      // await userCollection.doc(userId).update({
-      //   'contacts': FieldValue.arrayRemove([
-      //     {'id': deleteId, 'fullName': deleteName}
-      //   ])
-      // });
+      await chatCollection.doc(chatId).collection('Messages').doc(msgId).delete();
     } catch (e) {
       print(e);
       rethrow;

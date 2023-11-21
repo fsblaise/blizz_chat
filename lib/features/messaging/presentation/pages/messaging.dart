@@ -1,4 +1,7 @@
+import 'package:blizz_chat/features/auth/infrastructure/auth_provider.dart';
 import 'package:blizz_chat/features/messaging/application/messaging_controller.dart';
+import 'package:blizz_chat/features/messaging/infrastructure/messaging_provider.dart';
+import 'package:blizz_chat/features/messaging/presentation/widgets/bottom_messaging_bar.dart';
 import 'package:blizz_chat/features/messaging/presentation/widgets/message_bubble.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -12,27 +15,31 @@ class MessagingPage extends ConsumerStatefulWidget {
 }
 
 class _MessagingPageState extends ConsumerState<MessagingPage> {
-  late TextEditingController msgController;
-  late FocusNode focusNode;
+  late FocusNode _focusNode;
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    focusNode = FocusNode();
-    msgController = TextEditingController();
+    _focusNode = FocusNode();
   }
 
   @override
   void dispose() {
     super.dispose();
-    msgController.dispose();
-    focusNode.dispose();
+    _focusNode.dispose();
+  }
+
+  void _sendMessage(String text) {
+    final messagingController = ref.read(messagingRepositoryProvider.call(widget.chat['id']));
+    messagingController.addMessage(text);
+    print(text);
   }
 
   @override
   Widget build(BuildContext context) {
     final messages = ref.watch(MessagingControllerProvider(widget.chat['id']));
+    final user = ref.watch(loggedInUserProvider);
     return Scaffold(
       appBar: AppBar(
         titleSpacing: 0,
@@ -71,9 +78,9 @@ class _MessagingPageState extends ConsumerState<MessagingPage> {
                     children: [
                       ...valueOrNull.map((e) => MessageBubble(
                           msg: e.text,
-                          type: MessageType.from,
+                          type: e.from == user!.uid ? MessageType.from : MessageType.to,
                           onReply: () {
-                            focusNode.requestFocus();
+                            _focusNode.requestFocus();
                           })),
                       // MessageBubble(
                       //   onReply: () {
@@ -194,40 +201,9 @@ class _MessagingPageState extends ConsumerState<MessagingPage> {
                   child: CircularProgressIndicator(),
                 )
             },
-            BottomAppBar(
-              elevation: 0,
-              child: Row(
-                children: [
-                  Expanded(
-                    child: Padding(
-                      padding: const EdgeInsets.only(right: 16),
-                      child: Container(
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(25),
-                          color: const Color.fromRGBO(150, 150, 150, 0.2),
-                        ),
-                        child: Row(
-                          children: [
-                            IconButton(onPressed: () {}, icon: const Icon(Icons.emoji_emotions_outlined)),
-                            Expanded(
-                              child: TextField(
-                                focusNode: focusNode,
-                                decoration:
-                                    const InputDecoration(hintText: 'Message something', border: InputBorder.none),
-                              ),
-                            ),
-                            IconButton(onPressed: () {}, icon: const Icon(Icons.camera_alt_outlined))
-                          ],
-                        ),
-                      ),
-                    ),
-                  ),
-                  IconButton.filled(
-                    onPressed: () {},
-                    icon: const Icon(Icons.add),
-                  )
-                ],
-              ),
+            BottomMessagingBar(
+              focusNode: _focusNode,
+              sendMessage: _sendMessage,
             ),
           ],
         ),

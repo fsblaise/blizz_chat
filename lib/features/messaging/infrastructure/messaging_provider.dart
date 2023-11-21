@@ -5,6 +5,6 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 part 'messaging_provider.g.dart';
 
 @riverpod
-MessagingRepository messagingRepository(MessagingRepositoryRef ref) {
-  return MessagingRepository(ref.read(firebaseFirestoreProvider));
+MessagingRepository messagingRepository(MessagingRepositoryRef ref, String chatId) {
+  return MessagingRepository(ref.read(firebaseFirestoreProvider), ref.read(firebaseAuthProvider), chatId);
 }
