@@ -8,6 +8,7 @@ part 'messaging_controller.g.dart';
 class MessagingController extends _$MessagingController {
   @override
   Stream<List<Message>> build(String chatId) {
+    print('build runs inside messaging controller');
     Stream<List<Message>> messages = ref.watch(messagingRepositoryProvider(chatId)).getMessageStream();
     return messages;
   }
@@ -16,7 +17,7 @@ class MessagingController extends _$MessagingController {
     final msg = await ref.watch(messagingRepositoryProvider(chatId)).addMessage(msgText);
     final prevState = await future;
     prevState.add(msg);
-    ref.notifyListeners();
+    state = AsyncValue.data(prevState);
     /*final user = ref.watch(userObjectProvider);
     user.when(data: (value) async {
       final chat = await ref.watch(chatsRepostoryProvider).addContact(contact, value);

@@ -24,14 +24,14 @@ class MessageBubble extends StatelessWidget {
                 child: ConstrainedBox(
               constraints: const BoxConstraints(maxWidth: 300),
               child: Container(
-                padding: EdgeInsets.symmetric(horizontal: 12.0, vertical: 5.0),
+                padding: EdgeInsets.symmetric(horizontal: 12.0, vertical: 6.0),
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(15.0),
                   color: type == MessageType.from ? Colors.deepPurple : Colors.grey.shade200,
                 ),
                 child: Text(
                   msg,
-                  style: TextStyle(color: type == MessageType.from ? Colors.white : Colors.black, fontSize: 14),
+                  style: TextStyle(color: type == MessageType.from ? Colors.white : Colors.black, fontSize: 15),
                 ),
               ),
             ))

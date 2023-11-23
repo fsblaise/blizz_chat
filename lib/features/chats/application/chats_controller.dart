@@ -8,7 +8,8 @@ part 'chats_controller.g.dart';
 @riverpod
 class ChatsController extends _$ChatsController {
   @override
-  Future<List<Map<String, dynamic>>> build() async {
+  FutureOr<List<Map<String, dynamic>>> build() async {
+    print('build runs inside chats controller');
     List<Map<String, dynamic>> chats = [];
     final user = ref.watch(loggedInUserProvider);
 
@@ -23,7 +24,7 @@ class ChatsController extends _$ChatsController {
       // mimicking the firebase logic,
       // so we can update the contacts list locally within the state
       final prevState = await future;
-      state = AsyncData([
+      state = AsyncValue.data([
         ...prevState,
         {'id': chat['id'], 'name': chat['name']}
       ]);

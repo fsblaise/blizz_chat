@@ -39,7 +39,7 @@ class MessagingRepository extends BaseMessagingRepository {
           .doc(chatId)
           .collection('Messages')
           .orderBy('timestamp', descending: true)
-          .limit(10)
+          .limit(20)
           .snapshots()
           .map((event) {
         List<Message> messages = [];
