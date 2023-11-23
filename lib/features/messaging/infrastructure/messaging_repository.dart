@@ -32,14 +32,39 @@ class MessagingRepository extends BaseMessagingRepository {
     }
   }
 
-  @override
-  Stream<List<Message>> getMessageStream() {
+  Future<List<Message>> getInitialMessages() async {
     try {
-      return chatCollection
+      print('initialfetch');
+      // TODO: rewrite this to fetch more messages on call from the last loaded message
+      List<Message> messages = [];
+      QuerySnapshot msgSnapshot = await chatCollection
           .doc(chatId)
           .collection('Messages')
           .orderBy('timestamp', descending: true)
           .limit(20)
+          .get();
+      final msgList = msgSnapshot.docs;
+      for (var msg in msgList) {
+        final msgMap = msg.data() as Map<String, dynamic>;
+        final msgObj = Message.fromJson(msgMap);
+        messages.add(msgObj);
+      }
+      return messages;
+    } catch (e) {
+      print(e);
+      return [];
+    }
+  }
+
+  @override
+  Stream<List<Message>> getMessageStream() {
+    try {
+      print('Does this run?');
+      return chatCollection
+          .doc(chatId)
+          .collection('Messages')
+          .orderBy('timestamp', descending: true)
+          .limit(1)
           .snapshots()
           .map((event) {
         List<Message> messages = [];

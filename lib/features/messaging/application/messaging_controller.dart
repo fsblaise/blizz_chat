@@ -7,33 +7,26 @@ part 'messaging_controller.g.dart';
 @riverpod
 class MessagingController extends _$MessagingController {
   @override
-  Stream<List<Message>> build(String chatId) {
+  FutureOr<List<Message>> build(String chatId) async {
     print('build runs inside messaging controller');
-    Stream<List<Message>> messages = ref.watch(messagingRepositoryProvider(chatId)).getMessageStream();
+
+    List<Message> messages = await ref.watch(messagingRepositoryProvider(chatId)).getInitialMessages();
+    messages.removeAt(0);
+    ref.watch(messagingRepositoryProvider(chatId)).getMessageStream().listen((event) {
+      messages.insert(0, event[0]);
+    });
+
     return messages;
   }
 
   Future<Message?> addMessage(String msgText) async {
     final msg = await ref.watch(messagingRepositoryProvider(chatId)).addMessage(msgText);
-    final prevState = await future;
-    prevState.add(msg);
-    state = AsyncValue.data(prevState);
-    /*final user = ref.watch(userObjectProvider);
-    user.when(data: (value) async {
-      final chat = await ref.watch(chatsRepostoryProvider).addContact(contact, value);
-      // mimicking the firebase logic,
-      // so we can update the contacts list locally within the state
-      final prevState = await future;
-      state = AsyncData([
-        ...prevState,
-        {'id': chat['id'], 'name': chat['name']}
-      ]);
-      return chat;
-    }, error: (e, s) {
-      return null;
-    }, loading: () {
-      print('wtf');
-    });*/
+    // Local mimicking is useless, since the stream listener already adds the message to the state anyways.
+    // This behaviour can't be disabled, since we need to listen for changes, because the other participants can sen a message anytime.
+
+    // final prevState = await future;
+    // state = AsyncValue.data([msg, ...prevState]);
+    return msg;
   }
 
   Future<void> removeMessage(String msgId) async {
