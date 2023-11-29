@@ -10,6 +10,6 @@ abstract class CollectionsRepository {
   }
 
   CollectionReference<Map<String, dynamic>> get chatCollection {
-    return _fStore.collection('Users');
+    return _fStore.collection('Chats');
   }
 }

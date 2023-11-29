@@ -1,15 +1,15 @@
-import 'package:blizz_chat/features/contacts/application/contacts_controller.dart';
+import 'package:blizz_chat/features/chats/application/chats_controller.dart';
 import 'package:blizz_chat/features/core/domain/user_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class AddContactsWidget extends ConsumerWidget {
+class AddChatsWidget extends ConsumerWidget {
   final String keyword;
-  const AddContactsWidget({super.key, required this.keyword});
+  const AddChatsWidget({super.key, required this.keyword});
 
   _addContact(BuildContext context, WidgetRef ref, FbUser user) async {
     final scaffoldMessenger = ScaffoldMessenger.of(ref.context);
-    final contactsController = ref.read(contactsControllerProvider.notifier);
+    final contactsController = ref.read(chatsControllerProvider.notifier);
     try {
       await contactsController.addContact(user);
       scaffoldMessenger.showSnackBar(const SnackBar(
@@ -25,7 +25,7 @@ class AddContactsWidget extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     Future<List<FbUser?>> users;
     if (keyword.isNotEmpty) {
-      users = ref.watch(contactsControllerProvider.notifier).getUsers(keyword);
+      users = ref.watch(chatsControllerProvider.notifier).getUsers(keyword);
     } else {
       users = Future<List<FbUser?>>.value([]);
     }

@@ -16,6 +16,9 @@ FbUser _$FbUserFromJson(Map<String, dynamic> json) => FbUser(
       ..contacts = (json['contacts'] as List<dynamic>)
           .map((e) => Map<String, String>.from(e as Map))
           .toList()
+      ..chats = (json['chats'] as List<dynamic>)
+          .map((e) => e as Map<String, dynamic>)
+          .toList()
       ..location = json['location'] as Map<String, dynamic>
       ..settings = json['settings'] as Map<String, dynamic>;
 
@@ -26,6 +29,7 @@ Map<String, dynamic> _$FbUserToJson(FbUser instance) => <String, dynamic>{
       'fullName': instance.fullName,
       'profileURL': instance.profileURL,
       'contacts': instance.contacts,
+      'chats': instance.chats,
       'location': instance.location,
       'settings': instance.settings,
     };

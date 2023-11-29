@@ -1,28 +1,25 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'contacts_controller.dart';
+part of 'chats_provider.dart';
 
 // **************************************************************************
 // RiverpodGenerator
 // **************************************************************************
 
-String _$contactsControllerHash() =>
-    r'569b0e3eaf03108f0d1d949370bb10335a2eeb82';
+String _$chatsRepostoryHash() => r'2ed352842c3c6702bfc7b5612009be6b7ad65cc8';
 
-/// See also [ContactsController].
-@ProviderFor(ContactsController)
-final contactsControllerProvider = AutoDisposeAsyncNotifierProvider<
-    ContactsController, List<Map<String, String>>>.internal(
-  ContactsController.new,
-  name: r'contactsControllerProvider',
+/// See also [chatsRepostory].
+@ProviderFor(chatsRepostory)
+final chatsRepostoryProvider = AutoDisposeProvider<ChatsRepository>.internal(
+  chatsRepostory,
+  name: r'chatsRepostoryProvider',
   debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
       ? null
-      : _$contactsControllerHash,
+      : _$chatsRepostoryHash,
   dependencies: null,
   allTransitiveDependencies: null,
 );
 
-typedef _$ContactsController
-    = AutoDisposeAsyncNotifier<List<Map<String, String>>>;
+typedef ChatsRepostoryRef = AutoDisposeProviderRef<ChatsRepository>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member
