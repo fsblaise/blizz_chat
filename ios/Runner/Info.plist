@@ -26,6 +26,8 @@
 	<true/>
 	<key>NSCameraUsageDescription</key>
 	<string>User should be able to take picture for their stories.</string>
+	<key>NSMicrophoneUsageDescription</key>
+	<string>User should be able to take picture for their stories.</string>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>
 	<key>UIMainStoryboardFile</key>
