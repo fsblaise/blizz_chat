@@ -49,5 +49,19 @@ final loggedInUserProvider = AutoDisposeProvider<User?>.internal(
 );
 
 typedef LoggedInUserRef = AutoDisposeProviderRef<User?>;
+String _$userObjectHash() => r'40e6cd09558b362fa9ea131aac4138468d6f956b';
+
+/// See also [userObject].
+@ProviderFor(userObject)
+final userObjectProvider = AutoDisposeFutureProvider<FbUser>.internal(
+  userObject,
+  name: r'userObjectProvider',
+  debugGetCreateSourceHash:
+      const bool.fromEnvironment('dart.vm.product') ? null : _$userObjectHash,
+  dependencies: null,
+  allTransitiveDependencies: null,
+);
+
+typedef UserObjectRef = AutoDisposeFutureProviderRef<FbUser>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member

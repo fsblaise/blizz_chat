@@ -81,7 +81,7 @@ class SettingsSheet extends StatelessWidget {
                               title: const Text('Share'),
                               onTap: () async {
                                 User? user = auth.getLoggedInUser();
-                                await auth.getUserById(user!.uid);
+                                // await auth.getUserById(user.uid);
                               },
                             ),
                             const Divider(),

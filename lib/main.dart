@@ -2,6 +2,7 @@ import 'package:blizz_chat/features/auth/infrastructure/auth_provider.dart';
 import 'package:blizz_chat/features/auth/infrastructure/auth_repository.dart';
 import 'package:blizz_chat/features/core/presentation/pages/home.dart';
 import 'package:blizz_chat/features/core/presentation/pages/welcome.dart';
+import 'package:camera/camera.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -23,10 +24,15 @@ class MainApp extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return MaterialApp(
+        darkTheme: ThemeData(
+            useMaterial3: true,
+            colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple, brightness: Brightness.dark),
+            fontFamily: GoogleFonts.inter().fontFamily),
         theme: ThemeData(
             useMaterial3: true,
             colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
             fontFamily: GoogleFonts.inter().fontFamily),
+        themeMode: ThemeMode.system,
         home: const AuthWidget());
   }
 }
@@ -39,6 +45,7 @@ class AuthWidget extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final user = ref.watch(userStreamProvider);
+    final userObj = ref.watch(userObjectProvider);
 
     return user.when(data: (user) {
       if (user != null) {

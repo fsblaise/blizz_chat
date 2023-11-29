@@ -1,6 +1,6 @@
 import 'package:blizz_chat/features/auth/infrastructure/auth_provider.dart';
 import 'package:blizz_chat/features/auth/infrastructure/auth_repository.dart';
-import 'package:blizz_chat/features/contacts/presentation/pages/contacts.dart';
+import 'package:blizz_chat/features/chats/presentation/pages/chats.dart';
 import 'package:blizz_chat/features/map/presentation/pages/map.dart';
 import 'package:blizz_chat/features/stories/presentation/pages/stories.dart';
 import 'package:blizz_chat/features/core/presentation/widgets/navigation.dart';
@@ -53,7 +53,7 @@ class _HomeState extends ConsumerState<HomePage> {
           actions: [SettingsSheet(auth: _auth)],
         ),
         body: [
-          const ContactsPage(),
+          const ChatsPage(),
           SafeArea(
             child: Container(
               alignment: Alignment.center,

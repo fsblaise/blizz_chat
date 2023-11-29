@@ -10,12 +10,14 @@ class FbUser {
   final String fullName;
   late String profileURL;
   late List<Map<String, String>> contacts;
+  late List<Map<String, dynamic>> chats;
   late Map<String, dynamic> location;
   late Map<String, dynamic> settings;
 
   FbUser(this.email, this.created, this.fullName, this.id) {
     profileURL = '';
-    contacts = [{}];
+    contacts = [];
+    chats = [];
     location = {
       'useLocation': false,
       'coords': '',
