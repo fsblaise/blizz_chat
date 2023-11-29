@@ -7,7 +7,7 @@ part of 'messaging_controller.dart';
 // **************************************************************************
 
 String _$messagingControllerHash() =>
-    r'1d2598a36355be204e6964b2384c93e328bc407c';
+    r'1eafc5c3b1232fba0deee02c67520257f1cbdb28';
 
 /// Copied from Dart SDK
 class _SystemHash {
@@ -31,10 +31,10 @@ class _SystemHash {
 }
 
 abstract class _$MessagingController
-    extends BuildlessAutoDisposeAsyncNotifier<List<Message>> {
+    extends BuildlessAutoDisposeStreamNotifier<List<Message>> {
   late final String chatId;
 
-  FutureOr<List<Message>> build(
+  Stream<List<Message>> build(
     String chatId,
   );
 }
@@ -82,7 +82,7 @@ class MessagingControllerFamily extends Family<AsyncValue<List<Message>>> {
 }
 
 /// See also [MessagingController].
-class MessagingControllerProvider extends AutoDisposeAsyncNotifierProviderImpl<
+class MessagingControllerProvider extends AutoDisposeStreamNotifierProviderImpl<
     MessagingController, List<Message>> {
   /// See also [MessagingController].
   MessagingControllerProvider(
@@ -114,7 +114,7 @@ class MessagingControllerProvider extends AutoDisposeAsyncNotifierProviderImpl<
   final String chatId;
 
   @override
-  FutureOr<List<Message>> runNotifierBuild(
+  Stream<List<Message>> runNotifierBuild(
     covariant MessagingController notifier,
   ) {
     return notifier.build(
@@ -139,7 +139,7 @@ class MessagingControllerProvider extends AutoDisposeAsyncNotifierProviderImpl<
   }
 
   @override
-  AutoDisposeAsyncNotifierProviderElement<MessagingController, List<Message>>
+  AutoDisposeStreamNotifierProviderElement<MessagingController, List<Message>>
       createElement() {
     return _MessagingControllerProviderElement(this);
   }
@@ -159,13 +159,13 @@ class MessagingControllerProvider extends AutoDisposeAsyncNotifierProviderImpl<
 }
 
 mixin MessagingControllerRef
-    on AutoDisposeAsyncNotifierProviderRef<List<Message>> {
+    on AutoDisposeStreamNotifierProviderRef<List<Message>> {
   /// The parameter `chatId` of this provider.
   String get chatId;
 }
 
 class _MessagingControllerProviderElement
-    extends AutoDisposeAsyncNotifierProviderElement<MessagingController,
+    extends AutoDisposeStreamNotifierProviderElement<MessagingController,
         List<Message>> with MessagingControllerRef {
   _MessagingControllerProviderElement(super.provider);
 

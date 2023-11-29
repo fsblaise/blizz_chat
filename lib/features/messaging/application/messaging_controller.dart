@@ -7,15 +7,15 @@ part 'messaging_controller.g.dart';
 @riverpod
 class MessagingController extends _$MessagingController {
   @override
-  FutureOr<List<Message>> build(String chatId) async {
+  Stream<List<Message>> build(String chatId) {
     print('build runs inside messaging controller');
 
-    List<Message> messages = await ref.watch(messagingRepositoryProvider(chatId)).getInitialMessages();
-    messages.removeAt(0);
-    ref.watch(messagingRepositoryProvider(chatId)).getMessageStream().listen((event) {
-      messages.insert(0, event[0]);
-    });
-
+    // List<Message> messages = await ref.watch(messagingRepositoryProvider(chatId)).getInitialMessages();
+    // messages.removeAt(0);
+    // ref.watch(messagingRepositoryProvider(chatId)).getMessageStream().listen((event) {
+    //   messages.insert(0, event[0]);
+    // });
+    Stream<List<Message>> messages = ref.watch(messagingRepositoryProvider(chatId)).getInitialMessageStream();
     return messages;
   }
 

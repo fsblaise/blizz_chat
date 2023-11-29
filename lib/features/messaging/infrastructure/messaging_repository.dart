@@ -56,6 +56,28 @@ class MessagingRepository extends BaseMessagingRepository {
     }
   }
 
+  Stream<List<Message>> getInitialMessageStream() {
+    try {
+      print('Does this run?');
+      return chatCollection
+          .doc(chatId)
+          .collection('Messages')
+          .orderBy('timestamp', descending: true)
+          .limit(20)
+          .snapshots()
+          .map((event) {
+        List<Message> messages = [];
+        for (var msg in event.docs) {
+          messages.add(Message.fromJson(msg.data()));
+        }
+        return messages;
+      });
+    } catch (e) {
+      print(e);
+      return Stream.value([]);
+    }
+  }
+
   @override
   Stream<List<Message>> getMessageStream() {
     try {

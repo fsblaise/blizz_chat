@@ -68,27 +68,26 @@ class _MessagingPageState extends ConsumerState<MessagingPage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            messages.when(
-                data: (message) {
-                  return Flexible(
-                    child: ListView(
-                      shrinkWrap: true,
-                      reverse: true,
-                      children: [
-                        ...message.map((e) => MessageBubble(
-                            msg: e.text,
-                            type: e.from == user!.uid ? MessageType.from : MessageType.to,
-                            onReply: () {
-                              _focusNode.requestFocus();
-                            })),
-                      ],
-                    ),
-                  );
-                },
-                error: (error, s) => const Text('Something went wrong!'),
-                loading: () => const Center(
-                      child: CircularProgressIndicator(),
-                    )),
+            switch (messages) {
+              AsyncValue(:final error?) => const Text('Something went wrong!'),
+              AsyncValue(:final valueOrNull?) => Flexible(
+                  child: ListView(
+                    shrinkWrap: true,
+                    reverse: true,
+                    children: [
+                      ...valueOrNull.map((e) => MessageBubble(
+                          msg: e.text,
+                          type: e.from == user!.uid ? MessageType.from : MessageType.to,
+                          onReply: () {
+                            _focusNode.requestFocus();
+                          })),
+                    ],
+                  ),
+                ),
+              _ => const Center(
+                  child: CircularProgressIndicator(),
+                )
+            },
             BottomMessagingBar(
               focusNode: _focusNode,
               sendMessage: _sendMessage,
