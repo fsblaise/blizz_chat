@@ -21,6 +21,29 @@ class _CameraViewPageState extends State<CameraViewPage> {
       final image = await _controller.takePicture();
       if (!mounted) return;
       await Navigator.push(context, CupertinoPageRoute(builder: (context) => DisplayPicturePage(imgPath: image.path)));
+      _controller.dispose();
+    } catch (e) {
+      print(e);
+    }
+  }
+
+  _switchCamera() {
+    final lensDirection = _controller.description.lensDirection;
+    if (lensDirection == CameraLensDirection.front) {
+      _initCamera(widget.cameras.firstWhere((description) => description.lensDirection == CameraLensDirection.back));
+    } else {
+      _initCamera(widget.cameras.firstWhere((description) => description.lensDirection == CameraLensDirection.front));
+    }
+  }
+
+  // init camera
+  Future<void> _initCamera(CameraDescription description) async {
+    _controller = CameraController(description, ResolutionPreset.medium, enableAudio: true);
+
+    try {
+      _initializeControllerFuture = _controller.initialize();
+      // to notify the widgets that camera has been initialized and now camera preview can be done
+      setState(() {});
     } catch (e) {
       print(e);
     }
@@ -30,8 +53,7 @@ class _CameraViewPageState extends State<CameraViewPage> {
   void initState() {
     super.initState();
 
-    _controller = CameraController(widget.cameras[0], ResolutionPreset.medium);
-    _initializeControllerFuture = _controller.initialize();
+    _initCamera(widget.cameras.first);
   }
 
   @override
@@ -66,6 +88,15 @@ class _CameraViewPageState extends State<CameraViewPage> {
                               icon: const Icon(Icons.camera_alt),
                               color: Colors.white,
                               iconSize: 36,
+                            ),
+                            const SizedBox(
+                              width: 10,
+                            ),
+                            IconButton.outlined(
+                              onPressed: _switchCamera,
+                              icon: const Icon(Icons.cameraswitch_outlined),
+                              color: Colors.white,
+                              iconSize: 36,
                             )
                           ])),
                     ),
@@ -73,8 +104,11 @@ class _CameraViewPageState extends State<CameraViewPage> {
                 ],
               );
             } else {
-              return const Center(
-                child: CircularProgressIndicator(),
+              return Container(
+                color: Colors.black,
+                child: const Center(
+                  child: CircularProgressIndicator(),
+                ),
               );
             }
           }),

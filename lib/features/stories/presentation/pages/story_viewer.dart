@@ -1,135 +1,152 @@
+import 'package:blizz_chat/features/stories/domain/story_model.dart';
 import 'package:flutter/material.dart';
 
 class StoryViewerPage extends StatelessWidget {
   const StoryViewerPage({
+    required this.data,
     super.key,
   });
+  final Story data;
 
   @override
   Widget build(BuildContext context) {
-    return Stack(
-      alignment: Alignment.bottomCenter,
-      children: [
-        Column(
-          mainAxisAlignment: MainAxisAlignment.center,
+    return Scaffold(
+      backgroundColor: Colors.black87,
+      appBar: AppBar(
+        backgroundColor: Colors.black,
+        foregroundColor: Colors.white,
+      ),
+      extendBodyBehindAppBar: true,
+      body: Container(
+        color: Colors.black,
+        child: Stack(
+          alignment: Alignment.bottomCenter,
           children: [
-            Container(
-              decoration: BoxDecoration(borderRadius: BorderRadius.circular(16), color: Colors.black87),
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(16),
-                child: Image.network(
-                  "https://firebasestorage.googleapis.com/v0/b/blizz-chat-61069.appspot.com/o/Stories%2F6KGLtvzkwKr774WqR30R.png?alt=media&token=ad959cce-7741-4ddb-a82e-e66a20f08474",
-                  fit: BoxFit.fill,
-                ),
-              ),
-            ),
-            const Padding(
-              padding: EdgeInsets.all(8.0),
-              child: Text(
-                'Rikárdó bőrülés',
-                style: TextStyle(fontSize: 16),
-              ),
-            )
-          ],
-        ),
-        Column(
-          mainAxisAlignment: MainAxisAlignment.end,
-          children: [
-            const Padding(
-              padding: EdgeInsets.all(8.0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  CircleAvatar(
-                    child: Icon(Icons.person),
-                  ),
-                  SizedBox(
-                    width: 15,
-                  ),
-                  Text('Username'),
-                ],
-              ),
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            Column(
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                TextButton(
-                  onPressed: () {},
-                  child: const Text(
-                    '\u{2764}',
-                    style: TextStyle(fontSize: 32, color: Colors.red),
+                Container(
+                  decoration: BoxDecoration(borderRadius: BorderRadius.circular(16)),
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(16),
+                    child: Image.network(
+                      data.imgUrl,
+                      fit: BoxFit.fill,
+                    ),
                   ),
-                  style: TextButton.styleFrom(
-                    minimumSize: const Size(50, 50),
-                    padding: EdgeInsets.zero,
-                    tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Text(
+                    data.caption,
+                    style: const TextStyle(fontSize: 16, color: Colors.white),
                   ),
-                ), // love
-                TextButton(
-                  onPressed: () {},
-                  child: const Text(
-                    '\u{1F602}',
-                    style: TextStyle(fontSize: 32),
+                )
+              ],
+            ),
+            Column(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      const CircleAvatar(
+                        child: Icon(Icons.person),
+                      ),
+                      const SizedBox(
+                        width: 15,
+                      ),
+                      Text(
+                        data.fullName,
+                        style: const TextStyle(color: Colors.white),
+                      ),
+                    ],
                   ),
-                  style: TextButton.styleFrom(
-                    minimumSize: const Size(50, 50),
-                    padding: EdgeInsets.zero,
-                    tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                  ),
-                ), // laugh
-                TextButton(
-                  onPressed: () {},
-                  child: const Text(
-                    '\u{1F62F}',
-                    style: TextStyle(fontSize: 32),
-                  ),
-                  style: TextButton.styleFrom(
-                    minimumSize: const Size(50, 50),
-                    padding: EdgeInsets.zero,
-                    tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                  ),
-                ), // wow
-                TextButton(
-                  onPressed: () {},
-                  child: const Text(
-                    '\u{1F622}',
-                    style: TextStyle(fontSize: 32),
-                  ),
-                  style: TextButton.styleFrom(
-                    minimumSize: const Size(50, 50),
-                    padding: EdgeInsets.zero,
-                    tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                  ),
-                ), // cry
-                TextButton(
-                  onPressed: () {},
-                  child: const Text(
-                    '\u{1F44E}',
-                    style: TextStyle(fontSize: 32),
-                  ),
-                  style: TextButton.styleFrom(
-                    minimumSize: const Size(50, 50),
-                    padding: EdgeInsets.zero,
-                    tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                  ),
-                ), //
-                TextButton(
-                  onPressed: () {},
-                  child: const Text(
-                    '\u{1F621}',
-                    style: TextStyle(fontSize: 32),
-                  ),
-                  style: TextButton.styleFrom(
-                    minimumSize: const Size(50, 50),
-                    padding: EdgeInsets.zero,
-                    tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                  ),
-                ), // angry
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    TextButton(
+                      onPressed: () {},
+                      style: TextButton.styleFrom(
+                        minimumSize: const Size(50, 50),
+                        padding: EdgeInsets.zero,
+                        tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                      ),
+                      child: const Text(
+                        '\u{2764}',
+                        style: TextStyle(fontSize: 32, color: Colors.red),
+                      ),
+                    ), // love
+                    TextButton(
+                      onPressed: () {},
+                      style: TextButton.styleFrom(
+                        minimumSize: const Size(50, 50),
+                        padding: EdgeInsets.zero,
+                        tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                      ),
+                      child: const Text(
+                        '\u{1F602}',
+                        style: TextStyle(fontSize: 32),
+                      ),
+                    ), // laugh
+                    TextButton(
+                      onPressed: () {},
+                      style: TextButton.styleFrom(
+                        minimumSize: const Size(50, 50),
+                        padding: EdgeInsets.zero,
+                        tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                      ),
+                      child: const Text(
+                        '\u{1F62F}',
+                        style: TextStyle(fontSize: 32),
+                      ),
+                    ), // wow
+                    TextButton(
+                      onPressed: () {},
+                      style: TextButton.styleFrom(
+                        minimumSize: const Size(50, 50),
+                        padding: EdgeInsets.zero,
+                        tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                      ),
+                      child: const Text(
+                        '\u{1F622}',
+                        style: TextStyle(fontSize: 32),
+                      ),
+                    ), // cry
+                    TextButton(
+                      onPressed: () {},
+                      style: TextButton.styleFrom(
+                        minimumSize: const Size(50, 50),
+                        padding: EdgeInsets.zero,
+                        tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                      ),
+                      child: const Text(
+                        '\u{1F44E}',
+                        style: TextStyle(fontSize: 32),
+                      ),
+                    ), //
+                    TextButton(
+                      onPressed: () {},
+                      style: TextButton.styleFrom(
+                        minimumSize: const Size(50, 50),
+                        padding: EdgeInsets.zero,
+                        tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                      ),
+                      child: const Text(
+                        '\u{1F621}',
+                        style: TextStyle(fontSize: 32),
+                      ),
+                    ), // angry
+                  ],
+                )
               ],
             )
           ],
-        )
-      ],
+        ),
+      ),
     );
   }
 }
