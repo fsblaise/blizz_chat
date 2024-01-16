@@ -20,18 +20,27 @@ class StoriesController extends _$StoriesController {
 
   Future<Story?> addStory(String caption, File file) async {
     final user = ref.watch(userObjectProvider);
+    print(user);
+    await user.when(data: (value) async {
+      final story = await ref.watch(storyRepositoryProvider).addStory(caption, file, value);
+      final prevState = await future;
+      state = AsyncValue.data([...prevState, story]);
+      return story;
+    }, error: (e, s) {
+      return null;
+    }, loading: () {
+      print('wtf');
+    });
+  }
+
+  Future<void> removeStory(Story story) async {
     try {
-      final userValue = user.value;
-      if (userValue != null) {
-        final story = await ref.watch(storyRepositoryProvider).addStory(caption, file, userValue);
-        final prevState = await future;
-        state = AsyncValue.data([...prevState, story]);
-        return story;
-      }
-      return null;
+      await ref.watch(storyRepositoryProvider).removeStory(story.id);
+      final prevState = await future;
+      prevState.remove(story);
+      state = AsyncValue.data([...prevState]);
     } catch (e) {
-      print('Error in addStory: $e');
-      return null;
+      print('Error in removeStory: $e');
     }
   }
 }

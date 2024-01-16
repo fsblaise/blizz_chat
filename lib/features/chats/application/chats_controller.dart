@@ -38,7 +38,7 @@ class ChatsController extends _$ChatsController {
 
   Future<void> removeChat(Map<String, dynamic> contact) async {
     final user = ref.watch(loggedInUserProvider);
-    ref.watch(chatsRepostoryProvider).removeChat(contact['id'] as String, contact['fullName'] as String, user!.uid);
+    ref.watch(chatsRepostoryProvider).removeChat(contact['id'] as String, contact['name'] as String, user!.uid);
     // mimicking the firebase logic,
     // so we can update the contacts list locally within the state
     final prevState = await future;

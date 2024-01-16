@@ -44,7 +44,6 @@ class AuthWidget extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final user = ref.watch(userStreamProvider);
-    final userObj = ref.watch(userObjectProvider);
 
     return user.when(data: (user) {
       if (user != null) {
