@@ -15,8 +15,8 @@ class MessageBubble extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 2.0),
       child: SwipeTo(
         offsetDx: 0.2,
-        onLeftSwipe: type == MessageType.from ? onReply : null,
-        onRightSwipe: type == MessageType.from ? null : onReply,
+        onLeftSwipe: type == MessageType.from ? ((details) => onReply) : null,
+        onRightSwipe: type == MessageType.from ? null : ((details) => onReply),
         child: Row(
           mainAxisAlignment: type == MessageType.from ? MainAxisAlignment.end : MainAxisAlignment.start,
           children: [
@@ -24,7 +24,7 @@ class MessageBubble extends StatelessWidget {
                 child: ConstrainedBox(
               constraints: const BoxConstraints(maxWidth: 300),
               child: Container(
-                padding: EdgeInsets.symmetric(horizontal: 12.0, vertical: 6.0),
+                padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 6.0),
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(15.0),
                   color: type == MessageType.from ? Colors.deepPurple : Colors.grey.shade200,

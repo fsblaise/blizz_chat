@@ -12,4 +12,8 @@ abstract class CollectionsRepository {
   CollectionReference<Map<String, dynamic>> get chatCollection {
     return _fStore.collection('Chats');
   }
+
+  CollectionReference<Map<String, dynamic>> get storyCollection {
+    return _fStore.collection('Stories');
+  }
 }

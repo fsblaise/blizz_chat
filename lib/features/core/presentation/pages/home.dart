@@ -36,6 +36,7 @@ class _HomeState extends ConsumerState<HomePage> {
 
   @override
   Widget build(BuildContext context) {
+    ref.watch(userObjectProvider);
     return WillPopScope(
       onWillPop: () async {
         if (prevPages.isNotEmpty) {
