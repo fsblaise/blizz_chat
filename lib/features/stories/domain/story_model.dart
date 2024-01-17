@@ -10,8 +10,9 @@ class Story {
   final String userId;
   final String fullName;
   final String imgUrl;
+  final String extension;
 
-  Story(this.id, this.caption, this.timestamp, this.userId, this.fullName, this.imgUrl);
+  Story(this.id, this.caption, this.timestamp, this.userId, this.fullName, this.imgUrl, this.extension);
 
   Map<String, dynamic> toJson() => _$StoryToJson(this);
   factory Story.fromJson(Map<String, dynamic> json) => _$StoryFromJson(json);

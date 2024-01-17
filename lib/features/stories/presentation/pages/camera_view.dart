@@ -14,14 +14,14 @@ class CameraViewPage extends StatefulWidget {
 class _CameraViewPageState extends State<CameraViewPage> {
   late CameraController _controller;
   late Future<void> _initializeControllerFuture;
+  late bool loading = false;
 
-  _takePicture() async {
+  Future<XFile?> _takePicture() async {
     try {
       await _initializeControllerFuture;
       final image = await _controller.takePicture();
-      if (!mounted) return;
-      await Navigator.push(context, CupertinoPageRoute(builder: (context) => DisplayPicturePage(imgPath: image.path)));
-      _controller.dispose();
+      if (!mounted) return null;
+      return image;
     } catch (e) {
       print(e);
     }
@@ -81,24 +81,44 @@ class _CameraViewPageState extends State<CameraViewPage> {
                     child: SizedBox(
                       width: double.infinity,
                       child: Container(
-                          color: Colors.black,
-                          child: Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-                            IconButton.outlined(
-                              onPressed: _takePicture,
-                              icon: const Icon(Icons.camera_alt),
-                              color: Colors.white,
-                              iconSize: 36,
-                            ),
-                            const SizedBox(
-                              width: 10,
-                            ),
-                            IconButton.outlined(
-                              onPressed: _switchCamera,
-                              icon: const Icon(Icons.cameraswitch_outlined),
-                              color: Colors.white,
-                              iconSize: 36,
-                            )
-                          ])),
+                        color: Colors.black,
+                        child: !loading
+                            ? Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+                                IconButton.outlined(
+                                  onPressed: () async {
+                                    setState(() {
+                                      loading = true;
+                                    });
+                                    try {
+                                      final image = await _takePicture();
+                                      if (image != null) {
+                                        Navigator.push(
+                                            context,
+                                            CupertinoPageRoute(
+                                                builder: (context) => DisplayPicturePage(imgPath: image.path)));
+                                      }
+                                    } finally {
+                                      setState(() {
+                                        loading = false;
+                                      });
+                                    }
+                                  },
+                                  icon: const Icon(Icons.camera_alt),
+                                  color: Colors.white,
+                                  iconSize: 36,
+                                ),
+                                const SizedBox(
+                                  width: 10,
+                                ),
+                                IconButton.outlined(
+                                  onPressed: _switchCamera,
+                                  icon: const Icon(Icons.cameraswitch_outlined),
+                                  color: Colors.white,
+                                  iconSize: 36,
+                                )
+                              ])
+                            : const Center(child: CircularProgressIndicator()),
+                      ),
                     ),
                   )
                 ],

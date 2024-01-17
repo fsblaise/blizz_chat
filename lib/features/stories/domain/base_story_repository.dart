@@ -9,5 +9,5 @@ abstract class BaseStoryRepository extends CollectionsRepository {
 
   Future<List<Story>> getStories();
   Future<Story> addStory(String caption, File file, FbUser user);
-  Future<void> removeStory(String id);
+  Future<void> removeStory(Story story);
 }

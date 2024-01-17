@@ -35,7 +35,7 @@ class StoriesController extends _$StoriesController {
 
   Future<void> removeStory(Story story) async {
     try {
-      await ref.watch(storyRepositoryProvider).removeStory(story.id);
+      await ref.watch(storyRepositoryProvider).removeStory(story);
       final prevState = await future;
       prevState.remove(story);
       state = AsyncValue.data([...prevState]);

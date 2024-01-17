@@ -32,8 +32,6 @@ class _DisplayPicturePageState extends ConsumerState<DisplayPicturePage> {
   Future<void> _uploadPicture(String caption) async {
     final storiesController = ref.read(storiesControllerProvider.notifier);
     await storiesController.addStory(caption, File(widget.imgPath));
-    Navigator.pop(context);
-    Navigator.pop(context);
   }
 
   @override
@@ -105,6 +103,8 @@ class _DisplayPicturePageState extends ConsumerState<DisplayPicturePage> {
                                 setState(() {
                                   loading = false;
                                 });
+                                Navigator.pop(context);
+                                Navigator.pop(context);
                               }
                             },
                             icon: const Icon(Icons.done_outlined),

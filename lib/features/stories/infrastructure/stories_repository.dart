@@ -38,7 +38,7 @@ class StoryRepository extends BaseStoryRepository {
 
       final url = await storageRef.child('Stories/$id.$ext').getDownloadURL();
 
-      final story = Story(id, caption, DateTime.now().toIso8601String(), user.id, user.fullName, url);
+      final story = Story(id, caption, DateTime.now().toIso8601String(), user.id, user.fullName, url, ext);
       await storyCollection.doc(story.id).set(story.toJson());
       return story;
     } catch (e) {
@@ -69,14 +69,13 @@ class StoryRepository extends BaseStoryRepository {
   }
 
   @override
-  Future<void> removeStory(String id) async {
+  Future<void> removeStory(Story story) async {
     final storageRef = _storage.ref();
     try {
       // List splits = file.path.split('.');
       // String ext = splits.removeLast();
-      String ext = 'jpg';
-      await storageRef.child('Stories/$id.$ext').delete();
-      await storyCollection.doc(id).delete();
+      await storageRef.child('Stories/${story.id}.${story.extension}').delete();
+      await storyCollection.doc(story.id).delete();
     } catch (e) {
       print(e);
       rethrow;
