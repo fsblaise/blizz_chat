@@ -32,35 +32,55 @@ class ChatsRepository extends BaseChatsRepository {
   @override
   Future<Map<String, dynamic>> addContact(FbUser contact, FbUser user) async {
     try {
-      final chatId = userCollection.doc().id;
-      // final userSnapshot = await userCollection.doc(userId).get();
-      // final userMap = userSnapshot.data() as Map<String, dynamic>;
-      // FbUser user = FbUser.fromJson(userMap);
+      final chatSnapshot = await chatCollection
+          .where('participants', arrayContains: {'id': user.id, 'fullName': user.fullName})
+          .where('isGroupChat', isEqualTo: false)
+          .get();
+      final chatDocs = chatSnapshot.docs.where((doc) {
+        var participants = doc['participants'];
+        return participants
+            .any((participant) => participant['id'] == contact.id && participant['fullName'] == contact.fullName);
+      }).toList();
 
-      Map<String, String> userContactMap = {'id': contact.id, 'fullName': contact.fullName};
-      Map<String, String> contactContactMap = {'id': user.id, 'fullName': user.fullName};
-      Map<String, dynamic> userChatsMap = {'id': chatId, 'name': contact.fullName};
-      Map<String, dynamic> contactChatsMap = {'id': chatId, 'name': user.fullName};
+      if (chatDocs.isNotEmpty) {
+        final elementMap = chatDocs[0].data();
+        final chat = Chat.fromJson(elementMap);
 
-      await userCollection.doc(user.id).update({
-        'contacts': FieldValue.arrayUnion([userContactMap]),
-        'chats': FieldValue.arrayUnion([userChatsMap])
-      });
-      // we have to add the current user to the contact's contacts list
-      await userCollection.doc(contact.id).update({
-        'contacts': FieldValue.arrayUnion([contactContactMap]),
-        'chats': FieldValue.arrayUnion([contactChatsMap])
-      });
-      await chatCollection.doc(chatId).set(Chat(
-              chatId,
-              [
-                {'id': user.id, 'fullName': user.fullName},
-                {'id': contact.id, 'fullName': contact.fullName}
-              ],
-              false,
-              null)
-          .toJson());
-      return userChatsMap;
+        Map<String, String> userChatsMap = {'id': chat.id, 'name': chat.chatName ?? contact.fullName};
+
+        await userCollection.doc(user.id).update({
+          'chats': FieldValue.arrayUnion([userChatsMap])
+        });
+
+        return userChatsMap;
+      } else {
+        final chatId = userCollection.doc().id;
+
+        Map<String, String> userContactMap = {'id': contact.id, 'fullName': contact.fullName};
+        Map<String, String> contactContactMap = {'id': user.id, 'fullName': user.fullName};
+        Map<String, dynamic> userChatsMap = {'id': chatId, 'name': contact.fullName};
+        Map<String, dynamic> contactChatsMap = {'id': chatId, 'name': user.fullName};
+
+        await userCollection.doc(user.id).update({
+          'contacts': FieldValue.arrayUnion([userContactMap]),
+          'chats': FieldValue.arrayUnion([userChatsMap])
+        });
+        // we have to add the current user to the contact's contacts list
+        await userCollection.doc(contact.id).update({
+          'contacts': FieldValue.arrayUnion([contactContactMap]),
+          'chats': FieldValue.arrayUnion([contactChatsMap])
+        });
+        await chatCollection.doc(chatId).set(Chat(
+                chatId,
+                [
+                  {'id': user.id, 'fullName': user.fullName},
+                  {'id': contact.id, 'fullName': contact.fullName}
+                ],
+                false,
+                null)
+            .toJson());
+        return userChatsMap;
+      }
     } catch (e) {
       print(e);
       rethrow;
@@ -68,12 +88,12 @@ class ChatsRepository extends BaseChatsRepository {
   }
 
   /// Deletes a chat from the chats array of the logged in user.<br>
-  /// Also deletes that chat from the database.
+  /// Doesn't delete that chat from the database.
   @override
   Future<void> removeChat(String deleteId, String deleteName, String userId) async {
     try {
       await userCollection.doc(userId).update({
-        'contacts': FieldValue.arrayRemove([
+        'chats': FieldValue.arrayRemove([
           {'id': deleteId, 'fullName': deleteName}
         ])
       });
@@ -83,39 +103,27 @@ class ChatsRepository extends BaseChatsRepository {
     }
   }
 
-  /// Fetches a user by email.
   @override
-  Future<List<FbUser?>> getUserByEmail(String email) async {
-    try {
-      QuerySnapshot userSnapshot = await userCollection.where('email', isEqualTo: email).get();
-      final userDocs = userSnapshot.docs;
-      final userMap = userDocs[0].data() as Map<String, dynamic>;
-      FbUser userObj = FbUser.fromJson(userMap);
-      return [userObj];
-    } catch (e) {
-      print(e);
-      return [];
-    }
+  Future<Map<String, dynamic>> addChat(FbUser contact, FbUser user) async {
+    final chat = await chatCollection.where('participants.id', isEqualTo: user.id).get();
+    print(chat);
+    return {};
+    // String chatId = '';
+    // Map<String, dynamic> userChatsMap = {'id': chatId, 'name': contact.fullName};
+
+    // try {
+    //   await userCollection.doc(user.id).update({
+    //     'chats': FieldValue.arrayUnion([userChatsMap])
+    //   });
+    // } catch (e) {
+    //   print(e);
+    //   rethrow;
+    // }
   }
 
-  /// Fetches users by fullName.
   @override
-  Future<List<FbUser?>> getUsersByFullName(String fullName) async {
-    try {
-      List<FbUser> users = [];
-      QuerySnapshot userSnapshot = await userCollection.where('fullName', isEqualTo: fullName).get();
-      final userDocs = userSnapshot.docs;
-
-      for (var doc in userDocs) {
-        final userMap = doc.data() as Map<String, dynamic>;
-        final userObj = FbUser.fromJson(userMap);
-        users.add(userObj);
-      }
-
-      return users;
-    } catch (e) {
-      print(e);
-      return [];
-    }
+  Future<Map<String, dynamic>> addGroupChat(FbUser contact, FbUser user) {
+    // TODO: implement addGroupChat
+    throw UnimplementedError();
   }
 }

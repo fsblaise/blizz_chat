@@ -5,6 +5,6 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 part 'chats_provider.g.dart';
 
 @riverpod
-ChatsRepository chatsRepostory(ChatsRepostoryRef ref) {
+ChatsRepository chatsRepository(ChatsRepositoryRef ref) {
   return ChatsRepository(ref.read(firebaseFirestoreProvider));
 }
