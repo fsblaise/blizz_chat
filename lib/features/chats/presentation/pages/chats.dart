@@ -1,28 +1,13 @@
-import 'package:blizz_chat/features/chats/infrastructure/chats_provider.dart';
 import 'package:blizz_chat/features/chats/presentation/widgets/my_contacts.dart';
-import 'package:blizz_chat/features/chats/application/chats_controller.dart';
 import 'package:blizz_chat/features/chats/presentation/widgets/add_contacts.dart';
-import 'package:blizz_chat/features/chats/presentation/widgets/my_contacts.dart';
 import 'package:blizz_chat/features/chats/presentation/widgets/my_chats.dart';
+import 'package:blizz_chat/features/chats/presentation/widgets/new_message.dart';
+import 'package:blizz_chat/features/chats/presentation/widgets/search_bar.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 enum Segments { chats, contacts, add }
-
-// List<String> _contacts = [
-//   'Contact1',
-//   'Contact2',
-//   'Contact3',
-//   'Contact4',
-//   'Contact5',
-//   'Contact6',
-//   'Contact7',
-//   'Contact8',
-//   'Contact9',
-//   'Contact10',
-//   'Contact11',
-//   'Contact12'
-// ];
 
 class ChatsPage extends ConsumerStatefulWidget {
   const ChatsPage({super.key});
@@ -36,39 +21,38 @@ class _ChatsPageState extends ConsumerState<ChatsPage> {
   Segments selected = Segments.chats;
   final TextEditingController _searchController = TextEditingController();
 
+  _openNewMessage() {
+    Navigator.push(context, CupertinoPageRoute(builder: (context) => const NewMessagePage()));
+  }
+
   @override
   void dispose() {
     super.dispose();
     _searchController.dispose();
   }
 
+  _search(String value) {
+    setState(() {
+      _keyword = value;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {},
-        child: const Icon(Icons.add),
-      ),
+      floatingActionButton: selected == Segments.chats
+          ? FloatingActionButton(
+              onPressed: _openNewMessage,
+              child: const Icon(Icons.message),
+            )
+          : null,
       body: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16),
-              child: Container(
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(25),
-                  color: const Color.fromRGBO(150, 150, 150, 0.2),
-                ),
-                child: TextField(
-                  controller: _searchController,
-                  onSubmitted: (value) => setState(() {
-                    _keyword = value;
-                  }),
-                  decoration: const InputDecoration(
-                      hintText: 'Search', border: InputBorder.none, prefixIcon: Icon(Icons.search)),
-                ),
-              ),
+            SearchBarWidget(
+              searchController: _searchController,
+              fn: _search,
             ),
             const SizedBox(
               height: 15,
