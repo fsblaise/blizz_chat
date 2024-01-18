@@ -1,6 +1,5 @@
 import 'package:blizz_chat/features/auth/infrastructure/auth_provider.dart';
 import 'package:blizz_chat/features/chats/infrastructure/chats_provider.dart';
-import 'package:blizz_chat/features/chats/infrastructure/contacts_provider.dart';
 import 'package:blizz_chat/features/core/domain/user_model.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
@@ -18,16 +17,16 @@ class ChatsController extends _$ChatsController {
     return chats;
   }
 
-  Future<Map<String, dynamic>?> addContact(FbUser contact) async {
+  Future<Map<String, dynamic>?> addChat(FbUser contact) async {
     final user = ref.watch(userObjectProvider);
     user.when(data: (value) async {
-      final chat = await ref.watch(chatsRepositoryProvider).addContact(contact, value);
+      final prevState = await future;
+      final chat = await ref.watch(chatsRepositoryProvider).addChat(prevState, [contact], value);
       // mimicking the firebase logic,
       // so we can update the contacts list locally within the state
-      final prevState = await future;
       print(prevState);
       print(chat);
-      if (prevState.where((element) => element['id'] == chat['id'] && element['name'] == chat['name']).isNotEmpty) {
+      if (prevState.where((element) => element['id'] == chat['id']).isNotEmpty) {
         print('contains');
         return null;
       }
@@ -43,21 +42,13 @@ class ChatsController extends _$ChatsController {
     });
   }
 
-  Future<void> removeChat(Map<String, dynamic> contact) async {
+  Future<void> removeChat(Map<String, dynamic> chat) async {
     final user = ref.watch(loggedInUserProvider);
-    ref.watch(chatsRepositoryProvider).removeChat(contact['id'] as String, contact['name'] as String, user!.uid);
+    ref.watch(chatsRepositoryProvider).removeChat(chat['id'] as String, chat['name'] as String, user!.uid);
     // mimicking the firebase logic,
     // so we can update the contacts list locally within the state
     final prevState = await future;
-    prevState.removeWhere((element) => element['id'] == contact['id']);
+    prevState.removeWhere((element) => element['id'] == chat['id']);
     ref.notifyListeners();
-  }
-
-  Future<List<FbUser?>> getUsers(String keyword) async {
-    if (keyword.contains('@')) {
-      return ref.watch(contactsRepositoryProvider).getUserByEmail(keyword);
-    } else {
-      return ref.watch(contactsRepositoryProvider).getUsersByFullName(keyword);
-    }
   }
 }

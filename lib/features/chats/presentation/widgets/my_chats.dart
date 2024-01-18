@@ -83,11 +83,6 @@ class MyChatsWidget extends ConsumerWidget {
                                       leading: const Icon(Icons.notifications_off),
                                       title: const Text('Mute'),
                                     ),
-                                    ListTile(
-                                      onTap: () {},
-                                      leading: const Icon(Icons.block),
-                                      title: const Text('Block'),
-                                    ),
                                   ],
                                 )),
                               ),

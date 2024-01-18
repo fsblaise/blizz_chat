@@ -1,9 +1,6 @@
-import 'package:blizz_chat/features/auth/infrastructure/auth_provider.dart';
 import 'package:blizz_chat/features/chats/domain/base_contacts_repository.dart';
-import 'package:blizz_chat/features/chats/domain/chat_model.dart';
 import 'package:blizz_chat/features/core/domain/user_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 
 class ContactsRepository extends BaseContactsRepository {
   ContactsRepository(this._fStore) : super(_fStore);
@@ -28,39 +25,21 @@ class ContactsRepository extends BaseContactsRepository {
   }
 
   /// Adds a user (contact) to the contacts array of the logged in user.<br>
-  /// Also adds a chat reference object to the chats array.
   @override
   Future<Map<String, dynamic>> addContact(FbUser contact, FbUser user) async {
     try {
-      final chatId = userCollection.doc().id;
-      // final userSnapshot = await userCollection.doc(userId).get();
-      // final userMap = userSnapshot.data() as Map<String, dynamic>;
-      // FbUser user = FbUser.fromJson(userMap);
-
       Map<String, String> userContactMap = {'id': contact.id, 'fullName': contact.fullName};
       Map<String, String> contactContactMap = {'id': user.id, 'fullName': user.fullName};
-      Map<String, dynamic> userChatsMap = {'id': chatId, 'name': contact.fullName};
-      Map<String, dynamic> contactChatsMap = {'id': chatId, 'name': user.fullName};
 
       await userCollection.doc(user.id).update({
         'contacts': FieldValue.arrayUnion([userContactMap]),
-        'chats': FieldValue.arrayUnion([userChatsMap])
       });
       // we have to add the current user to the contact's contacts list
       await userCollection.doc(contact.id).update({
         'contacts': FieldValue.arrayUnion([contactContactMap]),
-        'chats': FieldValue.arrayUnion([contactChatsMap])
       });
-      await chatCollection.doc(chatId).set(Chat(
-              chatId,
-              [
-                {'id': user.id, 'fullName': user.fullName},
-                {'id': contact.id, 'fullName': contact.fullName}
-              ],
-              false,
-              null)
-          .toJson());
-      return userChatsMap;
+
+      return userContactMap;
     } catch (e) {
       print(e);
       rethrow;

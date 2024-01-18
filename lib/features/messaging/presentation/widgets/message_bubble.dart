@@ -15,8 +15,8 @@ class MessageBubble extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 2.0),
       child: SwipeTo(
         offsetDx: 0.2,
-        onLeftSwipe: type == MessageType.from ? ((details) => onReply) : null,
-        onRightSwipe: type == MessageType.from ? null : ((details) => onReply),
+        onLeftSwipe: type == MessageType.from ? onReply : null,
+        onRightSwipe: type == MessageType.from ? null : onReply,
         child: Row(
           mainAxisAlignment: type == MessageType.from ? MainAxisAlignment.end : MainAxisAlignment.start,
           children: [
