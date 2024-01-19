@@ -1,5 +1,6 @@
 import 'package:blizz_chat/features/auth/infrastructure/auth_provider.dart';
 import 'package:blizz_chat/features/chats/infrastructure/contacts_provider.dart';
+import 'package:blizz_chat/features/core/application/user_controller.dart';
 import 'package:blizz_chat/features/core/domain/user_model.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
@@ -18,7 +19,7 @@ class ContactsController extends _$ContactsController {
   }
 
   Future<Map<String, dynamic>?> addContact(FbUser contact) async {
-    final user = ref.watch(userObjectProvider);
+    final user = ref.watch(userControllerProvider);
     user.when(data: (value) async {
       final contactMap = await ref.watch(contactsRepositoryProvider).addContact(contact, value);
       // mimicking the firebase logic,

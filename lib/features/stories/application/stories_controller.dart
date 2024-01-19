@@ -1,6 +1,6 @@
 import 'dart:io';
 
-import 'package:blizz_chat/features/auth/infrastructure/auth_provider.dart';
+import 'package:blizz_chat/features/core/application/user_controller.dart';
 import 'package:blizz_chat/features/stories/domain/story_model.dart';
 import 'package:blizz_chat/features/stories/infrastructure/stories_provider.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
@@ -19,7 +19,7 @@ class StoriesController extends _$StoriesController {
   }
 
   Future<Story?> addStory(String caption, File file) async {
-    final user = ref.watch(userObjectProvider);
+    final user = ref.watch(userControllerProvider);
     print(user);
     await user.when(data: (value) async {
       final story = await ref.watch(storyRepositoryProvider).addStory(caption, file, value);

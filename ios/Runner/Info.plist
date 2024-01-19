@@ -28,8 +28,14 @@
 	<string>User should be able to take picture for their stories.</string>
 	<key>NSMicrophoneUsageDescription</key>
 	<string>User should be able to take picture for their stories.</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>The app features a map where users can see each other.</string>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>
+	<key>UIBackgroundModes</key>
+	<array>
+		<string>location</string>
+	</array>
 	<key>UIMainStoryboardFile</key>
 	<string>Main</string>
 	<key>UISupportedInterfaceOrientations</key>

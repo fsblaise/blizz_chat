@@ -7,7 +7,7 @@ class FbUser {
   final String id;
   final String email;
   final String created;
-  final String fullName;
+  late String fullName;
   late String profileURL;
   late List<Map<String, String>> contacts;
   late List<Map<String, dynamic>> chats;

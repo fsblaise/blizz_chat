@@ -1,6 +1,6 @@
 import 'package:blizz_chat/features/auth/infrastructure/auth_repository.dart';
 import 'package:blizz_chat/features/core/presentation/pages/welcome.dart';
-import 'package:blizz_chat/features/profile/presentation/profile.dart';
+import 'package:blizz_chat/features/core/presentation/widgets/profile.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
