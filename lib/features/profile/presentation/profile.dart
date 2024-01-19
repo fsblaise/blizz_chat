@@ -23,9 +23,6 @@ class _ProfileWidgetState extends ConsumerState<ProfileWidget> {
             Text('Name')
           ],
         ),
-        SizedBox(
-          height: 150,
-        ),
         Row(
           children: [
             Switch(
