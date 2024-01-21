@@ -38,6 +38,8 @@ class _HomeState extends ConsumerState<HomePage> {
   @override
   Widget build(BuildContext context) {
     ref.watch(userControllerProvider);
+    // fetch the user's location every time, the app is opened, and the home page is initialized
+    ref.watch(locationProvider);
     return WillPopScope(
       onWillPop: () async {
         if (prevPages.isNotEmpty) {

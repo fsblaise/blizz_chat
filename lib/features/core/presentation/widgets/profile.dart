@@ -73,21 +73,6 @@ class _ProfileWidgetState extends ConsumerState<ProfileWidget> {
             Row(
               children: [
                 Switch(
-                    value: userObj.location['useLocation'],
-                    onChanged: (bool val) {
-                      setState(() {
-                        userObj.location['useLocation'] = val;
-                      });
-                    }),
-                const SizedBox(
-                  width: 4,
-                ),
-                const Text('Use location')
-              ],
-            ),
-            Row(
-              children: [
-                Switch(
                     value: userObj.settings['useDarkMode'],
                     onChanged: (bool val) {
                       setState(() {

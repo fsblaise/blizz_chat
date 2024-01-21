@@ -1,8 +1,6 @@
 import 'package:blizz_chat/features/auth/infrastructure/auth_provider.dart';
-import 'package:blizz_chat/features/auth/infrastructure/auth_repository.dart';
 import 'package:blizz_chat/features/core/presentation/pages/home.dart';
 import 'package:blizz_chat/features/core/presentation/pages/welcome.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';

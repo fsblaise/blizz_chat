@@ -1,7 +1,6 @@
 import 'package:blizz_chat/features/auth/infrastructure/auth_repository.dart';
 import 'package:blizz_chat/features/core/presentation/pages/welcome.dart';
 import 'package:blizz_chat/features/core/presentation/widgets/profile.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -75,14 +74,6 @@ class SettingsSheet extends StatelessWidget {
                                   ],
                                 ),
                               ),
-                            ),
-                            ListTile(
-                              leading: const Icon(Icons.share),
-                              title: const Text('Share'),
-                              onTap: () async {
-                                User? user = auth.getLoggedInUser();
-                                // await auth.getUserById(user.uid);
-                              },
                             ),
                             const Divider(),
                             ProfileWidget()
