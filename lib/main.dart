@@ -3,6 +3,8 @@ import 'package:blizz_chat/features/core/presentation/pages/home.dart';
 import 'package:blizz_chat/features/core/presentation/pages/welcome.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'config/firebase_options.dart';
@@ -29,6 +31,12 @@ class MainApp extends ConsumerWidget {
             useMaterial3: true,
             colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
             fontFamily: GoogleFonts.inter().fontFamily),
+        localizationsDelegates: const [
+          AppLocalizations.delegate,
+          GlobalCupertinoLocalizations.delegate,
+          GlobalMaterialLocalizations.delegate,
+          GlobalWidgetsLocalizations.delegate
+        ],
         themeMode: ThemeMode.system,
         home: const AuthWidget());
   }

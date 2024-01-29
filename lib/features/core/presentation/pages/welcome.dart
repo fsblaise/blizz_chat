@@ -1,4 +1,5 @@
 import 'package:blizz_chat/features/auth/presentation/pages/auth.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -9,6 +10,7 @@ class WelcomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final localization = AppLocalizations.of(context);
     return Scaffold(
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -19,9 +21,9 @@ class WelcomePage extends StatelessWidget {
             size: 169,
             color: Colors.deepPurple,
           ),
-          const Text(
-            'Blizz Chat',
-            style: TextStyle(fontSize: 64, fontWeight: FontWeight.bold),
+          Text(
+            localization.or,
+            style: const TextStyle(fontSize: 64, fontWeight: FontWeight.bold),
             textAlign: TextAlign.center,
           ),
           const SizedBox(
