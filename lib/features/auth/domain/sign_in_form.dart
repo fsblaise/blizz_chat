@@ -1,6 +1,10 @@
+import 'package:blizz_chat/l10n/generated/l10n.dart';
+import 'package:blizz_chat/locator.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'sign_in_form.freezed.dart';
+
+final I10n _i10n = locator<I10n>();
 
 @freezed
 class SignInForm with _$SignInForm {
@@ -13,14 +17,14 @@ class SignInForm with _$SignInForm {
 
   String? get emailErrorText {
     if (email.isEmpty) {
-      return 'Email is missing';
+      return _i10n.emailMissing;
     }
     return null;
   }
 
   String? get passwordErrorText {
     if (password.isEmpty) {
-      return 'Password is missing';
+      return _i10n.passwordMissing;
     }
     return null;
   }

@@ -2,9 +2,13 @@ import 'package:blizz_chat/features/auth/application/sign_in_controller.dart';
 import 'package:blizz_chat/features/auth/presentation/widgets/auth_text_field.dart';
 import 'package:blizz_chat/features/auth/presentation/widgets/button_expanded.dart';
 import 'package:blizz_chat/features/core/presentation/pages/home.dart';
+import 'package:blizz_chat/l10n/generated/l10n.dart';
+import 'package:blizz_chat/locator.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+
+final I10n _i10n = locator<I10n>();
 
 class SignIn extends ConsumerWidget {
   final void Function() switchPressed;
@@ -19,7 +23,7 @@ class SignIn extends ConsumerWidget {
       Navigator.pushAndRemoveUntil(
           context, CupertinoPageRoute(builder: (context) => const HomePage()), (route) => false);
     } catch (e) {
-      scaffoldMessenger.showSnackBar(SnackBar(content: Text('Failed to sign in')));
+      scaffoldMessenger.showSnackBar(SnackBar(content: Text(_i10n.failedToSignIn)));
     }
   }
 
@@ -30,20 +34,20 @@ class SignIn extends ConsumerWidget {
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        const Column(
+        Column(
           children: [
             Text(
-              'Welcome back!',
-              style: TextStyle(fontSize: 46, fontWeight: FontWeight.bold),
+              _i10n.welcomeBack,
+              style: const TextStyle(fontSize: 46, fontWeight: FontWeight.bold),
               textAlign: TextAlign.center,
             ),
           ],
         ),
         Column(
           children: [
-            const Text(
-              'Please log in to your account',
-              style: TextStyle(fontSize: 18),
+            Text(
+              _i10n.pleaseLogIn,
+              style: const TextStyle(fontSize: 18),
             ),
             AuthTextField(
                 obscure: false,
@@ -51,24 +55,24 @@ class SignIn extends ConsumerWidget {
                 onChanged: ref.read(signInControllerProvider.notifier).updateEmail,
                 errorText: signInForm.emailErrorText,
                 icon: const Icon(Icons.email),
-                hint: 'Email address'),
+                hint: _i10n.emailAddress),
             AuthTextField(
                 obscure: true,
                 initialValue: signInForm.password,
                 onChanged: ref.read(signInControllerProvider.notifier).updatePassword,
                 errorText: signInForm.passwordErrorText,
                 icon: const Icon(Icons.lock),
-                hint: 'Password'),
+                hint: _i10n.password),
             ExpandedButton(
               onTap: signInForm.isValid ? () => _signIn(context, ref) : null,
-              text: 'Sign In',
+              text: _i10n.signIn,
             ),
             const SizedBox(width: 334, child: Divider(thickness: 1)),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                const Text('Not a member yet?'),
-                TextButton(onPressed: switchPressed, child: const Text('Register now'))
+                Text(_i10n.notMemberYet),
+                TextButton(onPressed: switchPressed, child: Text(_i10n.registerNow))
               ],
             )
           ],

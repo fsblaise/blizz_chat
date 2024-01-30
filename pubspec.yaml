@@ -32,6 +32,7 @@ dependencies:
   flutter_map: ^6.1.0
   latlong2: ^0.9.0
   flutter_map_cancellable_tile_provider: ^2.0.0
+  get_it: ^7.6.7
 
 dev_dependencies:
   flutter_test:
@@ -46,5 +47,10 @@ dev_dependencies:
 flutter:
   uses-material-design: true
   generate: true
-flutter_intl:
-  enabled: true
+
+flutter_intl:                                   # Add this line
+  enabled: true                                 # Add this line
+  class_name: I10n                              # Add this line
+  main_locale: en                               # Add this line
+  arb_dir: lib/l10n           # Add this line
+  output_dir: lib/l10n/generated

@@ -1,7 +1,10 @@
 import 'package:blizz_chat/features/auth/presentation/pages/auth.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:blizz_chat/l10n/generated/l10n.dart';
+import 'package:blizz_chat/locator.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+
+final I10n _i10n = locator<I10n>();
 
 class WelcomePage extends StatelessWidget {
   const WelcomePage({
@@ -10,7 +13,6 @@ class WelcomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final localization = AppLocalizations.of(context);
     return Scaffold(
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -22,16 +24,16 @@ class WelcomePage extends StatelessWidget {
             color: Colors.deepPurple,
           ),
           Text(
-            localization.or,
+            _i10n.appName,
             style: const TextStyle(fontSize: 64, fontWeight: FontWeight.bold),
             textAlign: TextAlign.center,
           ),
           const SizedBox(
             height: 15,
           ),
-          const Text(
-            'End-to-end instant messaging for everyone',
-            style: TextStyle(fontSize: 26),
+          Text(
+            _i10n.premise,
+            style: const TextStyle(fontSize: 26),
             textAlign: TextAlign.center,
           ),
           const SizedBox(
@@ -44,8 +46,8 @@ class WelcomePage extends StatelessWidget {
                 onPressed: () {
                   Navigator.push(context, CupertinoPageRoute(builder: (context) => const AuthPage()));
                 },
-                child: const Text('Continue'),
-                style: ButtonStyle(minimumSize: MaterialStatePropertyAll(Size(120, 40))),
+                style: const ButtonStyle(minimumSize: MaterialStatePropertyAll(Size(120, 40))),
+                child: Text(_i10n.continueBtn),
               ),
             ],
           )
