@@ -3,6 +3,7 @@ import 'package:blizz_chat/features/chats/presentation/widgets/add_contacts.dart
 import 'package:blizz_chat/features/chats/presentation/widgets/my_chats.dart';
 import 'package:blizz_chat/features/chats/presentation/widgets/new_message.dart';
 import 'package:blizz_chat/features/chats/presentation/widgets/search_bar.dart';
+import 'package:blizz_chat/features/core/application/language_controller.dart';
 import 'package:blizz_chat/l10n/generated/l10n.dart';
 import 'package:blizz_chat/locator.dart';
 import 'package:flutter/cupertino.dart';
@@ -43,6 +44,7 @@ class _ChatsPageState extends ConsumerState<ChatsPage> {
 
   @override
   Widget build(BuildContext context) {
+    ref.watch(languageControllerProvider);
     return Scaffold(
       floatingActionButton: selected == Segments.chats
           ? FloatingActionButton(

@@ -8,9 +8,10 @@ class MapRepository extends BaseMapRepository {
   final FirebaseFirestore _fStore;
 
   @override
-  Future<List<FbUser>> getMapUsers(List<Map<String, dynamic>> contacts) async {
+  Future<List<FbUser>?> getMapUsers(List<Map<String, dynamic>> contacts) async {
     print('contacts getting');
     List<String> ids = contacts.map((contact) => contact['id'] as String).toList();
+    if (ids.isEmpty) return null;
     final userSnapshots =
         await userCollection.where('id', whereIn: ids).where('location.useLocation', isEqualTo: true).get();
     final userDocs = userSnapshots.docs;

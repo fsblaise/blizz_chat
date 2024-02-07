@@ -1,10 +1,9 @@
 {
     "appName": "Blizz Chat",
-    "premise": "End-to-end instant messaging for everyone",
+    "premise": "End-to-end encrypted messaging for everyone",
     "continueBtn": "Continue",
     "welcome": "Welcome!",
     "signIn": "Sign In",
-    "or": "or",
     "signUp": "Sign up",
     "welcomeBack": "Welcome back!",
     "failedToSignIn": "Failed to sign in",
@@ -51,5 +50,20 @@
     "newMessage": "New Message",
     "search": "Search",
     "stories": "Stories",
-    "map": "Map"
+    "map": "Map",
+    "userUpdateSuccess": "User successfully updated",
+    "userUpdateFail": "Failed to update user",
+    "darkMode": "Darkmode",
+    "on": "on",
+    "off": "off",
+    "saveChanges": "Save changes",
+    "logout": "Logout",
+    "messageSomething": "Message something",
+    "createYourStory": "Create your story",
+    "confirmation": "Confirmation",
+    "storyDeleteSuccess": "Story successfully deleted",
+    "storyDeleteFail": "Failed to delete story",
+    "language": "Language",
+    "en": "English",
+    "hu": "Hungarian"
   }

@@ -9,5 +9,5 @@ part 'map_data.g.dart';
 Future<List<FbUser>?> mapData(MapDataRef ref) async {
   final user = await ref.watch(userControllerProvider.future);
   final mapContacts = await ref.watch(mapRepositoryProvider).getMapUsers(user.contacts);
-  return mapContacts;
+  return mapContacts ?? [];
 }

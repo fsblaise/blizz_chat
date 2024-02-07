@@ -10,7 +10,7 @@ import 'intl/messages_all.dart';
 
 // ignore_for_file: non_constant_identifier_names, lines_longer_than_80_chars
 // ignore_for_file: join_return_with_assignment, prefer_final_in_for_each
-// ignore_for_file: avoid_redundant_argument_values
+// ignore_for_file: avoid_redundant_argument_values, avoid_escaping_inner_quotes
 
 class I10n {
   I10n();
@@ -18,28 +18,31 @@ class I10n {
   static I10n? _current;
 
   static I10n get current {
-    assert(_current != null, 'No instance of I10n was loaded. Try to initialize the I10n delegate before accessing I10n.current.');
+    assert(_current != null,
+        'No instance of I10n was loaded. Try to initialize the I10n delegate before accessing I10n.current.');
     return _current!;
   }
 
-  static const AppLocalizationDelegate delegate =
-    AppLocalizationDelegate();
+  static const AppLocalizationDelegate delegate = AppLocalizationDelegate();
 
   static Future<I10n> load(Locale locale) {
-    final name = (locale.countryCode?.isEmpty ?? false) ? locale.languageCode : locale.toString();
-    final localeName = Intl.canonicalizedLocale(name); 
+    final name = (locale.countryCode?.isEmpty ?? false)
+        ? locale.languageCode
+        : locale.toString();
+    final localeName = Intl.canonicalizedLocale(name);
     return initializeMessages(localeName).then((_) {
       Intl.defaultLocale = localeName;
       final instance = I10n();
       I10n._current = instance;
- 
+
       return instance;
     });
-  } 
+  }
 
   static I10n of(BuildContext context) {
     final instance = I10n.maybeOf(context);
-    assert(instance != null, 'No instance of I10n present in the widget tree. Did you add I10n.delegate in localizationsDelegates?');
+    assert(instance != null,
+        'No instance of I10n present in the widget tree. Did you add I10n.delegate in localizationsDelegates?');
     return instance!;
   }
 
@@ -57,10 +60,10 @@ class I10n {
     );
   }
 
-  /// `End-to-end instant messaging for everyone`
+  /// `End-to-end encrypted messaging for everyone`
   String get premise {
     return Intl.message(
-      'End-to-end instant messaging for everyone',
+      'End-to-end encrypted messaging for everyone',
       name: 'premise',
       desc: '',
       args: [],
@@ -92,16 +95,6 @@ class I10n {
     return Intl.message(
       'Sign In',
       name: 'signIn',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `or`
-  String get or {
-    return Intl.message(
-      'or',
-      name: 'or',
       desc: '',
       args: [],
     );
@@ -576,6 +569,156 @@ class I10n {
       args: [],
     );
   }
+
+  /// `User successfully updated`
+  String get userUpdateSuccess {
+    return Intl.message(
+      'User successfully updated',
+      name: 'userUpdateSuccess',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Failed to update user`
+  String get userUpdateFail {
+    return Intl.message(
+      'Failed to update user',
+      name: 'userUpdateFail',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Darkmode`
+  String get darkMode {
+    return Intl.message(
+      'Darkmode',
+      name: 'darkMode',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `on`
+  String get on {
+    return Intl.message(
+      'on',
+      name: 'on',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `off`
+  String get off {
+    return Intl.message(
+      'off',
+      name: 'off',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Save changes`
+  String get saveChanges {
+    return Intl.message(
+      'Save changes',
+      name: 'saveChanges',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Logout`
+  String get logout {
+    return Intl.message(
+      'Logout',
+      name: 'logout',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Message something`
+  String get messageSomething {
+    return Intl.message(
+      'Message something',
+      name: 'messageSomething',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Create your story`
+  String get createYourStory {
+    return Intl.message(
+      'Create your story',
+      name: 'createYourStory',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Confirmation`
+  String get confirmation {
+    return Intl.message(
+      'Confirmation',
+      name: 'confirmation',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Story successfully deleted`
+  String get storyDeleteSuccess {
+    return Intl.message(
+      'Story successfully deleted',
+      name: 'storyDeleteSuccess',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Failed to delete story`
+  String get storyDeleteFail {
+    return Intl.message(
+      'Failed to delete story',
+      name: 'storyDeleteFail',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Language`
+  String get language {
+    return Intl.message(
+      'Language',
+      name: 'language',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `English`
+  String get en {
+    return Intl.message(
+      'English',
+      name: 'en',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Hungarian`
+  String get hu {
+    return Intl.message(
+      'Hungarian',
+      name: 'hu',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<I10n> {
@@ -584,6 +727,7 @@ class AppLocalizationDelegate extends LocalizationsDelegate<I10n> {
   List<Locale> get supportedLocales {
     return const <Locale>[
       Locale.fromSubtags(languageCode: 'en'),
+      Locale.fromSubtags(languageCode: 'hu'),
     ];
   }
 

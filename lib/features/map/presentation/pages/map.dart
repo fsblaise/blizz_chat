@@ -1,9 +1,13 @@
 import 'package:blizz_chat/features/auth/infrastructure/auth_provider.dart';
 import 'package:blizz_chat/features/map/application/map_data.dart';
+import 'package:blizz_chat/l10n/generated/l10n.dart';
+import 'package:blizz_chat/locator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:latlong2/latlong.dart';
+
+final I10n _i10n = locator<I10n>();
 
 class MapPage extends ConsumerWidget {
   const MapPage({super.key});
@@ -46,7 +50,7 @@ class MapPage extends ConsumerWidget {
         ],
       );
     }, error: (e, s) {
-      return const Center(child: Text('Something went wrong'));
+      return Center(child: Text(_i10n.somethingWentWrong));
     }, loading: () {
       return const Center(
         child: CircularProgressIndicator(),

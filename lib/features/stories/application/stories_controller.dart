@@ -12,9 +12,10 @@ class StoriesController extends _$StoriesController {
   @override
   FutureOr<List<Story>> build() async {
     print('build runs inside stories controller');
+    final user = await ref.watch(userControllerProvider.future);
     List<Story> stories = [];
 
-    stories = await ref.watch(storyRepositoryProvider).getStories();
+    stories = await ref.watch(storyRepositoryProvider).getStories(user);
     return stories;
   }
 

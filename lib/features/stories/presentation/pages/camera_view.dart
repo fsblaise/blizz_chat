@@ -1,7 +1,11 @@
 import 'package:blizz_chat/features/stories/presentation/pages/display_picture.dart';
+import 'package:blizz_chat/l10n/generated/l10n.dart';
+import 'package:blizz_chat/locator.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:camera/camera.dart';
+
+final I10n _i10n = locator<I10n>();
 
 class CameraViewPage extends StatefulWidget {
   const CameraViewPage({required this.cameras, super.key});
@@ -68,7 +72,7 @@ class _CameraViewPageState extends State<CameraViewPage> {
       appBar: AppBar(
         backgroundColor: Colors.black,
         foregroundColor: Colors.white,
-        title: const Text('Create your story'),
+        title: Text(_i10n.createYourStory),
       ),
       body: FutureBuilder(
           future: _initializeControllerFuture,

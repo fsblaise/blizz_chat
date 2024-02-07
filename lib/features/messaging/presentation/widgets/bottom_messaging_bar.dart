@@ -1,4 +1,8 @@
+import 'package:blizz_chat/l10n/generated/l10n.dart';
+import 'package:blizz_chat/locator.dart';
 import 'package:flutter/material.dart';
+
+final I10n _i10n = locator<I10n>();
 
 class BottomMessagingBar extends StatefulWidget {
   const BottomMessagingBar({
@@ -60,7 +64,7 @@ class _BottomMessagingBarState extends State<BottomMessagingBar> {
                         },
                         controller: msgController,
                         focusNode: widget.focusNode,
-                        decoration: const InputDecoration(hintText: 'Message something', border: InputBorder.none),
+                        decoration: InputDecoration(hintText: _i10n.messageSomething, border: InputBorder.none),
                       ),
                     ),
                     IconButton(onPressed: () {}, icon: const Icon(Icons.camera_alt_outlined))

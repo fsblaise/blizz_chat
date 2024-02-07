@@ -1,7 +1,11 @@
 import 'package:blizz_chat/features/core/application/user_controller.dart';
 import 'package:blizz_chat/features/core/domain/user_model.dart';
+import 'package:blizz_chat/l10n/generated/l10n.dart';
+import 'package:blizz_chat/locator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+
+final I10n _i10n = locator<I10n>();
 
 class ProfileWidget extends ConsumerStatefulWidget {
   const ProfileWidget({super.key});
@@ -21,13 +25,13 @@ class _ProfileWidgetState extends ConsumerState<ProfileWidget> {
     final userController = ref.read(userControllerProvider.notifier);
     try {
       await userController.updateUser(userObj);
-      scaffoldMessenger.showSnackBar(const SnackBar(
-        content: Text('User successfully updated'),
+      scaffoldMessenger.showSnackBar(SnackBar(
+        content: Text(_i10n.userUpdateSuccess),
         behavior: SnackBarBehavior.floating,
       ));
       Navigator.pop(context);
     } catch (e) {
-      scaffoldMessenger.showSnackBar(const SnackBar(content: Text('Failed to sign in')));
+      scaffoldMessenger.showSnackBar(SnackBar(content: Text(_i10n.userUpdateFail)));
     }
   }
 
@@ -82,15 +86,15 @@ class _ProfileWidgetState extends ConsumerState<ProfileWidget> {
                 const SizedBox(
                   width: 4,
                 ),
-                Text('Darkmode ${userObj.settings['useDarkMode'] ? 'on' : 'off'}')
+                Text('${_i10n.darkMode} ${userObj.settings['useDarkMode'] ? _i10n.on : _i10n.off}')
               ],
             ),
-            TextButton(onPressed: _updateUser, child: const Text('Save changes'))
+            TextButton(onPressed: _updateUser, child: Text(_i10n.saveChanges))
           ],
         ),
       );
     }, error: (e, s) {
-      return const Center(child: Text('Something went wrong'));
+      return Center(child: Text(_i10n.somethingWentWrong));
     }, loading: () {
       return const Center(
         child: CircularProgressIndicator(),
