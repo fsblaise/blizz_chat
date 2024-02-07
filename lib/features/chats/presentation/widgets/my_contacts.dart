@@ -1,6 +1,10 @@
 import 'package:blizz_chat/features/chats/application/contacts_controller.dart';
+import 'package:blizz_chat/l10n/generated/l10n.dart';
+import 'package:blizz_chat/locator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+
+final I10n _i10n = locator<I10n>();
 
 class MyContactsWidget extends ConsumerWidget {
   final String keyword;
@@ -17,13 +21,13 @@ class MyContactsWidget extends ConsumerWidget {
     try {
       await contactsController.removeContact(contact);
       Navigator.pop(context);
-      scaffoldMessenger.showSnackBar(const SnackBar(
-        content: Text('Contact successfully deleted'),
+      scaffoldMessenger.showSnackBar(SnackBar(
+        content: Text(_i10n.contactDeleteSuccess),
         elevation: 20.0,
       ));
     } catch (e) {
-      scaffoldMessenger.showSnackBar(const SnackBar(
-        content: Text('Failed to delete contact'),
+      scaffoldMessenger.showSnackBar(SnackBar(
+        content: Text(_i10n.contactDeleteFail),
         elevation: 20.0,
       ));
     }
@@ -54,12 +58,12 @@ class MyContactsWidget extends ConsumerWidget {
                                     ListTile(
                                       onTap: () => _removeContact(context, ref, contact),
                                       leading: const Icon(Icons.delete),
-                                      title: const Text('Delete'),
+                                      title: Text(_i10n.delete),
                                     ),
                                     ListTile(
                                       onTap: () {},
                                       leading: const Icon(Icons.block),
-                                      title: const Text('Block'),
+                                      title: Text(_i10n.block),
                                     ),
                                   ],
                                 )),
@@ -73,10 +77,10 @@ class MyContactsWidget extends ConsumerWidget {
                 )
                 .toList());
       } else {
-        return const Center(child: Text('No contacts found!'));
+        return Center(child: Text(_i10n.noContactsFound));
       }
     }, error: (e, s) {
-      return const Center(child: Text('Something went wrong'));
+      return Center(child: Text(_i10n.somethingWentWrong));
     }, loading: () {
       return const Center(
         child: CircularProgressIndicator(),

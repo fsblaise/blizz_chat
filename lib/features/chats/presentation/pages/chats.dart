@@ -3,11 +3,16 @@ import 'package:blizz_chat/features/chats/presentation/widgets/add_contacts.dart
 import 'package:blizz_chat/features/chats/presentation/widgets/my_chats.dart';
 import 'package:blizz_chat/features/chats/presentation/widgets/new_message.dart';
 import 'package:blizz_chat/features/chats/presentation/widgets/search_bar.dart';
+import 'package:blizz_chat/features/core/application/language_controller.dart';
+import 'package:blizz_chat/l10n/generated/l10n.dart';
+import 'package:blizz_chat/locator.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 enum Segments { chats, contacts, add }
+
+final I10n _i10n = locator<I10n>();
 
 class ChatsPage extends ConsumerStatefulWidget {
   const ChatsPage({super.key});
@@ -39,6 +44,7 @@ class _ChatsPageState extends ConsumerState<ChatsPage> {
 
   @override
   Widget build(BuildContext context) {
+    ref.watch(languageControllerProvider);
     return Scaffold(
       floatingActionButton: selected == Segments.chats
           ? FloatingActionButton(
@@ -58,10 +64,10 @@ class _ChatsPageState extends ConsumerState<ChatsPage> {
               height: 15,
             ),
             SegmentedButton(
-                segments: const [
-                  ButtonSegment(value: Segments.chats, label: Text('Chats')),
-                  ButtonSegment(value: Segments.contacts, label: Text('Contacts')),
-                  ButtonSegment(value: Segments.add, label: Text('Add'))
+                segments: [
+                  ButtonSegment(value: Segments.chats, label: Text(_i10n.chats)),
+                  ButtonSegment(value: Segments.contacts, label: Text(_i10n.contacts)),
+                  ButtonSegment(value: Segments.add, label: Text(_i10n.add))
                 ],
                 selected: {
                   selected

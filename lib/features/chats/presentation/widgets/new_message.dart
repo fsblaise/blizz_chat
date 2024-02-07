@@ -2,8 +2,12 @@ import 'package:blizz_chat/features/chats/application/chats_controller.dart';
 import 'package:blizz_chat/features/chats/application/contacts_controller.dart';
 import 'package:blizz_chat/features/chats/presentation/widgets/search_bar.dart';
 import 'package:blizz_chat/features/core/domain/user_model.dart';
+import 'package:blizz_chat/l10n/generated/l10n.dart';
+import 'package:blizz_chat/locator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+
+final I10n _i10n = locator<I10n>();
 
 class NewMessagePage extends ConsumerStatefulWidget {
   const NewMessagePage({super.key});
@@ -35,12 +39,12 @@ class _NewMessagePageState extends ConsumerState<NewMessagePage> {
       final users = await contactsController.getUsers(contact['fullName']);
       // First we have to fetch the contact from firebase or riverpod then call the next method
       await chatsController.addChat(users[0] as FbUser);
-      scaffoldMessenger.showSnackBar(const SnackBar(
-        content: Text('Chat successfully added'),
+      scaffoldMessenger.showSnackBar(SnackBar(
+        content: Text(_i10n.chatAddSuccess),
         behavior: SnackBarBehavior.floating,
       ));
     } catch (e) {
-      scaffoldMessenger.showSnackBar(const SnackBar(content: Text('Failed to sign in')));
+      scaffoldMessenger.showSnackBar(SnackBar(content: Text(_i10n.chatAddFail)));
     }
   }
 
@@ -55,7 +59,7 @@ class _NewMessagePageState extends ConsumerState<NewMessagePage> {
     final contacts = ref.watch(contactsControllerProvider);
     return Scaffold(
         appBar: AppBar(
-          title: const Text('New Message'),
+          title: Text(_i10n.newMessage),
           automaticallyImplyLeading: true,
         ),
         body: Column(
@@ -83,10 +87,10 @@ class _NewMessagePageState extends ConsumerState<NewMessagePage> {
                         )
                         .toList());
               } else {
-                return const Center(child: Text('No contacts found!'));
+                return Center(child: Text(_i10n.noContactsFound));
               }
             }, error: (e, s) {
-              return const Center(child: Text('Something went wrong'));
+              return Center(child: Text(_i10n.somethingWentWrong));
             }, loading: () {
               return const Center(
                 child: CircularProgressIndicator(),

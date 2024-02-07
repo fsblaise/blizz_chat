@@ -1,8 +1,12 @@
 import 'package:blizz_chat/features/messaging/presentation/pages/messaging.dart';
 import 'package:blizz_chat/features/chats/application/chats_controller.dart';
+import 'package:blizz_chat/l10n/generated/l10n.dart';
+import 'package:blizz_chat/locator.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+
+final I10n _i10n = locator<I10n>();
 
 class MyChatsWidget extends ConsumerWidget {
   final String keyword;
@@ -19,13 +23,13 @@ class MyChatsWidget extends ConsumerWidget {
     try {
       await chatsController.removeChat(chat);
       Navigator.pop(context);
-      scaffoldMessenger.showSnackBar(const SnackBar(
-        content: Text('Chat successfully deleted'),
+      scaffoldMessenger.showSnackBar(SnackBar(
+        content: Text(_i10n.chatDeleteSuccess),
         elevation: 20.0,
       ));
     } catch (e) {
-      scaffoldMessenger.showSnackBar(const SnackBar(
-        content: Text('Failed to delete chat'),
+      scaffoldMessenger.showSnackBar(SnackBar(
+        content: Text(_i10n.chatDeleteFail),
         elevation: 20.0,
       ));
     }
@@ -66,22 +70,22 @@ class MyChatsWidget extends ConsumerWidget {
                                     ListTile(
                                       onTap: () {},
                                       leading: const Icon(Icons.mail),
-                                      title: const Text('Mark as read'),
+                                      title: Text(_i10n.markAsRead),
                                     ),
                                     ListTile(
                                       onTap: () => _removeContact(context, ref, chat),
                                       leading: const Icon(Icons.delete),
-                                      title: const Text('Delete'),
+                                      title: Text(_i10n.delete),
                                     ),
                                     ListTile(
                                       onTap: () {},
                                       leading: const Icon(Icons.archive),
-                                      title: const Text('Archive'),
+                                      title: Text(_i10n.archive),
                                     ),
                                     ListTile(
                                       onTap: () {},
                                       leading: const Icon(Icons.notifications_off),
-                                      title: const Text('Mute'),
+                                      title: Text(_i10n.mute),
                                     ),
                                   ],
                                 )),
@@ -95,10 +99,10 @@ class MyChatsWidget extends ConsumerWidget {
                 )
                 .toList());
       } else {
-        return const Center(child: Text('No chats found!'));
+        return Center(child: Text(_i10n.noChatsFound));
       }
     }, error: (e, s) {
-      return const Center(child: Text('Something went wrong'));
+      return Center(child: Text(_i10n.somethingWentWrong));
     }, loading: () {
       return const Center(
         child: CircularProgressIndicator(),

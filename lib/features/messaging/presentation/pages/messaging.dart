@@ -2,8 +2,12 @@ import 'package:blizz_chat/features/auth/infrastructure/auth_provider.dart';
 import 'package:blizz_chat/features/messaging/application/messaging_controller.dart';
 import 'package:blizz_chat/features/messaging/presentation/widgets/bottom_messaging_bar.dart';
 import 'package:blizz_chat/features/messaging/presentation/widgets/message_bubble.dart';
+import 'package:blizz_chat/l10n/generated/l10n.dart';
+import 'package:blizz_chat/locator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+
+final I10n _i10n = locator<I10n>();
 
 class MessagingPage extends ConsumerStatefulWidget {
   final Map<String, dynamic> chat;
@@ -68,7 +72,7 @@ class _MessagingPageState extends ConsumerState<MessagingPage> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             switch (messages) {
-              AsyncValue(:final error?) => const Text('Something went wrong!'),
+              AsyncValue(:final error?) => Text(_i10n.somethingWentWrong),
               AsyncValue(:final valueOrNull?) => Flexible(
                   child: ListView(
                     shrinkWrap: true,

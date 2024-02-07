@@ -1,8 +1,12 @@
 import 'package:blizz_chat/features/chats/application/chats_controller.dart';
 import 'package:blizz_chat/features/chats/application/contacts_controller.dart';
 import 'package:blizz_chat/features/core/domain/user_model.dart';
+import 'package:blizz_chat/l10n/generated/l10n.dart';
+import 'package:blizz_chat/locator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+
+final I10n _i10n = locator<I10n>();
 
 class AddChatsWidget extends ConsumerWidget {
   final String keyword;
@@ -15,12 +19,12 @@ class AddChatsWidget extends ConsumerWidget {
     try {
       await contactsController.addContact(contact);
       await chatsController.addChat(contact);
-      scaffoldMessenger.showSnackBar(const SnackBar(
-        content: Text('User successfully added'),
+      scaffoldMessenger.showSnackBar(SnackBar(
+        content: Text(_i10n.userAddSuccess),
         behavior: SnackBarBehavior.floating,
       ));
     } catch (e) {
-      scaffoldMessenger.showSnackBar(const SnackBar(content: Text('Failed to sign in')));
+      scaffoldMessenger.showSnackBar(SnackBar(content: Text(_i10n.userAddFail)));
     }
   }
 
@@ -34,7 +38,7 @@ class AddChatsWidget extends ConsumerWidget {
     }
     return Column(
       children: [
-        const Text('Use the search field to find new contacts'),
+        Text(_i10n.addContactsGuide),
         if (keyword.isNotEmpty)
           FutureBuilder(
               future: users,
@@ -51,7 +55,7 @@ class AddChatsWidget extends ConsumerWidget {
                                 ))
                             .toList());
                   } else {
-                    return const Text('No users found!');
+                    return Text(_i10n.noUsersFound);
                   }
                 } else {
                   return const Center(

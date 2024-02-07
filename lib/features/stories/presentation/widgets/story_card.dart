@@ -2,9 +2,13 @@ import 'package:blizz_chat/features/auth/infrastructure/auth_provider.dart';
 import 'package:blizz_chat/features/stories/application/stories_controller.dart';
 import 'package:blizz_chat/features/stories/domain/story_model.dart';
 import 'package:blizz_chat/features/stories/presentation/pages/story_viewer.dart';
+import 'package:blizz_chat/l10n/generated/l10n.dart';
+import 'package:blizz_chat/locator.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+
+final I10n _i10n = locator<I10n>();
 
 class StoryCard extends ConsumerWidget {
   const StoryCard({required this.data, super.key});
@@ -16,13 +20,13 @@ class StoryCard extends ConsumerWidget {
     try {
       await storiesController.removeStory(story);
       Navigator.pop(context);
-      scaffoldMessenger.showSnackBar(const SnackBar(
-        content: Text('Story successfully deleted'),
+      scaffoldMessenger.showSnackBar(SnackBar(
+        content: Text(_i10n.storyDeleteSuccess),
         elevation: 20.0,
       ));
     } catch (e) {
-      scaffoldMessenger.showSnackBar(const SnackBar(
-        content: Text('Failed to delete story'),
+      scaffoldMessenger.showSnackBar(SnackBar(
+        content: Text(_i10n.storyDeleteFail),
         elevation: 20.0,
       ));
     }
@@ -49,7 +53,7 @@ class StoryCard extends ConsumerWidget {
                           ListTile(
                             onTap: () => _removeStory(context, ref, data),
                             leading: const Icon(Icons.delete),
-                            title: const Text('Delete'),
+                            title: Text(_i10n.delete),
                           ),
                         ],
                       )),

@@ -1,8 +1,12 @@
 import 'dart:io';
 
 import 'package:blizz_chat/features/stories/application/stories_controller.dart';
+import 'package:blizz_chat/l10n/generated/l10n.dart';
+import 'package:blizz_chat/locator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+
+final I10n _i10n = locator<I10n>();
 
 class DisplayPicturePage extends ConsumerStatefulWidget {
   const DisplayPicturePage({required this.imgPath, super.key});
@@ -40,7 +44,7 @@ class _DisplayPicturePageState extends ConsumerState<DisplayPicturePage> {
         appBar: AppBar(
           backgroundColor: Colors.black,
           foregroundColor: Colors.white,
-          title: const Text('Confirmation'),
+          title: Text(_i10n.confirmation),
         ),
         body: Container(
           color: Colors.black,
@@ -66,10 +70,10 @@ class _DisplayPicturePageState extends ConsumerState<DisplayPicturePage> {
                         },
                         controller: captionController,
                         style: const TextStyle(color: Colors.white),
-                        decoration: const InputDecoration(
-                            hintText: 'Message something',
-                            border: UnderlineInputBorder(),
-                            hintStyle: TextStyle(color: Colors.white)),
+                        decoration: InputDecoration(
+                            hintText: _i10n.messageSomething,
+                            border: const UnderlineInputBorder(),
+                            hintStyle: const TextStyle(color: Colors.white)),
                       ),
                     ),
                   ),

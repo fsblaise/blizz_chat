@@ -7,7 +7,7 @@ import 'package:blizz_chat/features/stories/domain/story_model.dart';
 abstract class BaseStoryRepository extends CollectionsRepository {
   BaseStoryRepository(super.fStore);
 
-  Future<List<Story>> getStories();
+  Future<List<Story>> getStories(FbUser user);
   Future<Story> addStory(String caption, File file, FbUser user);
   Future<void> removeStory(Story story);
 }

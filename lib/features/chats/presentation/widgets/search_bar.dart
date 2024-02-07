@@ -1,4 +1,8 @@
+import 'package:blizz_chat/l10n/generated/l10n.dart';
+import 'package:blizz_chat/locator.dart';
 import 'package:flutter/material.dart';
+
+final I10n _i10n = locator<I10n>();
 
 class SearchBarWidget extends StatefulWidget {
   const SearchBarWidget({required this.searchController, required this.fn, super.key});
@@ -23,7 +27,7 @@ class _SearchBarWidgetState extends State<SearchBarWidget> {
           controller: widget.searchController,
           onSubmitted: (value) => widget.fn(value),
           decoration:
-              const InputDecoration(hintText: 'Search', border: InputBorder.none, prefixIcon: Icon(Icons.search)),
+              InputDecoration(hintText: _i10n.search, border: InputBorder.none, prefixIcon: const Icon(Icons.search)),
         ),
       ),
     );

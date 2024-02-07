@@ -1,4 +1,8 @@
+import 'package:blizz_chat/l10n/generated/l10n.dart';
+import 'package:blizz_chat/locator.dart';
 import 'package:flutter/material.dart';
+
+final I10n _i10n = locator<I10n>();
 
 class Navigation extends StatelessWidget {
   final int selectedIndex;
@@ -9,12 +13,17 @@ class Navigation extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return NavigationBar(
-      destinations: const [
+      destinations: [
         NavigationDestination(
-            icon: Icon(Icons.chat_bubble_outline_outlined), selectedIcon: Icon(Icons.chat_bubble), label: 'Chats'),
+            icon: const Icon(Icons.chat_bubble_outline_outlined),
+            selectedIcon: const Icon(Icons.chat_bubble),
+            label: _i10n.chats),
         NavigationDestination(
-            icon: Icon(Icons.web_stories_outlined), selectedIcon: Icon(Icons.web_stories), label: 'Stories'),
-        NavigationDestination(icon: Icon(Icons.explore_outlined), selectedIcon: Icon(Icons.explore), label: 'Map'),
+            icon: const Icon(Icons.web_stories_outlined),
+            selectedIcon: const Icon(Icons.web_stories),
+            label: _i10n.stories),
+        NavigationDestination(
+            icon: const Icon(Icons.explore_outlined), selectedIcon: const Icon(Icons.explore), label: _i10n.map),
       ],
       selectedIndex: selectedIndex,
       onDestinationSelected: onChanged,

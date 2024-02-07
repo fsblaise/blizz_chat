@@ -48,11 +48,17 @@ class StoryRepository extends BaseStoryRepository {
   }
 
   @override
-  Future<List<Story>> getStories() async {
+  Future<List<Story>> getStories(FbUser user) async {
     try {
       print('fetching stories');
       List<Story> stories = [];
-      QuerySnapshot storySnapshot = await storyCollection.orderBy('timestamp', descending: true).limit(10).get();
+      List<String> fetchIds = [user.id, ...user.contacts.map((e) => e['id'] as String).toList()];
+      print(fetchIds);
+      QuerySnapshot storySnapshot = await storyCollection
+          .where('userId', whereIn: fetchIds)
+          .orderBy('timestamp', descending: true)
+          .limit(10)
+          .get();
       final storyList = storySnapshot.docs;
       for (var story in storyList) {
         final storyMap = story.data() as Map<String, dynamic>;

@@ -3,9 +3,13 @@ import 'package:blizz_chat/features/auth/domain/sign_up_form.dart';
 import 'package:blizz_chat/features/auth/presentation/widgets/auth_text_field.dart';
 import 'package:blizz_chat/features/auth/presentation/widgets/button_expanded.dart';
 import 'package:blizz_chat/features/core/presentation/pages/home.dart';
+import 'package:blizz_chat/l10n/generated/l10n.dart';
+import 'package:blizz_chat/locator.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+
+final I10n _i10n = locator<I10n>();
 
 class SignUp extends ConsumerStatefulWidget {
   final void Function() switchPressed;
@@ -38,7 +42,7 @@ class _SignUpState extends ConsumerState<SignUp> {
       Navigator.pushAndRemoveUntil(
           context, CupertinoPageRoute(builder: (context) => const HomePage()), (route) => false);
     } catch (e) {
-      scaffoldMessenger.showSnackBar(const SnackBar(content: Text('Failed to sign up')));
+      scaffoldMessenger.showSnackBar(SnackBar(content: Text(_i10n.failedToSignUp)));
     }
   }
 
@@ -110,16 +114,16 @@ class AuthStep extends ConsumerWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
-          const Text(
-            'Welcome newcomer!',
-            style: TextStyle(fontSize: 46, fontWeight: FontWeight.bold),
+          Text(
+            _i10n.welcomeNew,
+            style: const TextStyle(fontSize: 46, fontWeight: FontWeight.bold),
             textAlign: TextAlign.center,
           ),
           Column(
             children: [
-              const Text(
-                'Please register an account',
-                style: TextStyle(fontSize: 18),
+              Text(
+                _i10n.pleaseRegister,
+                style: const TextStyle(fontSize: 18),
               ),
               AuthTextField(
                   obscure: false,
@@ -127,31 +131,31 @@ class AuthStep extends ConsumerWidget {
                   onChanged: ref.read(signUpControllerProvider.notifier).updateEmail,
                   errorText: signUpForm.emailErrorText,
                   icon: const Icon(Icons.email),
-                  hint: 'Email address'),
+                  hint: _i10n.emailAddress),
               AuthTextField(
                   obscure: true,
                   initialValue: signUpForm.password,
                   onChanged: ref.read(signUpControllerProvider.notifier).updatePassword,
                   errorText: signUpForm.passwordErrorText,
                   icon: const Icon(Icons.lock),
-                  hint: 'Password'),
+                  hint: _i10n.password),
               AuthTextField(
                   obscure: true,
                   initialValue: signUpForm.confirmPassword,
                   onChanged: ref.read(signUpControllerProvider.notifier).updateConfirmPassword,
                   errorText: signUpForm.confirmPasswordErrorText,
                   icon: const Icon(Icons.lock),
-                  hint: 'Confirm password'),
+                  hint: _i10n.confirmPassword),
               ExpandedButton(
                 onTap: signUpForm.isAuthStepValid ? continueTap : null,
-                text: 'Continue',
+                text: _i10n.continueBtn,
               ),
               const SizedBox(width: 334, child: Divider(thickness: 1)),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  const Text('Already a member?'),
-                  TextButton(onPressed: switchPressed, child: const Text('Login now'))
+                  Text(_i10n.alreadyMember),
+                  TextButton(onPressed: switchPressed, child: Text(_i10n.loginNow))
                 ],
               )
             ],
@@ -174,9 +178,9 @@ class PersonalStep extends ConsumerWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
-          const Text(
-            "Before using the app:\nWhat's your name?",
-            style: TextStyle(fontSize: 32, fontWeight: FontWeight.bold),
+          Text(
+            _i10n.personalStep1,
+            style: const TextStyle(fontSize: 32, fontWeight: FontWeight.bold),
             textAlign: TextAlign.center,
           ),
           Column(
@@ -187,8 +191,8 @@ class PersonalStep extends ConsumerWidget {
                   onChanged: ref.read(signUpControllerProvider.notifier).updateName,
                   errorText: signUpForm.nameErrorText,
                   icon: const Icon(Icons.person),
-                  hint: 'Full Name'),
-              ExpandedButton(onTap: signUpForm.isValid ? submitTap : null, text: 'Sign Up')
+                  hint: _i10n.fullName),
+              ExpandedButton(onTap: signUpForm.isValid ? submitTap : null, text: _i10n.signUp)
             ],
           )
         ],

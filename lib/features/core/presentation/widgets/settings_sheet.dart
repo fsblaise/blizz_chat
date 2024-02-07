@@ -1,9 +1,13 @@
 import 'package:blizz_chat/features/auth/infrastructure/auth_repository.dart';
 import 'package:blizz_chat/features/core/presentation/pages/welcome.dart';
+import 'package:blizz_chat/features/core/presentation/widgets/language_selector.dart';
 import 'package:blizz_chat/features/core/presentation/widgets/profile.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+import 'package:blizz_chat/l10n/generated/l10n.dart';
+import 'package:blizz_chat/locator.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+
+final I10n _i10n = locator<I10n>();
 
 class SettingsSheet extends StatelessWidget {
   const SettingsSheet({
@@ -59,33 +63,27 @@ class SettingsSheet extends StatelessWidget {
                                 Navigator.pushAndRemoveUntil(context,
                                     CupertinoPageRoute(builder: (context) => const WelcomePage()), (route) => false);
                               },
-                              child: const Padding(
-                                padding: EdgeInsets.only(left: 8),
+                              child: Padding(
+                                padding: const EdgeInsets.only(left: 8),
                                 child: Row(
                                   children: [
                                     // TODO: add more buttons later, and also a user segment/options page could come here
-                                    Icon(Icons.logout),
-                                    SizedBox(
+                                    const Icon(Icons.logout),
+                                    const SizedBox(
                                       width: 15,
                                     ),
                                     Text(
-                                      'Logout',
-                                      style: TextStyle(fontSize: 18),
+                                      _i10n.logout,
+                                      style: const TextStyle(fontSize: 18),
                                     ),
                                   ],
                                 ),
                               ),
                             ),
-                            ListTile(
-                              leading: const Icon(Icons.share),
-                              title: const Text('Share'),
-                              onTap: () async {
-                                User? user = auth.getLoggedInUser();
-                                // await auth.getUserById(user.uid);
-                              },
-                            ),
                             const Divider(),
-                            ProfileWidget()
+                            const LanguageSelectorWidget(),
+                            const Divider(),
+                            const ProfileWidget()
                           ],
                         ),
                       ),
