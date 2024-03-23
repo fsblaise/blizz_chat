@@ -1,3 +1,12 @@
 /* You can add global styles to this file, and also import other style files */
-@import './assets/theme/light.css';
-@import './assets/theme/dark.css';
+@import "./assets/theme/light.css";
+@import "./assets/theme/dark.css";
+html,
+body {
+  height: 100%;
+}
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+  background-color: var(--md-sys-color-background);
+}
