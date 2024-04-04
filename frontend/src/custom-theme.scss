@@ -59,7 +59,7 @@
 }
 
 // Disable legacy API compatibility, since dev-app is fully migrated to theme inspection API.
-mat.$theme-legacy-inspection-api-compatibility: false;
+// mat.$theme-legacy-inspection-api-compatibility: false;
 
 $primary-palette: _apply-patches((0: rgba(0, 0, 0, 1),
       10: rgba(34, 0, 93, 1),

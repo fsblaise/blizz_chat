@@ -1,0 +1,22 @@
+/* You can add global styles to this file, and also import other style files */
+@import "./assets/theme/light.css";
+@import "./assets/theme/dark.css";
+html, body {
+  height: 100%;
+}
+body {
+  display: flex;
+  height: 100%;
+  width: 100%;
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+  background-color: rgb(255, 251, 255);
+  --mat-toolbar-container-background-color: var(--md-sys-color-surface);
+}
+
+app-root {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
