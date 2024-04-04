@@ -10,3 +10,18 @@ mat-toolbar {
     letter-spacing: 1px;
     color: var(--md-sys-color-primary);
 }
+
+#nav-buttons {
+    display: flex;
+    gap: 32px;
+}
+
+#nav-buttons button {
+    font-size: 20px;
+}
+
+#nav-buttons .active {
+    color: var(--md-sys-color-primary);
+    font-weight: bold;
+}
+

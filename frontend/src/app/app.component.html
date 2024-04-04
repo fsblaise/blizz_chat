@@ -1,12 +1,17 @@
-@if (router.url != '/welcome' && router.url != '/login' && router.url != '/register') {
+@if (router.url != '/welcome') {
     <mat-toolbar color="accent">
         <span id="title">Blizz Chat</span>
-        <div id="nav-buttons">
-            <button mat-flat-button color="warn">Chats</button>
-            <button mat-flat-button color="warn">Stories</button>
-            <button mat-flat-button color="warn">Map</button>
-            <button mat-flat-button color="warn">Profile</button>
-        </div>
+        @if (router.url != '/login' && router.url != '/register') {
+            <div id="nav-buttons">
+                <button mat-button routerLink="/chats" [class.active]="router.url.includes('/chats')">Chats</button>
+                <button mat-button routerLink="/stories" [class.active]="router.url.includes('/stories')">Stories</button>
+                <button mat-button routerLink="/map" [class.active]="router.url.includes('/map')">Map</button>
+                <button mat-button routerLink="/profile" [class.active]="router.url.includes('/profile')">Profile</button>
+                <button mat-button routerLink="/welcome">Logout</button>
+            </div>
+        }
     </mat-toolbar>
 }
-<router-outlet></router-outlet>
+<div id="page-wrapper" class="fullscreen">
+    <router-outlet></router-outlet>
+</div>

@@ -130,12 +130,85 @@ $primary-palette: _apply-patches((0: rgba(0, 0, 0, 1),
       ),
     ));
 
+$primary-palette: _apply-patches((0: rgba(0, 0, 0, 1),
+      10: rgba(34, 0, 93, 1),
+      20: rgba(56, 30, 114, 1),
+      25: rgba(67, 43, 126, 1),
+      30: rgba(79, 55, 138, 1),
+      35: rgba(91, 67, 151, 1),
+      40: rgba(103, 80, 164, 1),
+      50: rgba(128, 105, 191, 1),
+      60: rgba(154, 131, 219, 1),
+      70: rgba(182, 157, 247, 1),
+      80: rgba(207, 188, 255, 1),
+      90: rgba(233, 221, 255, 1),
+      95: rgba(246, 238, 255, 1),
+      98: rgba(253, 247, 255, 1),
+      99: rgba(255, 251, 255, 1),
+      100: rgba(255, 255, 255, 1),
+      secondary: (0: rgba(0, 0, 0, 1),
+        10: rgba(30, 25, 43, 1),
+        20: rgba(51, 45, 65, 1),
+        25: rgba(62, 56, 77, 1),
+        30: rgba(74, 68, 89, 1),
+        35: rgba(86, 79, 101, 1),
+        40: rgba(98, 91, 113, 1),
+        50: rgba(123, 115, 139, 1),
+        60: rgba(149, 141, 165, 1),
+        70: rgba(176, 167, 192, 1),
+        80: rgba(204, 194, 220, 1),
+        90: rgba(232, 222, 249, 1),
+        95: rgba(246, 238, 255, 1),
+        98: rgba(253, 247, 255, 1),
+        99: rgba(255, 251, 255, 1),
+        100: rgba(255, 255, 255, 1),
+      ),
+      neutral: (0: rgba(0, 0, 0, 1),
+        10: rgba(28, 27, 28, 1),
+        20: rgba(49, 48, 48, 1),
+        25: rgba(60, 59, 59, 1),
+        30: rgba(72, 70, 70, 1),
+        35: rgba(84, 82, 82, 1),
+        40: rgba(96, 94, 94, 1),
+        50: rgba(121, 118, 118, 1),
+        60: rgba(147, 144, 144, 1),
+        70: rgba(173, 170, 170, 1),
+        80: rgba(201, 198, 197, 1),
+        90: rgba(229, 225, 225, 1),
+        95: rgba(244, 240, 239, 1),
+        98: rgba(253, 248, 248, 1),
+        99: rgba(255, 251, 255, 1),
+        100: rgba(255, 255, 255, 1),
+      ),
+      neutral-variant: (0: rgba(0, 0, 0, 1),
+        10: rgba(28, 27, 28, 1),
+        20: rgba(49, 48, 49, 1),
+        25: rgba(60, 59, 60, 1),
+        30: rgba(72, 70, 71, 1),
+        35: rgba(84, 82, 83, 1),
+        40: rgba(96, 94, 95, 1),
+        50: rgba(121, 118, 119, 1),
+        60: rgba(147, 144, 145, 1),
+        70: rgba(174, 170, 171, 1),
+        80: rgba(201, 197, 198, 1),
+        90: rgba(230, 225, 226, 1),
+        95: rgba(244, 240, 240, 1),
+        98: rgba(253, 248, 249, 1),
+        99: rgba(255, 251, 255, 1),
+        100: rgba(255, 255, 255, 1),
+      ),
+    ));
+
 // Create a theme with the specified color type and density.
 @function create-theme($type: light, $density: 0) {
-  @return matx.define-theme((color: (theme-type: $type,
+  @return matx.define-theme((
+      color: (
+        theme-type: $type,
         primary: $primary-palette,
       ),
-      density: (scale: $density ),
+      density: (
+        scale: $density
+      ),
     ));
 }
 
@@ -153,6 +226,7 @@ $dark-theme: create-theme($type: dark);
 // Include the default theme styles.
 html {
   @include mat.all-component-themes($light-theme);
+  // @include matx.color-variants-back-compat($light-theme);
   // TODO(mmalerba): Support M3 for experimental components.
   // @include matx.column-resize-theme($light-theme);
   // @include matx.popover-edit-theme($light-theme);
@@ -217,3 +291,12 @@ $density-scales: (
 .demo-config-buttons button {
   margin: 4px;
 }
+
+// .secondary {
+
+// }
+
+// .tertiary {
+//   @include mat.button-color($light-theme, $color-variant: secondary);
+//   @include mat.checkbox-color($light-theme, $color-variant: secondary);
+// }
