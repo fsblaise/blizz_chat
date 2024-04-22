@@ -1,0 +1,42 @@
+:host {
+    justify-content: center;
+    align-items: center;
+    gap: 96px;
+}
+
+h1 {
+    margin: 0;
+}
+
+mat-card {
+    width: 512px;
+    border-radius: 24px;
+}
+
+mat-card-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 96px 64px !important;
+    gap: 16px;
+
+    & >:not(h3) {
+        width: 100%;
+    }
+}
+
+form {
+    border-bottom: solid 1px var(--md-sys-color-outline);
+    gap: 16px;
+    padding-bottom: 16px;
+}
+
+form >:not(h3) {
+    width: 100%;
+    border-radius: 12px;
+}
+
+#switcher {
+    gap: 8px;
+}

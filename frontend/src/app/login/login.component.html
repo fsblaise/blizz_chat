@@ -1,1 +1,27 @@
-<p>login works!</p>
+<h1>Welcome back!</h1>
+<mat-card appearance="outlined">
+    <mat-card-content class="col center">
+        <form class="col center">
+            <h3>Please log in to your account</h3>
+            <mat-form-field appearance="outline">
+                <mat-label>
+                    <mat-icon>email</mat-icon>
+                    Email address
+                </mat-label>
+                <input matInput type="text">
+            </mat-form-field>
+            <mat-form-field appearance="outline">
+                <mat-label>
+                    <mat-icon>lock</mat-icon>
+                    Password
+                </mat-label>
+                <input matInput type="password">
+            </mat-form-field>
+            <button mat-flat-button type="submit">Sign In</button>
+        </form>
+        <div id="switcher" class="row center">
+            <span>Not a member yet?</span>
+            <button mat-button>Register now</button>
+        </div>
+    </mat-card-content>
+</mat-card>

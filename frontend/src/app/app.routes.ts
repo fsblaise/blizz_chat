@@ -9,7 +9,7 @@ import { ProfileComponent } from './profile/profile.component';
 
 export const routes: Routes = [
     { path: 'welcome', component: WelcomeComponent },
-    { path: 'register', component: RegisterComponent },
+    { path: 'signup', component: RegisterComponent },
     { path: 'login', component: LoginComponent },
     { path: 'chats', component: ChatsComponent },
     { path: 'stories', component: StoriesComponent },

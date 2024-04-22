@@ -226,6 +226,10 @@ app-root {
   align-items: center;
 }
 
+.evenly {
+  justify-content: space-evenly;
+}
+
 .fullscreen {
   width: 100%;
   height: 100%;
@@ -234,4 +238,6 @@ app-root {
 #page-wrapper > *:not(router-outlet) {
   width: 100%;
   height: 100%;
+  display: flex;
+  flex-direction: column;
 }

@@ -300,3 +300,7 @@ $density-scales: (
 //   @include mat.button-color($light-theme, $color-variant: secondary);
 //   @include mat.checkbox-color($light-theme, $color-variant: secondary);
 // }
+
+.mdc-text-field--outlined {
+  --mdc-outlined-text-field-container-shape: 12px !important;
+}
