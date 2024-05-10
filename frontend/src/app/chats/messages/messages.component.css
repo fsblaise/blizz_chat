@@ -1,0 +1,16 @@
+:host {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 100%;
+}
+
+mat-toolbar {
+    border-bottom: solid 1px var(--md-sys-color-outline);
+}
+
+.icon {
+    border-radius: 100%;
+    background-color: var(--md-sys-color-primary-container);
+    padding: 8px;
+}

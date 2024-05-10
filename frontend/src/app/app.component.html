@@ -1,7 +1,7 @@
 @if (router.url != '/welcome') {
-    <mat-toolbar color="accent">
-        <span id="title">Blizz Chat</span>
-        @if (router.url != '/login' && router.url != '/register') {
+    <mat-toolbar class="!h-[60px]">
+        <span id="title" routerLink="/welcome">Blizz Chat</span>
+        @if (router.url != '/login' && router.url != '/signup') {
             <div id="nav-buttons">
                 <button mat-button routerLink="/chats" [class.active]="router.url.includes('/chats')">Chats</button>
                 <button mat-button routerLink="/stories" [class.active]="router.url.includes('/stories')">Stories</button>

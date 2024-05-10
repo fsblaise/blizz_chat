@@ -304,3 +304,18 @@ $density-scales: (
 .mdc-text-field--outlined {
   --mdc-outlined-text-field-container-shape: 12px !important;
 }
+
+#search .mdc-text-field--outlined {
+  --mdc-outlined-text-field-container-shape: 32px !important;
+}
+
+.mat-button-toggle-group {
+  --mat-standard-button-toggle-height: 38px;
+}
+
+.mat-drawer-inner-container {
+  display: flex !important;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+}

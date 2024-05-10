@@ -1,11 +1,16 @@
 :host {
-    justify-content: center;
+    flex-direction: row !important;
+    justify-content: space-between;
     align-items: center;
-    gap: 96px;
 }
 
 h1 {
     margin: 0;
+    font-size: 57px;
+}
+
+h3 {
+    font-size: 24px;
 }
 
 mat-card {
@@ -18,7 +23,7 @@ mat-card-content {
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    padding: 96px 64px !important;
+    padding: 64px !important;
     gap: 16px;
 
     & >:not(h3) {
