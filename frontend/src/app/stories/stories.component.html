@@ -1,1 +1,13 @@
-<p>stories works!</p>
+<div id="wrapper">
+    @for (story of stories; track $index) {
+        <mat-card class="w-64 h-64 card !rounded-3xl cursor-pointer hover:opacity-80" appearance="outlined">
+            <mat-card-content class="h-full border-b-[1px] rounded-3xl border-b-[var(--md-sys-color-outline-variant)] !flex center">
+                <mat-icon class="!w-36 !h-36 text-[144px] !text-[var(--md-sys-color-primary)]">image</mat-icon>
+            </mat-card-content>
+            <mat-card-header class="h-14 !p-2 gap-4 items-center">
+                <mat-icon class="icon !flex !justify-center !items-center !w-8 !h-8">person_outline</mat-icon>
+                <span>{{story}}</span>
+            </mat-card-header>
+        </mat-card>
+    }
+</div>
