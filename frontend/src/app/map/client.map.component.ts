@@ -1,40 +1,36 @@
-import { Component, OnInit } from '@angular/core';
-import { MapService } from '../../shared/services/map.service';
-import { MatProgressSpinner } from '@angular/material/progress-spinner';
+import { Component } from '@angular/core';
+import { NgLeafletUniversalModule } from 'ng-leaflet-universal';
 
 @Component({
-  selector: 'app-map',
+  selector: 'app-client-map',
   standalone: true,
-  imports: [MatProgressSpinner],
-  templateUrl: './map.component.html',
+  imports: [NgLeafletUniversalModule],
+  templateUrl: './client.map.component.html',
   styleUrl: './map.component.css'
 })
-export class MapComponent implements OnInit {
+export class ClientMapComponent {
   map: any = null;
-  loading = true;
-
-  constructor(private mapService: MapService) {
-
+  L: any = null;
+  
+  constructor() {
   }
 
   ngOnInit(): void {
-    this.mapService.loadLeaflet().then(_ => {
-      this.loading = false;
-      this.setupMap();
-    });
+
   }
 
   async setupMap(): Promise<void> {
-    if (this.mapService.L) {
-      this.map = this.mapService.L.map('map').setView([0, 0], 13);
+    if (this.L) {
+      this.map = this.L.map('map').setView([0,0], 13);
 
       // Add a tilelayer
-      this.mapService.L.tileLayer(
+      this.L.tileLayer(
         'https://tile.openstreetmap.org/{z}/{x}/{y}.png'
       ).addTo(this.map);
 
       this.getCurrentLocation();
     }
+
   }
 
   getCurrentLocation() {

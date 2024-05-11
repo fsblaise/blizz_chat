@@ -3,6 +3,7 @@ import { MatButton } from '@angular/material/button';
 import { MatCheckbox } from '@angular/material/checkbox';
 import { Component, OnInit } from '@angular/core';
 import { Router, RouterLink, RouterOutlet } from '@angular/router';
+import { MapService } from '../shared/services/map.service';
 
 @Component({
   selector: 'app-root',

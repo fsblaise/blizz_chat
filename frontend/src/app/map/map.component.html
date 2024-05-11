@@ -1,1 +1,5 @@
-<div id="map" class="w-full h-full overflow-hidden flex center"></div>
+<div id="map" class="w-full h-full overflow-hidden flex center">
+    @if (loading) {
+        <mat-spinner></mat-spinner>
+    }
+</div>
