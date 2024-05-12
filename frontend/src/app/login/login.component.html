@@ -4,7 +4,7 @@
 <div class="h-full w-3/5 flex center">
     <mat-card appearance="outlined">
         <mat-card-content class="flex flex-col center">
-            <form class="flex flex-col center" [formGroup]="loginFrom">
+            <form class="flex flex-col center" [formGroup]="loginFrom" (submit)="login()">
                 <h3>Please log in to your account</h3>
                 <mat-form-field appearance="outline">
                     <mat-label>

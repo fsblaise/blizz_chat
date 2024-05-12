@@ -1,0 +1,61 @@
+<h1 class="text-3xl font-medium pb-6">Preferences</h1>
+<div class="flex flex-col center py-6 px-4 gap-12 border-y-2 border-y-[var(--md-sys-color-outline-variant)]">
+    <h1 class="w-full text-xl font-medium">Accessibility</h1>
+    <div class="grid grid-cols-2 gap-x-16 gap-y-6 py-1">
+        <mat-form-field appearance="outline" class="!min-w-[350px] !w-[500px] settings">
+            <mat-label>
+                Font size in chat
+            </mat-label>
+            <input matInput type="number" value="24">
+        </mat-form-field>
+        <mat-form-field appearance="outline" class="!min-w-[350px] !w-[500px] settings">
+            <mat-label>
+                Other form field
+            </mat-label>
+            <input matInput type="number" value="24">
+        </mat-form-field>
+    </div>
+</div>
+<div class="flex flex-col center py-6 px-4 gap-12 border-b-2 border-b-[var(--md-sys-color-outline-variant)]">
+    <h1 class="w-full text-xl font-medium">Colors</h1>
+    <div class="grid grid-cols-2 gap-x-16 gap-y-6 py-1">
+        <div class="!min-w-[350px] !w-[500px] flex justify-between">
+            <span>Dark mode</span>
+            <dark-mode-switch></dark-mode-switch>
+        </div>
+        <div class="!min-w-[350px] !w-[500px] flex justify-between">
+            <span>Synchronize dark mode between devices</span>
+            <mat-slide-toggle labelPosition="before"></mat-slide-toggle>
+        </div>
+        <div class="!min-w-[350px] !w-[500px] flex justify-between">
+            <span>Preferred chat color</span>
+            <div class="w-6 h-6 rounded-full cursor-pointer hover:opacity-80" [ngClass]="preferredChatColor" [matMenuTriggerFor]="menu"></div>
+        </div>
+        <mat-menu #menu="matMenu">
+            <div class="grid grid-cols-4 gap-x-2 gap-y-2 px-2">
+                <div class="w-6 h-6 rounded-full bg-blue-400 cursor-pointer hover:opacity-80" (click)="this.preferredChatColor = 'bg-blue-400'"></div>
+                <div class="w-6 h-6 rounded-full bg-yellow-400 cursor-pointer hover:opacity-80" (click)="this.preferredChatColor = 'bg-yellow-400'"></div>
+                <div class="w-6 h-6 rounded-full bg-purple-500 cursor-pointer hover:opacity-80" (click)="this.preferredChatColor = 'bg-purple-500'"></div>
+                <div class="w-6 h-6 rounded-full bg-teal-500 cursor-pointer hover:opacity-80" (click)="this.preferredChatColor = 'bg-teal-500'"></div>
+                <div class="w-6 h-6 rounded-full bg-orange-400 cursor-pointer hover:opacity-80" (click)="this.preferredChatColor = 'bg-orange-400'"></div>
+                <div class="w-6 h-6 rounded-full bg-pink-300 cursor-pointer hover:opacity-80" (click)="this.preferredChatColor = 'bg-pink-300'"></div>
+                <div class="w-6 h-6 rounded-full bg-sky-400 cursor-pointer hover:opacity-80" (click)="this.preferredChatColor = 'bg-sky-400'"></div>
+                <div class="w-6 h-6 rounded-full bg-fuchsia-400 cursor-pointer hover:opacity-80" (click)="this.preferredChatColor = 'bg-fuchsia-400'"></div>
+                <div class="w-6 h-6 rounded-full bg-[var(--md-sys-color-primary)] cursor-pointer hover:opacity-80" (click)="this.preferredChatColor = 'bg-[var(--md-sys-color-primary)]'"></div>
+                <div class="w-6 h-6 rounded-full bg-[var(--md-sys-color-secondary)] cursor-pointer hover:opacity-80" (click)="this.preferredChatColor = 'bg-[var(--md-sys-color-secondary)]'"></div>
+                <div class="w-6 h-6 rounded-full bg-[var(--md-sys-color-tertiary)] cursor-pointer hover:opacity-80" (click)="this.preferredChatColor = 'bg-[var(--md-sys-color-tertiary)]'"></div>
+                <div class="w-6 h-6 rounded-full bg-[var(--md-sys-color-error)] cursor-pointer hover:opacity-80" (click)="this.preferredChatColor = 'bg-[var(--md-sys-color-error)]'"></div>
+            </div>
+        </mat-menu>
+    </div>
+</div>
+<div class="flex center py-6 px-4 gap-12">
+    <button mat-stroked-button id="cancel">
+        <mat-icon>cancel</mat-icon>
+        Reset Changes
+    </button>
+    <button mat-flat-button>
+        <mat-icon>done</mat-icon>
+        Confirm Changes
+    </button>
+</div>

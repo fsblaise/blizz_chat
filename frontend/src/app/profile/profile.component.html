@@ -1,1 +1,22 @@
-<p>profile works!</p>
+<mat-sidenav-container style="height: 100%;" class="custom-container">
+    <mat-sidenav id="chats-sidenav" class="!w-[300px]" mode="side" opened="true">
+        <h3 class="text-2xl font-medium">User profile management</h3>
+        <mat-list id="list">
+            <mat-list-item class="item" [routerLink]="['/profile/personal']" routerLinkActive="active">
+                <mat-icon class="!flex !justify-center !items-center !w-8 !h-8" matListItemIcon>person_outline</mat-icon>
+                <h3 matListItemTitle>Personal Info</h3>
+            </mat-list-item>
+            <mat-list-item class="item" [routerLink]="['/profile/security']" routerLinkActive="active">
+                <mat-icon class="!flex !justify-center !items-center !w-8 !h-8" matListItemIcon>security</mat-icon>
+                <h3 matListItemTitle>Security</h3>
+            </mat-list-item>
+            <mat-list-item class="item" [routerLink]="['/profile/preferences']" routerLinkActive="active">
+                <mat-icon class="!flex !justify-center !items-center !w-8 !h-8" matListItemIcon>tune</mat-icon>
+                <h3 matListItemTitle>Preferences</h3>
+            </mat-list-item>
+        </mat-list>
+    </mat-sidenav>
+    <mat-sidenav-content style="height: 100%;">
+        <router-outlet></router-outlet>
+    </mat-sidenav-content>
+</mat-sidenav-container>

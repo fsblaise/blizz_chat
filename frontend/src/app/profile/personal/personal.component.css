@@ -1,0 +1,17 @@
+:host {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    padding: 24px 32px;
+}
+
+#delete {
+    --mdc-filled-button-container-color: var(--md-sys-color-error);
+}
+
+#cancel {
+    --mdc-outlined-button-outline-color: var(--md-sys-color-secondary);
+    --mdc-outlined-button-label-text-color: var(--md-sys-color-secondary);
+    --mat-outlined-button-state-layer-color: var(--md-sys-color-secondary);
+    --mat-outlined-button-ripple-color: rgba(var(--md-sys-color-secondary), 0.12);
+}

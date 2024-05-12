@@ -34,4 +34,11 @@
 
 .active {
     background-color: var(--md-sys-color-surface-container) !important;
+    & h3 {
+        font-weight: 500;
+        color: var(--md-sys-color-primary) !important;
+    }
+    & mat-icon {
+        color: var(--md-sys-color-primary) !important;
+    }
 }

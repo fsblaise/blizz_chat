@@ -4,7 +4,7 @@ import { MatCardModule } from '@angular/material/card';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIcon } from '@angular/material/icon';
 import { MatInput } from '@angular/material/input';
-import { RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { getLogInForm } from '../../shared/forms/login.form';
 import { ReactiveFormsModule } from '@angular/forms';
 
@@ -17,4 +17,10 @@ import { ReactiveFormsModule } from '@angular/forms';
 })
 export class LoginComponent {
   loginFrom = getLogInForm();
+
+  constructor(private router: Router) {}
+
+  login(): void {
+    this.router.navigate(['/chats']);
+  }
 }

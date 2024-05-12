@@ -1,0 +1,62 @@
+<h1 class="text-3xl font-medium pb-6">Personal Information</h1>
+<div class="flex center py-6 px-4 gap-16 border-y-2 border-y-[var(--md-sys-color-outline-variant)]">
+    <img src="" alt="avatar" class="rounded-full">
+    <div class="flex flex-col center gap-8">
+        <mat-form-field appearance="outline" floatLabel="always" class="!min-w-[350px] !w-[500px] settings">
+            <mat-label>
+                First Name
+            </mat-label>
+            <input matInput type="text" placeholder="First Name">
+        </mat-form-field>
+        <mat-form-field appearance="outline" floatLabel="always" class="!min-w-[350px] !w-[500px] settings">
+            <mat-label>
+                Last Name
+            </mat-label>
+            <input matInput type="text" placeholder="Last Name">
+        </mat-form-field>
+    </div>
+</div>
+<div class="flex center py-6 px-4 gap-12 border-b-2 border-b-[var(--md-sys-color-outline-variant)]">
+    <div class="grid grid-cols-2 gap-x-16 gap-y-6 py-1">
+        <mat-form-field appearance="outline" floatLabel="always" class="!min-w-[350px] !w-[500px] settings">
+            <mat-label>
+                Birthday
+            </mat-label>
+            <input matInput type="text" placeholder="01-01-1970">
+        </mat-form-field>
+        <mat-form-field appearance="outline" floatLabel="always" class="!min-w-[350px] !w-[500px] settings">
+            <mat-label>
+                Phone Number
+            </mat-label>
+            <input matInput type="text" placeholder="+36201234567">
+        </mat-form-field>
+        <mat-form-field appearance="outline" floatLabel="always" class="!min-w-[350px] !w-[500px] settings">
+            <mat-label>
+                Country
+            </mat-label>
+            <input matInput type="text" placeholder="Hungary">
+        </mat-form-field>
+        <mat-form-field appearance="outline" floatLabel="always" class="!min-w-[350px] !w-[500px] settings">
+            <mat-label>
+                City
+            </mat-label>
+            <input matInput type="text" placeholder="Budapest">
+        </mat-form-field>
+        <mat-form-field appearance="outline" floatLabel="always" class="!min-w-[350px] !w-[500px] settings">
+            <mat-label>
+                Gender
+            </mat-label>
+            <input matInput type="text" placeholder="Male">
+        </mat-form-field>
+    </div>
+</div>
+<div class="flex center py-6 px-4 gap-12">
+    <button mat-stroked-button id="cancel">
+        <mat-icon>cancel</mat-icon>
+        Reset Changes
+    </button>
+    <button mat-flat-button>
+        <mat-icon>done</mat-icon>
+        Confirm Changes
+    </button>
+</div>

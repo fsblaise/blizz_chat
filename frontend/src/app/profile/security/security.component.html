@@ -1,0 +1,49 @@
+<h1 class="text-3xl font-medium pb-6">Security Settings</h1>
+<div class="flex flex-col center py-6 px-4 gap-12 border-y-2 border-y-[var(--md-sys-color-outline-variant)]">
+    <h1 class="w-full text-xl font-medium">Credentials</h1>
+    <div class="grid grid-cols-2 gap-x-16 gap-y-6 py-1">
+        <mat-form-field appearance="outline" floatLabel="always" class="!min-w-[350px] !w-[500px] settings">
+            <mat-label>
+                Email Address
+            </mat-label>
+            <input matInput type="text" placeholder="sample@email.com">
+        </mat-form-field>
+        <mat-form-field appearance="outline" floatLabel="always" class="!min-w-[350px] !w-[500px] settings">
+            <mat-label>
+                Password
+            </mat-label>
+            <input matInput type="text" placeholder="Super strong password">
+        </mat-form-field>
+    </div>
+</div>
+<div class="flex flex-col center py-6 px-4 gap-12 border-b-2 border-b-[var(--md-sys-color-outline-variant)]">
+    <h1 class="w-full text-xl font-medium">Privacy</h1>
+    <div class="grid grid-cols-2 gap-x-16 gap-y-6 py-1">
+        <div class="!min-w-[350px] !w-[500px] flex justify-between">
+            <span>Show birthday to others</span>
+            <mat-slide-toggle labelPosition="before"></mat-slide-toggle>
+        </div>
+        <div class="!min-w-[350px] !w-[500px] flex justify-between">
+            <span>Show homeplace to others</span>
+            <mat-slide-toggle labelPosition="before"></mat-slide-toggle>
+        </div>
+        <div class="!min-w-[350px] !w-[500px] flex justify-between">
+            <span>Show realtime location on the map</span>
+            <mat-slide-toggle labelPosition="before"></mat-slide-toggle>
+        </div>
+    </div>
+</div>
+<div class="flex center py-6 px-4 gap-12">
+    <button mat-flat-button id="delete">
+        <mat-icon>delete_outline</mat-icon>
+        Delete Profile
+    </button>
+    <button mat-stroked-button id="cancel">
+        <mat-icon>cancel</mat-icon>
+        Reset Changes
+    </button>
+    <button mat-flat-button>
+        <mat-icon>done</mat-icon>
+        Confirm Changes
+    </button>
+</div>
