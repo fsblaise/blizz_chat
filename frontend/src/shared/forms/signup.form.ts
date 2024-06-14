@@ -2,7 +2,11 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 
 export function getSignUpForm() {
   return new FormGroup({
-    userName: new FormControl('', [
+    firstName: new FormControl('', [
+      Validators.required,
+      Validators.minLength(4),
+    ]),
+    lastName: new FormControl('', [
       Validators.required,
       Validators.minLength(4),
     ]),

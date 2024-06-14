@@ -2,7 +2,6 @@ import { Routes } from '@angular/router';
 import { WelcomeComponent } from './welcome/welcome.component';
 import { RegisterComponent } from './register/register.component';
 import { LoginComponent } from './login/login.component';
-import { ChatsComponent } from './chats/chats.component';
 import { MapComponent } from './map/map.component';
 import { StoriesComponent } from './stories/stories.component';
 import { ProfileComponent } from './profile/profile.component';
@@ -10,6 +9,7 @@ import { MessagesComponent } from './chats/messages/messages.component';
 import { PersonalComponent } from './profile/personal/personal.component';
 import { SecurityComponent } from './profile/security/security.component';
 import { PreferencesComponent } from './profile/preferences/preferences.component';
+import { ChatsComponent } from './chats/chats.component';
 
 export const routes: Routes = [
     { path: 'welcome', component: WelcomeComponent },

@@ -1,1 +1,11 @@
 @import url(../login/login.component.css);
+
+
+form div >:not(h3) {
+    width: 100%;
+    border-radius: 12px;
+}
+
+form div {
+    gap: 16px;
+}

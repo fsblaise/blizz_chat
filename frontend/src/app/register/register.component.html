@@ -4,37 +4,70 @@
 <div class="h-full w-3/5 flex center">
     <mat-card appearance="outlined">
         <mat-card-content class="flex flex-col center">
-            <form class="flex flex-col center" [formGroup]="signUpForm">
-                <h3>Please register an account</h3>
-                <mat-form-field appearance="outline">
-                    <mat-label>
-                        <mat-icon>person</mat-icon>
-                        Username
-                    </mat-label>
-                    <input matInput type="text" formControlName="userName">
-                </mat-form-field>
-                <mat-form-field appearance="outline">
-                    <mat-label>
-                        <mat-icon>email</mat-icon>
-                        Email address
-                    </mat-label>
-                    <input matInput type="text" formControlName="email">
-                </mat-form-field>
-                <mat-form-field appearance="outline">
-                    <mat-label>
-                        <mat-icon>lock</mat-icon>
-                        Password
-                    </mat-label>
-                    <input matInput type="password" formControlName="password">
-                </mat-form-field>
-                <mat-form-field appearance="outline">
-                    <mat-label>
-                        <mat-icon>lock</mat-icon>
-                        Confirm Password
-                    </mat-label>
-                    <input matInput type="password" formControlName="rePassword">
-                </mat-form-field>
-                <button mat-flat-button type="submit">Sign In</button>
+            @if (step === 1) {
+            <div class="flex flex-row absolute top-4 left-4">
+                <button mat-icon-button (click)="prevStep()">
+                    <mat-icon>arrow_back</mat-icon>
+                </button>
+            </div>
+            }
+            <form class="flex flex-col center overflow-hidden" [formGroup]="signUpForm">
+                <div class="flex flex-col center w-full transition-transform duration-300 ease-in-out"
+                    [ngClass]="{'-translate-x-full': step !== 0, 'translate-x-0': step === 0, 'opacity-0': step !== 0, 'opacity-100': step === 0, 'h-0': step !== 0, 'h-auto': step === 0}">
+                    <h3>Please register an account</h3>
+                    <mat-form-field appearance="outline">
+                        <mat-label>
+                            <mat-icon>email</mat-icon>
+                            Email address
+                        </mat-label>
+                        <input matInput type="text" formControlName="email">
+                    </mat-form-field>
+                    <mat-form-field appearance="outline">
+                        <mat-label>
+                            <mat-icon>lock</mat-icon>
+                            Password
+                        </mat-label>
+                        <input matInput type="password" formControlName="password">
+                    </mat-form-field>
+                    <mat-form-field appearance="outline">
+                        <mat-label>
+                            <mat-icon>lock</mat-icon>
+                            Confirm Password
+                        </mat-label>
+                        <input matInput type="password" formControlName="rePassword">
+                    </mat-form-field>
+                    <button mat-flat-button [disabled]="email?.invalid || password?.invalid || rePassword?.invalid || password?.value !== rePassword?.value" (click)="nextStep()">Continue</button>
+                </div>
+                <div class="flex flex-col center w-full transition-transform duration-300 ease-in-out"
+                    [ngClass]="{'translate-x-full': step !== 1, 'translate-x-0': step === 1, 'opacity-0': step !== 1, 'opacity-100': step === 1, 'h-0': step !== 1, 'h-auto': step === 1}">
+                    <h3>What is your name?</h3>
+                    <mat-form-field appearance="outline">
+                        <mat-label>
+                            <mat-icon>person_outline</mat-icon>
+                            First Name
+                        </mat-label>
+                        <input matInput type="text" formControlName="firstName">
+                    </mat-form-field>
+                    <mat-form-field appearance="outline">
+                        <mat-label>
+                            <mat-icon>person_outline</mat-icon>
+                            Last Name
+                        </mat-label>
+                        <input matInput type="text" formControlName="lastName">
+                    </mat-form-field>
+                    <button mat-flat-button type="submit" [disabled]="signUpForm.invalid">Sign In</button>
+                </div>
+
+                <div class="flex flex-row center !gap-2">
+                    <div class="!w-4 !h-4 rounded-full bg-[var(--md-sys-color-outline)]"
+                        [ngClass]="step === 0 ? '!bg-[var(--md-sys-color-primary)]' : 'cursor-pointer'"
+                        (click)="step === 1 ? prevStep() : ''">
+                    </div>
+                    <div class="!w-4 !h-4 rounded-full bg-[var(--md-sys-color-outline)]"
+                        [ngClass]="step === 1 ? '!bg-[var(--md-sys-color-primary)]' : isFirstStepValid() && step === 0 ? 'cursor-pointer' : 'cursor-auto'"
+                        (click)="isFirstStepValid() && step === 0 ? nextStep() : ''">
+                    </div>
+                </div>
             </form>
             <div id="switcher" class="flex flex-row center">
                 <span>Already a member?</span>
