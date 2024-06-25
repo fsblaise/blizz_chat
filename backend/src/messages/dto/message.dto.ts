@@ -1,10 +1,10 @@
-export interface Message {
-  sender: User;
+export class MessageDto {
+  sender: UserDto;
   message: string;
   timestamp: string;
 }
 
-export interface User {
+export class UserDto {
   nickname: string;
   fullName: string;
   email: string;

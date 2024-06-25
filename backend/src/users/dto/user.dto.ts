@@ -1,4 +1,4 @@
-export interface User {
+export class UserDto {
   fullName: string;
   email: string;
   birthday: string;
@@ -6,31 +6,29 @@ export interface User {
   country: string;
   city: string;
   gender: string;
-  contacts: Contact[];
+  contacts: ContactDto[];
   profileUrl: string;
   unreadMessageSum: number;
   unreadMessages: Map<string, number>;
-  preferences: Preferences;
-  securitySettings: SecuritySettings;
+  preferences: PreferencesDto;
+  securitySettings: SecuritySettingsDto;
 }
 
-export interface Preferences {
+export class PreferencesDto {
   darkMode: boolean;
   syncDarkMode: boolean;
   preferredColor: string;
   chatFontSize: number;
 }
 
-export interface SecuritySettings {
+export class SecuritySettingsDto {
   showBirthDay: boolean;
   showHomePlace: boolean;
   showLocation: boolean;
 }
 
-export interface Contact {
+export class ContactDto {
   nickname: string;
   fullName: string;
   email: string;
 }
-
-export type UserState = User[];

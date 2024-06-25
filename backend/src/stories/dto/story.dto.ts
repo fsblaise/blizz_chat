@@ -1,12 +1,12 @@
-export interface Story {
+export class StoryDto {
   caption: string;
   extension: string;
   imgUrl: string;
   timestamp: string;
-  sender: User;
+  sender: UserDto;
 }
 
-export interface User {
+export class UserDto {
   fullName: string;
   email: string;
 }
