@@ -26,7 +26,7 @@
             ],
             "styles": [
               "./node_modules/leaflet/dist/leaflet.css",
-              "src/custom-theme.scss",
+              "src/m3-theme.scss",
               "src/styles.scss"
             ],
             "scripts": [],
