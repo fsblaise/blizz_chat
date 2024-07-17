@@ -19,10 +19,11 @@ mat-toolbar {
 
 #nav-buttons button {
     font-size: 20px;
+    color: var(--md-sys-color-on-surface) !important;
 }
 
 #nav-buttons .active {
-    color: var(--md-sys-color-primary);
+    color: var(--md-sys-color-primary) !important;
     font-weight: bold;
 }
 

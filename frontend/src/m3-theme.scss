@@ -157,3 +157,49 @@ $dark-theme: mat.define-theme((
     use-system-variables: true,
   ),
 ));
+
+@include mat.core();
+
+// Include the default theme styles.
+html {
+  // @include mat.core-theme($light-theme);
+  @include mat.all-component-themes($light-theme);
+  // @include matx.color-variants-back-compat($light-theme);
+  // TODO(mmalerba): Support M3 for experimental components.
+  // @include matx.column-resize-theme($light-theme);
+  // @include matx.popover-edit-theme($light-theme);
+  @include mat.system-level-colors($light-theme);
+  @include mat.system-level-typography($light-theme);
+}
+
+.mdc-text-field--outlined {
+  --mdc-outlined-text-field-container-shape: 12px !important;
+}
+
+.settings .mdc-text-field--outlined {
+  --mdc-outlined-text-field-container-shape: 24px !important;
+}
+
+#search .mdc-text-field--outlined {
+  --mdc-outlined-text-field-container-shape: 32px !important;
+}
+
+.mat-button-toggle-group {
+  --mat-standard-button-toggle-height: 38px;
+  // color: ;
+}
+
+.mat-drawer-inner-container {
+  display: flex !important;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+}
+
+.mat-mdc-menu-panel {
+  --mat-menu-container-shape: 12px;
+  --tw-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+  --tw-shadow-colored: 0 10px 15px -3px var(--tw-shadow-color), 0 4px 6px -4px var(--tw-shadow-color);
+  box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
+  --mat-menu-container-color: var(--md-sys-color-surface);
+}
