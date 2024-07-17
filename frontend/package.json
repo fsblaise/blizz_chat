@@ -25,6 +25,7 @@
     "@angular/router": "^18.0.4",
     "@angular/ssr": "^18.0.5",
     "@asymmetrik/ngx-leaflet": "^18.0.1",
+    "@ngrx/signals": "^18.0.0-rc.2",
     "express": "^4.18.2",
     "leaflet": "^1.9.4",
     "ng-leaflet-universal": "^15.2.8",

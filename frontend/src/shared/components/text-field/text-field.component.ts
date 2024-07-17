@@ -11,4 +11,6 @@ import { MatIcon } from '@angular/material/icon';
 })
 export class TextFieldComponent {
   @Input() searchWord!: string;
+  @Input() prompt: string = "Aa";
+  @Input() isSearch: boolean = false;
 }
