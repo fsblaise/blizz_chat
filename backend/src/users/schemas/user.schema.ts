@@ -28,6 +28,28 @@ export class SecuritySettings {
 
   @Prop({ default: false })
   showLocation: boolean;
+
+  @Prop({ default: false })
+  showGender: boolean;
+
+  @Prop({ default: false })
+  showPhoneNumber: boolean;
+}
+
+
+@Schema()
+export class Contact {
+  @Prop()
+  nickname: string;
+
+  @Prop()
+  fullName: string;
+
+  @Prop({ unique: true })
+  email: string;
+
+  @Prop({ type: Types.ObjectId, ref: 'User' }) // Reference to User document by _id
+  user: Types.ObjectId;
 }
 
 @Schema()
@@ -39,22 +61,28 @@ export class User {
   email: string;
 
   @Prop({ required: true })
+  password: string;
+
+  @Prop({ required: false })
   birthday: string;
 
-  @Prop({ required: true })
+  @Prop({ required: false })
   phoneNumber: string;
 
-  @Prop({ required: true })
+  @Prop({ required: false })
   country: string;
 
-  @Prop({ required: true })
+  @Prop({ required: false })
   city: string;
 
-  @Prop({ required: true })
+  @Prop({ required: false })
+  location: string;
+
+  @Prop({ required: false })
   gender: string;
 
-  @Prop({ type: [Types.ObjectId], ref: 'User' })
-  contacts: Types.ObjectId[];
+  @Prop({ type: [Contact], default: [] })
+  contacts: Contact[];
 
   @Prop()
   profileUrl: string;
