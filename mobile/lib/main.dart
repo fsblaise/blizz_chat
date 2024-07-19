@@ -7,6 +7,7 @@ import 'package:blizz_chat/l10n/l10n.dart';
 import 'package:blizz_chat/locator.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -15,6 +16,7 @@ import 'config/firebase_options.dart';
 final I10n _i10n = locator<I10n>();
 
 void main() async {
+  await dotenv.load(fileName: '../.env');
   setupLocator();
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
@@ -33,7 +35,8 @@ class MainApp extends ConsumerWidget {
         data: (locale) => MaterialApp(
             darkTheme: ThemeData(
                 useMaterial3: true,
-                colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple, brightness: Brightness.dark),
+                colorScheme: ColorScheme.fromSeed(
+                    seedColor: Colors.deepPurple, brightness: Brightness.dark),
                 fontFamily: GoogleFonts.inter().fontFamily),
             theme: ThemeData(
                 useMaterial3: true,

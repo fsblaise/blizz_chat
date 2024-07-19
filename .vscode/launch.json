@@ -5,9 +5,17 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "blizz_chat",
+            "name": "blizz_chat prod",
             "request": "launch",
-            "type": "dart"
+            "type": "dart",
+            "program": "mobile/lib/main.dart",
+        },
+        {
+            "name": "blizz_chat dev",
+            "request": "launch",
+            "type": "dart",
+            "program": "mobile/lib/main_development.dart",
+            "args": ["--flavor", "development"]
         },
         {
             "name": "blizz_chat (profile mode)",

@@ -7,7 +7,7 @@ import { Model } from 'mongoose';
 import * as bcrypt from 'bcrypt';
 import { SignInUserDto, SignInUserResponseDto } from './dto/sign-in-user.dto';
 import { JwtService } from '@nestjs/jwt';
-import { ContactDto, UserDto, UserProfileDto } from './dto/user.dto';
+import { UserDto, UserProfileDto } from './dto/user.dto';
 
 @Injectable()
 export class UsersService {
@@ -48,7 +48,7 @@ export class UsersService {
     return entities.map(entity => this.convertEntityToUserDto(entity));
   }
 
-  async findOne(id: number): Promise<UserDto> {
+  async findOne(id: string): Promise<UserDto> {
     const entity = await this.userModel.findById(id).exec();
     return this.convertEntityToUserDto(entity);
   }
