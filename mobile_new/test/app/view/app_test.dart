@@ -1,5 +1,5 @@
 import 'package:blizz_chat/app/app.dart';
-import 'package:blizz_chat/counter/counter.dart';
+import 'package:blizz_chat/ui/ui.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {

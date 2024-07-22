@@ -1,5 +1,5 @@
-import 'package:blizz_chat/counter/counter.dart';
 import 'package:blizz_chat/l10n/l10n.dart';
+import 'package:blizz_chat/ui/ui.dart';
 import 'package:flutter/material.dart';
 
 class App extends StatelessWidget {
