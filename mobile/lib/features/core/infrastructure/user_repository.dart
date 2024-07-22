@@ -8,16 +8,16 @@ class UserRepository extends BaseUserRepository {
   final FirebaseFirestore _fStore;
 
   @override
-  Future<FbUser> getUser(String id) async {
+  Future<User> getUser(String id) async {
     final userSnapshot = await userCollection.doc(id).get();
     final userMap = userSnapshot.data() as Map<String, dynamic>;
-    final user = FbUser.fromJson(userMap);
+    final user = User.fromJson(userMap);
     print(user);
     return user;
   }
 
   @override
-  Future<void> updateUser(FbUser user) async {
-    await userCollection.doc(user.id).set(user.toJson());
+  Future<void> updateUser(User user) async {
+    // await userCollection.doc(user._id).set(user.toJson());
   }
 }

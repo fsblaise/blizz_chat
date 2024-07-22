@@ -20,9 +20,12 @@ class _NewMessagePageState extends ConsumerState<NewMessagePage> {
   final TextEditingController _searchController = TextEditingController();
   String _keyword = '';
 
-  List<Map<String, dynamic>> _searchContacts(List<Map<String, dynamic>> contacts) {
+  List<Map<String, dynamic>> _searchContacts(
+      List<Map<String, dynamic>> contacts) {
     if (_keyword.isEmpty) return contacts;
-    return contacts.where((element) => element['fullName']!.contains(_keyword)).toList();
+    return contacts
+        .where((element) => element['fullName']!.contains(_keyword))
+        .toList();
   }
 
   _search(String value) {
@@ -38,13 +41,14 @@ class _NewMessagePageState extends ConsumerState<NewMessagePage> {
     try {
       final users = await contactsController.getUsers(contact['fullName']);
       // First we have to fetch the contact from firebase or riverpod then call the next method
-      await chatsController.addChat(users[0] as FbUser);
+      await chatsController.addChat(users[0] as User);
       scaffoldMessenger.showSnackBar(SnackBar(
         content: Text(_i10n.chatAddSuccess),
         behavior: SnackBarBehavior.floating,
       ));
     } catch (e) {
-      scaffoldMessenger.showSnackBar(SnackBar(content: Text(_i10n.chatAddFail)));
+      scaffoldMessenger
+          .showSnackBar(SnackBar(content: Text(_i10n.chatAddFail)));
     }
   }
 

@@ -6,8 +6,10 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 part 'map_data.g.dart';
 
 @riverpod
-Future<List<FbUser>?> mapData(MapDataRef ref) async {
-  final user = await ref.watch(userControllerProvider.future);
-  final mapContacts = await ref.watch(mapRepositoryProvider).getMapUsers(user.contacts);
-  return mapContacts ?? [];
+Future<List<User>?> mapData(MapDataRef ref) async {
+  // final user = await ref.watch(userControllerProvider.future);
+  // final mapContacts =
+  //     await ref.watch(mapRepositoryProvider).getMapUsers(user.contacts);
+  // return mapContacts ?? [];
+  return [];
 }

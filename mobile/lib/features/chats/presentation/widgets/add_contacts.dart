@@ -12,7 +12,7 @@ class AddChatsWidget extends ConsumerWidget {
   final String keyword;
   const AddChatsWidget({super.key, required this.keyword});
 
-  _addContact(BuildContext context, WidgetRef ref, FbUser contact) async {
+  _addContact(BuildContext context, WidgetRef ref, User contact) async {
     final scaffoldMessenger = ScaffoldMessenger.of(ref.context);
     final contactsController = ref.read(contactsControllerProvider.notifier);
     final chatsController = ref.read(chatsControllerProvider.notifier);
@@ -24,17 +24,18 @@ class AddChatsWidget extends ConsumerWidget {
         behavior: SnackBarBehavior.floating,
       ));
     } catch (e) {
-      scaffoldMessenger.showSnackBar(SnackBar(content: Text(_i10n.userAddFail)));
+      scaffoldMessenger
+          .showSnackBar(SnackBar(content: Text(_i10n.userAddFail)));
     }
   }
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    Future<List<FbUser?>> users;
+    Future<List<User?>> users;
     if (keyword.isNotEmpty) {
       users = ref.watch(contactsControllerProvider.notifier).getUsers(keyword);
     } else {
-      users = Future<List<FbUser?>>.value([]);
+      users = Future<List<User?>>.value([]);
     }
     return Column(
       children: [
@@ -50,8 +51,10 @@ class AddChatsWidget extends ConsumerWidget {
                             .map((user) => ListTile(
                                   title: Text(user!.fullName),
                                   trailing: IconButton(
-                                      onPressed: () => _addContact(context, ref, user),
-                                      icon: const Icon(Icons.person_add, color: Colors.deepPurple)),
+                                      onPressed: () =>
+                                          _addContact(context, ref, user),
+                                      icon: const Icon(Icons.person_add,
+                                          color: Colors.deepPurple)),
                                 ))
                             .toList());
                   } else {

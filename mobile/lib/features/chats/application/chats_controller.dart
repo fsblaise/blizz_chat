@@ -18,16 +18,20 @@ class ChatsController extends _$ChatsController {
     return chats;
   }
 
-  Future<Map<String, dynamic>?> addChat(FbUser contact) async {
+  Future<Map<String, dynamic>?> addChat(User contact) async {
     final user = ref.watch(userControllerProvider);
     user.when(data: (value) async {
       final prevState = await future;
-      final chat = await ref.watch(chatsRepositoryProvider).addChat(prevState, [contact], value);
+      final chat = await ref
+          .watch(chatsRepositoryProvider)
+          .addChat(prevState, [contact], value);
       // mimicking the firebase logic,
       // so we can update the contacts list locally within the state
       print(prevState);
       print(chat);
-      if (prevState.where((element) => element['id'] == chat['id']).isNotEmpty) {
+      if (prevState
+          .where((element) => element['id'] == chat['id'])
+          .isNotEmpty) {
         print('contains');
         return null;
       }
@@ -45,7 +49,9 @@ class ChatsController extends _$ChatsController {
 
   Future<void> removeChat(Map<String, dynamic> chat) async {
     final user = ref.watch(loggedInUserProvider);
-    ref.watch(chatsRepositoryProvider).removeChat(chat['id'] as String, chat['name'] as String, user!.uid);
+    ref
+        .watch(chatsRepositoryProvider)
+        .removeChat(chat['id'] as String, chat['name'] as String, user!.uid);
     // mimicking the firebase logic,
     // so we can update the contacts list locally within the state
     final prevState = await future;

@@ -1,6 +1,6 @@
 import 'dart:io';
 
-import 'package:blizz_chat/features/core/domain/user_model.dart';
+import 'package:blizz_chat/features/core/domain/user_model.dart' as CoreUser;
 import 'package:blizz_chat/features/stories/domain/base_story_repository.dart';
 import 'package:blizz_chat/features/stories/domain/story_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -25,7 +25,7 @@ class StoryRepository extends BaseStoryRepository {
   // }
 
   @override
-  Future<Story> addStory(String caption, File file, FbUser user) async {
+  Future<Story> addStory(String caption, File file, CoreUser.User user) async {
     try {
       final storageRef = _storage.ref();
       // Create the file metadata
@@ -38,9 +38,12 @@ class StoryRepository extends BaseStoryRepository {
 
       final url = await storageRef.child('Stories/$id.$ext').getDownloadURL();
 
-      final story = Story(id, caption, DateTime.now().toIso8601String(), user.id, user.fullName, url, ext);
-      await storyCollection.doc(story.id).set(story.toJson());
-      return story;
+      // final story = Story(id, caption, DateTime.now().toIso8601String(),
+      //     user.id, user.fullName, url, ext);
+      // await storyCollection.doc(story.id).set(story.toJson());
+      // return story;
+      return Story(id, caption, 'timestamp', 'userId', 'fullName', 'imgUrl',
+          'extension');
     } catch (e) {
       print(e);
       rethrow;
@@ -48,25 +51,28 @@ class StoryRepository extends BaseStoryRepository {
   }
 
   @override
-  Future<List<Story>> getStories(FbUser user) async {
+  Future<List<Story>> getStories(CoreUser.User user) async {
     try {
       print('fetching stories');
       List<Story> stories = [];
-      List<String> fetchIds = [user.id, ...user.contacts.map((e) => e['id'] as String).toList()];
-      print(fetchIds);
-      QuerySnapshot storySnapshot = await storyCollection
-          .where('userId', whereIn: fetchIds)
-          .orderBy('timestamp', descending: true)
-          .limit(10)
-          .get();
-      final storyList = storySnapshot.docs;
-      for (var story in storyList) {
-        final storyMap = story.data() as Map<String, dynamic>;
-        print(storyMap);
-        final storyObj = Story.fromJson(storyMap);
-        print(storyObj);
-        stories.add(storyObj);
-      }
+      // List<String> fetchIds = [
+      //   user.id,
+      //   ...user.contacts.map((e) => e['id'] as String).toList()
+      // ];
+      // print(fetchIds);
+      // QuerySnapshot storySnapshot = await storyCollection
+      //     .where('userId', whereIn: fetchIds)
+      //     .orderBy('timestamp', descending: true)
+      //     .limit(10)
+      //     .get();
+      // final storyList = storySnapshot.docs;
+      // for (var story in storyList) {
+      //   final storyMap = story.data() as Map<String, dynamic>;
+      //   print(storyMap);
+      //   final storyObj = Story.fromJson(storyMap);
+      //   print(storyObj);
+      //   stories.add(storyObj);
+      // }
       return stories;
     } catch (e) {
       print(e);

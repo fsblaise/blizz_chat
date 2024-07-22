@@ -13,11 +13,12 @@ class ContactsRepository extends BaseContactsRepository {
   @override
   Future<List<Map<String, dynamic>>> getContacts(String userId) async {
     try {
-      DocumentSnapshot userSnapshot = await userCollection.doc(userId).get();
-      final userMap = userSnapshot.data() as Map<String, dynamic>;
-      FbUser userObj = FbUser.fromJson(userMap);
-      print('firebase contacts?');
-      return userObj.contacts;
+      // DocumentSnapshot userSnapshot = await userCollection.doc(userId).get();
+      // final userMap = userSnapshot.data() as Map<String, dynamic>;
+      // User userObj = User.fromJson(userMap);
+      // print('firebase contacts?');
+      // return userObj.contacts;
+      return [];
     } catch (e) {
       print(e);
       return [];
@@ -26,20 +27,27 @@ class ContactsRepository extends BaseContactsRepository {
 
   /// Adds a user (contact) to the contacts array of the logged in user.<br>
   @override
-  Future<Map<String, dynamic>> addContact(FbUser contact, FbUser user) async {
+  Future<Map<String, dynamic>> addContact(User contact, User user) async {
     try {
-      Map<String, String> userContactMap = {'id': contact.id, 'fullName': contact.fullName};
-      Map<String, String> contactContactMap = {'id': user.id, 'fullName': user.fullName};
+      // Map<String, String> userContactMap = {
+      //   'id': contact.id,
+      //   'fullName': contact.fullName
+      // };
+      // Map<String, String> contactContactMap = {
+      //   'id': user.id,
+      //   'fullName': user.fullName
+      // };
 
-      await userCollection.doc(user.id).update({
-        'contacts': FieldValue.arrayUnion([userContactMap]),
-      });
-      // we have to add the current user to the contact's contacts list
-      await userCollection.doc(contact.id).update({
-        'contacts': FieldValue.arrayUnion([contactContactMap]),
-      });
+      // await userCollection.doc(user.id).update({
+      //   'contacts': FieldValue.arrayUnion([userContactMap]),
+      // });
+      // // we have to add the current user to the contact's contacts list
+      // await userCollection.doc(contact.id).update({
+      //   'contacts': FieldValue.arrayUnion([contactContactMap]),
+      // });
 
-      return userContactMap;
+      // return userContactMap;
+      return {};
     } catch (e) {
       print(e);
       rethrow;
@@ -49,7 +57,8 @@ class ContactsRepository extends BaseContactsRepository {
   /// Deletes a chat from the chats array of the logged in user.<br>
   /// Also deletes that chat from the database.
   @override
-  Future<void> removeContact(String deleteId, String deleteName, String userId) async {
+  Future<void> removeContact(
+      String deleteId, String deleteName, String userId) async {
     try {
       await userCollection.doc(userId).update({
         'contacts': FieldValue.arrayRemove([
@@ -64,12 +73,13 @@ class ContactsRepository extends BaseContactsRepository {
 
   /// Fetches a user by email.
   @override
-  Future<List<FbUser?>> getUserByEmail(String email) async {
+  Future<List<User?>> getUserByEmail(String email) async {
     try {
-      QuerySnapshot userSnapshot = await userCollection.where('email', isEqualTo: email).get();
+      QuerySnapshot userSnapshot =
+          await userCollection.where('email', isEqualTo: email).get();
       final userDocs = userSnapshot.docs;
       final userMap = userDocs[0].data() as Map<String, dynamic>;
-      FbUser userObj = FbUser.fromJson(userMap);
+      User userObj = User.fromJson(userMap);
       return [userObj];
     } catch (e) {
       print(e);
@@ -79,15 +89,16 @@ class ContactsRepository extends BaseContactsRepository {
 
   /// Fetches users by fullName.
   @override
-  Future<List<FbUser?>> getUsersByFullName(String fullName) async {
+  Future<List<User?>> getUsersByFullName(String fullName) async {
     try {
-      List<FbUser> users = [];
-      QuerySnapshot userSnapshot = await userCollection.where('fullName', isEqualTo: fullName).get();
+      List<User> users = [];
+      QuerySnapshot userSnapshot =
+          await userCollection.where('fullName', isEqualTo: fullName).get();
       final userDocs = userSnapshot.docs;
 
       for (var doc in userDocs) {
         final userMap = doc.data() as Map<String, dynamic>;
-        final userObj = FbUser.fromJson(userMap);
+        final userObj = User.fromJson(userMap);
         users.add(userObj);
       }
 

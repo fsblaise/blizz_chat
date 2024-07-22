@@ -23,7 +23,9 @@ class StoriesController extends _$StoriesController {
     final user = ref.watch(userControllerProvider);
     print(user);
     await user.when(data: (value) async {
-      final story = await ref.watch(storyRepositoryProvider).addStory(caption, file, value);
+      final story = await ref
+          .watch(storyRepositoryProvider)
+          .addStory(caption, file, value);
       final prevState = await future;
       state = AsyncValue.data([...prevState, story]);
       return story;

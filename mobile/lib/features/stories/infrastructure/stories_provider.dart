@@ -6,6 +6,6 @@ part 'stories_provider.g.dart';
 
 @riverpod
 StoryRepository storyRepository(StoryRepositoryRef ref) {
-  return StoryRepository(
-      ref.read(firebaseFirestoreProvider), ref.read(firebaseAuthProvider), ref.read(firebaseStorageProvider));
+  return StoryRepository(ref.read(firebaseFirestoreProvider),
+      ref.read(firebaseAuthProvider), ref.read(firebaseStorageProvider));
 }

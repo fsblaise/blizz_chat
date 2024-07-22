@@ -17,44 +17,45 @@ class MapPage extends ConsumerWidget {
     final location = ref.watch(locationProvider);
     final mapData = ref.watch(mapDataProvider);
 
-    return location.when(data: (loc) {
-      return Column(
-        children: [
-          Expanded(
-            child: FlutterMap(options: MapOptions(initialCenter: LatLng(loc!.latitude!, loc.longitude!)), children: [
-              TileLayer(
-                urlTemplate: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
-                userAgentPackageName: 'com.fsblaise.blizz_chat',
-              ),
-              MarkerLayer(
-                  markers: mapData.when(
-                      data: (data) {
-                        if (data != null) {
-                          return data.map((e) {
-                            List<String> coords = e.location['coords'].split('_');
-                            LatLng formatCoords = LatLng(double.parse(coords[0]), double.parse(coords[1]));
-                            print(e.fullName);
-                            return Marker(
-                              point: formatCoords,
-                              child: const Icon(Icons.pin_drop),
-                            );
-                          }).toList();
-                        } else {
-                          return [];
-                        }
-                      },
-                      error: (e, s) => [],
-                      loading: () => []))
-            ]),
-          )
-        ],
-      );
-    }, error: (e, s) {
-      return Center(child: Text(_i10n.somethingWentWrong));
-    }, loading: () {
-      return const Center(
-        child: CircularProgressIndicator(),
-      );
-    });
+    // return location.when(data: (loc) {
+    //   return Column(
+    //     children: [
+    //       Expanded(
+    //         child: FlutterMap(options: MapOptions(initialCenter: LatLng(loc!.latitude!, loc.longitude!)), children: [
+    //           TileLayer(
+    //             urlTemplate: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
+    //             userAgentPackageName: 'com.fsblaise.blizz_chat',
+    //           ),
+    //           MarkerLayer(
+    //               markers: mapData.when(
+    //                   data: (data) {
+    //                     if (data != null) {
+    //                       return data.map((e) {
+    //                         List<String> coords = e.location['coords'].split('_');
+    //                         LatLng formatCoords = LatLng(double.parse(coords[0]), double.parse(coords[1]));
+    //                         print(e.fullName);
+    //                         return Marker(
+    //                           point: formatCoords,
+    //                           child: const Icon(Icons.pin_drop),
+    //                         );
+    //                       }).toList();
+    //                     } else {
+    //                       return [];
+    //                     }
+    //                   },
+    //                   error: (e, s) => [],
+    //                   loading: () => []))
+    //         ]),
+    //       )
+    //     ],
+    //   );
+    // }, error: (e, s) {
+    //   return Center(child: Text(_i10n.somethingWentWrong));
+    // }, loading: () {
+    //   return const Center(
+    //     child: CircularProgressIndicator(),
+    //   );
+    // });
+    return Container();
   }
 }

@@ -24,10 +24,11 @@ class SignInController extends _$SignInController {
     state = state.copyWith(password: password);
   }
 
-  Future<FbUser?> signIn() async {
+  Future<User> signIn() async {
     if (!state.isValid) {
       throw Exception(_i10n.invalidForm);
     }
+    // TODO: move this signup to the authcontroller and call the controller here
     final user = await ref.read(authRepositoryProvider).signIn(
           signInForm: state,
         );

@@ -6,30 +6,74 @@ part of 'user_model.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-FbUser _$FbUserFromJson(Map<String, dynamic> json) => FbUser(
+User _$UserFromJson(Map<String, dynamic> json) => User(
       json['email'] as String,
-      json['created'] as String,
       json['fullName'] as String,
-      json['id'] as String,
     )
+      ..birthday = json['birthday'] as String
+      ..phoneNumber = json['phoneNumber'] as String
+      ..country = json['country'] as String
+      ..city = json['city'] as String
+      ..gender = json['gender'] as String
+      ..contacts = Contacts.fromJson(json['contacts'] as Map<String, dynamic>)
       ..profileURL = json['profileURL'] as String
-      ..contacts = (json['contacts'] as List<dynamic>)
-          .map((e) => Map<String, String>.from(e as Map))
-          .toList()
-      ..chats = (json['chats'] as List<dynamic>)
-          .map((e) => e as Map<String, dynamic>)
-          .toList()
-      ..location = json['location'] as Map<String, dynamic>
-      ..settings = json['settings'] as Map<String, dynamic>;
+      ..unreadMessageSum = json['unreadMessageSum'] as int
+      ..unreadMessages = Map<String, int>.from(json['unreadMessages'] as Map)
+      ..preferences =
+          Preferences.fromJson(json['preferences'] as Map<String, dynamic>)
+      ..securitySettings = SecuritySettings.fromJson(
+          json['securitySettings'] as Map<String, dynamic>);
 
-Map<String, dynamic> _$FbUserToJson(FbUser instance) => <String, dynamic>{
-      'id': instance.id,
-      'email': instance.email,
-      'created': instance.created,
+Map<String, dynamic> _$UserToJson(User instance) => <String, dynamic>{
       'fullName': instance.fullName,
-      'profileURL': instance.profileURL,
+      'email': instance.email,
+      'birthday': instance.birthday,
+      'phoneNumber': instance.phoneNumber,
+      'country': instance.country,
+      'city': instance.city,
+      'gender': instance.gender,
       'contacts': instance.contacts,
-      'chats': instance.chats,
-      'location': instance.location,
-      'settings': instance.settings,
+      'profileURL': instance.profileURL,
+      'unreadMessageSum': instance.unreadMessageSum,
+      'unreadMessages': instance.unreadMessages,
+      'preferences': instance.preferences,
+      'securitySettings': instance.securitySettings,
+    };
+
+Preferences _$PreferencesFromJson(Map<String, dynamic> json) => Preferences()
+  ..darkMode = json['darkMode'] as bool
+  ..syncDarkMode = json['syncDarkMode'] as bool
+  ..preferredColor = json['preferredColor'] as String
+  ..chatFontSize = json['chatFontSize'] as int;
+
+Map<String, dynamic> _$PreferencesToJson(Preferences instance) =>
+    <String, dynamic>{
+      'darkMode': instance.darkMode,
+      'syncDarkMode': instance.syncDarkMode,
+      'preferredColor': instance.preferredColor,
+      'chatFontSize': instance.chatFontSize,
+    };
+
+SecuritySettings _$SecuritySettingsFromJson(Map<String, dynamic> json) =>
+    SecuritySettings()
+      ..showBirthDay = json['showBirthDay'] as bool
+      ..showHomePlace = json['showHomePlace'] as bool
+      ..showLocation = json['showLocation'] as bool;
+
+Map<String, dynamic> _$SecuritySettingsToJson(SecuritySettings instance) =>
+    <String, dynamic>{
+      'showBirthDay': instance.showBirthDay,
+      'showHomePlace': instance.showHomePlace,
+      'showLocation': instance.showLocation,
+    };
+
+Contacts _$ContactsFromJson(Map<String, dynamic> json) => Contacts()
+  ..nickname = json['nickname'] as String
+  ..fullName = json['fullName'] as String
+  ..email = json['email'] as String;
+
+Map<String, dynamic> _$ContactsToJson(Contacts instance) => <String, dynamic>{
+      'nickname': instance.nickname,
+      'fullName': instance.fullName,
+      'email': instance.email,
     };

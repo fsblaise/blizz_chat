@@ -16,7 +16,7 @@ class ProfileWidget extends ConsumerStatefulWidget {
 
 class _ProfileWidgetState extends ConsumerState<ProfileWidget> {
   late TextEditingController _fullNameController;
-  late FbUser userObj;
+  late User userObj;
 
   _updateUser() async {
     print('update user');
@@ -31,7 +31,8 @@ class _ProfileWidgetState extends ConsumerState<ProfileWidget> {
       ));
       Navigator.pop(context);
     } catch (e) {
-      scaffoldMessenger.showSnackBar(SnackBar(content: Text(_i10n.userUpdateFail)));
+      scaffoldMessenger
+          .showSnackBar(SnackBar(content: Text(_i10n.userUpdateFail)));
     }
   }
 
@@ -55,7 +56,9 @@ class _ProfileWidgetState extends ConsumerState<ProfileWidget> {
             Row(
               children: [
                 CircleAvatar(
-                  child: userObj.profileURL != '' ? Image.network(userObj.profileURL) : const Icon(Icons.person),
+                  child: userObj.profileURL != ''
+                      ? Image.network(userObj.profileURL)
+                      : const Icon(Icons.person),
                   radius: 24,
                 ),
                 const SizedBox(
@@ -76,17 +79,18 @@ class _ProfileWidgetState extends ConsumerState<ProfileWidget> {
             const SizedBox(height: 16),
             Row(
               children: [
-                Switch(
-                    value: userObj.settings['useDarkMode'],
-                    onChanged: (bool val) {
-                      setState(() {
-                        userObj.settings['useDarkMode'] = val;
-                      });
-                    }),
+                // Switch(
+                //     value: userObj.settings['useDarkMode'],
+                //     onChanged: (bool val) {
+                //       setState(() {
+                //         userObj.settings['useDarkMode'] = val;
+                //       });
+                //     }),
                 const SizedBox(
                   width: 4,
                 ),
-                Text('${_i10n.darkMode} ${userObj.settings['useDarkMode'] ? _i10n.on : _i10n.off}')
+                // Text(
+                //     '${_i10n.darkMode} ${userObj.settings['useDarkMode'] ? _i10n.on : _i10n.off}')
               ],
             ),
             TextButton(onPressed: _updateUser, child: Text(_i10n.saveChanges))

@@ -1,5 +1,6 @@
 import 'package:blizz_chat/features/auth/application/sign_up_controller.dart';
 import 'package:blizz_chat/features/auth/domain/sign_up_form.dart';
+import 'package:blizz_chat/features/auth/presentation/pages/auth.dart';
 import 'package:blizz_chat/features/auth/presentation/widgets/auth_text_field.dart';
 import 'package:blizz_chat/features/auth/presentation/widgets/button_expanded.dart';
 import 'package:blizz_chat/features/core/presentation/pages/home.dart';
@@ -38,11 +39,16 @@ class _SignUpState extends ConsumerState<SignUp> {
     final scaffoldMessenger = ScaffoldMessenger.of(ref.context);
     final signUpController = ref.read(signUpControllerProvider.notifier);
     try {
-      final user = await signUpController.signUp();
-      Navigator.pushAndRemoveUntil(
-          context, CupertinoPageRoute(builder: (context) => const HomePage()), (route) => false);
+      final success = await signUpController.signUp();
+      if (success) {
+        Navigator.pushAndRemoveUntil(
+            context,
+            CupertinoPageRoute(builder: (context) => const AuthPage()),
+            (route) => false);
+      }
     } catch (e) {
-      scaffoldMessenger.showSnackBar(SnackBar(content: Text(_i10n.failedToSignUp)));
+      scaffoldMessenger
+          .showSnackBar(SnackBar(content: Text(_i10n.failedToSignUp)));
     }
   }
 
@@ -56,7 +62,8 @@ class _SignUpState extends ConsumerState<SignUp> {
         if (currentStep == 2)
           Padding(
             padding: const EdgeInsets.only(top: 16, left: 16),
-            child: IconButton(onPressed: switchSteps, icon: const Icon(Icons.arrow_back)),
+            child: IconButton(
+                onPressed: switchSteps, icon: const Icon(Icons.arrow_back)),
           ),
         Expanded(
           child: AnimatedSwitcher(
@@ -64,8 +71,11 @@ class _SignUpState extends ConsumerState<SignUp> {
             reverseDuration: const Duration(milliseconds: 0),
             transitionBuilder: (child, animation) => SlideTransition(
                 position: currentStep == 2
-                    ? Tween<Offset>(begin: const Offset(1, 0), end: Offset.zero).animate(animation)
-                    : Tween<Offset>(begin: const Offset(-1, 0), end: Offset.zero).animate(animation),
+                    ? Tween<Offset>(begin: const Offset(1, 0), end: Offset.zero)
+                        .animate(animation)
+                    : Tween<Offset>(
+                            begin: const Offset(-1, 0), end: Offset.zero)
+                        .animate(animation),
                 child: child),
             child: currentStep == 1
                 ? AuthStep(
@@ -105,7 +115,11 @@ class AuthStep extends ConsumerWidget {
   final dynamic continueTap;
   final Function() switchPressed;
   final SignUpForm signUpForm;
-  const AuthStep({super.key, required this.continueTap, required this.switchPressed, required this.signUpForm});
+  const AuthStep(
+      {super.key,
+      required this.continueTap,
+      required this.switchPressed,
+      required this.signUpForm});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -128,21 +142,26 @@ class AuthStep extends ConsumerWidget {
               AuthTextField(
                   obscure: false,
                   initialValue: signUpForm.email,
-                  onChanged: ref.read(signUpControllerProvider.notifier).updateEmail,
+                  onChanged:
+                      ref.read(signUpControllerProvider.notifier).updateEmail,
                   errorText: signUpForm.emailErrorText,
                   icon: const Icon(Icons.email),
                   hint: _i10n.emailAddress),
               AuthTextField(
                   obscure: true,
                   initialValue: signUpForm.password,
-                  onChanged: ref.read(signUpControllerProvider.notifier).updatePassword,
+                  onChanged: ref
+                      .read(signUpControllerProvider.notifier)
+                      .updatePassword,
                   errorText: signUpForm.passwordErrorText,
                   icon: const Icon(Icons.lock),
                   hint: _i10n.password),
               AuthTextField(
                   obscure: true,
                   initialValue: signUpForm.confirmPassword,
-                  onChanged: ref.read(signUpControllerProvider.notifier).updateConfirmPassword,
+                  onChanged: ref
+                      .read(signUpControllerProvider.notifier)
+                      .updateConfirmPassword,
                   errorText: signUpForm.confirmPasswordErrorText,
                   icon: const Icon(Icons.lock),
                   hint: _i10n.confirmPassword),
@@ -155,7 +174,8 @@ class AuthStep extends ConsumerWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text(_i10n.alreadyMember),
-                  TextButton(onPressed: switchPressed, child: Text(_i10n.loginNow))
+                  TextButton(
+                      onPressed: switchPressed, child: Text(_i10n.loginNow))
                 ],
               )
             ],
@@ -169,7 +189,8 @@ class AuthStep extends ConsumerWidget {
 class PersonalStep extends ConsumerWidget {
   final dynamic submitTap;
   final SignUpForm signUpForm;
-  const PersonalStep({super.key, required this.submitTap, required this.signUpForm});
+  const PersonalStep(
+      {super.key, required this.submitTap, required this.signUpForm});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -188,11 +209,14 @@ class PersonalStep extends ConsumerWidget {
               AuthTextField(
                   obscure: false,
                   initialValue: signUpForm.name,
-                  onChanged: ref.read(signUpControllerProvider.notifier).updateName,
+                  onChanged:
+                      ref.read(signUpControllerProvider.notifier).updateName,
                   errorText: signUpForm.nameErrorText,
                   icon: const Icon(Icons.person),
                   hint: _i10n.fullName),
-              ExpandedButton(onTap: signUpForm.isValid ? submitTap : null, text: _i10n.signUp)
+              ExpandedButton(
+                  onTap: signUpForm.isValid ? submitTap : null,
+                  text: _i10n.signUp)
             ],
           )
         ],
