@@ -34,6 +34,7 @@ dev_dependencies:
   mocktail: ^1.0.4
   very_good_analysis: ^6.0.0
   injectable_generator: ^2.6.2
+  chopper_generator: ^8.0.1
 
 flutter:
   uses-material-design: true

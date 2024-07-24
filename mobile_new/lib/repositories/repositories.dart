@@ -1,6 +1,13 @@
-export 'auth/auth_repository.dart'; 
-export 'chats/chats_repository.dart'; 
-export 'map/map_repository.dart'; 
-export 'messaging/messaging_repository.dart'; 
-export 'stories/stories_repository.dart'; 
-export 'users/users_repository.dart'; 
+library repositories;
+
+import 'package:blizz_chat/models/auth/auth_dtos.dart';
+import 'package:blizz_chat/resources/services/services.dart';
+import 'package:chopper/chopper.dart';
+
+part 'auth/auth_repository.dart';
+part 'chats/chats_repository.dart';
+part 'map/map_repository.dart';
+part 'messaging/messaging_repository.dart';
+part 'stories/stories_repository.dart';
+part 'users/users_repository.dart';
+part 'repository_interface.dart';
