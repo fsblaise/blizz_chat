@@ -340,3 +340,171 @@ abstract class _SignInDto implements SignInDto {
   _$$SignInDtoImplCopyWith<_$SignInDtoImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
+
+AuthResponseDto _$AuthResponseDtoFromJson(Map<String, dynamic> json) {
+  return _AuthResponseDto.fromJson(json);
+}
+
+/// @nodoc
+mixin _$AuthResponseDto {
+  String get token => throw _privateConstructorUsedError;
+  User get user => throw _privateConstructorUsedError;
+
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  @JsonKey(ignore: true)
+  $AuthResponseDtoCopyWith<AuthResponseDto> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $AuthResponseDtoCopyWith<$Res> {
+  factory $AuthResponseDtoCopyWith(
+          AuthResponseDto value, $Res Function(AuthResponseDto) then) =
+      _$AuthResponseDtoCopyWithImpl<$Res, AuthResponseDto>;
+  @useResult
+  $Res call({String token, User user});
+
+  $UserCopyWith<$Res> get user;
+}
+
+/// @nodoc
+class _$AuthResponseDtoCopyWithImpl<$Res, $Val extends AuthResponseDto>
+    implements $AuthResponseDtoCopyWith<$Res> {
+  _$AuthResponseDtoCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? token = null,
+    Object? user = null,
+  }) {
+    return _then(_value.copyWith(
+      token: null == token
+          ? _value.token
+          : token // ignore: cast_nullable_to_non_nullable
+              as String,
+      user: null == user
+          ? _value.user
+          : user // ignore: cast_nullable_to_non_nullable
+              as User,
+    ) as $Val);
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $UserCopyWith<$Res> get user {
+    return $UserCopyWith<$Res>(_value.user, (value) {
+      return _then(_value.copyWith(user: value) as $Val);
+    });
+  }
+}
+
+/// @nodoc
+abstract class _$$AuthResponseDtoImplCopyWith<$Res>
+    implements $AuthResponseDtoCopyWith<$Res> {
+  factory _$$AuthResponseDtoImplCopyWith(_$AuthResponseDtoImpl value,
+          $Res Function(_$AuthResponseDtoImpl) then) =
+      __$$AuthResponseDtoImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call({String token, User user});
+
+  @override
+  $UserCopyWith<$Res> get user;
+}
+
+/// @nodoc
+class __$$AuthResponseDtoImplCopyWithImpl<$Res>
+    extends _$AuthResponseDtoCopyWithImpl<$Res, _$AuthResponseDtoImpl>
+    implements _$$AuthResponseDtoImplCopyWith<$Res> {
+  __$$AuthResponseDtoImplCopyWithImpl(
+      _$AuthResponseDtoImpl _value, $Res Function(_$AuthResponseDtoImpl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? token = null,
+    Object? user = null,
+  }) {
+    return _then(_$AuthResponseDtoImpl(
+      token: null == token
+          ? _value.token
+          : token // ignore: cast_nullable_to_non_nullable
+              as String,
+      user: null == user
+          ? _value.user
+          : user // ignore: cast_nullable_to_non_nullable
+              as User,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$AuthResponseDtoImpl implements _AuthResponseDto {
+  const _$AuthResponseDtoImpl({required this.token, required this.user});
+
+  factory _$AuthResponseDtoImpl.fromJson(Map<String, dynamic> json) =>
+      _$$AuthResponseDtoImplFromJson(json);
+
+  @override
+  final String token;
+  @override
+  final User user;
+
+  @override
+  String toString() {
+    return 'AuthResponseDto(token: $token, user: $user)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$AuthResponseDtoImpl &&
+            (identical(other.token, token) || other.token == token) &&
+            (identical(other.user, user) || other.user == user));
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode => Object.hash(runtimeType, token, user);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$AuthResponseDtoImplCopyWith<_$AuthResponseDtoImpl> get copyWith =>
+      __$$AuthResponseDtoImplCopyWithImpl<_$AuthResponseDtoImpl>(
+          this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$AuthResponseDtoImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class _AuthResponseDto implements AuthResponseDto {
+  const factory _AuthResponseDto(
+      {required final String token,
+      required final User user}) = _$AuthResponseDtoImpl;
+
+  factory _AuthResponseDto.fromJson(Map<String, dynamic> json) =
+      _$AuthResponseDtoImpl.fromJson;
+
+  @override
+  String get token;
+  @override
+  User get user;
+  @override
+  @JsonKey(ignore: true)
+  _$$AuthResponseDtoImplCopyWith<_$AuthResponseDtoImpl> get copyWith =>
+      throw _privateConstructorUsedError;
+}

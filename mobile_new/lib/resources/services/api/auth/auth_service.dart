@@ -4,13 +4,16 @@ part of '../api.dart';
 abstract class AuthService extends ChopperService {
   static AuthService create(ChopperClient client) => _$AuthService(client);
 
+  @Get()
+  Future<Response<void>> fetchUserByToken();
+
   @Post(
     path: '/signUp',
   )
-  Future<Response> signUp(@Body() SignUpDto body);
+  Future<Response<dynamic>> signUp(@Body() SignUpDto body);
 
   @Post(
     path: '/signIn',
   )
-  Future<Response> signIn(@Body() SignInDto body);
+  Future<Response<dynamic>> signIn(@Body() SignInDto body);
 }

@@ -1,4 +1,7 @@
 import 'package:auto_route/annotations.dart';
+import 'package:blizz_chat/models/auth/auth_dtos.dart';
+import 'package:blizz_chat/repositories/repositories.dart';
+import 'package:blizz_chat/resources/services/services.dart';
 import 'package:blizz_chat/ui/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 
@@ -40,8 +43,11 @@ class _HomePageState extends State<HomePage> {
           actions: [],
         ),
         body: [
-          const Center(
-            child: Text('Chats'),
+          Center(
+            child: FilledButton(
+              child: const Text('Chats'),
+              onPressed: () async => {},
+            ),
           ),
           const Center(
             child: Text('Stories'),

@@ -18,6 +18,17 @@ final class _$AuthService extends AuthService {
   final Type definitionType = AuthService;
 
   @override
+  Future<Response<void>> fetchUserByToken() {
+    final Uri $url = Uri.parse('/users');
+    final Request $request = Request(
+      'GET',
+      $url,
+      client.baseUrl,
+    );
+    return client.send<void, void>($request);
+  }
+
+  @override
   Future<Response<dynamic>> signUp(SignUpDto body) {
     final Uri $url = Uri.parse('/users/signUp');
     final $body = body;

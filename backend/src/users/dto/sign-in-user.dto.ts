@@ -5,7 +5,7 @@ export class SignInUserDto {
   password: string;
 }
 
-export class SignInUserResponseDto {
+export class AuthResponseDto {
   token: string;
   user: UserProfileDto;
 }

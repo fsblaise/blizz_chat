@@ -5,7 +5,7 @@ import { InjectModel } from '@nestjs/mongoose';
 import { User } from './schemas/user.schema';
 import { Model } from 'mongoose';
 import * as bcrypt from 'bcrypt';
-import { SignInUserDto, SignInUserResponseDto } from './dto/sign-in-user.dto';
+import { SignInUserDto, AuthResponseDto } from './dto/sign-in-user.dto';
 import { JwtService } from '@nestjs/jwt';
 import { UserDto, UserProfileDto } from './dto/user.dto';
 
@@ -18,15 +18,21 @@ export class UsersService {
                             private jwtService: JwtService
   ) { }
 
-  async signUp(createUserDto: CreateUserDto): Promise<boolean> {
+  async signUp(createUserDto: CreateUserDto): Promise<AuthResponseDto> {
     const hashPass = await bcrypt.hash(createUserDto.password, this.saltOrRounds);
     createUserDto.password = hashPass;
     const user = new this.userModel(createUserDto);
     const entity = await user.save();
-    return entity != null;
+
+    const payload = { sub: (entity as any)._id, email: entity.email };
+
+    return {
+      token: await this.jwtService.signAsync(payload),
+      user: this.convertEntityToProfileDto(entity)
+    };
   }
 
-  async signIn(signInUserDto: SignInUserDto): Promise<SignInUserResponseDto> {
+  async signIn(signInUserDto: SignInUserDto): Promise<AuthResponseDto> {
     const entities = await this.userModel.find({ email: signInUserDto.email }).exec();
     const entity = entities[0];
     const isMatch = await bcrypt.compare(signInUserDto.password, entity.password);
@@ -42,6 +48,7 @@ export class UsersService {
       user: this.convertEntityToProfileDto(entity)
     };
   }
+
 
   async findAll(): Promise<UserDto[]> {
     const entities = await this.userModel.find().exec();

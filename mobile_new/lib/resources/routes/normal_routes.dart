@@ -10,16 +10,13 @@ final normalRoutes = [
   AutoRoute(
     page: LoginRoute.page,
     path: '/login',
-    initial: true,
   ),
   AutoRoute(
     page: RegisterRoute.page,
     path: '/register',
-    initial: true,
   ),
   AutoRoute(
     page: CounterRoute.page,
     path: '/counter',
-    initial: true,
   ),
 ];

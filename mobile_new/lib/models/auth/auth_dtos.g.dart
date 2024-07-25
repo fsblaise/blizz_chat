@@ -31,3 +31,17 @@ Map<String, dynamic> _$$SignInDtoImplToJson(_$SignInDtoImpl instance) =>
       'email': instance.email,
       'password': instance.password,
     };
+
+_$AuthResponseDtoImpl _$$AuthResponseDtoImplFromJson(
+        Map<String, dynamic> json) =>
+    _$AuthResponseDtoImpl(
+      token: json['token'] as String,
+      user: User.fromJson(json['user'] as Map<String, dynamic>),
+    );
+
+Map<String, dynamic> _$$AuthResponseDtoImplToJson(
+        _$AuthResponseDtoImpl instance) =>
+    <String, dynamic>{
+      'token': instance.token,
+      'user': instance.user,
+    };

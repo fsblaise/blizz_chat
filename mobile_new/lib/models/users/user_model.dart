@@ -10,5 +10,5 @@ class User with _$User {
     required String email,
   }) = _User;
 
-  factory User.fromJson(Map<String, Object> json) => _$UserFromJson(json);
+  factory User.fromJson(Map<String, dynamic> json) => _$UserFromJson(json);
 }

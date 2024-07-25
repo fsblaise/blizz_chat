@@ -1,6 +1,9 @@
 library repositories;
 
+import 'dart:convert';
+
 import 'package:blizz_chat/models/auth/auth_dtos.dart';
+import 'package:blizz_chat/models/models.dart';
 import 'package:blizz_chat/resources/services/services.dart';
 import 'package:chopper/chopper.dart';
 

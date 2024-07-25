@@ -1,8 +1,8 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, Query, UseGuards } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, Query, UseGuards, Req } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
-import { SignInUserDto, SignInUserResponseDto } from './dto/sign-in-user.dto';
+import { SignInUserDto, AuthResponseDto } from './dto/sign-in-user.dto';
 import { UserDto, UserProfileDto } from './dto/user.dto';
 import { AuthGuard } from 'src/shared/guards/auth.guard';
 
@@ -11,16 +11,24 @@ export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
   @Post('/signUp')
-  create(@Body() createUserDto: CreateUserDto): Promise<boolean> {
+  create(@Body() createUserDto: CreateUserDto): Promise<AuthResponseDto> {
     return this.usersService.signUp(createUserDto);
   }
 
   @Post('/signIn')
-  signIn(@Body() signInUserDto: SignInUserDto): Promise<SignInUserResponseDto> {
+  signIn(@Body() signInUserDto: SignInUserDto): Promise<AuthResponseDto> {
     return this.usersService.signIn(signInUserDto);
   }
 
   @Get()
+  @UseGuards(AuthGuard)
+  fetchUserByToken(@Req() request: Request): Promise<UserDto> {
+    const user = request['user'];
+    console.log(user);
+    return this.usersService.findOne(user.sub);
+  }
+
+  @Get('/all')
   @UseGuards(AuthGuard)
   findAll(): Promise<UserDto[]> {
     return this.usersService.findAll();

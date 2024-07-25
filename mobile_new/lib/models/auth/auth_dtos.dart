@@ -1,3 +1,4 @@
+import 'package:blizz_chat/models/models.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 part 'auth_dtos.freezed.dart';
 part 'auth_dtos.g.dart';
@@ -23,4 +24,15 @@ class SignInDto with _$SignInDto {
 
   factory SignInDto.fromJson(Map<String, Object?> json) =>
       _$SignInDtoFromJson(json);
+}
+
+@freezed
+class AuthResponseDto with _$AuthResponseDto {
+  const factory AuthResponseDto({
+    required String token,
+    required User user,
+  }) = _AuthResponseDto;
+
+  factory AuthResponseDto.fromJson(Map<String, Object?> json) =>
+      _$AuthResponseDtoFromJson(json);
 }
