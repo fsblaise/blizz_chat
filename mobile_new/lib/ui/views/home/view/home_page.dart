@@ -1,9 +1,13 @@
 import 'package:auto_route/annotations.dart';
+import 'package:auto_route/auto_route.dart';
 import 'package:blizz_chat/models/auth/auth_dtos.dart';
 import 'package:blizz_chat/repositories/repositories.dart';
+import 'package:blizz_chat/resources/routes/app_router.dart';
 import 'package:blizz_chat/resources/services/services.dart';
+import 'package:blizz_chat/ui/views/auth/auth.dart';
 import 'package:blizz_chat/ui/widgets/widgets.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 @RoutePage()
 class HomePage extends StatefulWidget {
@@ -46,7 +50,7 @@ class _HomePageState extends State<HomePage> {
           Center(
             child: FilledButton(
               child: const Text('Chats'),
-              onPressed: () async => {},
+              onPressed: _signOut,
             ),
           ),
           const Center(
@@ -62,5 +66,10 @@ class _HomePageState extends State<HomePage> {
         ),
       ),
     );
+  }
+
+  Future<void> _signOut() async {
+    await context.read<AuthCubit>().signOut();
+    await context.router.replace(const WelcomeRoute());
   }
 }

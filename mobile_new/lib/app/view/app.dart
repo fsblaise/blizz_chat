@@ -13,6 +13,7 @@ class App extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         BlocProvider(create: (_) => AuthCubit()),
+        BlocProvider(create: (_) => LoginFormCubit()),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
@@ -25,6 +26,12 @@ class App extends StatelessWidget {
         localizationsDelegates: AppLocalizations.localizationsDelegates,
         supportedLocales: AppLocalizations.supportedLocales,
         home: MaterialApp.router(
+          theme: ThemeData(
+            appBarTheme: AppBarTheme(
+              backgroundColor: Theme.of(context).colorScheme.inversePrimary,
+            ),
+            useMaterial3: true,
+          ),
           debugShowCheckedModeBanner: false,
           routerConfig: appRouter.config(),
         ),

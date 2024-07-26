@@ -2,7 +2,6 @@ import 'package:auto_route/auto_route.dart';
 import 'package:blizz_chat/resources/routes/app_router.dart';
 import 'package:blizz_chat/resources/services/services.dart';
 import 'package:blizz_chat/ui/ui.dart';
-import 'package:blizz_chat/ui/views/auth/cubit/auth_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -21,8 +20,12 @@ class _WelcomePageState extends State<WelcomePage> {
   initState() {
     super.initState();
     // getIt.get<SharedPreferencesService>().preferences!.setString('token', '');
-    getIt.get<SharedPreferencesService>().preferences!.setString('token',
-        'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2Njk5MDQwYWM1ZDk1OWVkZWFiM2I5YjEiLCJlbWFpbCI6ImFzZDJAZ21haWwuY29tIiwiaWF0IjoxNzIxOTE3MTY1LCJleHAiOjE3MjIwMDM1NjV9.hroIPjPJsPNh5LI7quHUR3n3ZjMby4cHaNtIkJ6jeXg');
+  }
+
+  @override
+  dispose() {
+    print('welcome disposed');
+    super.dispose();
   }
 
   Widget _renderLoading() {
@@ -60,7 +63,9 @@ class _WelcomePageState extends State<WelcomePage> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               OutlinedButton(
-                onPressed: () {},
+                onPressed: () {
+                  context.router.push(const LoginRoute());
+                },
                 style: const ButtonStyle(
                   minimumSize: WidgetStatePropertyAll(Size(120, 40)),
                 ),
@@ -77,7 +82,7 @@ class _WelcomePageState extends State<WelcomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: BlocConsumer<AuthCubit, AuthState>(
-        bloc: _authCubit,
+        // bloc: _authCubit,
         builder: (context, state) {
           if (state is AuthUnauthenticated) {
             return _renderWelcome();

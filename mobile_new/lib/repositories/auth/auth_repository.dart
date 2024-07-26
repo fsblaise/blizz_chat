@@ -26,6 +26,7 @@ class AuthRepository extends RepositoryInterface<AuthService> {
     //     getIt.get<SharedPreferencesService>().preferences!.getString('user');
     print('fetch');
     final response = await _singleton.service.fetchUserByToken();
+    print(response);
     if (token == null || !response.isSuccessful) {
       return null;
     } else {
@@ -43,6 +44,14 @@ class AuthRepository extends RepositoryInterface<AuthService> {
 
   static Future<void> signOut() async {
     // TODO: implement
+    await getIt
+        .get<SharedPreferencesService>()
+        .preferences!
+        .setString('token', '');
+    await getIt
+        .get<SharedPreferencesService>()
+        .preferences!
+        .setString('user', '');
   }
 
   /// It processes the signInResponse from the backend.
