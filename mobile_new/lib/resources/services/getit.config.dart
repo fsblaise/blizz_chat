@@ -11,6 +11,7 @@
 import 'package:get_it/get_it.dart' as _i174;
 import 'package:injectable/injectable.dart' as _i526;
 
+import 'dialogs/dialog_service.dart' as _i178;
 import 'preferences/preferences.dart' as _i774;
 
 extension GetItInjectableX on _i174.GetIt {
@@ -23,6 +24,10 @@ extension GetItInjectableX on _i174.GetIt {
       this,
       environment,
       environmentFilter,
+    );
+    await gh.singletonAsync<_i178.DialogService>(
+      () => _i178.DialogService.initialize(),
+      preResolve: true,
     );
     await gh.lazySingletonAsync<_i774.SharedPreferencesService>(
       () => _i774.SharedPreferencesService.init(),
