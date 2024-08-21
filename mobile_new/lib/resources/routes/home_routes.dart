@@ -3,27 +3,23 @@ import 'package:blizz_chat/resources/routes/app_router.dart';
 
 final homeRoutes = [
   AutoRoute(
-    page: HomeRoute.page,
-    path: '/home',
-  ),
-  AutoRoute(
     page: ChatsRoute.page,
-    path: '/chats',
+    path: 'chats',
   ),
   AutoRoute(
     page: MessagingRoute.page,
-    path: '/messaging',
+    path: 'messaging',
   ),
   AutoRoute(
     page: StoriesRoute.page,
-    path: '/stories',
+    path: 'stories',
   ),
   AutoRoute(
     page: MapRoute.page,
-    path: '/map',
+    path: 'map',
   ),
   AutoRoute(
     page: SettingsRoute.page,
-    path: '/settings',
+    path: 'settings',
   ),
 ];

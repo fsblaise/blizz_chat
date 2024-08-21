@@ -1,5 +1,7 @@
 import 'package:auto_route/annotations.dart';
-import 'package:blizz_chat/ui/views/auth/auth.dart';
+import 'package:auto_route/auto_route.dart';
+import 'package:blizz_chat/resources/routes/app_router.dart';
+import 'package:blizz_chat/ui/ui.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -49,7 +51,7 @@ class _LoginPageState extends State<LoginPage> {
               Column(
                 children: [
                   const Text(
-                    'Please log in!',
+                    'Please log in',
                     style: TextStyle(fontSize: 18),
                   ),
                   AuthTextField(
@@ -82,7 +84,9 @@ class _LoginPageState extends State<LoginPage> {
                     children: [
                       const Text('Not a member yet?'),
                       TextButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          context.router.replace(const RegisterRoute());
+                        },
                         child: const Text('Register now'),
                       ),
                     ],
