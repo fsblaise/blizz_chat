@@ -19,4 +19,12 @@ final normalRoutes = [
     page: CounterRoute.page,
     path: '/counter',
   ),
+  AutoRoute(
+    page: SettingsRoute.page,
+    path: '/settings',
+  ),
+  AutoRoute(
+    page: MessagingRoute.page,
+    path: '/messaging',
+  ),
 ];

@@ -7,19 +7,11 @@ final homeRoutes = [
     path: 'chats',
   ),
   AutoRoute(
-    page: MessagingRoute.page,
-    path: 'messaging',
-  ),
-  AutoRoute(
     page: StoriesRoute.page,
     path: 'stories',
   ),
   AutoRoute(
     page: MapRoute.page,
     path: 'map',
-  ),
-  AutoRoute(
-    page: SettingsRoute.page,
-    path: 'settings',
   ),
 ];

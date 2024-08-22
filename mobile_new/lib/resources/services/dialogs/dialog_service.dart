@@ -18,54 +18,40 @@ class DialogService {
     bool isScrollControlled = false,
   }) async {
     return showModalBottomSheet(
-      backgroundColor: Colors.transparent,
       context: context,
       isScrollControlled: isScrollControlled,
-      builder: (context) => Column(
-        children: buttons
-            .map(
-              (button) => Padding(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 8, vertical: 16),
-                child: button,
-              ),
-            )
-            .toList(),
+      builder: (context) => Wrap(
+        children: [
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 16),
+            child: Column(
+              children: buttons
+                  .map(
+                    (button) => button,
+                  )
+                  .toList(),
+            ),
+          ),
+        ],
       ),
     );
   }
 
   Future<void> showSettingsSheetDialog(BuildContext context) {
     return showModalSheetDialog(context, [
-      InkWell(
-        onTap: () async {
-          await _signOut(context);
-        },
-        child: const Row(
-          children: [
-            Icon(
-              Icons.settings,
-            ),
-            Text(
-              'Logout',
-            ),
-          ],
-        ),
-      ),
-      InkWell(
+      SheetButton(
         onTap: () async {
           await context.router.push(const SettingsRoute());
         },
-        child: const Row(
-          children: [
-            Icon(
-              Icons.settings,
-            ),
-            Text(
-              'More Settings',
-            ),
-          ],
-        ),
+        iconData: Icons.settings,
+        text: 'More Settings',
+      ),
+      SheetButton(
+        onTap: () async {
+          await _signOut(context);
+        },
+        iconData: Icons.logout,
+        text: 'Logout',
       ),
     ]);
   }
@@ -73,5 +59,43 @@ class DialogService {
   Future<void> _signOut(BuildContext context) async {
     await context.read<AuthCubit>().signOut();
     await context.router.replace(const WelcomeRoute());
+  }
+}
+
+class SheetButton extends StatelessWidget {
+  const SheetButton({
+    required this.onTap,
+    required this.iconData,
+    required this.text,
+    super.key,
+  });
+
+  final dynamic Function() onTap;
+  final IconData iconData;
+  final String text;
+
+  @override
+  Widget build(BuildContext context) {
+    return InkWell(
+      onTap: onTap,
+      child: Padding(
+        padding: const EdgeInsets.symmetric(
+          horizontal: 16,
+          vertical: 16,
+        ),
+        child: Row(
+          children: [
+            Icon(
+              iconData,
+            ),
+            const SizedBox(width: 8),
+            Text(
+              text,
+              style: const TextStyle(fontSize: 16),
+            ),
+          ],
+        ),
+      ),
+    );
   }
 }

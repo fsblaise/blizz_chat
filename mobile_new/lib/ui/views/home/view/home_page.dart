@@ -2,6 +2,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:blizz_chat/resources/routes/app_router.dart';
 import 'package:blizz_chat/resources/services/services.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 @RoutePage()
 class HomePage extends StatefulWidget {
@@ -12,70 +13,72 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  int selectedPage = 0;
-  List<int> prevPages = [];
+  int _selectedPage = 0;
+  final List<int> _prevPages = [];
 
-  void onPageChanged(int index) {
-    if (selectedPage == index) return;
+  void _onPageChanged(int index, TabsRouter tabsRouter) {
+    if (_selectedPage == index) return;
     setState(() {
-      prevPages.add(selectedPage);
-      selectedPage = index;
+      _prevPages.add(_selectedPage);
+      _selectedPage = index;
+      tabsRouter.setActiveIndex(index); // Update the TabsRouter index
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    return PopScope(
-      onPopInvoked: (didPop) async {
-        if (prevPages.isNotEmpty) {
-          setState(() {
-            selectedPage = prevPages.removeLast();
-          });
-        }
+    return AutoTabsRouter(
+      builder: (context, child) {
+        final tabsRouter = AutoTabsRouter.of(context);
+
+        return PopScope(
+          onPopInvoked: (didPop) async {
+            if (_prevPages.isNotEmpty) {
+              setState(() {
+                _selectedPage = _prevPages.removeLast();
+                tabsRouter.setActiveIndex(_selectedPage);
+              });
+            } else {
+              await SystemNavigator.pop();
+            }
+          },
+          canPop: false,
+          child: Scaffold(
+            appBar: AppBar(
+              title: Text(['Chats', 'Stories', 'Maps'][tabsRouter.activeIndex]),
+              automaticallyImplyLeading: false,
+              actions: [
+                IconButton(
+                  onPressed: () {
+                    getIt.get<DialogService>().showSettingsSheetDialog(context);
+                  },
+                  icon: const Icon(Icons.more_vert),
+                ),
+              ],
+            ),
+            body: child,
+            bottomNavigationBar: BottomNavigationBar(
+              currentIndex: _selectedPage,
+              onTap: (index) {
+                _onPageChanged(index, tabsRouter);
+              },
+              items: const [
+                BottomNavigationBarItem(icon: Icon(Icons.chat), label: 'Chats'),
+                BottomNavigationBarItem(
+                  icon: Icon(Icons.photo),
+                  label: 'Stories',
+                ),
+                BottomNavigationBarItem(icon: Icon(Icons.map), label: 'Map'),
+              ],
+            ),
+          ),
+        );
       },
-      canPop: false,
-      child: AutoTabsScaffold(
-        routes: const [
-          ChatsRoute(),
-          StoriesRoute(),
-          MapRoute(),
-        ],
-        appBarBuilder: (_, tabsRouter) {
-          return AppBar(
-            title: Text(['Chats', 'Stories', 'Map'][tabsRouter.activeIndex]),
-            automaticallyImplyLeading: false,
-            actions: [
-              IconButton(
-                onPressed: () {
-                  getIt.get<DialogService>().showSettingsSheetDialog(context);
-                },
-                icon: const Icon(Icons.more_vert),
-              ),
-            ],
-          );
-        },
-        bottomNavigationBuilder: (_, tabsRouter) {
-          // return Navigation(
-          //   selectedIndex: selectedPage,
-          //   onChanged: onPageChanged,
-          // );
-          return BottomNavigationBar(
-            currentIndex: tabsRouter.activeIndex,
-            onTap: (index) {
-              onPageChanged(index);
-              tabsRouter.setActiveIndex(index);
-            },
-            items: const [
-              BottomNavigationBarItem(icon: Icon(Icons.chat), label: 'Chats'),
-              BottomNavigationBarItem(
-                icon: Icon(Icons.photo),
-                label: 'Stories',
-              ),
-              BottomNavigationBarItem(icon: Icon(Icons.map), label: 'Map'),
-            ],
-          );
-        },
-      ),
+      routes: const [
+        ChatsRoute(),
+        StoriesRoute(),
+        MapRoute(),
+      ],
     );
   }
 }
