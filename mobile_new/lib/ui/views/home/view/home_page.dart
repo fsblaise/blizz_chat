@@ -21,7 +21,7 @@ class _HomePageState extends State<HomePage> {
     setState(() {
       _prevPages.add(_selectedPage);
       _selectedPage = index;
-      tabsRouter.setActiveIndex(index); // Update the TabsRouter index
+      tabsRouter.setActiveIndex(index);
     });
   }
 

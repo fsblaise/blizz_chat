@@ -11,11 +11,8 @@ export class Preferences {
   @Prop({ default: false })
   syncDarkMode: boolean;
 
-  @Prop()
+  @Prop({ default: 'purple' })
   preferredColor: string;
-
-  @Prop()
-  chatFontSize: number;
 }
 
 @Schema()
@@ -45,11 +42,8 @@ export class Contact {
   @Prop()
   fullName: string;
 
-  @Prop({ unique: true })
+  @Prop({ unique: true, sparse: true })
   email: string;
-
-  @Prop({ type: Types.ObjectId, ref: 'User' }) // Reference to User document by _id
-  user: Types.ObjectId;
 }
 
 @Schema()
@@ -63,40 +57,40 @@ export class User {
   @Prop({ required: true })
   password: string;
 
-  @Prop({ required: false })
+  @Prop({ required: false, default: null })
   birthday: string;
 
-  @Prop({ required: false })
+  @Prop({ required: false, default: null })
   phoneNumber: string;
 
-  @Prop({ required: false })
+  @Prop({ required: false, default: null })
   country: string;
 
-  @Prop({ required: false })
+  @Prop({ required: false, default: null })
   city: string;
 
-  @Prop({ required: false })
+  @Prop({ required: false, default: null })
   location: string;
 
-  @Prop({ required: false })
+  @Prop({ required: false, default: null })
   gender: string;
 
-  @Prop({ type: [Contact], default: [] })
+  @Prop({ required: false, type: [Contact], default: [] })
   contacts: Contact[];
 
-  @Prop()
+  @Prop({ required: false, default: null })
   profileUrl: string;
 
-  @Prop({ default: 0 })
+  @Prop({ required: false, default: 0 })
   unreadMessageSum: number;
 
-  @Prop({ type: Map, of: Number, default: {} })
-  unreadMessages: Map<string, number>;
+  @Prop({ required: false, type: Map, of: String, default: {} })
+  unreadMessages: Map<string, string>;
 
-  @Prop({ type: Preferences, default: {} })
+  @Prop({ required: false, type: Preferences, default: {} })
   preferences: Preferences;
 
-  @Prop({ type: SecuritySettings, default: {} })
+  @Prop({ required: false, type: SecuritySettings, default: {} })
   securitySettings: SecuritySettings;
 }
 

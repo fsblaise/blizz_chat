@@ -4,3 +4,4 @@ export 'chats/chat_model.dart';
 export 'messaging/message_model.dart';
 export 'stories/story_model.dart';
 export 'users/user_model.dart';
+export 'users/user_dtos.dart';

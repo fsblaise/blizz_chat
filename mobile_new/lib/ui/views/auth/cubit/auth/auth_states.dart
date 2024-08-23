@@ -7,6 +7,6 @@ class AuthState with _$AuthState {
   const factory AuthState.unauthenticated() = AuthUnauthenticated;
   const factory AuthState.authenticated({
     required String token,
-    required User user,
+    required UserProfile user,
   }) = AuthAuthenticated;
 }

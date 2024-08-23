@@ -6,6 +6,7 @@ import 'dart:io';
 import 'package:blizz_chat/models/chats/chat_dtos.dart';
 import 'package:blizz_chat/models/models.dart';
 import 'package:blizz_chat/models/stories/story_dtos.dart';
+import 'package:blizz_chat/models/users/user_dtos.dart';
 import 'package:blizz_chat/resources/services/services.dart';
 import 'package:chopper/chopper.dart';
 
@@ -22,6 +23,12 @@ final apiService = ChopperClient(
   baseUrl: Uri.parse('http://192.168.0.139:3000/'),
   services: [
     AuthService.create(
+      ChopperClient(),
+    ),
+    ChatsService.create(
+      ChopperClient(),
+    ),
+    UsersService.create(
       ChopperClient(),
     ),
   ],

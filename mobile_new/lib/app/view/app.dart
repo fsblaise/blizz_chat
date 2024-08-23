@@ -15,6 +15,8 @@ class App extends StatelessWidget {
         BlocProvider(create: (_) => AuthCubit()),
         BlocProvider(create: (_) => LoginFormCubit()),
         BlocProvider(create: (_) => RegisterFormCubit()),
+        BlocProvider(create: (_) => ChatsCubit()),
+        BlocProvider(create: (_) => UsersCubit()),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,

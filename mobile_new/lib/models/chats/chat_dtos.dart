@@ -5,13 +5,32 @@ part 'chat_dtos.g.dart';
 @freezed
 class CreateChatDto with _$CreateChatDto {
   const factory CreateChatDto({
-    required String email,
-    required String password,
-    required String fullName,
+    required List<CreateParticipantDto> participants,
   }) = _CreateChatDto;
 
-  factory CreateChatDto.fromJson(Map<String, Object?> json) =>
+  factory CreateChatDto.fromJson(Map<String, dynamic> json) =>
       _$CreateChatDtoFromJson(json);
+}
+
+@freezed
+class CreateParticipantDto with _$CreateParticipantDto {
+  const factory CreateParticipantDto({
+    required CreateUserDto user,
+  }) = _CreateParticipantDto;
+
+  factory CreateParticipantDto.fromJson(Map<String, dynamic> json) =>
+      _$CreateParticipantDtoFromJson(json);
+}
+
+@freezed
+class CreateUserDto with _$CreateUserDto {
+  const factory CreateUserDto({
+    required String fullName,
+    required String email,
+  }) = _CreateUserDto;
+
+  factory CreateUserDto.fromJson(Map<String, dynamic> json) =>
+      _$CreateUserDtoFromJson(json);
 }
 
 @freezed

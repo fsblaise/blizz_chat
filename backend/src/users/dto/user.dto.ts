@@ -5,11 +5,12 @@ export class UserProfileDto {
   phoneNumber: string;
   country: string;
   city: string;
+  location: string;
   gender: string;
   contacts: ContactDto[];
   profileUrl: string;
   unreadMessageSum: number;
-  unreadMessages: Map<string, number>;
+  unreadMessages: Map<string, string>;
   preferences: PreferencesDto;
   securitySettings: SecuritySettingsDto;
 }
@@ -30,7 +31,6 @@ export class PreferencesDto {
   darkMode: boolean;
   syncDarkMode: boolean;
   preferredColor: string;
-  chatFontSize: number;
 }
 
 export class SecuritySettingsDto {
@@ -45,5 +45,4 @@ export class ContactDto {
   nickname: string;
   fullName: string;
   email: string;
-  user: any;
 }

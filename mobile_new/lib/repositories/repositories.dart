@@ -2,6 +2,7 @@ library repositories;
 
 import 'dart:convert';
 
+import 'package:auto_route/auto_route.dart';
 import 'package:blizz_chat/models/auth/auth_dtos.dart';
 import 'package:blizz_chat/models/models.dart';
 import 'package:blizz_chat/resources/services/services.dart';

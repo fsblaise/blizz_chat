@@ -348,7 +348,7 @@ AuthResponseDto _$AuthResponseDtoFromJson(Map<String, dynamic> json) {
 /// @nodoc
 mixin _$AuthResponseDto {
   String get token => throw _privateConstructorUsedError;
-  User get user => throw _privateConstructorUsedError;
+  UserProfile get user => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -362,9 +362,9 @@ abstract class $AuthResponseDtoCopyWith<$Res> {
           AuthResponseDto value, $Res Function(AuthResponseDto) then) =
       _$AuthResponseDtoCopyWithImpl<$Res, AuthResponseDto>;
   @useResult
-  $Res call({String token, User user});
+  $Res call({String token, UserProfile user});
 
-  $UserCopyWith<$Res> get user;
+  $UserProfileCopyWith<$Res> get user;
 }
 
 /// @nodoc
@@ -391,14 +391,14 @@ class _$AuthResponseDtoCopyWithImpl<$Res, $Val extends AuthResponseDto>
       user: null == user
           ? _value.user
           : user // ignore: cast_nullable_to_non_nullable
-              as User,
+              as UserProfile,
     ) as $Val);
   }
 
   @override
   @pragma('vm:prefer-inline')
-  $UserCopyWith<$Res> get user {
-    return $UserCopyWith<$Res>(_value.user, (value) {
+  $UserProfileCopyWith<$Res> get user {
+    return $UserProfileCopyWith<$Res>(_value.user, (value) {
       return _then(_value.copyWith(user: value) as $Val);
     });
   }
@@ -412,10 +412,10 @@ abstract class _$$AuthResponseDtoImplCopyWith<$Res>
       __$$AuthResponseDtoImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String token, User user});
+  $Res call({String token, UserProfile user});
 
   @override
-  $UserCopyWith<$Res> get user;
+  $UserProfileCopyWith<$Res> get user;
 }
 
 /// @nodoc
@@ -440,7 +440,7 @@ class __$$AuthResponseDtoImplCopyWithImpl<$Res>
       user: null == user
           ? _value.user
           : user // ignore: cast_nullable_to_non_nullable
-              as User,
+              as UserProfile,
     ));
   }
 }
@@ -456,7 +456,7 @@ class _$AuthResponseDtoImpl implements _AuthResponseDto {
   @override
   final String token;
   @override
-  final User user;
+  final UserProfile user;
 
   @override
   String toString() {
@@ -494,7 +494,7 @@ class _$AuthResponseDtoImpl implements _AuthResponseDto {
 abstract class _AuthResponseDto implements AuthResponseDto {
   const factory _AuthResponseDto(
       {required final String token,
-      required final User user}) = _$AuthResponseDtoImpl;
+      required final UserProfile user}) = _$AuthResponseDtoImpl;
 
   factory _AuthResponseDto.fromJson(Map<String, dynamic> json) =
       _$AuthResponseDtoImpl.fromJson;
@@ -502,7 +502,7 @@ abstract class _AuthResponseDto implements AuthResponseDto {
   @override
   String get token;
   @override
-  User get user;
+  UserProfile get user;
   @override
   @JsonKey(ignore: true)
   _$$AuthResponseDtoImplCopyWith<_$AuthResponseDtoImpl> get copyWith =>

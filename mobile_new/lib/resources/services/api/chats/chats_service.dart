@@ -8,7 +8,7 @@ abstract class ChatsService extends ChopperService {
   Future<Response<dynamic>> createChat(@Body() CreateChatDto body);
 
   @Get()
-  Future<Response<void>> findAll();
+  Future<Response<List<dynamic>>> findAll();
 
   @Get(
     path: '/{id}',

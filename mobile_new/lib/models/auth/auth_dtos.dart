@@ -11,7 +11,7 @@ class SignUpDto with _$SignUpDto {
     required String fullName,
   }) = _SignUpDto;
 
-  factory SignUpDto.fromJson(Map<String, Object?> json) =>
+  factory SignUpDto.fromJson(Map<String, dynamic> json) =>
       _$SignUpDtoFromJson(json);
 }
 
@@ -22,7 +22,7 @@ class SignInDto with _$SignInDto {
     required String password,
   }) = _SignInDto;
 
-  factory SignInDto.fromJson(Map<String, Object?> json) =>
+  factory SignInDto.fromJson(Map<String, dynamic> json) =>
       _$SignInDtoFromJson(json);
 }
 
@@ -30,9 +30,9 @@ class SignInDto with _$SignInDto {
 class AuthResponseDto with _$AuthResponseDto {
   const factory AuthResponseDto({
     required String token,
-    required User user,
+    required UserProfile user,
   }) = _AuthResponseDto;
 
-  factory AuthResponseDto.fromJson(Map<String, Object?> json) =>
+  factory AuthResponseDto.fromJson(Map<String, dynamic> json) =>
       _$AuthResponseDtoFromJson(json);
 }

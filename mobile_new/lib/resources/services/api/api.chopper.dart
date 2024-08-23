@@ -80,14 +80,14 @@ final class _$ChatsService extends ChatsService {
   }
 
   @override
-  Future<Response<void>> findAll() {
+  Future<Response<List<dynamic>>> findAll() {
     final Uri $url = Uri.parse('/chats');
     final Request $request = Request(
       'GET',
       $url,
       client.baseUrl,
     );
-    return client.send<void, void>($request);
+    return client.send<List<dynamic>, List<dynamic>>($request);
   }
 
   @override
@@ -179,6 +179,61 @@ final class _$StoriesService extends StoriesService {
       'DELETE',
       $url,
       client.baseUrl,
+    );
+    return client.send<dynamic, dynamic>($request);
+  }
+}
+
+// coverage:ignore-file
+// ignore_for_file: type=lint
+final class _$UsersService extends UsersService {
+  _$UsersService([ChopperClient? client]) {
+    if (client == null) return;
+    this.client = client;
+  }
+
+  @override
+  final Type definitionType = UsersService;
+
+  @override
+  Future<Response<dynamic>> findAll() {
+    final Uri $url = Uri.parse('/users');
+    final Request $request = Request(
+      'GET',
+      $url,
+      client.baseUrl,
+    );
+    return client.send<dynamic, dynamic>($request);
+  }
+
+  @override
+  Future<Response<dynamic>> search({
+    String? email,
+    String? fullName,
+  }) {
+    final Uri $url = Uri.parse('/users/search');
+    final Map<String, dynamic> $params = <String, dynamic>{
+      'email': email,
+      'fullName': fullName,
+    };
+    final Request $request = Request(
+      'GET',
+      $url,
+      client.baseUrl,
+      parameters: $params,
+    );
+    return client.send<dynamic, dynamic>($request);
+  }
+
+  @override
+  Future<Response<dynamic>> addContact(AddContactDto body) {
+    final Uri $url = Uri.parse('/users/add');
+    final $body = body;
+    final Request $request = Request(
+      'POST',
+      $url,
+      client.baseUrl,
+      body: $body,
     );
     return client.send<dynamic, dynamic>($request);
   }

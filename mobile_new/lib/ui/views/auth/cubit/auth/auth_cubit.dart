@@ -13,12 +13,18 @@ class AuthCubit extends Cubit<AuthState> {
 
   Future<void> checkLoggedInUser() async {
     final authData = await AuthRepository.getLoggedInUser();
-    print(authData);
     emit(
       authData != null
           ? AuthState.authenticated(token: authData.token, user: authData.user)
           : const AuthState.unauthenticated(),
     );
+  }
+
+  UserProfile? getCurrentUser() {
+    if (state is AuthAuthenticated) {
+      return (state as AuthAuthenticated).user;
+    }
+    return null;
   }
 
   Future<void> signUp(String email, String password, String fullName) async {
@@ -63,5 +69,9 @@ class AuthCubit extends Cubit<AuthState> {
   Future<void> signOut() async {
     await AuthRepository.signOut();
     emit(const AuthState.unauthenticated());
+  }
+
+  Future<void> addContact(String email, String fullName) async {
+    await UsersRepository.addUser(email, fullName);
   }
 }

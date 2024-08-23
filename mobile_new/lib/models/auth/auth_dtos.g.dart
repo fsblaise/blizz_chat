@@ -36,7 +36,7 @@ _$AuthResponseDtoImpl _$$AuthResponseDtoImplFromJson(
         Map<String, dynamic> json) =>
     _$AuthResponseDtoImpl(
       token: json['token'] as String,
-      user: User.fromJson(json['user'] as Map<String, dynamic>),
+      user: UserProfile.fromJson(json['user'] as Map<String, dynamic>),
     );
 
 Map<String, dynamic> _$$AuthResponseDtoImplToJson(

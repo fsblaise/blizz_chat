@@ -14,11 +14,12 @@ class WelcomePage extends StatefulWidget {
 }
 
 class _WelcomePageState extends State<WelcomePage> {
-  final _authCubit = AuthCubit();
+  late final AuthCubit _authCubit;
 
   @override
   initState() {
     super.initState();
+    _authCubit = context.read<AuthCubit>();
     // getIt.get<SharedPreferencesService>().preferences!.setString('token', '');
   }
 
@@ -86,6 +87,8 @@ class _WelcomePageState extends State<WelcomePage> {
         builder: (context, state) {
           if (state is AuthUnauthenticated) {
             return _renderWelcome();
+          } else if (state is AuthAuthenticated) {
+            context.router.replace(const HomeRoute());
           }
           return _renderLoading();
         },

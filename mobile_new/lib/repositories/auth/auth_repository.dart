@@ -24,9 +24,7 @@ class AuthRepository extends RepositoryInterface<AuthService> {
     // We should not fetch the user from the sharedprefs.
     // final user =
     //     getIt.get<SharedPreferencesService>().preferences!.getString('user');
-    print('fetch');
     final response = await _singleton.service.fetchUserByToken();
-    print(response);
     if (token == null || !response.isSuccessful) {
       return null;
     } else {
@@ -34,7 +32,7 @@ class AuthRepository extends RepositoryInterface<AuthService> {
           jsonDecode(response.bodyString) as Map<String, dynamic>;
       return AuthResponseDto(
         token: token,
-        user: User.fromJson(decodedResponse),
+        user: UserProfile.fromJson(decodedResponse),
       );
     }
 
@@ -64,8 +62,6 @@ class AuthRepository extends RepositoryInterface<AuthService> {
     final decodedResponse =
         jsonDecode(response.bodyString) as Map<String, dynamic>;
     final signInResponse = AuthResponseDto.fromJson(decodedResponse);
-
-    print(signInResponse);
 
     await getIt
         .get<SharedPreferencesService>()
