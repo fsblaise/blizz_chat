@@ -6,6 +6,7 @@ class UsersState with _$UsersState {
   const factory UsersState.fetching() = UsersFetching;
   const factory UsersState.fetched({
     required List<User> users,
+    required List<User> contacts,
   }) = UsersFetched;
   const factory UsersState.error({
     required String message,

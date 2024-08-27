@@ -197,7 +197,7 @@ final class _$UsersService extends UsersService {
 
   @override
   Future<Response<dynamic>> findAll() {
-    final Uri $url = Uri.parse('/users');
+    final Uri $url = Uri.parse('/users/all');
     final Request $request = Request(
       'GET',
       $url,

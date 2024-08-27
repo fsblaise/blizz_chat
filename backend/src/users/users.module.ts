@@ -20,7 +20,8 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
           signOptions: { expiresIn: '1d' }
         }
       },
-      inject: [ConfigService]
+      inject: [ConfigService],
+      global: true
     })
   ],
   controllers: [UsersController],

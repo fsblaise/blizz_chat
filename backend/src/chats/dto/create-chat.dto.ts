@@ -3,10 +3,6 @@ export class CreateChatDto {
 }
 
 class CreateParticipantDto {
-  user: CreateUserDto;
-}
-
-class CreateUserDto {
   fullName: string;
   email: string;
 }

@@ -4,26 +4,27 @@ import { HydratedDocument, Types } from "mongoose";
 export type ChatDocument = HydratedDocument<Chat>;
 export type ParticipantDocument = HydratedDocument<Participant>;
 
-@Schema({ _id: false })
+@Schema()
 export class Participant {
-  @Prop({ type: Types.ObjectId, ref: 'User', required: true }) // Reference to User schema
-  user: Types.ObjectId;
-
-  @Prop({ required: true })
+  @Prop()
   nickname: string;
-}
 
-export const ParticipantSchema = SchemaFactory.createForClass(Participant);
+  @Prop()
+  fullName: string;
+
+  @Prop({ unique: true })
+  email: string;
+}
 
 @Schema()
 export class Chat {
     @Prop({ required: true })
     title: string;
   
-    @Prop()
+    @Prop({ required: false, default: null})
     lastMessage: string;
   
-    @Prop({ type: [ParticipantSchema], default: [] })
+    @Prop({ required: true, type: [Participant] })
     participants: Participant[];
 }
 

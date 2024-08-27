@@ -32,8 +32,9 @@ export class UsersController {
 
   @Get('/all')
   @UseGuards(AuthGuard)
-  findAll(): Promise<UserDto[]> {
-    return this.usersService.findAll();
+  findAll(@Req() request: Request): Promise<UserDto[]> {
+    const user = request['user'];
+    return this.usersService.findAllContacts(user.sub);
   }
 
   @Get('/search')

@@ -1,15 +1,18 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards } from '@nestjs/common';
 import { ChatsService } from './chats.service';
 import { CreateChatDto } from './dto/create-chat.dto';
 import { UpdateChatDto } from './dto/update-chat.dto';
+import { AuthGuard } from 'src/shared/guards/auth.guard';
 
 @Controller('chats')
 export class ChatsController {
   constructor(private readonly chatsService: ChatsService) {}
 
   @Post()
+  @UseGuards(AuthGuard)
   create(@Body() createChatDto: CreateChatDto) {
-    return this.chatsService.create(createChatDto);
+    console.log(createChatDto.participants);
+    this.chatsService.create(createChatDto);
   }
 
   @Get()

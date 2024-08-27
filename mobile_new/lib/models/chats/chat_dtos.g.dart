@@ -21,22 +21,12 @@ Map<String, dynamic> _$$CreateChatDtoImplToJson(_$CreateChatDtoImpl instance) =>
 _$CreateParticipantDtoImpl _$$CreateParticipantDtoImplFromJson(
         Map<String, dynamic> json) =>
     _$CreateParticipantDtoImpl(
-      user: CreateUserDto.fromJson(json['user'] as Map<String, dynamic>),
-    );
-
-Map<String, dynamic> _$$CreateParticipantDtoImplToJson(
-        _$CreateParticipantDtoImpl instance) =>
-    <String, dynamic>{
-      'user': instance.user,
-    };
-
-_$CreateUserDtoImpl _$$CreateUserDtoImplFromJson(Map<String, dynamic> json) =>
-    _$CreateUserDtoImpl(
       fullName: json['fullName'] as String,
       email: json['email'] as String,
     );
 
-Map<String, dynamic> _$$CreateUserDtoImplToJson(_$CreateUserDtoImpl instance) =>
+Map<String, dynamic> _$$CreateParticipantDtoImplToJson(
+        _$CreateParticipantDtoImpl instance) =>
     <String, dynamic>{
       'fullName': instance.fullName,
       'email': instance.email,

@@ -51,8 +51,27 @@ export class UsersService {
   }
 
 
-  async findAll(): Promise<UserDto[]> {
-    const entities = await this.userModel.find().exec();
+  async findAllContacts(id: string): Promise<UserDto[]> {
+    const userEntity = await this.userModel.findById(id).exec();
+
+    if (!userEntity) {
+      throw new NotFoundException('User not found');
+    }
+
+    if (!userEntity.contacts) {
+      return [];
+    }
+
+    const emails = userEntity.contacts.map(contact => contact.email);
+    const fullNames = userEntity.contacts.map(contact => contact.fullName);
+
+    const entities = await this.userModel.find({
+      $and: [
+        { email: { $in: emails } },
+        { fullName: { $in: fullNames } },
+      ]
+    }).exec();
+
     return entities.map(entity => this.convertEntityToUserDto(entity));
   }
 
@@ -61,7 +80,7 @@ export class UsersService {
     return this.convertEntityToUserDto(entity);
   }
 
-  async findOneFull(id: string): Promise<UserProfileDto> {
+  async findOneFull(id: number): Promise<UserProfileDto> {
     const entity = await this.userModel.findById(id).exec();
     console.log(entity);
     
@@ -85,7 +104,7 @@ export class UsersService {
     return this.convertEntityToProfileDto(entity);
   }
 
-  async addContact(createContactDto: CreateContactDto, userId: String): Promise<User> {
+  async addContact(createContactDto: CreateContactDto, userId: number): Promise<User> {
     const userEntity = await this.userModel.findById(userId).exec();
     if (!userEntity) {
       throw new NotFoundException('User not found');

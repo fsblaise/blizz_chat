@@ -15,22 +15,12 @@ class CreateChatDto with _$CreateChatDto {
 @freezed
 class CreateParticipantDto with _$CreateParticipantDto {
   const factory CreateParticipantDto({
-    required CreateUserDto user,
+    required String fullName,
+    required String email,
   }) = _CreateParticipantDto;
 
   factory CreateParticipantDto.fromJson(Map<String, dynamic> json) =>
       _$CreateParticipantDtoFromJson(json);
-}
-
-@freezed
-class CreateUserDto with _$CreateUserDto {
-  const factory CreateUserDto({
-    required String fullName,
-    required String email,
-  }) = _CreateUserDto;
-
-  factory CreateUserDto.fromJson(Map<String, dynamic> json) =>
-      _$CreateUserDtoFromJson(json);
 }
 
 @freezed

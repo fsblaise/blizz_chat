@@ -5,6 +5,7 @@ import 'package:blizz_chat/ui/views/chats/view/chats/chats_list.dart';
 import 'package:blizz_chat/ui/views/chats/view/users/add_user.dart';
 import 'package:blizz_chat/ui/views/chats/view/users/users_list.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 enum Segments { chats, contacts }
 
@@ -21,17 +22,29 @@ class _ChatsPageState extends State<ChatsPage> {
   Segments selected = Segments.chats;
   bool isAdd = false;
   final TextEditingController _searchController = TextEditingController();
+  late final UsersCubit _usersCubit;
+  late final ChatsCubit _chatsCubit;
 
-  // _openAddChat() {
-  //   // Navigator.push(context,
-  //   //     CupertinoPageRoute(builder: (context) => const NewMessagePage()));
-  // }
+  @override
+  void initState() {
+    super.initState();
+    // Prefetching data to optimize api calling
+    _usersCubit = context.read<UsersCubit>();
+    _usersCubit.fetchContacts();
+    _chatsCubit = context.read<ChatsCubit>();
+    _chatsCubit.fetchChats();
+  }
 
-  // _openAddUser() {}
+  void _resetSearch() {
+    _keyword = '';
+    _searchController.clear();
+  }
 
   void _toggleAdd() {
     setState(() {
       isAdd = !isAdd;
+      _keyword = '';
+      _searchController.clear();
     });
   }
 
@@ -42,41 +55,37 @@ class _ChatsPageState extends State<ChatsPage> {
   }
 
   void _search(String value) {
-    // print(value);
     setState(() {
-      // print(value);
       _keyword = value;
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 16),
-      child: Scaffold(
-        floatingActionButton: selected == Segments.chats
-            ? FloatingActionButton(
-                onPressed: _toggleAdd,
-                child: isAdd
-                    ? const Icon(Icons.arrow_back)
-                    : const Icon(Icons.add_comment),
-              )
-            : FloatingActionButton(
-                onPressed: _toggleAdd,
-                child: isAdd
-                    ? const Icon(Icons.arrow_back)
-                    : const Icon(Icons.person_add),
-              ),
-        body: SingleChildScrollView(
-          child: Column(
-            children: [
-              SearchBarWidget(
-                searchController: _searchController,
-                fn: _search,
-              ),
-              const SizedBox(
-                height: 15,
-              ),
+    return Scaffold(
+      floatingActionButton: selected == Segments.chats
+          ? FloatingActionButton(
+              onPressed: _toggleAdd,
+              child: isAdd
+                  ? const Icon(Icons.arrow_back)
+                  : const Icon(Icons.add_comment),
+            )
+          : FloatingActionButton(
+              onPressed: _toggleAdd,
+              child: isAdd
+                  ? const Icon(Icons.arrow_back)
+                  : const Icon(Icons.person_add),
+            ),
+      body: Padding(
+        padding: const EdgeInsets.symmetric(vertical: 16),
+        child: Column(
+          children: [
+            SearchBarWidget(
+              searchController: _searchController,
+              fn: _search,
+            ),
+            const SizedBox(height: 15),
+            if (!isAdd)
               SegmentedButton(
                 segments: const [
                   ButtonSegment(value: Segments.chats, label: Text('Chats')),
@@ -101,22 +110,29 @@ class _ChatsPageState extends State<ChatsPage> {
                   visualDensity: VisualDensity.compact,
                 ),
               ),
-              const SizedBox(
-                height: 15,
-              ),
-              switch (selected) {
+            const SizedBox(height: 15),
+            Expanded(
+              child: switch (selected) {
                 Segments.chats => isAdd
-                    ? AddChat(keyword: _keyword)
+                    ? AddChat(
+                        keyword: _keyword,
+                        usersCubit: _usersCubit,
+                        chatsCubit: _chatsCubit,
+                      )
                     : ChatsList(keyword: _keyword),
                 Segments.contacts => isAdd
                     ? AddUser(
                         keyword: _keyword,
                         callback: _toggleAdd,
                       )
-                    : UsersList(keyword: _keyword),
+                    : UsersList(
+                        keyword: _keyword,
+                        usersCubit: _usersCubit,
+                        resetSearch: _resetSearch,
+                      ),
               },
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );

@@ -39,10 +39,8 @@ class ChatsCubit extends Cubit<ChatsState> {
         CreateChatDto(
           participants: [
             CreateParticipantDto(
-              user: CreateUserDto(
-                fullName: currentUser.fullName,
-                email: currentUser.email,
-              ),
+              fullName: currentUser.fullName,
+              email: currentUser.email,
             ),
             ...participants,
           ],

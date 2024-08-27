@@ -20,7 +20,7 @@ mixin _$UsersState {
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() fetching,
-    required TResult Function(List<User> users) fetched,
+    required TResult Function(List<User> users, List<User> contacts) fetched,
     required TResult Function(String message) error,
   }) =>
       throw _privateConstructorUsedError;
@@ -28,7 +28,7 @@ mixin _$UsersState {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function()? fetching,
-    TResult? Function(List<User> users)? fetched,
+    TResult? Function(List<User> users, List<User> contacts)? fetched,
     TResult? Function(String message)? error,
   }) =>
       throw _privateConstructorUsedError;
@@ -36,7 +36,7 @@ mixin _$UsersState {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? fetching,
-    TResult Function(List<User> users)? fetched,
+    TResult Function(List<User> users, List<User> contacts)? fetched,
     TResult Function(String message)? error,
     required TResult orElse(),
   }) =>
@@ -126,7 +126,7 @@ class _$UsersInitialImpl implements UsersInitial {
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() fetching,
-    required TResult Function(List<User> users) fetched,
+    required TResult Function(List<User> users, List<User> contacts) fetched,
     required TResult Function(String message) error,
   }) {
     return initial();
@@ -137,7 +137,7 @@ class _$UsersInitialImpl implements UsersInitial {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function()? fetching,
-    TResult? Function(List<User> users)? fetched,
+    TResult? Function(List<User> users, List<User> contacts)? fetched,
     TResult? Function(String message)? error,
   }) {
     return initial?.call();
@@ -148,7 +148,7 @@ class _$UsersInitialImpl implements UsersInitial {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? fetching,
-    TResult Function(List<User> users)? fetched,
+    TResult Function(List<User> users, List<User> contacts)? fetched,
     TResult Function(String message)? error,
     required TResult orElse(),
   }) {
@@ -240,7 +240,7 @@ class _$UsersFetchingImpl implements UsersFetching {
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() fetching,
-    required TResult Function(List<User> users) fetched,
+    required TResult Function(List<User> users, List<User> contacts) fetched,
     required TResult Function(String message) error,
   }) {
     return fetching();
@@ -251,7 +251,7 @@ class _$UsersFetchingImpl implements UsersFetching {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function()? fetching,
-    TResult? Function(List<User> users)? fetched,
+    TResult? Function(List<User> users, List<User> contacts)? fetched,
     TResult? Function(String message)? error,
   }) {
     return fetching?.call();
@@ -262,7 +262,7 @@ class _$UsersFetchingImpl implements UsersFetching {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? fetching,
-    TResult Function(List<User> users)? fetched,
+    TResult Function(List<User> users, List<User> contacts)? fetched,
     TResult Function(String message)? error,
     required TResult orElse(),
   }) {
@@ -320,7 +320,7 @@ abstract class _$$UsersFetchedImplCopyWith<$Res> {
           _$UsersFetchedImpl value, $Res Function(_$UsersFetchedImpl) then) =
       __$$UsersFetchedImplCopyWithImpl<$Res>;
   @useResult
-  $Res call({List<User> users});
+  $Res call({List<User> users, List<User> contacts});
 }
 
 /// @nodoc
@@ -335,11 +335,16 @@ class __$$UsersFetchedImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? users = null,
+    Object? contacts = null,
   }) {
     return _then(_$UsersFetchedImpl(
       users: null == users
           ? _value._users
           : users // ignore: cast_nullable_to_non_nullable
+              as List<User>,
+      contacts: null == contacts
+          ? _value._contacts
+          : contacts // ignore: cast_nullable_to_non_nullable
               as List<User>,
     ));
   }
@@ -348,7 +353,10 @@ class __$$UsersFetchedImplCopyWithImpl<$Res>
 /// @nodoc
 
 class _$UsersFetchedImpl implements UsersFetched {
-  const _$UsersFetchedImpl({required final List<User> users}) : _users = users;
+  const _$UsersFetchedImpl(
+      {required final List<User> users, required final List<User> contacts})
+      : _users = users,
+        _contacts = contacts;
 
   final List<User> _users;
   @override
@@ -358,9 +366,17 @@ class _$UsersFetchedImpl implements UsersFetched {
     return EqualUnmodifiableListView(_users);
   }
 
+  final List<User> _contacts;
+  @override
+  List<User> get contacts {
+    if (_contacts is EqualUnmodifiableListView) return _contacts;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_contacts);
+  }
+
   @override
   String toString() {
-    return 'UsersState.fetched(users: $users)';
+    return 'UsersState.fetched(users: $users, contacts: $contacts)';
   }
 
   @override
@@ -368,12 +384,15 @@ class _$UsersFetchedImpl implements UsersFetched {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$UsersFetchedImpl &&
-            const DeepCollectionEquality().equals(other._users, _users));
+            const DeepCollectionEquality().equals(other._users, _users) &&
+            const DeepCollectionEquality().equals(other._contacts, _contacts));
   }
 
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, const DeepCollectionEquality().hash(_users));
+  int get hashCode => Object.hash(
+      runtimeType,
+      const DeepCollectionEquality().hash(_users),
+      const DeepCollectionEquality().hash(_contacts));
 
   @JsonKey(ignore: true)
   @override
@@ -386,10 +405,10 @@ class _$UsersFetchedImpl implements UsersFetched {
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() fetching,
-    required TResult Function(List<User> users) fetched,
+    required TResult Function(List<User> users, List<User> contacts) fetched,
     required TResult Function(String message) error,
   }) {
-    return fetched(users);
+    return fetched(users, contacts);
   }
 
   @override
@@ -397,10 +416,10 @@ class _$UsersFetchedImpl implements UsersFetched {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function()? fetching,
-    TResult? Function(List<User> users)? fetched,
+    TResult? Function(List<User> users, List<User> contacts)? fetched,
     TResult? Function(String message)? error,
   }) {
-    return fetched?.call(users);
+    return fetched?.call(users, contacts);
   }
 
   @override
@@ -408,12 +427,12 @@ class _$UsersFetchedImpl implements UsersFetched {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? fetching,
-    TResult Function(List<User> users)? fetched,
+    TResult Function(List<User> users, List<User> contacts)? fetched,
     TResult Function(String message)? error,
     required TResult orElse(),
   }) {
     if (fetched != null) {
-      return fetched(users);
+      return fetched(users, contacts);
     }
     return orElse();
   }
@@ -457,10 +476,12 @@ class _$UsersFetchedImpl implements UsersFetched {
 }
 
 abstract class UsersFetched implements UsersState {
-  const factory UsersFetched({required final List<User> users}) =
-      _$UsersFetchedImpl;
+  const factory UsersFetched(
+      {required final List<User> users,
+      required final List<User> contacts}) = _$UsersFetchedImpl;
 
   List<User> get users;
+  List<User> get contacts;
   @JsonKey(ignore: true)
   _$$UsersFetchedImplCopyWith<_$UsersFetchedImpl> get copyWith =>
       throw _privateConstructorUsedError;
@@ -532,7 +553,7 @@ class _$UsersErrorImpl implements UsersError {
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() fetching,
-    required TResult Function(List<User> users) fetched,
+    required TResult Function(List<User> users, List<User> contacts) fetched,
     required TResult Function(String message) error,
   }) {
     return error(message);
@@ -543,7 +564,7 @@ class _$UsersErrorImpl implements UsersError {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function()? fetching,
-    TResult? Function(List<User> users)? fetched,
+    TResult? Function(List<User> users, List<User> contacts)? fetched,
     TResult? Function(String message)? error,
   }) {
     return error?.call(message);
@@ -554,7 +575,7 @@ class _$UsersErrorImpl implements UsersError {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? fetching,
-    TResult Function(List<User> users)? fetched,
+    TResult Function(List<User> users, List<User> contacts)? fetched,
     TResult Function(String message)? error,
     required TResult orElse(),
   }) {

@@ -8,7 +8,7 @@ class UsersRepository extends RepositoryInterface<UsersService> {
 
   static final UsersRepository _singleton = UsersRepository._internal();
 
-  static Future<List<User>> fetchUsers() async {
+  static Future<List<User>> fetchContacts() async {
     final response = await _singleton.service.findAll();
     if (response.isSuccessful) {
       final decodedResponse = jsonDecode(response.bodyString);
