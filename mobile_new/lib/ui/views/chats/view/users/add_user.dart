@@ -1,3 +1,5 @@
+import 'package:blizz_chat/models/models.dart';
+import 'package:blizz_chat/resources/services/services.dart';
 import 'package:blizz_chat/ui/ui.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -27,6 +29,10 @@ class _AddUserState extends State<AddUser> {
     widget.callback();
   }
 
+  void _viewProfile(User user) {
+    // navigate to profile page, pass in user data
+  }
+
   Widget _renderResults(UsersFetched state) {
     if (state.users.isNotEmpty) {
       final theme = Theme.of(context);
@@ -39,6 +45,17 @@ class _AddUserState extends State<AddUser> {
                 onTap: !state.contacts.contains(user)
                     ? () => _addContact(user.email, user.fullName)
                     : null,
+                onLongPress: () async {
+                  return getIt
+                      .get<DialogService>()
+                      .showModalSheetDialog(context, [
+                    SheetButton(
+                      onTap: () => _viewProfile(user),
+                      iconData: Icons.contact_page,
+                      text: 'View Profile',
+                    ),
+                  ]);
+                },
                 leading: user.profileUrl != null
                     ? CircleAvatar(
                         child: Image.network(user.profileUrl!),
@@ -76,10 +93,6 @@ class _AddUserState extends State<AddUser> {
     );
   }
 
-  Widget _renderLoading() {
-    return const Center(child: CircularProgressIndicator());
-  }
-
   @override
   Widget build(BuildContext context) {
     if (widget.keyword.isNotEmpty) {
@@ -98,7 +111,7 @@ class _AddUserState extends State<AddUser> {
         } else if (state is UsersInitial) {
           return _renderEmpty();
         }
-        return _renderLoading();
+        return const LoadingWidget();
       },
     );
   }

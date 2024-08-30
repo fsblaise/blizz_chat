@@ -1,19 +1,44 @@
 import { Injectable } from '@nestjs/common';
 import { CreateChatDto } from './dto/create-chat.dto';
 import { UpdateChatDto } from './dto/update-chat.dto';
+import { InjectModel } from '@nestjs/mongoose';
+import { Chat, Participant } from './schemas/chat.schema';
+import { Model } from 'mongoose';
+import { ChatDto } from './dto/chat.dto';
 
 @Injectable()
 export class ChatsService {
-  create(createChatDto: CreateChatDto) {
-    return 'This action adds a new chat';
+
+  constructor(@InjectModel(Chat.name) private chatModel: Model<Chat>) {}
+
+  async create(createChatDto: CreateChatDto) {
+    const participantsNames = createChatDto.participants
+      .map(participant => participant.fullName)
+      .join(', ');
+
+    const participants: Participant[]  = createChatDto.participants.map(participant => ({
+      email: participant.email,
+      fullName: participant.fullName,
+      nickname: participant.fullName,
+    }));
+
+    const chatEntity = new this.chatModel({
+      title: participantsNames,
+      lastMessage: null,
+      participants: participants,
+    });
+    const entity = await chatEntity.save();
+    console.log(entity);
+    
+    return this.convertEntityToChatDto(entity);
   }
 
-  findAll() {
-    return `This action returns all chats`;
+  async findAll(email: string) {
+    return this.chatModel.find({ 'participants.email': email }).exec();
   }
 
   findOne(id: number) {
-    return `This action returns a #${id} chat`;
+    return this.chatModel.findById(id);
   }
 
   update(id: number, updateChatDto: UpdateChatDto) {
@@ -21,6 +46,14 @@ export class ChatsService {
   }
 
   remove(id: number) {
-    return `This action removes a #${id} chat`;
+    return this.chatModel.findByIdAndDelete(id);
+  }
+
+  convertEntityToChatDto(chat: Chat): ChatDto {
+    return {
+      title: chat.title,
+      lastMessage: chat.lastMessage,
+      participants: chat.participants
+    }
   }
 }

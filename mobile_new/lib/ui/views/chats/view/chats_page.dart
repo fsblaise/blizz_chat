@@ -1,4 +1,5 @@
 import 'package:auto_route/annotations.dart';
+import 'package:blizz_chat/models/models.dart';
 import 'package:blizz_chat/ui/ui.dart';
 import 'package:blizz_chat/ui/views/chats/view/chats/add_chat.dart';
 import 'package:blizz_chat/ui/views/chats/view/chats/chats_list.dart';
@@ -24,11 +25,15 @@ class _ChatsPageState extends State<ChatsPage> {
   final TextEditingController _searchController = TextEditingController();
   late final UsersCubit _usersCubit;
   late final ChatsCubit _chatsCubit;
+  late final AuthCubit _authCubit;
+  late final UserProfile? _user;
 
   @override
   void initState() {
     super.initState();
     // Prefetching data to optimize api calling
+    _authCubit = context.read<AuthCubit>();
+    _user = _authCubit.getCurrentUser();
     _usersCubit = context.read<UsersCubit>();
     _usersCubit.fetchContacts();
     _chatsCubit = context.read<ChatsCubit>();
@@ -118,8 +123,14 @@ class _ChatsPageState extends State<ChatsPage> {
                         keyword: _keyword,
                         usersCubit: _usersCubit,
                         chatsCubit: _chatsCubit,
+                        callback: _toggleAdd,
                       )
-                    : ChatsList(keyword: _keyword),
+                    : ChatsList(
+                        keyword: _keyword,
+                        chatsCubit: _chatsCubit,
+                        resetSearch: _resetSearch,
+                        user: _user,
+                      ),
                 Segments.contacts => isAdd
                     ? AddUser(
                         keyword: _keyword,

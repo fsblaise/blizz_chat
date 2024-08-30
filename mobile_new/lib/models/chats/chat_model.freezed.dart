@@ -20,9 +20,8 @@ Chat _$ChatFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$Chat {
-  String get chatId => throw _privateConstructorUsedError;
   String get title => throw _privateConstructorUsedError;
-  String get lastMessage => throw _privateConstructorUsedError;
+  String? get lastMessage => throw _privateConstructorUsedError;
   List<Participant> get participants => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -36,10 +35,7 @@ abstract class $ChatCopyWith<$Res> {
       _$ChatCopyWithImpl<$Res, Chat>;
   @useResult
   $Res call(
-      {String chatId,
-      String title,
-      String lastMessage,
-      List<Participant> participants});
+      {String title, String? lastMessage, List<Participant> participants});
 }
 
 /// @nodoc
@@ -55,24 +51,19 @@ class _$ChatCopyWithImpl<$Res, $Val extends Chat>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? chatId = null,
     Object? title = null,
-    Object? lastMessage = null,
+    Object? lastMessage = freezed,
     Object? participants = null,
   }) {
     return _then(_value.copyWith(
-      chatId: null == chatId
-          ? _value.chatId
-          : chatId // ignore: cast_nullable_to_non_nullable
-              as String,
       title: null == title
           ? _value.title
           : title // ignore: cast_nullable_to_non_nullable
               as String,
-      lastMessage: null == lastMessage
+      lastMessage: freezed == lastMessage
           ? _value.lastMessage
           : lastMessage // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
       participants: null == participants
           ? _value.participants
           : participants // ignore: cast_nullable_to_non_nullable
@@ -89,10 +80,7 @@ abstract class _$$ChatImplCopyWith<$Res> implements $ChatCopyWith<$Res> {
   @override
   @useResult
   $Res call(
-      {String chatId,
-      String title,
-      String lastMessage,
-      List<Participant> participants});
+      {String title, String? lastMessage, List<Participant> participants});
 }
 
 /// @nodoc
@@ -105,24 +93,19 @@ class __$$ChatImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? chatId = null,
     Object? title = null,
-    Object? lastMessage = null,
+    Object? lastMessage = freezed,
     Object? participants = null,
   }) {
     return _then(_$ChatImpl(
-      chatId: null == chatId
-          ? _value.chatId
-          : chatId // ignore: cast_nullable_to_non_nullable
-              as String,
       title: null == title
           ? _value.title
           : title // ignore: cast_nullable_to_non_nullable
               as String,
-      lastMessage: null == lastMessage
+      lastMessage: freezed == lastMessage
           ? _value.lastMessage
           : lastMessage // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
       participants: null == participants
           ? _value._participants
           : participants // ignore: cast_nullable_to_non_nullable
@@ -135,8 +118,7 @@ class __$$ChatImplCopyWithImpl<$Res>
 @JsonSerializable()
 class _$ChatImpl implements _Chat {
   const _$ChatImpl(
-      {required this.chatId,
-      required this.title,
+      {required this.title,
       required this.lastMessage,
       required final List<Participant> participants})
       : _participants = participants;
@@ -145,11 +127,9 @@ class _$ChatImpl implements _Chat {
       _$$ChatImplFromJson(json);
 
   @override
-  final String chatId;
-  @override
   final String title;
   @override
-  final String lastMessage;
+  final String? lastMessage;
   final List<Participant> _participants;
   @override
   List<Participant> get participants {
@@ -160,7 +140,7 @@ class _$ChatImpl implements _Chat {
 
   @override
   String toString() {
-    return 'Chat(chatId: $chatId, title: $title, lastMessage: $lastMessage, participants: $participants)';
+    return 'Chat(title: $title, lastMessage: $lastMessage, participants: $participants)';
   }
 
   @override
@@ -168,7 +148,6 @@ class _$ChatImpl implements _Chat {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$ChatImpl &&
-            (identical(other.chatId, chatId) || other.chatId == chatId) &&
             (identical(other.title, title) || other.title == title) &&
             (identical(other.lastMessage, lastMessage) ||
                 other.lastMessage == lastMessage) &&
@@ -178,7 +157,7 @@ class _$ChatImpl implements _Chat {
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, chatId, title, lastMessage,
+  int get hashCode => Object.hash(runtimeType, title, lastMessage,
       const DeepCollectionEquality().hash(_participants));
 
   @JsonKey(ignore: true)
@@ -197,19 +176,16 @@ class _$ChatImpl implements _Chat {
 
 abstract class _Chat implements Chat {
   const factory _Chat(
-      {required final String chatId,
-      required final String title,
-      required final String lastMessage,
+      {required final String title,
+      required final String? lastMessage,
       required final List<Participant> participants}) = _$ChatImpl;
 
   factory _Chat.fromJson(Map<String, dynamic> json) = _$ChatImpl.fromJson;
 
   @override
-  String get chatId;
-  @override
   String get title;
   @override
-  String get lastMessage;
+  String? get lastMessage;
   @override
   List<Participant> get participants;
   @override
@@ -224,7 +200,8 @@ Participant _$ParticipantFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$Participant {
-  String get userId => throw _privateConstructorUsedError;
+  String get email => throw _privateConstructorUsedError;
+  String get fullName => throw _privateConstructorUsedError;
   String get nickname => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -239,7 +216,7 @@ abstract class $ParticipantCopyWith<$Res> {
           Participant value, $Res Function(Participant) then) =
       _$ParticipantCopyWithImpl<$Res, Participant>;
   @useResult
-  $Res call({String userId, String nickname});
+  $Res call({String email, String fullName, String nickname});
 }
 
 /// @nodoc
@@ -255,13 +232,18 @@ class _$ParticipantCopyWithImpl<$Res, $Val extends Participant>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? userId = null,
+    Object? email = null,
+    Object? fullName = null,
     Object? nickname = null,
   }) {
     return _then(_value.copyWith(
-      userId: null == userId
-          ? _value.userId
-          : userId // ignore: cast_nullable_to_non_nullable
+      email: null == email
+          ? _value.email
+          : email // ignore: cast_nullable_to_non_nullable
+              as String,
+      fullName: null == fullName
+          ? _value.fullName
+          : fullName // ignore: cast_nullable_to_non_nullable
               as String,
       nickname: null == nickname
           ? _value.nickname
@@ -279,7 +261,7 @@ abstract class _$$ParticipantImplCopyWith<$Res>
       __$$ParticipantImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String userId, String nickname});
+  $Res call({String email, String fullName, String nickname});
 }
 
 /// @nodoc
@@ -293,13 +275,18 @@ class __$$ParticipantImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? userId = null,
+    Object? email = null,
+    Object? fullName = null,
     Object? nickname = null,
   }) {
     return _then(_$ParticipantImpl(
-      userId: null == userId
-          ? _value.userId
-          : userId // ignore: cast_nullable_to_non_nullable
+      email: null == email
+          ? _value.email
+          : email // ignore: cast_nullable_to_non_nullable
+              as String,
+      fullName: null == fullName
+          ? _value.fullName
+          : fullName // ignore: cast_nullable_to_non_nullable
               as String,
       nickname: null == nickname
           ? _value.nickname
@@ -312,19 +299,22 @@ class __$$ParticipantImplCopyWithImpl<$Res>
 /// @nodoc
 @JsonSerializable()
 class _$ParticipantImpl implements _Participant {
-  const _$ParticipantImpl({required this.userId, required this.nickname});
+  const _$ParticipantImpl(
+      {required this.email, required this.fullName, required this.nickname});
 
   factory _$ParticipantImpl.fromJson(Map<String, dynamic> json) =>
       _$$ParticipantImplFromJson(json);
 
   @override
-  final String userId;
+  final String email;
+  @override
+  final String fullName;
   @override
   final String nickname;
 
   @override
   String toString() {
-    return 'Participant(userId: $userId, nickname: $nickname)';
+    return 'Participant(email: $email, fullName: $fullName, nickname: $nickname)';
   }
 
   @override
@@ -332,14 +322,16 @@ class _$ParticipantImpl implements _Participant {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$ParticipantImpl &&
-            (identical(other.userId, userId) || other.userId == userId) &&
+            (identical(other.email, email) || other.email == email) &&
+            (identical(other.fullName, fullName) ||
+                other.fullName == fullName) &&
             (identical(other.nickname, nickname) ||
                 other.nickname == nickname));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, userId, nickname);
+  int get hashCode => Object.hash(runtimeType, email, fullName, nickname);
 
   @JsonKey(ignore: true)
   @override
@@ -357,14 +349,17 @@ class _$ParticipantImpl implements _Participant {
 
 abstract class _Participant implements Participant {
   const factory _Participant(
-      {required final String userId,
+      {required final String email,
+      required final String fullName,
       required final String nickname}) = _$ParticipantImpl;
 
   factory _Participant.fromJson(Map<String, dynamic> json) =
       _$ParticipantImpl.fromJson;
 
   @override
-  String get userId;
+  String get email;
+  @override
+  String get fullName;
   @override
   String get nickname;
   @override

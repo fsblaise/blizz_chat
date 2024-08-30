@@ -1,4 +1,5 @@
 import 'package:blizz_chat/models/models.dart';
+import 'package:blizz_chat/resources/services/services.dart';
 import 'package:blizz_chat/ui/ui.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -44,6 +45,14 @@ class _UsersListState extends State<UsersList> {
     }
   }
 
+  void _viewProfile(User user) {
+    // navigate to profile page, pass in user data
+  }
+
+  void _removeContact(User user) {
+    // authcubit kell majd
+  }
+
   Widget _renderList(UsersFetched state) {
     contacts = <User>[...state.contacts];
     _filter();
@@ -56,6 +65,21 @@ class _UsersListState extends State<UsersList> {
         itemCount: filteredContacts.length,
         itemBuilder: (context, index) {
           return ListTile(
+            onTap: () => _viewProfile(filteredContacts[index]),
+            onLongPress: () async {
+              return getIt.get<DialogService>().showModalSheetDialog(context, [
+                SheetButton(
+                  onTap: () => _viewProfile(filteredContacts[index]),
+                  iconData: Icons.contact_page,
+                  text: 'View Profile',
+                ),
+                SheetButton(
+                  onTap: () => _removeContact(filteredContacts[index]),
+                  iconData: Icons.person_remove,
+                  text: 'Remove contact',
+                ),
+              ]);
+            },
             leading: filteredContacts[index].profileUrl != null
                 ? CircleAvatar(
                     child: Image.network(filteredContacts[index].profileUrl!),
@@ -75,10 +99,6 @@ class _UsersListState extends State<UsersList> {
     return const Text('Add users as contacts.');
   }
 
-  Widget _renderLoading() {
-    return const Center(child: CircularProgressIndicator());
-  }
-
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<UsersCubit, UsersState>(
@@ -88,7 +108,7 @@ class _UsersListState extends State<UsersList> {
         } else if (state is UsersInitial) {
           return _renderEmpty();
         }
-        return _renderLoading();
+        return const LoadingWidget();
       },
     );
   }

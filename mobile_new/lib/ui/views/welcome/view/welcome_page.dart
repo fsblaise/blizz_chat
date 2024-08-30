@@ -29,10 +29,6 @@ class _WelcomePageState extends State<WelcomePage> {
     super.dispose();
   }
 
-  Widget _renderLoading() {
-    return const Center(child: CircularProgressIndicator());
-  }
-
   Widget _renderWelcome() {
     return Scaffold(
       body: Column(
@@ -90,7 +86,7 @@ class _WelcomePageState extends State<WelcomePage> {
           } else if (state is AuthAuthenticated) {
             context.router.replace(const HomeRoute());
           }
-          return _renderLoading();
+          return const LoadingWidget();
         },
         listener: (context, state) {
           if (state is AuthAuthenticated) {

@@ -8,11 +8,13 @@ class AddChat extends StatefulWidget {
     required this.keyword,
     required this.usersCubit,
     required this.chatsCubit,
+    required this.callback,
     super.key,
   });
   final String keyword;
   final UsersCubit usersCubit;
   final ChatsCubit chatsCubit;
+  final void Function() callback;
 
   @override
   State<AddChat> createState() => _AddChatState();
@@ -22,13 +24,6 @@ class _AddChatState extends State<AddChat> {
   List<User> contacts = [];
   List<User> filteredContacts = [];
   List<User> selectedContacts = [];
-  late final AuthCubit _authCubit;
-
-  @override
-  void initState() {
-    super.initState();
-    _authCubit = context.read<AuthCubit>();
-  }
 
   void _filter() {
     if (widget.keyword.isNotEmpty) {
@@ -66,6 +61,7 @@ class _AddChatState extends State<AddChat> {
       );
     }).toList();
     await widget.chatsCubit.createChat(dto, context);
+    widget.callback();
   }
 
   Widget _renderList(UsersFetched state) {
@@ -84,7 +80,8 @@ class _AddChatState extends State<AddChat> {
                   secondary: filteredContacts[index].profileUrl != null
                       ? CircleAvatar(
                           child: Image.network(
-                              filteredContacts[index].profileUrl!),
+                            filteredContacts[index].profileUrl!,
+                          ),
                         )
                       : const CircleAvatar(
                           child: Icon(Icons.person),
@@ -142,10 +139,6 @@ class _AddChatState extends State<AddChat> {
     );
   }
 
-  Widget _renderLoading() {
-    return const Center(child: CircularProgressIndicator());
-  }
-
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<UsersCubit, UsersState>(
@@ -155,7 +148,7 @@ class _AddChatState extends State<AddChat> {
         } else if (state is UsersInitial) {
           return _renderEmpty();
         }
-        return _renderLoading();
+        return const LoadingWidget();
       },
     );
   }

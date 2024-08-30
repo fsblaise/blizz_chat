@@ -5,10 +5,6 @@ export class ChatDto {
 }
 
 export class ParticipantDto {
-  user: UserDto;
-}
-
-export class UserDto {
   nickname: string;
   fullName: string;
   email: string;

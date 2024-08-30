@@ -21,11 +21,21 @@ class ChatsCubit extends Cubit<ChatsState> {
     }
   }
 
+  // dev function
+  void clear() {
+    emit(const ChatsState.initial());
+  }
+
   Future<void> createChat(
     List<CreateParticipantDto> participants,
     BuildContext context,
   ) async {
+    final currentState = state;
     try {
+      final currentChats = <Chat>[];
+      if (currentState is ChatsFetched) {
+        currentChats.addAll(currentState.chats);
+      }
       emit(const ChatsState.fetching());
 
       final authCubit = BlocProvider.of<AuthCubit>(context);
@@ -35,7 +45,7 @@ class ChatsCubit extends Cubit<ChatsState> {
         throw Exception('Current user not found');
       }
 
-      await ChatsRepository.createChat(
+      final chat = await ChatsRepository.createChat(
         CreateChatDto(
           participants: [
             CreateParticipantDto(
@@ -47,13 +57,13 @@ class ChatsCubit extends Cubit<ChatsState> {
         ),
       );
       // Fetch updated chat list after creating a chat
-      await fetchChats();
+      // await fetchChats();
+      currentChats.add(chat);
+      emit(ChatsState.fetched(chats: currentChats));
     } catch (e) {
-      emit(const ChatsState.error(message: 'Failed to create chat'));
+      print(e);
+      // emit(const ChatsState.error(message: 'Failed to create chat'));
+      emit(currentState);
     }
-  }
-
-  Future<void> refreshChats() async {
-    await fetchChats();
   }
 }

@@ -4,9 +4,15 @@ part of '../api.dart';
 abstract class ChatsService extends ChopperService {
   static ChatsService create(ChopperClient client) => _$ChatsService(client);
 
+  @FactoryConverter(
+    response: null,
+  )
   @Post()
   Future<Response<dynamic>> createChat(@Body() CreateChatDto body);
 
+  @FactoryConverter(
+    response: null,
+  )
   @Get()
   Future<Response<List<dynamic>>> findAll();
 

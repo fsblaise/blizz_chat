@@ -6,9 +6,8 @@ part 'chat_model.g.dart';
 @freezed
 class Chat with _$Chat {
   const factory Chat({
-    required String chatId,
     required String title,
-    required String lastMessage,
+    required String? lastMessage,
     required List<Participant> participants,
   }) = _Chat;
 
@@ -18,7 +17,8 @@ class Chat with _$Chat {
 @freezed
 class Participant with _$Participant {
   const factory Participant({
-    required String userId,
+    required String email,
+    required String fullName,
     required String nickname,
   }) = _Participant;
 

@@ -1,8 +1,9 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards, Req } from '@nestjs/common';
 import { ChatsService } from './chats.service';
 import { CreateChatDto } from './dto/create-chat.dto';
 import { UpdateChatDto } from './dto/update-chat.dto';
 import { AuthGuard } from 'src/shared/guards/auth.guard';
+import { ChatDto } from './dto/chat.dto';
 
 @Controller('chats')
 export class ChatsController {
@@ -10,14 +11,16 @@ export class ChatsController {
 
   @Post()
   @UseGuards(AuthGuard)
-  create(@Body() createChatDto: CreateChatDto) {
+  create(@Body() createChatDto: CreateChatDto): Promise<ChatDto> {
     console.log(createChatDto.participants);
-    this.chatsService.create(createChatDto);
+    return this.chatsService.create(createChatDto);
   }
 
   @Get()
-  findAll() {
-    return this.chatsService.findAll();
+  @UseGuards(AuthGuard)
+  findAll(@Req() request: Request) {
+    const user = request['user'];
+    return this.chatsService.findAll(user.email);
   }
 
   @Get(':id')

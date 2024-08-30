@@ -20,11 +20,14 @@ class ChatsRepository extends RepositoryInterface<ChatsService> {
     }
   }
 
-  static Future<dynamic>? createChat(CreateChatDto dto) async {
+  static Future<Chat> createChat(CreateChatDto dto) async {
     final response = await _singleton.service.createChat(dto);
     if (response.isSuccessful) {
-      final decodedResponse = jsonDecode(response.bodyString);
-      return Chat.fromJson(decodedResponse as Map<String, dynamic>);
+      print("reacvh?");
+      final decodedResponse =
+          jsonDecode(response.bodyString) as Map<String, dynamic>;
+      print(decodedResponse);
+      return Chat.fromJson(decodedResponse);
     } else {
       throw Exception('Failed to create chat');
     }
