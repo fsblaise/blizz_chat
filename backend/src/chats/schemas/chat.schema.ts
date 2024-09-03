@@ -12,7 +12,7 @@ export class Participant {
   @Prop()
   fullName: string;
 
-  @Prop({ unique: true })
+  @Prop()
   email: string;
 }
 

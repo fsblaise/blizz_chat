@@ -5,7 +5,7 @@ import { UpdateUserDto } from './dto/update-user.dto';
 import { SignInUserDto, AuthResponseDto } from './dto/sign-in-user.dto';
 import { UserDto, UserProfileDto } from './dto/user.dto';
 import { AuthGuard } from 'src/shared/guards/auth.guard';
-import { CreateContactDto } from './dto/contact-dtos';
+import { CreateContactDto, UpdateContactDto } from './dto/contact-dtos';
 
 @Controller('users')
 export class UsersController {
@@ -56,7 +56,7 @@ export class UsersController {
 
   @Post('/add')
   @UseGuards(AuthGuard)
-  addContact(@Body() createContactDto: CreateContactDto, @Req() request: Request) {
+  addContact(@Body() createContactDto: CreateContactDto, @Req() request: Request): Promise<UserProfileDto> {
     const user = request['user'];
     return this.usersService.addContact(createContactDto, user.sub);
   }
@@ -67,15 +67,30 @@ export class UsersController {
     return this.usersService.findOne(id);
   }
 
-  @Patch(':id')
+  @Patch()
   @UseGuards(AuthGuard)
-  update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto): Promise<UserProfileDto> {
-    return this.usersService.update(+id, updateUserDto);
+  updateUser(@Req() request: Request, @Body() updateUserDto: UpdateUserDto): Promise<UserProfileDto> {
+    const user = request['user'];
+    return this.usersService.updateUser(user.sub, updateUserDto);
   }
 
-  @Delete(':id')
+  @Patch('/contact')
+  @UseGuards(AuthGuard)
+  updateContact(@Req() request: Request, @Body() updateContactDto: UpdateContactDto): Promise<UserProfileDto> {
+    const user = request['user'];
+    return this.usersService.updateContact(user.sub, updateContactDto);
+  }
+
+  @Delete()
   @UseGuards(AuthGuard)
   remove(@Param('id') id: string) {
     return this.usersService.remove(+id);
+  }
+
+  @Delete('/contact/:email')
+  @UseGuards(AuthGuard)
+  removeContact(@Param('email') email: string, @Req() request: Request): Promise<UserProfileDto> {
+    const user = request['user'];
+    return this.usersService.removeContact(email, user.sub);
   }
 }

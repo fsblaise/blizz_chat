@@ -38,7 +38,7 @@ class UsersRepository extends RepositoryInterface<UsersService> {
     }
   }
 
-  static Future<void> addUser(
+  static Future<UserProfile> addUser(
     String email,
     String fullName,
   ) async {
@@ -49,5 +49,38 @@ class UsersRepository extends RepositoryInterface<UsersService> {
       ),
     );
     print(response);
+    if (response.isSuccessful) {
+      final decodedResponse =
+          jsonDecode(response.bodyString) as Map<String, dynamic>;
+      return UserProfile.fromJson(decodedResponse);
+    } else {
+      throw Exception('Failed to add user');
+    }
+  }
+
+  static Future<UserProfile> removeUser(
+    String email,
+  ) async {
+    print(email);
+    final response = await _singleton.service.removeContact(email);
+    print(response);
+    if (response.isSuccessful) {
+      final decodedResponse =
+          jsonDecode(response.bodyString) as Map<String, dynamic>;
+      return UserProfile.fromJson(decodedResponse);
+    } else {
+      throw Exception('Failed to remove user');
+    }
+  }
+
+  static Future<UserProfile> renameContact(Contact contact) async {
+    final response = await _singleton.service.updateContact(contact);
+    if (response.isSuccessful) {
+      final decodedResponse =
+          jsonDecode(response.bodyString) as Map<String, dynamic>;
+      return UserProfile.fromJson(decodedResponse);
+    } else {
+      throw Exception('Failed to rename contact');
+    }
   }
 }

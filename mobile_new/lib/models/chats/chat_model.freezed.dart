@@ -20,6 +20,8 @@ Chat _$ChatFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$Chat {
+  @JsonKey(name: '_id')
+  String get id => throw _privateConstructorUsedError;
   String get title => throw _privateConstructorUsedError;
   String? get lastMessage => throw _privateConstructorUsedError;
   List<Participant> get participants => throw _privateConstructorUsedError;
@@ -35,7 +37,10 @@ abstract class $ChatCopyWith<$Res> {
       _$ChatCopyWithImpl<$Res, Chat>;
   @useResult
   $Res call(
-      {String title, String? lastMessage, List<Participant> participants});
+      {@JsonKey(name: '_id') String id,
+      String title,
+      String? lastMessage,
+      List<Participant> participants});
 }
 
 /// @nodoc
@@ -51,11 +56,16 @@ class _$ChatCopyWithImpl<$Res, $Val extends Chat>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? id = null,
     Object? title = null,
     Object? lastMessage = freezed,
     Object? participants = null,
   }) {
     return _then(_value.copyWith(
+      id: null == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as String,
       title: null == title
           ? _value.title
           : title // ignore: cast_nullable_to_non_nullable
@@ -80,7 +90,10 @@ abstract class _$$ChatImplCopyWith<$Res> implements $ChatCopyWith<$Res> {
   @override
   @useResult
   $Res call(
-      {String title, String? lastMessage, List<Participant> participants});
+      {@JsonKey(name: '_id') String id,
+      String title,
+      String? lastMessage,
+      List<Participant> participants});
 }
 
 /// @nodoc
@@ -93,11 +106,16 @@ class __$$ChatImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? id = null,
     Object? title = null,
     Object? lastMessage = freezed,
     Object? participants = null,
   }) {
     return _then(_$ChatImpl(
+      id: null == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as String,
       title: null == title
           ? _value.title
           : title // ignore: cast_nullable_to_non_nullable
@@ -118,7 +136,8 @@ class __$$ChatImplCopyWithImpl<$Res>
 @JsonSerializable()
 class _$ChatImpl implements _Chat {
   const _$ChatImpl(
-      {required this.title,
+      {@JsonKey(name: '_id') required this.id,
+      required this.title,
       required this.lastMessage,
       required final List<Participant> participants})
       : _participants = participants;
@@ -126,6 +145,9 @@ class _$ChatImpl implements _Chat {
   factory _$ChatImpl.fromJson(Map<String, dynamic> json) =>
       _$$ChatImplFromJson(json);
 
+  @override
+  @JsonKey(name: '_id')
+  final String id;
   @override
   final String title;
   @override
@@ -140,7 +162,7 @@ class _$ChatImpl implements _Chat {
 
   @override
   String toString() {
-    return 'Chat(title: $title, lastMessage: $lastMessage, participants: $participants)';
+    return 'Chat(id: $id, title: $title, lastMessage: $lastMessage, participants: $participants)';
   }
 
   @override
@@ -148,6 +170,7 @@ class _$ChatImpl implements _Chat {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$ChatImpl &&
+            (identical(other.id, id) || other.id == id) &&
             (identical(other.title, title) || other.title == title) &&
             (identical(other.lastMessage, lastMessage) ||
                 other.lastMessage == lastMessage) &&
@@ -157,7 +180,7 @@ class _$ChatImpl implements _Chat {
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, title, lastMessage,
+  int get hashCode => Object.hash(runtimeType, id, title, lastMessage,
       const DeepCollectionEquality().hash(_participants));
 
   @JsonKey(ignore: true)
@@ -176,12 +199,16 @@ class _$ChatImpl implements _Chat {
 
 abstract class _Chat implements Chat {
   const factory _Chat(
-      {required final String title,
+      {@JsonKey(name: '_id') required final String id,
+      required final String title,
       required final String? lastMessage,
       required final List<Participant> participants}) = _$ChatImpl;
 
   factory _Chat.fromJson(Map<String, dynamic> json) = _$ChatImpl.fromJson;
 
+  @override
+  @JsonKey(name: '_id')
+  String get id;
   @override
   String get title;
   @override

@@ -19,4 +19,10 @@ abstract class UsersService extends ChopperService {
 
   @Post(path: '/add')
   Future<Response<dynamic>> addContact(@Body() AddContactDto body);
+
+  @Delete(path: '/contact/{email}')
+  Future<Response<dynamic>> removeContact(@Path('email') String email);
+
+  @Patch(path: '/contact')
+  Future<Response<dynamic>> updateContact(@Body() Contact body);
 }

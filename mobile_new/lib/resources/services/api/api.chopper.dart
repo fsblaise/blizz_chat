@@ -53,6 +53,19 @@ final class _$AuthService extends AuthService {
     );
     return client.send<dynamic, dynamic>($request);
   }
+
+  @override
+  Future<Response<dynamic>> update(UserProfile body) {
+    final Uri $url = Uri.parse('/users');
+    final $body = body;
+    final Request $request = Request(
+      'PATCH',
+      $url,
+      client.baseUrl,
+      body: $body,
+    );
+    return client.send<dynamic, dynamic>($request);
+  }
 }
 
 // coverage:ignore-file
@@ -102,8 +115,11 @@ final class _$ChatsService extends ChatsService {
   }
 
   @override
-  Future<Response<dynamic>> update(UpdateChatDto body) {
-    final Uri $url = Uri.parse('/chats/{id}');
+  Future<Response<List<dynamic>>> update(
+    Chat body,
+    String chatId,
+  ) {
+    final Uri $url = Uri.parse('/chats/${chatId}');
     final $body = body;
     final Request $request = Request(
       'PATCH',
@@ -111,7 +127,7 @@ final class _$ChatsService extends ChatsService {
       client.baseUrl,
       body: $body,
     );
-    return client.send<dynamic, dynamic>($request);
+    return client.send<List<dynamic>, List<dynamic>>($request);
   }
 
   @override
@@ -231,6 +247,30 @@ final class _$UsersService extends UsersService {
     final $body = body;
     final Request $request = Request(
       'POST',
+      $url,
+      client.baseUrl,
+      body: $body,
+    );
+    return client.send<dynamic, dynamic>($request);
+  }
+
+  @override
+  Future<Response<dynamic>> removeContact(String email) {
+    final Uri $url = Uri.parse('/users/contact/${email}');
+    final Request $request = Request(
+      'DELETE',
+      $url,
+      client.baseUrl,
+    );
+    return client.send<dynamic, dynamic>($request);
+  }
+
+  @override
+  Future<Response<dynamic>> updateContact(Contact body) {
+    final Uri $url = Uri.parse('/users/contact');
+    final $body = body;
+    final Request $request = Request(
+      'PATCH',
       $url,
       client.baseUrl,
       body: $body,

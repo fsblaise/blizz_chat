@@ -42,7 +42,7 @@ export class Contact {
   @Prop()
   fullName: string;
 
-  @Prop({ unique: true, sparse: true })
+  @Prop()
   email: string;
 }
 

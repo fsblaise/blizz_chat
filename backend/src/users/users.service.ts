@@ -8,7 +8,7 @@ import * as bcrypt from 'bcrypt';
 import { SignInUserDto, AuthResponseDto } from './dto/sign-in-user.dto';
 import { JwtService } from '@nestjs/jwt';
 import { UserDto, UserProfileDto } from './dto/user.dto';
-import { CreateContactDto } from './dto/contact-dtos';
+import { CreateContactDto, UpdateContactDto } from './dto/contact-dtos';
 
 @Injectable()
 export class UsersService {
@@ -99,12 +99,28 @@ export class UsersService {
     return entities.map(entity => this.convertEntityToUserDto(entity));
   }
 
-  async update(id: number, updateUserDto: UpdateUserDto): Promise<UserProfileDto> {
+  async updateUser(id: number, updateUserDto: UpdateUserDto): Promise<UserProfileDto> {
     const entity = await this.userModel.findByIdAndUpdate(id, updateUserDto, { new: true }).exec();
     return this.convertEntityToProfileDto(entity);
   }
 
-  async addContact(createContactDto: CreateContactDto, userId: number): Promise<User> {
+  async updateContact(userId: number, updateContactDto: UpdateContactDto): Promise<UserProfileDto> {
+    const entity = await this.userModel.findById(userId);
+
+    if (!entity) {
+      throw new NotFoundException('User not found');
+    }
+
+    const index = entity.contacts.findIndex(contact => contact.email === updateContactDto.email);
+    if (index === -1) {
+      throw new Error('Contact not found');
+    }
+    entity.contacts[index] = { ...entity.contacts[index], ...updateContactDto };
+    await entity.save();
+    return this.convertEntityToProfileDto(entity);
+  }
+
+  async addContact(createContactDto: CreateContactDto, userId: number): Promise<UserProfileDto> {
     const userEntity = await this.userModel.findById(userId).exec();
     if (!userEntity) {
       throw new NotFoundException('User not found');
@@ -137,12 +153,40 @@ export class UsersService {
     // add the user to the contact's contacts
     contactEntity.contacts.push(user);
     // save them both
-    contactEntity.save();
-    return userEntity.save();
+    await contactEntity.save();
+    await userEntity.save();
+    return this.convertEntityToProfileDto(userEntity);
   }
 
   remove(id: number) {
     return this.userModel.findByIdAndDelete(id).exec();
+  }
+
+  async removeContact(email: string, userId: number): Promise<UserProfileDto> {
+    const userEntity = await this.userModel.findById(userId).exec();
+
+    if (!userEntity) {
+      throw new NotFoundException('User not found');
+    }
+
+    const contactExists = userEntity.contacts.some(contact => contact.email === email);
+    if (!contactExists) {
+      throw new ConflictException('Contact does not exists');
+    }
+
+    const contactEntities = await this.userModel.find({ email: email }).exec();
+    const contactEntity = contactEntities[0];
+
+    // User's contacts
+    const newUserContacts = userEntity.contacts.filter(contact => contact.email !== email);
+    // Contact's contacts
+    const newContactContacts = contactEntity.contacts.filter(contact => contact.email !== userEntity.email);
+
+    userEntity.contacts = newUserContacts;
+    await userEntity.save();
+    contactEntity.contacts = newContactContacts;
+    await contactEntity.save();
+    return this.convertEntityToProfileDto(userEntity);
   }
 
   convertEntityToProfileDto(user: User): UserProfileDto {

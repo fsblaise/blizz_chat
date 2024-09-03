@@ -72,6 +72,50 @@ class AuthCubit extends Cubit<AuthState> {
   }
 
   Future<void> addContact(String email, String fullName) async {
-    await UsersRepository.addUser(email, fullName);
+    final currentState = state as AuthAuthenticated;
+    try {
+      final userProfile = await UsersRepository.addUser(email, fullName);
+      emit(
+        AuthState.authenticated(
+          token: currentState.token,
+          user: userProfile,
+        ),
+      );
+    } catch (e) {
+      print(e);
+      emit(currentState);
+    }
+  }
+
+  Future<void> removeContact(Contact contact) async {
+    final currentState = state as AuthAuthenticated;
+    try {
+      final userProfile = await UsersRepository.removeUser(contact.email);
+      emit(
+        AuthState.authenticated(
+          token: currentState.token,
+          user: userProfile,
+        ),
+      );
+    } catch (e) {
+      print(e);
+      emit(currentState);
+    }
+  }
+
+  Future<void> renameContact(Contact contact) async {
+    final currentState = state as AuthAuthenticated;
+    try {
+      final userProfile = await UsersRepository.renameContact(contact);
+      emit(
+        AuthState.authenticated(
+          token: currentState.token,
+          user: userProfile,
+        ),
+      );
+    } catch (e) {
+      print(e);
+      emit(currentState);
+    }
   }
 }

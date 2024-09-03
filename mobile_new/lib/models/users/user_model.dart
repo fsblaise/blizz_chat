@@ -31,7 +31,7 @@ class UserProfile with _$UserProfile {
     required String? city,
     required String? location,
     required String? gender,
-    required List<Contact?>? contacts,
+    required List<Contact> contacts,
     required String? profileUrl,
     required int unreadMessageSum,
     required Map<String, String?>? unreadMessages,

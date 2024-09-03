@@ -41,9 +41,8 @@ _$UserProfileImpl _$$UserProfileImplFromJson(Map<String, dynamic> json) =>
       city: json['city'] as String?,
       location: json['location'] as String?,
       gender: json['gender'] as String?,
-      contacts: (json['contacts'] as List<dynamic>?)
-          ?.map((e) =>
-              e == null ? null : Contact.fromJson(e as Map<String, dynamic>))
+      contacts: (json['contacts'] as List<dynamic>)
+          .map((e) => Contact.fromJson(e as Map<String, dynamic>))
           .toList(),
       profileUrl: json['profileUrl'] as String?,
       unreadMessageSum: (json['unreadMessageSum'] as num).toInt(),

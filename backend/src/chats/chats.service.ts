@@ -1,6 +1,5 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateChatDto } from './dto/create-chat.dto';
-import { UpdateChatDto } from './dto/update-chat.dto';
 import { InjectModel } from '@nestjs/mongoose';
 import { Chat, Participant } from './schemas/chat.schema';
 import { Model } from 'mongoose';
@@ -30,10 +29,10 @@ export class ChatsService {
     const entity = await chatEntity.save();
     console.log(entity);
     
-    return this.convertEntityToChatDto(entity);
+    return entity;
   }
 
-  async findAll(email: string) {
+  async findAll(email: string) : Promise<Chat[]> {
     return this.chatModel.find({ 'participants.email': email }).exec();
   }
 
@@ -41,19 +40,23 @@ export class ChatsService {
     return this.chatModel.findById(id);
   }
 
-  update(id: number, updateChatDto: UpdateChatDto) {
-    return `This action updates a #${id} chat`;
-  }
-
-  remove(id: number) {
-    return this.chatModel.findByIdAndDelete(id);
-  }
-
-  convertEntityToChatDto(chat: Chat): ChatDto {
-    return {
-      title: chat.title,
-      lastMessage: chat.lastMessage,
-      participants: chat.participants
+  async update(id: string, body: Chat, email: string) : Promise<Chat[]> {
+    if (body.participants.length < 1) {
+      this.remove(id);
     }
+
+    const updatedChat = await this.chatModel.findByIdAndUpdate(id, body, {
+      new: true,
+    });
+
+    if (!updatedChat) {
+      throw new NotFoundException(`Chat with id ${id} not found`);
+    }
+
+    return this.findAll(email);
+  }
+
+  remove(id: string) {
+    return this.chatModel.findByIdAndDelete(id);
   }
 }

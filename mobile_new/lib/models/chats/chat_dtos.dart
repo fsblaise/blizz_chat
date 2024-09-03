@@ -1,3 +1,4 @@
+import 'package:blizz_chat/models/chats/chat_model.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 part 'chat_dtos.freezed.dart';
 part 'chat_dtos.g.dart';
@@ -21,16 +22,4 @@ class CreateParticipantDto with _$CreateParticipantDto {
 
   factory CreateParticipantDto.fromJson(Map<String, dynamic> json) =>
       _$CreateParticipantDtoFromJson(json);
-}
-
-@freezed
-class UpdateChatDto with _$UpdateChatDto {
-  const factory UpdateChatDto({
-    required String email,
-    required String password,
-    required String fullName,
-  }) = _UpdateChatDto;
-
-  factory UpdateChatDto.fromJson(Map<String, Object?> json) =>
-      _$UpdateChatDtoFromJson(json);
 }

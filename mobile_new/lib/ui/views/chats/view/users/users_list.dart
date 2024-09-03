@@ -8,11 +8,13 @@ class UsersList extends StatefulWidget {
   UsersList({
     required this.keyword,
     required this.usersCubit,
+    required this.authCubit,
     required this.resetSearch,
     super.key,
   });
   late String keyword;
   final UsersCubit usersCubit;
+  final AuthCubit authCubit;
   final void Function() resetSearch;
 
   @override
@@ -49,11 +51,42 @@ class _UsersListState extends State<UsersList> {
     // navigate to profile page, pass in user data
   }
 
-  void _removeContact(User user) {
+  Future<void> _renameContact(Contact contact) async {
+    final name = await getIt.get<DialogService>().showInputDialog(
+          context,
+          title: 'Set Nickname',
+        );
+    print(name);
+    if (name == null) {
+      return;
+    }
+    await widget.authCubit.renameContact(
+      Contact(
+        nickname: name,
+        fullName: contact.fullName,
+        email: contact.email,
+      ),
+    );
+    setState(() {});
+  }
+
+  Future<void> _removeContact(Contact contact) async {
+    final isConfirm = await getIt.get<DialogService>().showConfirmDialog(
+          context,
+          title: 'Remove user',
+          text: 'Are you sure that you want to remove ${contact.nickname}?',
+        );
+    print(isConfirm);
+    if (isConfirm == null || !isConfirm) {
+      return;
+    }
+    await widget.authCubit.removeContact(contact);
+    await widget.usersCubit.fetchContacts();
     // authcubit kell majd
   }
 
   Widget _renderList(UsersFetched state) {
+    final user = widget.authCubit.getCurrentUser();
     contacts = <User>[...state.contacts];
     _filter();
     return RefreshIndicator(
@@ -64,6 +97,11 @@ class _UsersListState extends State<UsersList> {
         ),
         itemCount: filteredContacts.length,
         itemBuilder: (context, index) {
+          final contact = user!.contacts.firstWhere(
+            (contact) => contact.email == filteredContacts[index].email,
+          );
+          print(contact);
+          final name = contact.nickname;
           return ListTile(
             onTap: () => _viewProfile(filteredContacts[index]),
             onLongPress: () async {
@@ -74,7 +112,12 @@ class _UsersListState extends State<UsersList> {
                   text: 'View Profile',
                 ),
                 SheetButton(
-                  onTap: () => _removeContact(filteredContacts[index]),
+                  onTap: () => _renameContact(contact),
+                  iconData: Icons.edit,
+                  text: 'Set Nickname',
+                ),
+                SheetButton(
+                  onTap: () => _removeContact(contact),
                   iconData: Icons.person_remove,
                   text: 'Remove contact',
                 ),
@@ -87,7 +130,7 @@ class _UsersListState extends State<UsersList> {
                 : const CircleAvatar(
                     child: Icon(Icons.person),
                   ),
-            title: Text(filteredContacts[index].fullName),
+            title: Text(name),
             subtitle: Text(filteredContacts[index].email),
           );
         },

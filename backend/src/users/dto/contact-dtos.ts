@@ -7,3 +7,14 @@ export class CreateContactDto {
   @IsString()
   email: string;
 }
+
+export class UpdateContactDto {
+  @IsString()
+  fullName: string;
+
+  @IsString()
+  nickname: string;
+
+  @IsString()
+  email: string;
+}

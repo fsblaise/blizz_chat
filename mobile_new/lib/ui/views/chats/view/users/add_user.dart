@@ -26,6 +26,7 @@ class _AddUserState extends State<AddUser> {
 
   Future<void> _addContact(String email, String fullName) async {
     await _authCubit.addContact(email, fullName);
+    await _usersCubit.fetchContacts();
     widget.callback();
   }
 

@@ -5,17 +5,24 @@ class SheetButton extends StatelessWidget {
     required this.onTap,
     required this.iconData,
     required this.text,
+    this.noPop = false,
     super.key,
   });
 
   final dynamic Function() onTap;
   final IconData iconData;
   final String text;
+  final bool noPop;
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: onTap,
+      onTap: () async {
+        await onTap();
+        if (!noPop) {
+          Navigator.of(context).pop();
+        }
+      },
       child: Padding(
         padding: const EdgeInsets.symmetric(
           horizontal: 16,

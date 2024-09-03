@@ -31,17 +31,3 @@ Map<String, dynamic> _$$CreateParticipantDtoImplToJson(
       'fullName': instance.fullName,
       'email': instance.email,
     };
-
-_$UpdateChatDtoImpl _$$UpdateChatDtoImplFromJson(Map<String, dynamic> json) =>
-    _$UpdateChatDtoImpl(
-      email: json['email'] as String,
-      password: json['password'] as String,
-      fullName: json['fullName'] as String,
-    );
-
-Map<String, dynamic> _$$UpdateChatDtoImplToJson(_$UpdateChatDtoImpl instance) =>
-    <String, dynamic>{
-      'email': instance.email,
-      'password': instance.password,
-      'fullName': instance.fullName,
-    };

@@ -12,6 +12,78 @@ class DialogService {
     return DialogService();
   }
 
+  Future<bool?> showConfirmDialog(
+    BuildContext context, {
+    required String title,
+    required String text,
+  }) {
+    return showDialog<bool>(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: Text(title),
+          content: Text(
+            text,
+            style: TextStyle(fontSize: 16),
+          ),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop(false);
+              },
+              child: const Text('Cancel'),
+            ),
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop(true);
+              },
+              child: const Text('Confirm'),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  Future<String?> showInputDialog(
+    BuildContext context, {
+    required String title,
+    String hintText = '',
+  }) {
+    final controller = TextEditingController();
+
+    return showDialog<String>(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          contentPadding: const EdgeInsets.symmetric(
+            vertical: 16,
+            horizontal: 32,
+          ),
+          title: Text(title),
+          content: TextField(
+            controller: controller,
+            decoration: InputDecoration(hintText: hintText),
+          ),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: const Text('Cancel'),
+            ),
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop(controller.text);
+              },
+              child: const Text('Submit'),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
   Future<void> showModalSheetDialog(
     BuildContext context,
     List<Widget> buttons, {
@@ -52,6 +124,7 @@ class DialogService {
         },
         iconData: Icons.logout,
         text: 'Logout',
+        noPop: true,
       ),
     ]);
   }

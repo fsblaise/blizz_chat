@@ -4,6 +4,7 @@ import { CreateChatDto } from './dto/create-chat.dto';
 import { UpdateChatDto } from './dto/update-chat.dto';
 import { AuthGuard } from 'src/shared/guards/auth.guard';
 import { ChatDto } from './dto/chat.dto';
+import { Chat } from './schemas/chat.schema';
 
 @Controller('chats')
 export class ChatsController {
@@ -24,17 +25,21 @@ export class ChatsController {
   }
 
   @Get(':id')
+  @UseGuards(AuthGuard)
   findOne(@Param('id') id: string) {
     return this.chatsService.findOne(+id);
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateChatDto: UpdateChatDto) {
-    return this.chatsService.update(+id, updateChatDto);
+  @UseGuards(AuthGuard)
+  update(@Param('id') id: string, @Body() body: Chat, @Req() request: Request) {
+    const user = request['user'];
+    return this.chatsService.update(id, body, user.email);
   }
 
   @Delete(':id')
+  @UseGuards(AuthGuard)
   remove(@Param('id') id: string) {
-    return this.chatsService.remove(+id);
+    return this.chatsService.remove(id);
   }
 }

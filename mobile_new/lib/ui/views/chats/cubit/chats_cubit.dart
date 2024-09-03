@@ -66,4 +66,32 @@ class ChatsCubit extends Cubit<ChatsState> {
       emit(currentState);
     }
   }
+
+  Future<void> leaveChat(Chat chat) async {
+    final currentState = state;
+    try {
+      emit(const ChatsState.fetching());
+
+      final chats = await ChatsRepository.leaveChat(chat);
+
+      emit(ChatsState.fetched(chats: chats));
+    } catch (e) {
+      print(e);
+      emit(currentState);
+    }
+  }
+
+  Future<void> renameChat(Chat chat) async {
+    final currentState = state;
+    try {
+      emit(const ChatsState.fetching());
+
+      final chats = await ChatsRepository.renameChat(chat);
+
+      emit(ChatsState.fetched(chats: chats));
+    } catch (e) {
+      print(e);
+      emit(currentState);
+    }
+  }
 }

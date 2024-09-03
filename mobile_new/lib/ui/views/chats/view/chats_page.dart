@@ -129,7 +129,7 @@ class _ChatsPageState extends State<ChatsPage> {
                         keyword: _keyword,
                         chatsCubit: _chatsCubit,
                         resetSearch: _resetSearch,
-                        user: _user,
+                        authCubit: _authCubit,
                       ),
                 Segments.contacts => isAdd
                     ? AddUser(
@@ -139,6 +139,7 @@ class _ChatsPageState extends State<ChatsPage> {
                     : UsersList(
                         keyword: _keyword,
                         usersCubit: _usersCubit,
+                        authCubit: _authCubit,
                         resetSearch: _resetSearch,
                       ),
               },

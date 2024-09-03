@@ -16,4 +16,7 @@ abstract class AuthService extends ChopperService {
     path: '/signIn',
   )
   Future<Response<dynamic>> signIn(@Body() SignInDto body);
+
+  @Patch()
+  Future<Response<dynamic>> update(@Body() UserProfile body);
 }

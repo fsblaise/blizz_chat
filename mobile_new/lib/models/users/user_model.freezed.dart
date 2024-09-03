@@ -329,7 +329,7 @@ mixin _$UserProfile {
   String? get city => throw _privateConstructorUsedError;
   String? get location => throw _privateConstructorUsedError;
   String? get gender => throw _privateConstructorUsedError;
-  List<Contact?>? get contacts => throw _privateConstructorUsedError;
+  List<Contact> get contacts => throw _privateConstructorUsedError;
   String? get profileUrl => throw _privateConstructorUsedError;
   int get unreadMessageSum => throw _privateConstructorUsedError;
   Map<String, String?>? get unreadMessages =>
@@ -358,7 +358,7 @@ abstract class $UserProfileCopyWith<$Res> {
       String? city,
       String? location,
       String? gender,
-      List<Contact?>? contacts,
+      List<Contact> contacts,
       String? profileUrl,
       int unreadMessageSum,
       Map<String, String?>? unreadMessages,
@@ -390,7 +390,7 @@ class _$UserProfileCopyWithImpl<$Res, $Val extends UserProfile>
     Object? city = freezed,
     Object? location = freezed,
     Object? gender = freezed,
-    Object? contacts = freezed,
+    Object? contacts = null,
     Object? profileUrl = freezed,
     Object? unreadMessageSum = null,
     Object? unreadMessages = freezed,
@@ -430,10 +430,10 @@ class _$UserProfileCopyWithImpl<$Res, $Val extends UserProfile>
           ? _value.gender
           : gender // ignore: cast_nullable_to_non_nullable
               as String?,
-      contacts: freezed == contacts
+      contacts: null == contacts
           ? _value.contacts
           : contacts // ignore: cast_nullable_to_non_nullable
-              as List<Contact?>?,
+              as List<Contact>,
       profileUrl: freezed == profileUrl
           ? _value.profileUrl
           : profileUrl // ignore: cast_nullable_to_non_nullable
@@ -499,7 +499,7 @@ abstract class _$$UserProfileImplCopyWith<$Res>
       String? city,
       String? location,
       String? gender,
-      List<Contact?>? contacts,
+      List<Contact> contacts,
       String? profileUrl,
       int unreadMessageSum,
       Map<String, String?>? unreadMessages,
@@ -531,7 +531,7 @@ class __$$UserProfileImplCopyWithImpl<$Res>
     Object? city = freezed,
     Object? location = freezed,
     Object? gender = freezed,
-    Object? contacts = freezed,
+    Object? contacts = null,
     Object? profileUrl = freezed,
     Object? unreadMessageSum = null,
     Object? unreadMessages = freezed,
@@ -571,10 +571,10 @@ class __$$UserProfileImplCopyWithImpl<$Res>
           ? _value.gender
           : gender // ignore: cast_nullable_to_non_nullable
               as String?,
-      contacts: freezed == contacts
+      contacts: null == contacts
           ? _value._contacts
           : contacts // ignore: cast_nullable_to_non_nullable
-              as List<Contact?>?,
+              as List<Contact>,
       profileUrl: freezed == profileUrl
           ? _value.profileUrl
           : profileUrl // ignore: cast_nullable_to_non_nullable
@@ -611,7 +611,7 @@ class _$UserProfileImpl implements _UserProfile {
       required this.city,
       required this.location,
       required this.gender,
-      required final List<Contact?>? contacts,
+      required final List<Contact> contacts,
       required this.profileUrl,
       required this.unreadMessageSum,
       required final Map<String, String?>? unreadMessages,
@@ -639,14 +639,12 @@ class _$UserProfileImpl implements _UserProfile {
   final String? location;
   @override
   final String? gender;
-  final List<Contact?>? _contacts;
+  final List<Contact> _contacts;
   @override
-  List<Contact?>? get contacts {
-    final value = _contacts;
-    if (value == null) return null;
+  List<Contact> get contacts {
     if (_contacts is EqualUnmodifiableListView) return _contacts;
     // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(value);
+    return EqualUnmodifiableListView(_contacts);
   }
 
   @override
@@ -746,7 +744,7 @@ abstract class _UserProfile implements UserProfile {
       required final String? city,
       required final String? location,
       required final String? gender,
-      required final List<Contact?>? contacts,
+      required final List<Contact> contacts,
       required final String? profileUrl,
       required final int unreadMessageSum,
       required final Map<String, String?>? unreadMessages,
@@ -773,7 +771,7 @@ abstract class _UserProfile implements UserProfile {
   @override
   String? get gender;
   @override
-  List<Contact?>? get contacts;
+  List<Contact> get contacts;
   @override
   String? get profileUrl;
   @override
