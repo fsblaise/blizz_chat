@@ -24,7 +24,7 @@ class DialogService {
           title: Text(title),
           content: Text(
             text,
-            style: TextStyle(fontSize: 16),
+            style: const TextStyle(fontSize: 16),
           ),
           actions: [
             TextButton(
@@ -117,6 +117,14 @@ class DialogService {
         },
         iconData: Icons.settings,
         text: 'More Settings',
+      ),
+      SheetButton(
+        onTap: () async {
+          final state = context.read<AuthCubit>().state as AuthAuthenticated;
+          print(state.token);
+        },
+        iconData: Icons.settings,
+        text: 'Fetch Token (DEV)',
       ),
       SheetButton(
         onTap: () async {

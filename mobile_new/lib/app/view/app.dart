@@ -1,4 +1,5 @@
 import 'package:blizz_chat/l10n/l10n.dart';
+import 'package:blizz_chat/repositories/repositories.dart';
 import 'package:blizz_chat/resources/routes/app_router.dart';
 import 'package:blizz_chat/ui/ui.dart';
 import 'package:flutter/material.dart';
@@ -17,6 +18,7 @@ class App extends StatelessWidget {
         BlocProvider(create: (_) => RegisterFormCubit()),
         BlocProvider(create: (_) => ChatsCubit()),
         BlocProvider(create: (_) => UsersCubit()),
+        BlocProvider(create: (_) => MessagingCubit(MessagingRepository())),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,

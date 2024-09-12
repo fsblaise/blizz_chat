@@ -1,4 +1,6 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:blizz_chat/models/models.dart';
+import 'package:blizz_chat/resources/routes/app_router.dart';
 import 'package:blizz_chat/resources/services/services.dart';
 import 'package:blizz_chat/ui/ui.dart';
 import 'package:flutter/material.dart';
@@ -42,6 +44,7 @@ class _ChatsListState extends State<ChatsList> {
 
   void _launchMessaging(Chat chat) {
     print(chat.id);
+    context.router.navigate(MessagingRoute(chatId: chat.id));
   }
 
   void _muteChat(Chat chat) {}

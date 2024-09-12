@@ -27,6 +27,13 @@ class AuthCubit extends Cubit<AuthState> {
     return null;
   }
 
+  String? getToken() {
+    if (state is AuthAuthenticated) {
+      return (state as AuthAuthenticated).token;
+    }
+    return null;
+  }
+
   Future<void> signUp(String email, String password, String fullName) async {
     try {
       final authResponse = await AuthRepository.signUp(

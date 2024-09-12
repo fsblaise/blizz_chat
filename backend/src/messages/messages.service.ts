@@ -1,26 +1,31 @@
 import { Injectable } from '@nestjs/common';
-import { CreateMessageDto } from './dto/create-message.dto';
-import { UpdateMessageDto } from './dto/update-message.dto';
+import { InjectModel } from '@nestjs/mongoose';
+import { Model } from 'mongoose';
+import { MessageQueue } from './schemas/message.schema';
 
 @Injectable()
 export class MessagesService {
-  create(createMessageDto: CreateMessageDto) {
-    return 'This action adds a new message';
+
+  constructor(
+    @InjectModel('MessageQueue') private messageQueueModel: Model<MessageQueue>,
+  ) { }
+
+  async create(from: string, to: string, message: string, timestamp: string, chatId: string): Promise<MessageQueue> {
+    const messageQueue = new this.messageQueueModel({
+      from,
+      to,
+      message,
+      timestamp,
+      chatId
+    });
+    return await messageQueue.save();
   }
 
-  findAll() {
-    return `This action returns all messages`;
+  async findMessagesForUser(userId: string): Promise<MessageQueue[]> {
+    return await this.messageQueueModel.find({ to: userId }).exec();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} message`;
-  }
-
-  update(id: number, updateMessageDto: UpdateMessageDto) {
-    return `This action updates a #${id} message`;
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} message`;
+  async remove(id: any): Promise<MessageQueue> {
+    return await this.messageQueueModel.findByIdAndDelete(id).exec();
   }
 }

@@ -21,6 +21,14 @@ class ChatsCubit extends Cubit<ChatsState> {
     }
   }
 
+  Chat? getChat(String chatId) {
+    final currentState = state;
+    if (currentState is ChatsFetched) {
+      return currentState.chats.firstWhere((chat) => chat.id == chatId);
+    }
+    return null;
+  }
+
   // dev function
   void clear() {
     emit(const ChatsState.initial());

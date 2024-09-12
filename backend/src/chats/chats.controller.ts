@@ -12,9 +12,10 @@ export class ChatsController {
 
   @Post()
   @UseGuards(AuthGuard)
-  create(@Body() createChatDto: CreateChatDto): Promise<ChatDto> {
+  create(@Body() createChatDto: CreateChatDto, @Req() request: Request): Promise<ChatDto> {
     console.log(createChatDto.participants);
-    return this.chatsService.create(createChatDto);
+    const user = request['user'];
+    return this.chatsService.create(createChatDto, user.email);
   }
 
   @Get()

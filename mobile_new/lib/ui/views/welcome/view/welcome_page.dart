@@ -15,6 +15,7 @@ class WelcomePage extends StatefulWidget {
 
 class _WelcomePageState extends State<WelcomePage> {
   late final AuthCubit _authCubit;
+  bool hasInit = false;
 
   @override
   initState() {
@@ -27,6 +28,14 @@ class _WelcomePageState extends State<WelcomePage> {
   dispose() {
     print('welcome disposed');
     super.dispose();
+  }
+
+  void _initWs(AuthAuthenticated state) {
+    if (!hasInit) {
+      final token = state.token;
+      context.read<MessagingCubit>().connect(token);
+      hasInit = true;
+    }
   }
 
   Widget _renderWelcome() {
@@ -85,12 +94,14 @@ class _WelcomePageState extends State<WelcomePage> {
             return _renderWelcome();
           } else if (state is AuthAuthenticated) {
             context.router.replace(const HomeRoute());
+            _initWs(state);
           }
           return const LoadingWidget();
         },
         listener: (context, state) {
           if (state is AuthAuthenticated) {
             context.router.replace(const HomeRoute());
+            _initWs(state);
           }
         },
       ),

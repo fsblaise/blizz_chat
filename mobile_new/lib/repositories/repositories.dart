@@ -2,11 +2,13 @@ library repositories;
 
 import 'dart:convert';
 
-import 'package:auto_route/auto_route.dart';
 import 'package:blizz_chat/models/auth/auth_dtos.dart';
 import 'package:blizz_chat/models/models.dart';
+import 'package:blizz_chat/resources/services/database/database_service.dart';
 import 'package:blizz_chat/resources/services/services.dart';
+import 'package:blizz_chat/ui/ui.dart';
 import 'package:chopper/chopper.dart';
+import 'package:socket_io_client/socket_io_client.dart' as IO;
 
 part 'auth/auth_repository.dart';
 part 'chats/chats_repository.dart';

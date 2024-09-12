@@ -1,18 +1,27 @@
 import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose";
 import { HydratedDocument, Types } from "mongoose";
 
-export type MessageDocument = HydratedDocument<Message>;
+export type MessageQueueDocument = HydratedDocument<MessageQueue>;
 
 @Schema()
-export class Message {
-  @Prop({ type: Types.ObjectId, ref: 'User', required: true })
-  senderId: Types.ObjectId;
+export class MessageQueue {
+  @Prop({ type: Types.ObjectId, auto: true })
+  _id: Types.ObjectId;
+
+  @Prop({ required: true })
+  from: string;
+
+  @Prop({ required: true })
+  to: string;
 
   @Prop({ required: true })
   message: string;
 
   @Prop({ required: true })
   timestamp: string;
+
+  @Prop({ required: true })
+  chatId: string;
 }
 
-export const MessageSchema = SchemaFactory.createForClass(Message);
+export const MessageQueueSchema = SchemaFactory.createForClass(MessageQueue);
