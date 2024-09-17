@@ -168,3 +168,157 @@ abstract class _AddContactDto implements AddContactDto {
   _$$AddContactDtoImplCopyWith<_$AddContactDtoImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
+
+UserStatusDto _$UserStatusDtoFromJson(Map<String, dynamic> json) {
+  return _UserStatusDto.fromJson(json);
+}
+
+/// @nodoc
+mixin _$UserStatusDto {
+  String get userId => throw _privateConstructorUsedError;
+  String get status => throw _privateConstructorUsedError;
+
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  @JsonKey(ignore: true)
+  $UserStatusDtoCopyWith<UserStatusDto> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $UserStatusDtoCopyWith<$Res> {
+  factory $UserStatusDtoCopyWith(
+          UserStatusDto value, $Res Function(UserStatusDto) then) =
+      _$UserStatusDtoCopyWithImpl<$Res, UserStatusDto>;
+  @useResult
+  $Res call({String userId, String status});
+}
+
+/// @nodoc
+class _$UserStatusDtoCopyWithImpl<$Res, $Val extends UserStatusDto>
+    implements $UserStatusDtoCopyWith<$Res> {
+  _$UserStatusDtoCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? userId = null,
+    Object? status = null,
+  }) {
+    return _then(_value.copyWith(
+      userId: null == userId
+          ? _value.userId
+          : userId // ignore: cast_nullable_to_non_nullable
+              as String,
+      status: null == status
+          ? _value.status
+          : status // ignore: cast_nullable_to_non_nullable
+              as String,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$UserStatusDtoImplCopyWith<$Res>
+    implements $UserStatusDtoCopyWith<$Res> {
+  factory _$$UserStatusDtoImplCopyWith(
+          _$UserStatusDtoImpl value, $Res Function(_$UserStatusDtoImpl) then) =
+      __$$UserStatusDtoImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call({String userId, String status});
+}
+
+/// @nodoc
+class __$$UserStatusDtoImplCopyWithImpl<$Res>
+    extends _$UserStatusDtoCopyWithImpl<$Res, _$UserStatusDtoImpl>
+    implements _$$UserStatusDtoImplCopyWith<$Res> {
+  __$$UserStatusDtoImplCopyWithImpl(
+      _$UserStatusDtoImpl _value, $Res Function(_$UserStatusDtoImpl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? userId = null,
+    Object? status = null,
+  }) {
+    return _then(_$UserStatusDtoImpl(
+      userId: null == userId
+          ? _value.userId
+          : userId // ignore: cast_nullable_to_non_nullable
+              as String,
+      status: null == status
+          ? _value.status
+          : status // ignore: cast_nullable_to_non_nullable
+              as String,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$UserStatusDtoImpl implements _UserStatusDto {
+  const _$UserStatusDtoImpl({required this.userId, required this.status});
+
+  factory _$UserStatusDtoImpl.fromJson(Map<String, dynamic> json) =>
+      _$$UserStatusDtoImplFromJson(json);
+
+  @override
+  final String userId;
+  @override
+  final String status;
+
+  @override
+  String toString() {
+    return 'UserStatusDto(userId: $userId, status: $status)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$UserStatusDtoImpl &&
+            (identical(other.userId, userId) || other.userId == userId) &&
+            (identical(other.status, status) || other.status == status));
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode => Object.hash(runtimeType, userId, status);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$UserStatusDtoImplCopyWith<_$UserStatusDtoImpl> get copyWith =>
+      __$$UserStatusDtoImplCopyWithImpl<_$UserStatusDtoImpl>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$UserStatusDtoImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class _UserStatusDto implements UserStatusDto {
+  const factory _UserStatusDto(
+      {required final String userId,
+      required final String status}) = _$UserStatusDtoImpl;
+
+  factory _UserStatusDto.fromJson(Map<String, dynamic> json) =
+      _$UserStatusDtoImpl.fromJson;
+
+  @override
+  String get userId;
+  @override
+  String get status;
+  @override
+  @JsonKey(ignore: true)
+  _$$UserStatusDtoImplCopyWith<_$UserStatusDtoImpl> get copyWith =>
+      throw _privateConstructorUsedError;
+}

@@ -13,11 +13,46 @@ class MessagingCubit extends Cubit<MessagingState> {
   void connect(String token) {
     print("run?");
     messagingRepository.connect(token);
+    _listenForMessages();
+    _listenForStatus();
+  }
+
+  void disconnect() {
+    messagingRepository.disconnect();
   }
 
   void sendMessage(Message message) {
     messagingRepository.sendMessage(message);
   }
 
-  void fetchMessages(String chatId) {}
+  Future<void> fetchMessages(String chatId) async {
+    try {
+      final messages = await messagingRepository.fetchMessages(chatId);
+      emit(MessagingFetched(messages: messages));
+    } catch (e) {
+      emit(MessagingError(message: e.toString()));
+    }
+  }
+
+  void _listenForMessages() {
+    messagingRepository.listenForMessages((message) {
+      // Handle the received message
+      // For example, you can add the message to the current state
+      if (state is MessagingFetched) {
+        final currentState = state as MessagingFetched;
+        final updatedMessages = List<Message>.from(currentState.messages)
+          ..add(message);
+        emit(MessagingFetched(messages: updatedMessages));
+      }
+    });
+  }
+
+  void _listenForStatus() {
+    messagingRepository.listenForStatus((UserStatusDto? dto) {
+      if (dto != null) {
+        print('User updated: ${dto.userId}');
+        print('User status: ${dto.status}');
+      }
+    });
+  }
 }

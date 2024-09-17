@@ -45,6 +45,7 @@ export class MessagesGateway {
   }
 
   handleDisconnect(client: Socket) {
+    console.log('Client disconnected');
     const userId = Array.from(this.onlineUsers).find(([_, socketId]) => socketId === client.id)?.[0];
     if (userId) {
       this.onlineUsers.delete(userId);

@@ -12,3 +12,14 @@ class AddContactDto with _$AddContactDto {
   factory AddContactDto.fromJson(Map<String, dynamic> json) =>
       _$AddContactDtoFromJson(json);
 }
+
+@freezed
+class UserStatusDto with _$UserStatusDto {
+  const factory UserStatusDto({
+    required String userId,
+    required String status,
+  }) = _UserStatusDto;
+
+  factory UserStatusDto.fromJson(Map<String, dynamic> json) =>
+      _$UserStatusDtoFromJson(json);
+}

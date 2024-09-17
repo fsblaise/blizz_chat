@@ -33,14 +33,29 @@ class MessagingRepository {
   }
 
   // TODO: Implement the listen method for the status too
-  void listen(void Function(Message) onMessage) {
+  void listenForMessages(void Function(Message) onMessage) {
     _socket?.on('receiveMessage', (data) {
       final message =
           Message.fromJson(jsonDecode(data as String) as Map<String, dynamic>);
       // saveMessage(message); // Here we should not use this
       // We should pass the onMessage from the cubit
       // Inside the callback we should call the saveMessage function
+      print('Received message: $message');
       onMessage(message);
+    });
+  }
+
+  void listenForStatus(void Function(UserStatusDto?) onStatus) {
+    _socket?.on('userStatus', (data) {
+      try {
+        final dataMap =
+            data as Map<String, dynamic>; // Cast the incoming data to a Map
+        final dto = UserStatusDto.fromJson(dataMap);
+        onStatus(dto);
+      } catch (e) {
+        print('Error parsing userStatus data: $e');
+        onStatus(null);
+      }
     });
   }
 

@@ -138,7 +138,10 @@ class DialogService {
   }
 
   Future<void> _signOut(BuildContext context) async {
+    // Sign out the user
     await context.read<AuthCubit>().signOut();
+    // Close the websocket connection
+    context.read<MessagingCubit>().disconnect();
     await context.router.replace(const WelcomeRoute());
   }
 }

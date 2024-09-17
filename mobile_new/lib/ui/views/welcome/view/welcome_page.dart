@@ -15,12 +15,14 @@ class WelcomePage extends StatefulWidget {
 
 class _WelcomePageState extends State<WelcomePage> {
   late final AuthCubit _authCubit;
+  late final MessagingCubit _messagingCubit;
   bool hasInit = false;
 
   @override
   initState() {
     super.initState();
     _authCubit = context.read<AuthCubit>();
+    _messagingCubit = context.read<MessagingCubit>();
     // getIt.get<SharedPreferencesService>().preferences!.setString('token', '');
   }
 
@@ -33,7 +35,7 @@ class _WelcomePageState extends State<WelcomePage> {
   void _initWs(AuthAuthenticated state) {
     if (!hasInit) {
       final token = state.token;
-      context.read<MessagingCubit>().connect(token);
+      _messagingCubit.connect(token);
       hasInit = true;
     }
   }

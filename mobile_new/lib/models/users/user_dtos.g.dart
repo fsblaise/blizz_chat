@@ -17,3 +17,15 @@ Map<String, dynamic> _$$AddContactDtoImplToJson(_$AddContactDtoImpl instance) =>
       'fullName': instance.fullName,
       'email': instance.email,
     };
+
+_$UserStatusDtoImpl _$$UserStatusDtoImplFromJson(Map<String, dynamic> json) =>
+    _$UserStatusDtoImpl(
+      userId: json['userId'] as String,
+      status: json['status'] as String,
+    );
+
+Map<String, dynamic> _$$UserStatusDtoImplToJson(_$UserStatusDtoImpl instance) =>
+    <String, dynamic>{
+      'userId': instance.userId,
+      'status': instance.status,
+    };
