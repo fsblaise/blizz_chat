@@ -16,6 +16,7 @@ _$UserImpl _$$UserImplFromJson(Map<String, dynamic> json) => _$UserImpl(
       location: json['location'] as String?,
       gender: json['gender'] as String?,
       profileUrl: json['profileUrl'] as String?,
+      isOnline: json['isOnline'] as bool,
     );
 
 Map<String, dynamic> _$$UserImplToJson(_$UserImpl instance) =>
@@ -29,6 +30,7 @@ Map<String, dynamic> _$$UserImplToJson(_$UserImpl instance) =>
       'location': instance.location,
       'gender': instance.gender,
       'profileUrl': instance.profileUrl,
+      'isOnline': instance.isOnline,
     };
 
 _$UserProfileImpl _$$UserProfileImplFromJson(Map<String, dynamic> json) =>

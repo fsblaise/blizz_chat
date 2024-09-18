@@ -15,6 +15,8 @@ class WelcomePage extends StatefulWidget {
 
 class _WelcomePageState extends State<WelcomePage> {
   late final AuthCubit _authCubit;
+  late final UsersCubit _usersCubit;
+  late final ChatsCubit _chatsCubit;
   late final MessagingCubit _messagingCubit;
   bool hasInit = false;
 
@@ -22,6 +24,8 @@ class _WelcomePageState extends State<WelcomePage> {
   initState() {
     super.initState();
     _authCubit = context.read<AuthCubit>();
+    _usersCubit = context.read<UsersCubit>();
+    _chatsCubit = context.read<ChatsCubit>();
     _messagingCubit = context.read<MessagingCubit>();
     // getIt.get<SharedPreferencesService>().preferences!.setString('token', '');
   }

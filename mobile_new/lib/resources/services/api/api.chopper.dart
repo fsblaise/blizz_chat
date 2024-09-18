@@ -116,7 +116,7 @@ final class _$ChatsService extends ChatsService {
 
   @override
   Future<Response<List<dynamic>>> update(
-    Chat body,
+    ChatDto body,
     String chatId,
   ) {
     final Uri $url = Uri.parse('/chats/${chatId}');

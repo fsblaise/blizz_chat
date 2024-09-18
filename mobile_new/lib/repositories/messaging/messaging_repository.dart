@@ -2,7 +2,7 @@ part of '../repositories.dart';
 
 // websocket response handling and database save calls
 // ignore: constant_identifier_names
-const WS_URL = 'ws://192.168.0.13:3000';
+const WS_URL = 'ws://192.168.166.190:3000';
 
 class MessagingRepository {
   MessagingRepository();
@@ -48,6 +48,7 @@ class MessagingRepository {
   void listenForStatus(void Function(UserStatusDto?) onStatus) {
     _socket?.on('userStatus', (data) {
       try {
+        print(data);
         final dataMap =
             data as Map<String, dynamic>; // Cast the incoming data to a Map
         final dto = UserStatusDto.fromJson(dataMap);

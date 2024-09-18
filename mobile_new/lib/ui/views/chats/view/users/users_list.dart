@@ -123,13 +123,25 @@ class _UsersListState extends State<UsersList> {
                 ),
               ]);
             },
-            leading: filteredContacts[index].profileUrl != null
-                ? CircleAvatar(
+            leading: Stack(
+              children: [
+                if (filteredContacts[index].profileUrl != null)
+                  CircleAvatar(
                     child: Image.network(filteredContacts[index].profileUrl!),
                   )
-                : const CircleAvatar(
+                else
+                  const CircleAvatar(
                     child: Icon(Icons.person),
                   ),
+                Positioned(
+                  bottom: 0,
+                  right: 0,
+                  child: StatusDot(
+                    isOnline: filteredContacts[index].isOnline,
+                  ),
+                ),
+              ],
+            ),
             title: Text(name),
             subtitle: Text(filteredContacts[index].email),
           );

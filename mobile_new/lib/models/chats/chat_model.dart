@@ -10,6 +10,7 @@ class Chat with _$Chat {
     required String title,
     required String? lastMessage,
     required List<Participant> participants,
+    required bool isChatOnline,
   }) = _Chat;
 
   factory Chat.fromJson(Map<String, dynamic> json) => _$ChatFromJson(json);
@@ -21,6 +22,7 @@ class Participant with _$Participant {
     required String email,
     required String fullName,
     required String nickname,
+    required bool isOnline,
   }) = _Participant;
 
   factory Participant.fromJson(Map<String, dynamic> json) =>

@@ -25,6 +25,7 @@ mixin _$Chat {
   String get title => throw _privateConstructorUsedError;
   String? get lastMessage => throw _privateConstructorUsedError;
   List<Participant> get participants => throw _privateConstructorUsedError;
+  bool get isChatOnline => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -40,7 +41,8 @@ abstract class $ChatCopyWith<$Res> {
       {@JsonKey(name: '_id') String id,
       String title,
       String? lastMessage,
-      List<Participant> participants});
+      List<Participant> participants,
+      bool isChatOnline});
 }
 
 /// @nodoc
@@ -60,6 +62,7 @@ class _$ChatCopyWithImpl<$Res, $Val extends Chat>
     Object? title = null,
     Object? lastMessage = freezed,
     Object? participants = null,
+    Object? isChatOnline = null,
   }) {
     return _then(_value.copyWith(
       id: null == id
@@ -78,6 +81,10 @@ class _$ChatCopyWithImpl<$Res, $Val extends Chat>
           ? _value.participants
           : participants // ignore: cast_nullable_to_non_nullable
               as List<Participant>,
+      isChatOnline: null == isChatOnline
+          ? _value.isChatOnline
+          : isChatOnline // ignore: cast_nullable_to_non_nullable
+              as bool,
     ) as $Val);
   }
 }
@@ -93,7 +100,8 @@ abstract class _$$ChatImplCopyWith<$Res> implements $ChatCopyWith<$Res> {
       {@JsonKey(name: '_id') String id,
       String title,
       String? lastMessage,
-      List<Participant> participants});
+      List<Participant> participants,
+      bool isChatOnline});
 }
 
 /// @nodoc
@@ -110,6 +118,7 @@ class __$$ChatImplCopyWithImpl<$Res>
     Object? title = null,
     Object? lastMessage = freezed,
     Object? participants = null,
+    Object? isChatOnline = null,
   }) {
     return _then(_$ChatImpl(
       id: null == id
@@ -128,6 +137,10 @@ class __$$ChatImplCopyWithImpl<$Res>
           ? _value._participants
           : participants // ignore: cast_nullable_to_non_nullable
               as List<Participant>,
+      isChatOnline: null == isChatOnline
+          ? _value.isChatOnline
+          : isChatOnline // ignore: cast_nullable_to_non_nullable
+              as bool,
     ));
   }
 }
@@ -139,7 +152,8 @@ class _$ChatImpl implements _Chat {
       {@JsonKey(name: '_id') required this.id,
       required this.title,
       required this.lastMessage,
-      required final List<Participant> participants})
+      required final List<Participant> participants,
+      required this.isChatOnline})
       : _participants = participants;
 
   factory _$ChatImpl.fromJson(Map<String, dynamic> json) =>
@@ -161,8 +175,11 @@ class _$ChatImpl implements _Chat {
   }
 
   @override
+  final bool isChatOnline;
+
+  @override
   String toString() {
-    return 'Chat(id: $id, title: $title, lastMessage: $lastMessage, participants: $participants)';
+    return 'Chat(id: $id, title: $title, lastMessage: $lastMessage, participants: $participants, isChatOnline: $isChatOnline)';
   }
 
   @override
@@ -175,13 +192,15 @@ class _$ChatImpl implements _Chat {
             (identical(other.lastMessage, lastMessage) ||
                 other.lastMessage == lastMessage) &&
             const DeepCollectionEquality()
-                .equals(other._participants, _participants));
+                .equals(other._participants, _participants) &&
+            (identical(other.isChatOnline, isChatOnline) ||
+                other.isChatOnline == isChatOnline));
   }
 
   @JsonKey(ignore: true)
   @override
   int get hashCode => Object.hash(runtimeType, id, title, lastMessage,
-      const DeepCollectionEquality().hash(_participants));
+      const DeepCollectionEquality().hash(_participants), isChatOnline);
 
   @JsonKey(ignore: true)
   @override
@@ -202,7 +221,8 @@ abstract class _Chat implements Chat {
       {@JsonKey(name: '_id') required final String id,
       required final String title,
       required final String? lastMessage,
-      required final List<Participant> participants}) = _$ChatImpl;
+      required final List<Participant> participants,
+      required final bool isChatOnline}) = _$ChatImpl;
 
   factory _Chat.fromJson(Map<String, dynamic> json) = _$ChatImpl.fromJson;
 
@@ -215,6 +235,8 @@ abstract class _Chat implements Chat {
   String? get lastMessage;
   @override
   List<Participant> get participants;
+  @override
+  bool get isChatOnline;
   @override
   @JsonKey(ignore: true)
   _$$ChatImplCopyWith<_$ChatImpl> get copyWith =>
@@ -230,6 +252,7 @@ mixin _$Participant {
   String get email => throw _privateConstructorUsedError;
   String get fullName => throw _privateConstructorUsedError;
   String get nickname => throw _privateConstructorUsedError;
+  bool get isOnline => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -243,7 +266,7 @@ abstract class $ParticipantCopyWith<$Res> {
           Participant value, $Res Function(Participant) then) =
       _$ParticipantCopyWithImpl<$Res, Participant>;
   @useResult
-  $Res call({String email, String fullName, String nickname});
+  $Res call({String email, String fullName, String nickname, bool isOnline});
 }
 
 /// @nodoc
@@ -262,6 +285,7 @@ class _$ParticipantCopyWithImpl<$Res, $Val extends Participant>
     Object? email = null,
     Object? fullName = null,
     Object? nickname = null,
+    Object? isOnline = null,
   }) {
     return _then(_value.copyWith(
       email: null == email
@@ -276,6 +300,10 @@ class _$ParticipantCopyWithImpl<$Res, $Val extends Participant>
           ? _value.nickname
           : nickname // ignore: cast_nullable_to_non_nullable
               as String,
+      isOnline: null == isOnline
+          ? _value.isOnline
+          : isOnline // ignore: cast_nullable_to_non_nullable
+              as bool,
     ) as $Val);
   }
 }
@@ -288,7 +316,7 @@ abstract class _$$ParticipantImplCopyWith<$Res>
       __$$ParticipantImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String email, String fullName, String nickname});
+  $Res call({String email, String fullName, String nickname, bool isOnline});
 }
 
 /// @nodoc
@@ -305,6 +333,7 @@ class __$$ParticipantImplCopyWithImpl<$Res>
     Object? email = null,
     Object? fullName = null,
     Object? nickname = null,
+    Object? isOnline = null,
   }) {
     return _then(_$ParticipantImpl(
       email: null == email
@@ -319,6 +348,10 @@ class __$$ParticipantImplCopyWithImpl<$Res>
           ? _value.nickname
           : nickname // ignore: cast_nullable_to_non_nullable
               as String,
+      isOnline: null == isOnline
+          ? _value.isOnline
+          : isOnline // ignore: cast_nullable_to_non_nullable
+              as bool,
     ));
   }
 }
@@ -327,7 +360,10 @@ class __$$ParticipantImplCopyWithImpl<$Res>
 @JsonSerializable()
 class _$ParticipantImpl implements _Participant {
   const _$ParticipantImpl(
-      {required this.email, required this.fullName, required this.nickname});
+      {required this.email,
+      required this.fullName,
+      required this.nickname,
+      required this.isOnline});
 
   factory _$ParticipantImpl.fromJson(Map<String, dynamic> json) =>
       _$$ParticipantImplFromJson(json);
@@ -338,10 +374,12 @@ class _$ParticipantImpl implements _Participant {
   final String fullName;
   @override
   final String nickname;
+  @override
+  final bool isOnline;
 
   @override
   String toString() {
-    return 'Participant(email: $email, fullName: $fullName, nickname: $nickname)';
+    return 'Participant(email: $email, fullName: $fullName, nickname: $nickname, isOnline: $isOnline)';
   }
 
   @override
@@ -353,12 +391,15 @@ class _$ParticipantImpl implements _Participant {
             (identical(other.fullName, fullName) ||
                 other.fullName == fullName) &&
             (identical(other.nickname, nickname) ||
-                other.nickname == nickname));
+                other.nickname == nickname) &&
+            (identical(other.isOnline, isOnline) ||
+                other.isOnline == isOnline));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, email, fullName, nickname);
+  int get hashCode =>
+      Object.hash(runtimeType, email, fullName, nickname, isOnline);
 
   @JsonKey(ignore: true)
   @override
@@ -378,7 +419,8 @@ abstract class _Participant implements Participant {
   const factory _Participant(
       {required final String email,
       required final String fullName,
-      required final String nickname}) = _$ParticipantImpl;
+      required final String nickname,
+      required final bool isOnline}) = _$ParticipantImpl;
 
   factory _Participant.fromJson(Map<String, dynamic> json) =
       _$ParticipantImpl.fromJson;
@@ -389,6 +431,8 @@ abstract class _Participant implements Participant {
   String get fullName;
   @override
   String get nickname;
+  @override
+  bool get isOnline;
   @override
   @JsonKey(ignore: true)
   _$$ParticipantImplCopyWith<_$ParticipantImpl> get copyWith =>

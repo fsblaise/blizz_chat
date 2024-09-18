@@ -20,20 +20,21 @@ export class ChatsController {
 
   @Get()
   @UseGuards(AuthGuard)
-  findAll(@Req() request: Request) {
+  findAll(@Req() request: Request): Promise<ChatDto[]> {
     const user = request['user'];
     return this.chatsService.findAll(user.email);
   }
 
   @Get(':id')
   @UseGuards(AuthGuard)
-  findOne(@Param('id') id: string) {
-    return this.chatsService.findOne(+id);
+  findOne(@Param('id') id: string, @Req() request: Request): Promise<ChatDto> {
+    const user = request['user'];
+    return this.chatsService.findOne(id, user.email);
   }
 
   @Patch(':id')
   @UseGuards(AuthGuard)
-  update(@Param('id') id: string, @Body() body: Chat, @Req() request: Request) {
+  update(@Param('id') id: string, @Body() body: Chat, @Req() request: Request): Promise<ChatDto[]>{
     const user = request['user'];
     return this.chatsService.update(id, body, user.email);
   }

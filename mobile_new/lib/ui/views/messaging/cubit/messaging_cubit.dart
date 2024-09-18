@@ -1,5 +1,6 @@
 import 'package:blizz_chat/models/models.dart';
 import 'package:blizz_chat/repositories/repositories.dart';
+import 'package:blizz_chat/ui/ui.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
@@ -7,14 +8,20 @@ part 'messaging_states.dart';
 part 'messaging_cubit.freezed.dart';
 
 class MessagingCubit extends Cubit<MessagingState> {
-  MessagingCubit(this.messagingRepository) : super(const MessagingInitial());
+  MessagingCubit(
+    this.messagingRepository,
+    this.chatsCubit,
+    this.usersCubit,
+  ) : super(const MessagingInitial());
   final MessagingRepository messagingRepository;
+  final ChatsCubit chatsCubit;
+  final UsersCubit usersCubit;
+  bool _listenersActive = false;
 
   void connect(String token) {
     print("run?");
     messagingRepository.connect(token);
-    _listenForMessages();
-    _listenForStatus();
+    _setupListeners();
   }
 
   void disconnect() {
@@ -34,6 +41,14 @@ class MessagingCubit extends Cubit<MessagingState> {
     }
   }
 
+  void _setupListeners() {
+    if (!_listenersActive) {
+      _listenForMessages();
+      _listenForStatus();
+      _listenersActive = true;
+    }
+  }
+
   void _listenForMessages() {
     messagingRepository.listenForMessages((message) {
       // Handle the received message
@@ -50,8 +65,10 @@ class MessagingCubit extends Cubit<MessagingState> {
   void _listenForStatus() {
     messagingRepository.listenForStatus((UserStatusDto? dto) {
       if (dto != null) {
-        print('User updated: ${dto.userId}');
+        print('User updated: ${dto.userEmail}');
         print('User status: ${dto.status}');
+        chatsCubit.updateChatStatus(dto);
+        usersCubit.updateUserStatus(dto);
       }
     });
   }

@@ -16,7 +16,7 @@ class AddContactDto with _$AddContactDto {
 @freezed
 class UserStatusDto with _$UserStatusDto {
   const factory UserStatusDto({
-    required String userId,
+    required String userEmail,
     required String status,
   }) = _UserStatusDto;
 

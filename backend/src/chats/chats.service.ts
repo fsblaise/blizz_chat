@@ -3,13 +3,15 @@ import { CreateChatDto } from './dto/create-chat.dto';
 import { InjectModel } from '@nestjs/mongoose';
 import { Chat, Participant } from './schemas/chat.schema';
 import { Model } from 'mongoose';
+import { ChatDto } from './dto/chat.dto';
+import { OnlineUsersService } from 'src/messages/online_users.service';
 
 @Injectable()
 export class ChatsService {
 
-  constructor(@InjectModel(Chat.name) private chatModel: Model<Chat>) { }
+  constructor(@InjectModel(Chat.name) private chatModel: Model<Chat>, private onlineUsersService: OnlineUsersService) { }
 
-  async create(createChatDto: CreateChatDto, email: string): Promise<Chat> {
+  async create(createChatDto: CreateChatDto, email: string): Promise<ChatDto> {
     const participantsNames = createChatDto.participants
       .map(participant => participant.fullName)
       .join(', ');
@@ -44,7 +46,8 @@ export class ChatsService {
         // The chat already exists, but the user is not part of it
         // Add the user to the chat and save
         foundChat.participants = participants;
-        return await foundChat.save();
+        await foundChat.save()
+        return this.renderChat(foundChat, email);
       }
     } else {
       console.log('not foundChat');
@@ -60,36 +63,62 @@ export class ChatsService {
       });
       // const entity = await chatEntity.save();
       // console.log(entity);
-
-      return await chatEntity.save();;
+      await chatEntity.save()
+      return this.renderChat(chatEntity, email);
     }
   }
 
-  async findAll(email: string): Promise<Chat[]> {
-    return this.chatModel.find({ 'participants.email': email }).exec();
+  async findAll(email: string): Promise<ChatDto[]> {
+    const entities = await this.chatModel.find({ 'participants.email': email }).exec();
+    return entities.map(entity => this.renderChat(entity, email));
   }
 
-  findOne(id: number) {
-    return this.chatModel.findById(id);
+  async findOne(id: string, email: string): Promise<ChatDto> {
+    const entity = await this.chatModel.findById(id).exec();
+    return this.renderChat(entity, email);
   }
 
-  async update(id: string, body: Chat, email: string): Promise<Chat[]> {
+  async update(id: string, body: Chat, email: string): Promise<ChatDto[]> {
     if (body.participants.length < 1) {
       this.remove(id);
-    }
-
-    const updatedChat = await this.chatModel.findByIdAndUpdate(id, body, {
-      new: true,
-    });
-
-    if (!updatedChat) {
-      throw new NotFoundException(`Chat with id ${id} not found`);
+    } else {
+      const updatedChat = await this.chatModel.findByIdAndUpdate(id, body, {
+        new: true,
+      }).exec();
+  
+      if (!updatedChat) {
+        throw new NotFoundException(`Chat with id ${id} not found`);
+      }
     }
 
     return this.findAll(email);
   }
 
   remove(id: string) {
-    return this.chatModel.findByIdAndDelete(id);
+    return this.chatModel.findByIdAndDelete(id).exec();
+  }
+
+  renderChat(chat: Chat, userEmail: string): ChatDto {
+    let isChatOnline = false;
+    return {
+      _id: chat._id.toString(),
+      title: chat.title,
+      lastMessage: chat.lastMessage,
+      participants: chat.participants.map(participant => {
+        const isOnline = userEmail != participant.email 
+                                ? this.onlineUsersService.isUserOnline(participant.email) 
+                                : false;
+        if (isOnline) {
+          isChatOnline = true;
+        }
+        return {
+          nickname: participant.nickname,
+          fullName: participant.fullName,
+          email: participant.email,
+          isOnline,
+        }
+      }),
+      isChatOnline,
+    };
   }
 }

@@ -18,28 +18,43 @@ class App extends StatelessWidget {
         BlocProvider(create: (_) => RegisterFormCubit()),
         BlocProvider(create: (_) => ChatsCubit()),
         BlocProvider(create: (_) => UsersCubit()),
-        BlocProvider(create: (_) => MessagingCubit(MessagingRepository())),
       ],
-      child: MaterialApp(
-        debugShowCheckedModeBanner: false,
-        theme: ThemeData(
-          appBarTheme: AppBarTheme(
-            backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-          ),
-          useMaterial3: true,
-        ),
-        localizationsDelegates: AppLocalizations.localizationsDelegates,
-        supportedLocales: AppLocalizations.supportedLocales,
-        home: MaterialApp.router(
-          theme: ThemeData(
-            appBarTheme: AppBarTheme(
-              backgroundColor: Theme.of(context).colorScheme.inversePrimary,
+      child: Builder(
+        builder: (context) {
+          return MultiBlocProvider(
+            providers: [
+              BlocProvider(
+                create: (_) => MessagingCubit(
+                  MessagingRepository(),
+                  context.read<ChatsCubit>(),
+                  context.read<UsersCubit>(),
+                ),
+              ),
+            ],
+            child: MaterialApp(
+              debugShowCheckedModeBanner: false,
+              theme: ThemeData(
+                appBarTheme: AppBarTheme(
+                  backgroundColor: Theme.of(context).colorScheme.inversePrimary,
+                ),
+                useMaterial3: true,
+              ),
+              localizationsDelegates: AppLocalizations.localizationsDelegates,
+              supportedLocales: AppLocalizations.supportedLocales,
+              home: MaterialApp.router(
+                theme: ThemeData(
+                  appBarTheme: AppBarTheme(
+                    backgroundColor:
+                        Theme.of(context).colorScheme.inversePrimary,
+                  ),
+                  useMaterial3: true,
+                ),
+                debugShowCheckedModeBanner: false,
+                routerConfig: appRouter.config(),
+              ),
             ),
-            useMaterial3: true,
-          ),
-          debugShowCheckedModeBanner: false,
-          routerConfig: appRouter.config(),
-        ),
+          );
+        },
       ),
     );
   }

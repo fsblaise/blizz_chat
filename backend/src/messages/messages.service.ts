@@ -21,8 +21,8 @@ export class MessagesService {
     return await messageQueue.save();
   }
 
-  async findMessagesForUser(userId: string): Promise<MessageQueue[]> {
-    return await this.messageQueueModel.find({ to: userId }).exec();
+  async findMessagesForUser(email: string): Promise<MessageQueue[]> {
+    return await this.messageQueueModel.find({ to: email }).exec();
   }
 
   async remove(id: any): Promise<MessageQueue> {

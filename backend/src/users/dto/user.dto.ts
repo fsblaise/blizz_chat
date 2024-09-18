@@ -25,6 +25,8 @@ export class UserDto {
   location: string;
   gender: string;
   profileUrl: string;
+  // not part of the schema, only of the dto
+  isOnline: boolean;
 }
 
 export class PreferencesDto {

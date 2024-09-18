@@ -1,7 +1,5 @@
 {
-    "editor.fontSize": 13,
-    "window.zoomLevel": 0,
     "editor.tabSize": 2,
-    "dart.flutterSdkPath": null,
-    "dart.sdkPath": null
+    "dart.flutterSdkPath": ".fvm/versions/3.22.2",
+    "editor.fontSize": 13
 }

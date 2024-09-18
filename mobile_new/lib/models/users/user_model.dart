@@ -15,6 +15,7 @@ class User with _$User {
     required String? location,
     required String? gender,
     required String? profileUrl,
+    required bool isOnline,
   }) = _User;
 
   factory User.fromJson(Map<String, dynamic> json) => _$UserFromJson(json);

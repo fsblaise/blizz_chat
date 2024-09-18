@@ -29,6 +29,7 @@ mixin _$User {
   String? get location => throw _privateConstructorUsedError;
   String? get gender => throw _privateConstructorUsedError;
   String? get profileUrl => throw _privateConstructorUsedError;
+  bool get isOnline => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -49,7 +50,8 @@ abstract class $UserCopyWith<$Res> {
       String? city,
       String? location,
       String? gender,
-      String? profileUrl});
+      String? profileUrl,
+      bool isOnline});
 }
 
 /// @nodoc
@@ -74,6 +76,7 @@ class _$UserCopyWithImpl<$Res, $Val extends User>
     Object? location = freezed,
     Object? gender = freezed,
     Object? profileUrl = freezed,
+    Object? isOnline = null,
   }) {
     return _then(_value.copyWith(
       fullName: null == fullName
@@ -112,6 +115,10 @@ class _$UserCopyWithImpl<$Res, $Val extends User>
           ? _value.profileUrl
           : profileUrl // ignore: cast_nullable_to_non_nullable
               as String?,
+      isOnline: null == isOnline
+          ? _value.isOnline
+          : isOnline // ignore: cast_nullable_to_non_nullable
+              as bool,
     ) as $Val);
   }
 }
@@ -132,7 +139,8 @@ abstract class _$$UserImplCopyWith<$Res> implements $UserCopyWith<$Res> {
       String? city,
       String? location,
       String? gender,
-      String? profileUrl});
+      String? profileUrl,
+      bool isOnline});
 }
 
 /// @nodoc
@@ -154,6 +162,7 @@ class __$$UserImplCopyWithImpl<$Res>
     Object? location = freezed,
     Object? gender = freezed,
     Object? profileUrl = freezed,
+    Object? isOnline = null,
   }) {
     return _then(_$UserImpl(
       fullName: null == fullName
@@ -192,6 +201,10 @@ class __$$UserImplCopyWithImpl<$Res>
           ? _value.profileUrl
           : profileUrl // ignore: cast_nullable_to_non_nullable
               as String?,
+      isOnline: null == isOnline
+          ? _value.isOnline
+          : isOnline // ignore: cast_nullable_to_non_nullable
+              as bool,
     ));
   }
 }
@@ -208,7 +221,8 @@ class _$UserImpl implements _User {
       required this.city,
       required this.location,
       required this.gender,
-      required this.profileUrl});
+      required this.profileUrl,
+      required this.isOnline});
 
   factory _$UserImpl.fromJson(Map<String, dynamic> json) =>
       _$$UserImplFromJson(json);
@@ -231,10 +245,12 @@ class _$UserImpl implements _User {
   final String? gender;
   @override
   final String? profileUrl;
+  @override
+  final bool isOnline;
 
   @override
   String toString() {
-    return 'User(fullName: $fullName, email: $email, birthday: $birthday, phoneNumber: $phoneNumber, country: $country, city: $city, location: $location, gender: $gender, profileUrl: $profileUrl)';
+    return 'User(fullName: $fullName, email: $email, birthday: $birthday, phoneNumber: $phoneNumber, country: $country, city: $city, location: $location, gender: $gender, profileUrl: $profileUrl, isOnline: $isOnline)';
   }
 
   @override
@@ -255,13 +271,15 @@ class _$UserImpl implements _User {
                 other.location == location) &&
             (identical(other.gender, gender) || other.gender == gender) &&
             (identical(other.profileUrl, profileUrl) ||
-                other.profileUrl == profileUrl));
+                other.profileUrl == profileUrl) &&
+            (identical(other.isOnline, isOnline) ||
+                other.isOnline == isOnline));
   }
 
   @JsonKey(ignore: true)
   @override
   int get hashCode => Object.hash(runtimeType, fullName, email, birthday,
-      phoneNumber, country, city, location, gender, profileUrl);
+      phoneNumber, country, city, location, gender, profileUrl, isOnline);
 
   @JsonKey(ignore: true)
   @override
@@ -287,7 +305,8 @@ abstract class _User implements User {
       required final String? city,
       required final String? location,
       required final String? gender,
-      required final String? profileUrl}) = _$UserImpl;
+      required final String? profileUrl,
+      required final bool isOnline}) = _$UserImpl;
 
   factory _User.fromJson(Map<String, dynamic> json) = _$UserImpl.fromJson;
 
@@ -309,6 +328,8 @@ abstract class _User implements User {
   String? get gender;
   @override
   String? get profileUrl;
+  @override
+  bool get isOnline;
   @override
   @JsonKey(ignore: true)
   _$$UserImplCopyWith<_$UserImpl> get copyWith =>

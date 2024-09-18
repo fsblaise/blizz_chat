@@ -9,6 +9,7 @@ import { SignInUserDto, AuthResponseDto } from './dto/sign-in-user.dto';
 import { JwtService } from '@nestjs/jwt';
 import { UserDto, UserProfileDto } from './dto/user.dto';
 import { CreateContactDto, UpdateContactDto } from './dto/contact-dtos';
+import { OnlineUsersService } from 'src/messages/online_users.service';
 
 @Injectable()
 export class UsersService {
@@ -16,7 +17,8 @@ export class UsersService {
 
   constructor(
     @InjectModel(User.name) private userModel: Model<User>,
-                            private jwtService: JwtService
+                            private jwtService: JwtService,
+                            private onlineUsersService: OnlineUsersService,
   ) { }
 
   async signUp(createUserDto: CreateUserDto): Promise<AuthResponseDto> {
@@ -219,6 +221,7 @@ export class UsersService {
       location: user.securitySettings.showLocation ? user.location : null,
       gender: user.securitySettings.showGender ? user.gender : null,
       profileUrl: user.profileUrl,
+      isOnline: this.onlineUsersService.isUserOnline(user.email),
     }
   }
 }

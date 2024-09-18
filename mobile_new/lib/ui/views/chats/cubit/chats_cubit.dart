@@ -17,6 +17,7 @@ class ChatsCubit extends Cubit<ChatsState> {
       final chats = await ChatsRepository.fetchChats();
       emit(ChatsState.fetched(chats: chats));
     } catch (e) {
+      print(e);
       emit(const ChatsState.error(message: 'Failed to fetch chats'));
     }
   }
@@ -97,6 +98,41 @@ class ChatsCubit extends Cubit<ChatsState> {
       final chats = await ChatsRepository.renameChat(chat);
 
       emit(ChatsState.fetched(chats: chats));
+    } catch (e) {
+      print(e);
+      emit(currentState);
+    }
+  }
+
+  Future<void> updateChatStatus(UserStatusDto status) async {
+    final currentState = state;
+    try {
+      if (currentState is ChatsFetched) {
+        emit(const ChatsState.fetching());
+
+        final updatedChats = currentState.chats.map((chat) {
+          var offlineParticipants = 0;
+          final updatedParticipants = chat.participants.map((participant) {
+            if (participant.email == status.userEmail) {
+              if (status.status == 'offline') {
+                offlineParticipants++;
+              }
+              return participant.copyWith(isOnline: status.status == 'online');
+            } else {
+              if (participant.isOnline == false) {
+                offlineParticipants++;
+              }
+              return participant;
+            }
+          }).toList();
+          return chat.copyWith(
+            participants: updatedParticipants,
+            isChatOnline: !(offlineParticipants == updatedParticipants.length),
+          );
+        }).toList();
+
+        emit(ChatsState.fetched(chats: updatedChats));
+      }
     } catch (e) {
       print(e);
       emit(currentState);

@@ -20,12 +20,12 @@ Map<String, dynamic> _$$AddContactDtoImplToJson(_$AddContactDtoImpl instance) =>
 
 _$UserStatusDtoImpl _$$UserStatusDtoImplFromJson(Map<String, dynamic> json) =>
     _$UserStatusDtoImpl(
-      userId: json['userId'] as String,
+      userEmail: json['userEmail'] as String,
       status: json['status'] as String,
     );
 
 Map<String, dynamic> _$$UserStatusDtoImplToJson(_$UserStatusDtoImpl instance) =>
     <String, dynamic>{
-      'userId': instance.userId,
+      'userEmail': instance.userEmail,
       'status': instance.status,
     };

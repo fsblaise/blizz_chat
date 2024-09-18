@@ -175,7 +175,7 @@ UserStatusDto _$UserStatusDtoFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$UserStatusDto {
-  String get userId => throw _privateConstructorUsedError;
+  String get userEmail => throw _privateConstructorUsedError;
   String get status => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -190,7 +190,7 @@ abstract class $UserStatusDtoCopyWith<$Res> {
           UserStatusDto value, $Res Function(UserStatusDto) then) =
       _$UserStatusDtoCopyWithImpl<$Res, UserStatusDto>;
   @useResult
-  $Res call({String userId, String status});
+  $Res call({String userEmail, String status});
 }
 
 /// @nodoc
@@ -206,13 +206,13 @@ class _$UserStatusDtoCopyWithImpl<$Res, $Val extends UserStatusDto>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? userId = null,
+    Object? userEmail = null,
     Object? status = null,
   }) {
     return _then(_value.copyWith(
-      userId: null == userId
-          ? _value.userId
-          : userId // ignore: cast_nullable_to_non_nullable
+      userEmail: null == userEmail
+          ? _value.userEmail
+          : userEmail // ignore: cast_nullable_to_non_nullable
               as String,
       status: null == status
           ? _value.status
@@ -230,7 +230,7 @@ abstract class _$$UserStatusDtoImplCopyWith<$Res>
       __$$UserStatusDtoImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String userId, String status});
+  $Res call({String userEmail, String status});
 }
 
 /// @nodoc
@@ -244,13 +244,13 @@ class __$$UserStatusDtoImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? userId = null,
+    Object? userEmail = null,
     Object? status = null,
   }) {
     return _then(_$UserStatusDtoImpl(
-      userId: null == userId
-          ? _value.userId
-          : userId // ignore: cast_nullable_to_non_nullable
+      userEmail: null == userEmail
+          ? _value.userEmail
+          : userEmail // ignore: cast_nullable_to_non_nullable
               as String,
       status: null == status
           ? _value.status
@@ -263,19 +263,19 @@ class __$$UserStatusDtoImplCopyWithImpl<$Res>
 /// @nodoc
 @JsonSerializable()
 class _$UserStatusDtoImpl implements _UserStatusDto {
-  const _$UserStatusDtoImpl({required this.userId, required this.status});
+  const _$UserStatusDtoImpl({required this.userEmail, required this.status});
 
   factory _$UserStatusDtoImpl.fromJson(Map<String, dynamic> json) =>
       _$$UserStatusDtoImplFromJson(json);
 
   @override
-  final String userId;
+  final String userEmail;
   @override
   final String status;
 
   @override
   String toString() {
-    return 'UserStatusDto(userId: $userId, status: $status)';
+    return 'UserStatusDto(userEmail: $userEmail, status: $status)';
   }
 
   @override
@@ -283,13 +283,14 @@ class _$UserStatusDtoImpl implements _UserStatusDto {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$UserStatusDtoImpl &&
-            (identical(other.userId, userId) || other.userId == userId) &&
+            (identical(other.userEmail, userEmail) ||
+                other.userEmail == userEmail) &&
             (identical(other.status, status) || other.status == status));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, userId, status);
+  int get hashCode => Object.hash(runtimeType, userEmail, status);
 
   @JsonKey(ignore: true)
   @override
@@ -307,14 +308,14 @@ class _$UserStatusDtoImpl implements _UserStatusDto {
 
 abstract class _UserStatusDto implements UserStatusDto {
   const factory _UserStatusDto(
-      {required final String userId,
+      {required final String userEmail,
       required final String status}) = _$UserStatusDtoImpl;
 
   factory _UserStatusDto.fromJson(Map<String, dynamic> json) =
       _$UserStatusDtoImpl.fromJson;
 
   @override
-  String get userId;
+  String get userEmail;
   @override
   String get status;
   @override

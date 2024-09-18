@@ -13,6 +13,7 @@ _$ChatImpl _$$ChatImplFromJson(Map<String, dynamic> json) => _$ChatImpl(
       participants: (json['participants'] as List<dynamic>)
           .map((e) => Participant.fromJson(e as Map<String, dynamic>))
           .toList(),
+      isChatOnline: json['isChatOnline'] as bool,
     );
 
 Map<String, dynamic> _$$ChatImplToJson(_$ChatImpl instance) =>
@@ -21,6 +22,7 @@ Map<String, dynamic> _$$ChatImplToJson(_$ChatImpl instance) =>
       'title': instance.title,
       'lastMessage': instance.lastMessage,
       'participants': instance.participants,
+      'isChatOnline': instance.isChatOnline,
     };
 
 _$ParticipantImpl _$$ParticipantImplFromJson(Map<String, dynamic> json) =>
@@ -28,6 +30,7 @@ _$ParticipantImpl _$$ParticipantImplFromJson(Map<String, dynamic> json) =>
       email: json['email'] as String,
       fullName: json['fullName'] as String,
       nickname: json['nickname'] as String,
+      isOnline: json['isOnline'] as bool,
     );
 
 Map<String, dynamic> _$$ParticipantImplToJson(_$ParticipantImpl instance) =>
@@ -35,4 +38,5 @@ Map<String, dynamic> _$$ParticipantImplToJson(_$ParticipantImpl instance) =>
       'email': instance.email,
       'fullName': instance.fullName,
       'nickname': instance.nickname,
+      'isOnline': instance.isOnline,
     };

@@ -19,7 +19,7 @@ abstract class ChatsService extends ChopperService {
     path: '/{id}',
   )
   Future<Response<List<dynamic>>> update(
-    @Body() Chat body,
+    @Body() ChatDto body,
     @Path('id') String chatId,
   );
 

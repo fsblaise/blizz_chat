@@ -11,15 +11,16 @@ import { CreateMessageDto } from './dto/create-message.dto';
 import { Server, Socket } from 'socket.io';
 import { from, map, Observable, timestamp } from 'rxjs';
 import { JwtService } from '@nestjs/jwt';
+import { OnlineUsersService } from './online_users.service';
 
 @WebSocketGateway({ cors: { origin: '*', }, transports: ['websocket'], })
 export class MessagesGateway {
   @WebSocketServer() server: Server;
-  private onlineUsers: Map<string, string> = new Map(); // userId: socketId
 
   constructor(
     private readonly messagesService: MessagesService,
     private jwtService: JwtService,
+    private onlineUsersService: OnlineUsersService,
   ) { }
 
   async handleConnection(client: Socket) {    
@@ -32,32 +33,31 @@ export class MessagesGateway {
       
       const user = this.jwtService.verify(token);
       console.log(user);
-      const userId = user.sub;
-      this.onlineUsers.set(userId, client.id); // client.id = socketId
-      this.broadcastStatus(userId, 'online');
+      const email = user.email;
+      this.onlineUsersService.addUser(email, client.id); // client.id = socketId
+      this.broadcastStatus(email, 'online');
       // sync messages
-      await this.sendOfflineMessages(userId, client.id);
+      await this.sendOfflineMessages(email, client.id);
     } catch (error) {
       client.disconnect();
       throw new WsException('Invalid token');
     }
-    console.log(JSON.stringify(Array.from(this.onlineUsers)));
+    console.log(JSON.stringify(Array.from(this.onlineUsersService.getOnlineUsers())));
   }
 
   handleDisconnect(client: Socket) {
     console.log('Client disconnected');
-    const userId = Array.from(this.onlineUsers).find(([_, socketId]) => socketId === client.id)?.[0];
-    if (userId) {
-      this.onlineUsers.delete(userId);
-      this.broadcastStatus(userId, 'offline');
+    const email = this.onlineUsersService.removeUser(client.id);
+    if (email) {
+      this.broadcastStatus(email, 'offline');
     }
   }
 
   @SubscribeMessage('createMessage')
   async create(@MessageBody() createMessageDto: CreateMessageDto) {
     // iterate through all recipients
-    createMessageDto.to.forEach(async recipientId => {
-      const recipientSocketId = this.onlineUsers.get(recipientId);
+    createMessageDto.to.forEach(async recipientEmail => {
+      const recipientSocketId = this.onlineUsersService.getUserSocketId(recipientEmail);
       const timestamp = new Date().toISOString();
       if (recipientSocketId) {
         this.server.to(recipientSocketId).emit('receiveMessage', {
@@ -71,7 +71,7 @@ export class MessagesGateway {
         // Add message to queue if recipient is offline
         await this.messagesService.create(
           createMessageDto.from,
-          recipientId,
+          recipientEmail,
           createMessageDto.message,
           timestamp,
           createMessageDto.chatId,
@@ -97,8 +97,8 @@ export class MessagesGateway {
   //   return this.messagesService.update(updateMessageDto.id, updateMessageDto);
   // }
 
-  private async sendOfflineMessages(userId: string, socketId: string) {
-    const messages = await this.messagesService.findMessagesForUser(userId);
+  private async sendOfflineMessages(email: string, socketId: string) {
+    const messages = await this.messagesService.findMessagesForUser(email);
     messages.forEach(async message => {
       this.server.to(socketId).emit('receiveMessage', {
         from: message.from,
@@ -111,10 +111,10 @@ export class MessagesGateway {
     });
   }
 
-  private broadcastStatus(userId: string, status: string) {
-    this.onlineUsers.forEach((socketId, id) => {
-      if (id !== userId) {
-        this.server.to(socketId).emit('userStatus', { userId, status });
+  private broadcastStatus(userEmail: string, status: string) {
+    this.onlineUsersService.getOnlineUsers().forEach((socketId, email) => {
+      if (email !== userEmail) {
+        this.server.to(socketId).emit('userStatus', { userEmail, status });
       }
     });
   }

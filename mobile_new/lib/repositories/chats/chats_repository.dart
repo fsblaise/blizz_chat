@@ -12,6 +12,7 @@ class ChatsRepository extends RepositoryInterface<ChatsService> {
     final response = await _singleton.service.findAll();
     if (response.isSuccessful) {
       final decodedResponse = jsonDecode(response.bodyString);
+      print(decodedResponse);
       return (decodedResponse as List<dynamic>)
           .map((chat) => Chat.fromJson(chat as Map<String, dynamic>))
           .toList();
@@ -34,7 +35,10 @@ class ChatsRepository extends RepositoryInterface<ChatsService> {
   }
 
   static Future<List<Chat>> leaveChat(Chat chat) async {
-    final response = await _singleton.service.update(chat, chat.id);
+    final response = await _singleton.service.update(
+      ChatDto.fromChat(chat),
+      chat.id,
+    );
     if (response.isSuccessful) {
       final decodedResponse = jsonDecode(response.bodyString);
       return (decodedResponse as List<dynamic>)
@@ -46,7 +50,10 @@ class ChatsRepository extends RepositoryInterface<ChatsService> {
   }
 
   static Future<List<Chat>> renameChat(Chat chat) async {
-    final response = await _singleton.service.update(chat, chat.id);
+    final response = await _singleton.service.update(
+      ChatDto.fromChat(chat),
+      chat.id,
+    );
     if (response.isSuccessful) {
       final decodedResponse = jsonDecode(response.bodyString);
       return (decodedResponse as List<dynamic>)

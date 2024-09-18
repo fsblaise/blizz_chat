@@ -66,4 +66,33 @@ class UsersCubit extends Cubit<UsersState> {
       emit(const UsersState.initial());
     }
   }
+
+  Future<void> updateUserStatus(UserStatusDto status) async {
+    final currentState = state;
+    try {
+      print("outer");
+      if (currentState is UsersFetched) {
+        print("here");
+        emit(const UsersState.fetching());
+
+        final updatedContacts = currentState.contacts.map((contact) {
+          if (contact.email == status.userEmail) {
+            return contact.copyWith(isOnline: status.status == 'online');
+          } else {
+            return contact;
+          }
+        }).toList();
+
+        emit(
+          UsersState.fetched(
+            users: currentState.users,
+            contacts: updatedContacts,
+          ),
+        );
+      }
+    } catch (e) {
+      print(e);
+      emit(currentState);
+    }
+  }
 }

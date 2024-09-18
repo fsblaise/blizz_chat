@@ -5,6 +5,7 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { User, UserSchema } from './schemas/user.schema';
 import { JwtModule } from '@nestjs/jwt';
 import { ConfigModule, ConfigService } from '@nestjs/config';
+import { MessagesModule } from 'src/messages/messages.module';
 
 @Module({
   imports: [
@@ -22,7 +23,8 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
       },
       inject: [ConfigService],
       global: true
-    })
+    }),
+    MessagesModule
   ],
   controllers: [UsersController],
   providers: [UsersService],

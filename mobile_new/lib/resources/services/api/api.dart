@@ -19,7 +19,7 @@ part 'interceptors/interceptors.dart';
 
 final apiService = ChopperClient(
   // baseUrl: Uri.parse('http://192.168.9.27:3000/'),
-  baseUrl: Uri.parse('http://192.168.0.13:3000/'),
+  baseUrl: Uri.parse('http://192.168.166.190:3000/'),
   services: [
     AuthService.create(
       ChopperClient(),

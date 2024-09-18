@@ -85,6 +85,7 @@ class _ChatsListState extends State<ChatsList> {
         title: title,
         lastMessage: chat.lastMessage,
         participants: chat.participants,
+        isChatOnline: chat.isChatOnline,
       ),
     );
     setState(() {});
@@ -170,13 +171,23 @@ class _ChatsListState extends State<ChatsList> {
                 ),
               ]);
             },
-            leading: isGroup
-                ? const CircleAvatar(
+            leading: Stack(
+              children: [
+                if (isGroup)
+                  const CircleAvatar(
                     child: Icon(Icons.people),
                   )
-                : const CircleAvatar(
+                else
+                  const CircleAvatar(
                     child: Icon(Icons.person),
                   ),
+                Positioned(
+                  bottom: 0,
+                  right: 0,
+                  child: StatusDot(isOnline: filteredChats[index].isChatOnline),
+                ),
+              ],
+            ),
             title: Text(title),
             subtitle: filteredChats[index].lastMessage != null
                 ? Text(filteredChats[index].lastMessage!)
