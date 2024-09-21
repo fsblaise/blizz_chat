@@ -10,8 +10,9 @@ export class MessagesService {
     @InjectModel('MessageQueue') private messageQueueModel: Model<MessageQueue>,
   ) { }
 
-  async create(from: string, to: string, message: string, timestamp: string, chatId: string): Promise<MessageQueue> {
+  async create(id: string, from: string, to: string, message: string, timestamp: string, chatId: string): Promise<MessageQueue> {
     const messageQueue = new this.messageQueueModel({
+      _id: id,
       from,
       to,
       message,

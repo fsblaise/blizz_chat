@@ -58,22 +58,23 @@ export class MessagesGateway {
     // iterate through all recipients
     createMessageDto.to.forEach(async recipientEmail => {
       const recipientSocketId = this.onlineUsersService.getUserSocketId(recipientEmail);
-      const timestamp = new Date().toISOString();
       if (recipientSocketId) {
         this.server.to(recipientSocketId).emit('receiveMessage', {
+          id: createMessageDto.id,
           from: createMessageDto.from,
-          to: createMessageDto.to,
+          to: recipientEmail,
           message: createMessageDto.message,
-          timestamp: timestamp,
+          timestamp: createMessageDto.timestamp,
           chatId: createMessageDto.chatId
         });
       } else {
         // Add message to queue if recipient is offline
         await this.messagesService.create(
+          createMessageDto.id,
           createMessageDto.from,
           recipientEmail,
           createMessageDto.message,
-          timestamp,
+          createMessageDto.timestamp,
           createMessageDto.chatId,
         );
       }
@@ -101,6 +102,7 @@ export class MessagesGateway {
     const messages = await this.messagesService.findMessagesForUser(email);
     messages.forEach(async message => {
       this.server.to(socketId).emit('receiveMessage', {
+        id: message._id,
         from: message.from,
         to: message.to,
         message: message.message,

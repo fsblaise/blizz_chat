@@ -25,6 +25,6 @@ final normalRoutes = [
   ),
   AutoRoute(
     page: MessagingRoute.page,
-    path: '/messaging',
+    path: '/messaging/:chatId',
   ),
 ];

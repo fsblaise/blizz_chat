@@ -48,12 +48,15 @@ abstract class _$AppRouter extends RootStackRouter {
     MessagingRoute.name: (routeData) {
       final pathParams = routeData.inheritedPathParams;
       final args = routeData.argsAs<MessagingRouteArgs>(
-          orElse: () =>
-              MessagingRouteArgs(chatId: pathParams.getString('chatId')));
+          orElse: () => MessagingRouteArgs(
+                chatId: pathParams.getString('chatId'),
+                title: pathParams.getString('title'),
+              ));
       return AutoRoutePage<dynamic>(
         routeData: routeData,
         child: MessagingPage(
           chatId: args.chatId,
+          title: args.title,
           key: args.key,
         ),
       );
@@ -160,15 +163,20 @@ class MapRoute extends PageRouteInfo<void> {
 class MessagingRoute extends PageRouteInfo<MessagingRouteArgs> {
   MessagingRoute({
     required String chatId,
+    required String title,
     Key? key,
     List<PageRouteInfo>? children,
   }) : super(
           MessagingRoute.name,
           args: MessagingRouteArgs(
             chatId: chatId,
+            title: title,
             key: key,
           ),
-          rawPathParams: {'chatId': chatId},
+          rawPathParams: {
+            'chatId': chatId,
+            'title': title,
+          },
           initialChildren: children,
         );
 
@@ -181,16 +189,19 @@ class MessagingRoute extends PageRouteInfo<MessagingRouteArgs> {
 class MessagingRouteArgs {
   const MessagingRouteArgs({
     required this.chatId,
+    required this.title,
     this.key,
   });
 
   final String chatId;
 
+  final String title;
+
   final Key? key;
 
   @override
   String toString() {
-    return 'MessagingRouteArgs{chatId: $chatId, key: $key}';
+    return 'MessagingRouteArgs{chatId: $chatId, title: $title, key: $key}';
   }
 }
 

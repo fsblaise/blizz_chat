@@ -20,7 +20,7 @@ mixin _$MessagingState {
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() fetching,
-    required TResult Function(List<Message> messages) fetched,
+    required TResult Function(List<Message> messages, String chatId) fetched,
     required TResult Function(String message) error,
   }) =>
       throw _privateConstructorUsedError;
@@ -28,7 +28,7 @@ mixin _$MessagingState {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function()? fetching,
-    TResult? Function(List<Message> messages)? fetched,
+    TResult? Function(List<Message> messages, String chatId)? fetched,
     TResult? Function(String message)? error,
   }) =>
       throw _privateConstructorUsedError;
@@ -36,7 +36,7 @@ mixin _$MessagingState {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? fetching,
-    TResult Function(List<Message> messages)? fetched,
+    TResult Function(List<Message> messages, String chatId)? fetched,
     TResult Function(String message)? error,
     required TResult orElse(),
   }) =>
@@ -126,7 +126,7 @@ class _$MessagingInitialImpl implements MessagingInitial {
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() fetching,
-    required TResult Function(List<Message> messages) fetched,
+    required TResult Function(List<Message> messages, String chatId) fetched,
     required TResult Function(String message) error,
   }) {
     return initial();
@@ -137,7 +137,7 @@ class _$MessagingInitialImpl implements MessagingInitial {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function()? fetching,
-    TResult? Function(List<Message> messages)? fetched,
+    TResult? Function(List<Message> messages, String chatId)? fetched,
     TResult? Function(String message)? error,
   }) {
     return initial?.call();
@@ -148,7 +148,7 @@ class _$MessagingInitialImpl implements MessagingInitial {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? fetching,
-    TResult Function(List<Message> messages)? fetched,
+    TResult Function(List<Message> messages, String chatId)? fetched,
     TResult Function(String message)? error,
     required TResult orElse(),
   }) {
@@ -240,7 +240,7 @@ class _$MessagingFetchingImpl implements MessagingFetching {
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() fetching,
-    required TResult Function(List<Message> messages) fetched,
+    required TResult Function(List<Message> messages, String chatId) fetched,
     required TResult Function(String message) error,
   }) {
     return fetching();
@@ -251,7 +251,7 @@ class _$MessagingFetchingImpl implements MessagingFetching {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function()? fetching,
-    TResult? Function(List<Message> messages)? fetched,
+    TResult? Function(List<Message> messages, String chatId)? fetched,
     TResult? Function(String message)? error,
   }) {
     return fetching?.call();
@@ -262,7 +262,7 @@ class _$MessagingFetchingImpl implements MessagingFetching {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? fetching,
-    TResult Function(List<Message> messages)? fetched,
+    TResult Function(List<Message> messages, String chatId)? fetched,
     TResult Function(String message)? error,
     required TResult orElse(),
   }) {
@@ -320,7 +320,7 @@ abstract class _$$MessagingFetchedImplCopyWith<$Res> {
           $Res Function(_$MessagingFetchedImpl) then) =
       __$$MessagingFetchedImplCopyWithImpl<$Res>;
   @useResult
-  $Res call({List<Message> messages});
+  $Res call({List<Message> messages, String chatId});
 }
 
 /// @nodoc
@@ -335,12 +335,17 @@ class __$$MessagingFetchedImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? messages = null,
+    Object? chatId = null,
   }) {
     return _then(_$MessagingFetchedImpl(
       messages: null == messages
           ? _value._messages
           : messages // ignore: cast_nullable_to_non_nullable
               as List<Message>,
+      chatId: null == chatId
+          ? _value.chatId
+          : chatId // ignore: cast_nullable_to_non_nullable
+              as String,
     ));
   }
 }
@@ -348,7 +353,8 @@ class __$$MessagingFetchedImplCopyWithImpl<$Res>
 /// @nodoc
 
 class _$MessagingFetchedImpl implements MessagingFetched {
-  const _$MessagingFetchedImpl({required final List<Message> messages})
+  const _$MessagingFetchedImpl(
+      {required final List<Message> messages, required this.chatId})
       : _messages = messages;
 
   final List<Message> _messages;
@@ -360,8 +366,11 @@ class _$MessagingFetchedImpl implements MessagingFetched {
   }
 
   @override
+  final String chatId;
+
+  @override
   String toString() {
-    return 'MessagingState.fetched(messages: $messages)';
+    return 'MessagingState.fetched(messages: $messages, chatId: $chatId)';
   }
 
   @override
@@ -369,12 +378,13 @@ class _$MessagingFetchedImpl implements MessagingFetched {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$MessagingFetchedImpl &&
-            const DeepCollectionEquality().equals(other._messages, _messages));
+            const DeepCollectionEquality().equals(other._messages, _messages) &&
+            (identical(other.chatId, chatId) || other.chatId == chatId));
   }
 
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, const DeepCollectionEquality().hash(_messages));
+  int get hashCode => Object.hash(
+      runtimeType, const DeepCollectionEquality().hash(_messages), chatId);
 
   @JsonKey(ignore: true)
   @override
@@ -388,10 +398,10 @@ class _$MessagingFetchedImpl implements MessagingFetched {
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() fetching,
-    required TResult Function(List<Message> messages) fetched,
+    required TResult Function(List<Message> messages, String chatId) fetched,
     required TResult Function(String message) error,
   }) {
-    return fetched(messages);
+    return fetched(messages, chatId);
   }
 
   @override
@@ -399,10 +409,10 @@ class _$MessagingFetchedImpl implements MessagingFetched {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function()? fetching,
-    TResult? Function(List<Message> messages)? fetched,
+    TResult? Function(List<Message> messages, String chatId)? fetched,
     TResult? Function(String message)? error,
   }) {
-    return fetched?.call(messages);
+    return fetched?.call(messages, chatId);
   }
 
   @override
@@ -410,12 +420,12 @@ class _$MessagingFetchedImpl implements MessagingFetched {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? fetching,
-    TResult Function(List<Message> messages)? fetched,
+    TResult Function(List<Message> messages, String chatId)? fetched,
     TResult Function(String message)? error,
     required TResult orElse(),
   }) {
     if (fetched != null) {
-      return fetched(messages);
+      return fetched(messages, chatId);
     }
     return orElse();
   }
@@ -459,10 +469,12 @@ class _$MessagingFetchedImpl implements MessagingFetched {
 }
 
 abstract class MessagingFetched implements MessagingState {
-  const factory MessagingFetched({required final List<Message> messages}) =
-      _$MessagingFetchedImpl;
+  const factory MessagingFetched(
+      {required final List<Message> messages,
+      required final String chatId}) = _$MessagingFetchedImpl;
 
   List<Message> get messages;
+  String get chatId;
   @JsonKey(ignore: true)
   _$$MessagingFetchedImplCopyWith<_$MessagingFetchedImpl> get copyWith =>
       throw _privateConstructorUsedError;
@@ -535,7 +547,7 @@ class _$MessagingErrorImpl implements MessagingError {
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() fetching,
-    required TResult Function(List<Message> messages) fetched,
+    required TResult Function(List<Message> messages, String chatId) fetched,
     required TResult Function(String message) error,
   }) {
     return error(message);
@@ -546,7 +558,7 @@ class _$MessagingErrorImpl implements MessagingError {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function()? fetching,
-    TResult? Function(List<Message> messages)? fetched,
+    TResult? Function(List<Message> messages, String chatId)? fetched,
     TResult? Function(String message)? error,
   }) {
     return error?.call(message);
@@ -557,7 +569,7 @@ class _$MessagingErrorImpl implements MessagingError {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? fetching,
-    TResult Function(List<Message> messages)? fetched,
+    TResult Function(List<Message> messages, String chatId)? fetched,
     TResult Function(String message)? error,
     required TResult orElse(),
   }) {

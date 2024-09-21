@@ -6,6 +6,7 @@ class MessagingState with _$MessagingState {
   const factory MessagingState.fetching() = MessagingFetching;
   const factory MessagingState.fetched({
     required List<Message> messages,
+    required String chatId,
   }) = MessagingFetched;
   const factory MessagingState.error({
     required String message,

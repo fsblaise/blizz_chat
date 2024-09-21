@@ -42,9 +42,14 @@ class _ChatsListState extends State<ChatsList> {
     }
   }
 
-  void _launchMessaging(Chat chat) {
+  void _launchMessaging(Chat chat, String title) {
     print(chat.id);
-    context.router.navigate(MessagingRoute(chatId: chat.id));
+    AutoRouter.of(context).navigate(
+      MessagingRoute(
+        chatId: chat.id,
+        title: title,
+      ),
+    );
   }
 
   void _muteChat(Chat chat) {}
@@ -142,7 +147,7 @@ class _ChatsListState extends State<ChatsList> {
               : filteredChats[index].title;
 
           return ListTile(
-            onTap: () => _launchMessaging(filteredChats[index]),
+            onTap: () => _launchMessaging(filteredChats[index], title),
             onLongPress: () async {
               return getIt.get<DialogService>().showModalSheetDialog(context, [
                 if (isGroup)

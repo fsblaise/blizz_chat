@@ -1,8 +1,8 @@
 part of '../repositories.dart';
 
 // websocket response handling and database save calls
-// ignore: constant_identifier_names
-const WS_URL = 'ws://192.168.166.190:3000';
+// ignore: non_constant_identifier_names
+String WS_URL = 'ws://${dotenv.env['API_URL']}:3000';
 
 class MessagingRepository {
   MessagingRepository();
@@ -11,10 +11,12 @@ class MessagingRepository {
 
   final DatabaseService service = getIt.get<DatabaseService>();
 
+  /// Websocket methods
+
   void connect(String token) {
     final urlWithToken = '$WS_URL?token=$token';
-    print(urlWithToken);
-    print(Uri.parse(WS_URL).toString());
+    // print(urlWithToken);
+    // print(Uri.parse(WS_URL).toString());
     try {
       _socket = IO.io(urlWithToken, <String, dynamic>{
         'transports': ['websocket'],
@@ -32,11 +34,13 @@ class MessagingRepository {
     }
   }
 
-  // TODO: Implement the listen method for the status too
+  /// Listen for messages from the server
+  /// This method only formats the incoming data
+  /// The callback does the rest
   void listenForMessages(void Function(Message) onMessage) {
     _socket?.on('receiveMessage', (data) {
-      final message =
-          Message.fromJson(jsonDecode(data as String) as Map<String, dynamic>);
+      print(data);
+      final message = Message.fromJson(data as Map<String, dynamic>);
       // saveMessage(message); // Here we should not use this
       // We should pass the onMessage from the cubit
       // Inside the callback we should call the saveMessage function
@@ -49,8 +53,7 @@ class MessagingRepository {
     _socket?.on('userStatus', (data) {
       try {
         print(data);
-        final dataMap =
-            data as Map<String, dynamic>; // Cast the incoming data to a Map
+        final dataMap = data as Map<String, dynamic>;
         final dto = UserStatusDto.fromJson(dataMap);
         onStatus(dto);
       } catch (e) {
@@ -60,13 +63,15 @@ class MessagingRepository {
     });
   }
 
-  void sendMessage(Message message) {
-    _socket?.emit('receiveMessage', message.toJson());
+  void sendMessage(MessageDto message) {
+    _socket?.emit('createMessage', message.toJson());
   }
 
   void disconnect() {
     _socket?.disconnect();
   }
+
+  /// Database methods
 
   Future<void> saveMessage(Message message) async {
     await service.saveMessage(message);
@@ -74,5 +79,9 @@ class MessagingRepository {
 
   Future<List<Message>> fetchMessages(String chatId) async {
     return service.fetchMessages(chatId);
+  }
+
+  Future<void> deleteMessage(String messageId) async {
+    await service.deleteMessage(messageId);
   }
 }

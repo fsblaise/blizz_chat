@@ -1,3 +1,4 @@
+import 'package:blizz_chat/models/messaging/message_dtos.dart';
 import 'package:blizz_chat/models/models.dart';
 import 'package:blizz_chat/repositories/repositories.dart';
 import 'package:blizz_chat/ui/ui.dart';
@@ -28,14 +29,53 @@ class MessagingCubit extends Cubit<MessagingState> {
     messagingRepository.disconnect();
   }
 
-  void sendMessage(Message message) {
-    messagingRepository.sendMessage(message);
+  // The Message that we send has an array of recipients,
+  // While the Message we save is joined string of recipients
+  // Locally we only need the to field, to determine if the message is for us
+  Future<void> sendMessage(MessageDto message) async {
+    if (state is MessagingFetched) {
+      final currentState = state as MessagingFetched;
+
+      messagingRepository.sendMessage(message);
+      final newMessage = convertDtoToMessage(message);
+      await messagingRepository.saveMessage(newMessage);
+
+      if (newMessage.chatId == currentState.chatId) {
+        final updatedMessages = List<Message>.from(currentState.messages)
+          ..add(newMessage);
+        emit(
+          MessagingFetched(
+            messages: sortMessages(updatedMessages),
+            chatId: currentState.chatId,
+          ),
+        );
+      }
+    }
+  }
+
+  Future<void> deleteMessage(String messageId) async {
+    if (state is MessagingFetched) {
+      final currentState = state as MessagingFetched;
+
+      await messagingRepository.deleteMessage(messageId);
+
+      final updatedMessages = currentState.messages
+          .where((message) => message.id != messageId)
+          .toList();
+
+      emit(
+        MessagingFetched(
+          messages: sortMessages(updatedMessages),
+          chatId: currentState.chatId,
+        ),
+      );
+    }
   }
 
   Future<void> fetchMessages(String chatId) async {
     try {
       final messages = await messagingRepository.fetchMessages(chatId);
-      emit(MessagingFetched(messages: messages));
+      emit(MessagingFetched(messages: sortMessages(messages), chatId: chatId));
     } catch (e) {
       emit(MessagingError(message: e.toString()));
     }
@@ -55,10 +95,18 @@ class MessagingCubit extends Cubit<MessagingState> {
       // For example, you can add the message to the current state
       if (state is MessagingFetched) {
         final currentState = state as MessagingFetched;
-        final updatedMessages = List<Message>.from(currentState.messages)
-          ..add(message);
-        emit(MessagingFetched(messages: updatedMessages));
+        if (message.chatId == currentState.chatId) {
+          final updatedMessages = List<Message>.from(currentState.messages)
+            ..add(message);
+          emit(
+            MessagingFetched(
+              messages: sortMessages(updatedMessages),
+              chatId: currentState.chatId,
+            ),
+          );
+        }
       }
+      messagingRepository.saveMessage(message);
     });
   }
 
@@ -71,5 +119,26 @@ class MessagingCubit extends Cubit<MessagingState> {
         usersCubit.updateUserStatus(dto);
       }
     });
+  }
+
+  /// Utils
+
+  Message convertDtoToMessage(MessageDto dto) {
+    return Message(
+      id: dto.id,
+      message: dto.message,
+      from: dto.from,
+      to: dto.to.join(','),
+      chatId: dto.chatId,
+      timestamp: dto.timestamp,
+    );
+  }
+
+  List<Message> sortMessages(List<Message> messages) {
+    return messages
+      ..sort(
+        (a, b) =>
+            DateTime.parse(b.timestamp).compareTo(DateTime.parse(a.timestamp)),
+      );
   }
 }

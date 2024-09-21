@@ -12,7 +12,6 @@ class UsersCubit extends Cubit<UsersState> {
   Future<void> fetchContacts() async {
     try {
       final currentState = state;
-      print(currentState);
       var currentUsers = <User>[];
       if (currentState is UsersFetched) {
         currentUsers = currentState.users;
@@ -34,7 +33,6 @@ class UsersCubit extends Cubit<UsersState> {
   }) async {
     try {
       final currentState = state;
-      print(currentState);
       var currentContacts = <User>[];
       if (currentState is UsersFetched) {
         currentContacts = currentState.contacts;
@@ -70,9 +68,7 @@ class UsersCubit extends Cubit<UsersState> {
   Future<void> updateUserStatus(UserStatusDto status) async {
     final currentState = state;
     try {
-      print("outer");
       if (currentState is UsersFetched) {
-        print("here");
         emit(const UsersState.fetching());
 
         final updatedContacts = currentState.contacts.map((contact) {

@@ -10,13 +10,22 @@ class DatabaseService {
     return DatabaseService();
   }
 
+  /// Saves a message to the database
   Future<void> saveMessage(Message message) async {
     await appDatabase.into(appDatabase.messagesTable).insert(message);
   }
 
+  /// Fetches all messages for a given chat
   Future<List<Message>> fetchMessages(String chatId) async {
     return (appDatabase.select(appDatabase.messagesTable)
-          ..where((message) => message.id.equals(chatId)))
+          ..where((message) => message.chatId.equals(chatId)))
         .get();
+  }
+
+  /// Deletes a message from the database
+  Future<void> deleteMessage(String messageId) async {
+    await (appDatabase.delete(appDatabase.messagesTable)
+          ..where((message) => message.id.equals(messageId)))
+        .go();
   }
 }
