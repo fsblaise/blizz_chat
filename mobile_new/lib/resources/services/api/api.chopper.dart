@@ -144,6 +144,44 @@ final class _$ChatsService extends ChatsService {
 
 // coverage:ignore-file
 // ignore_for_file: type=lint
+final class _$KeysService extends KeysService {
+  _$KeysService([ChopperClient? client]) {
+    if (client == null) return;
+    this.client = client;
+  }
+
+  @override
+  final Type definitionType = KeysService;
+
+  @override
+  Future<Response<dynamic>> sharePublicKeys(ShareKeysDto body) {
+    final Uri $url = Uri.parse('/keys/share');
+    final $body = body;
+    final Request $request = Request(
+      'POST',
+      $url,
+      client.baseUrl,
+      body: $body,
+    );
+    return client.send<dynamic, dynamic>($request);
+  }
+
+  @override
+  Future<Response<dynamic>> fetchPublicKeys(List<String> emails) {
+    final Uri $url = Uri.parse('/keys/fetch');
+    final $body = emails;
+    final Request $request = Request(
+      'POST',
+      $url,
+      client.baseUrl,
+      body: $body,
+    );
+    return client.send<dynamic, dynamic>($request);
+  }
+}
+
+// coverage:ignore-file
+// ignore_for_file: type=lint
 final class _$StoriesService extends StoriesService {
   _$StoriesService([ChopperClient? client]) {
     if (client == null) return;

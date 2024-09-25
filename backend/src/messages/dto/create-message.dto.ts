@@ -3,6 +3,7 @@ export class CreateMessageDto {
   to: string[];
   from: string;
   message: string; // encrypted
+  messageType: number; // encryption type
   chatId: string;
   timestamp: string;
 }

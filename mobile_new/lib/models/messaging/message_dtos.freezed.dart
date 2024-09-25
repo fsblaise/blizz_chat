@@ -24,6 +24,7 @@ mixin _$MessageDto {
   List<String> get to => throw _privateConstructorUsedError;
   String get from => throw _privateConstructorUsedError;
   String get message => throw _privateConstructorUsedError;
+  int get messageType => throw _privateConstructorUsedError;
   String get chatId => throw _privateConstructorUsedError;
   String get timestamp => throw _privateConstructorUsedError;
 
@@ -44,6 +45,7 @@ abstract class $MessageDtoCopyWith<$Res> {
       List<String> to,
       String from,
       String message,
+      int messageType,
       String chatId,
       String timestamp});
 }
@@ -65,6 +67,7 @@ class _$MessageDtoCopyWithImpl<$Res, $Val extends MessageDto>
     Object? to = null,
     Object? from = null,
     Object? message = null,
+    Object? messageType = null,
     Object? chatId = null,
     Object? timestamp = null,
   }) {
@@ -85,6 +88,10 @@ class _$MessageDtoCopyWithImpl<$Res, $Val extends MessageDto>
           ? _value.message
           : message // ignore: cast_nullable_to_non_nullable
               as String,
+      messageType: null == messageType
+          ? _value.messageType
+          : messageType // ignore: cast_nullable_to_non_nullable
+              as int,
       chatId: null == chatId
           ? _value.chatId
           : chatId // ignore: cast_nullable_to_non_nullable
@@ -110,6 +117,7 @@ abstract class _$$MessageDtoImplCopyWith<$Res>
       List<String> to,
       String from,
       String message,
+      int messageType,
       String chatId,
       String timestamp});
 }
@@ -129,6 +137,7 @@ class __$$MessageDtoImplCopyWithImpl<$Res>
     Object? to = null,
     Object? from = null,
     Object? message = null,
+    Object? messageType = null,
     Object? chatId = null,
     Object? timestamp = null,
   }) {
@@ -149,6 +158,10 @@ class __$$MessageDtoImplCopyWithImpl<$Res>
           ? _value.message
           : message // ignore: cast_nullable_to_non_nullable
               as String,
+      messageType: null == messageType
+          ? _value.messageType
+          : messageType // ignore: cast_nullable_to_non_nullable
+              as int,
       chatId: null == chatId
           ? _value.chatId
           : chatId // ignore: cast_nullable_to_non_nullable
@@ -169,6 +182,7 @@ class _$MessageDtoImpl implements _MessageDto {
       required final List<String> to,
       required this.from,
       required this.message,
+      required this.messageType,
       required this.chatId,
       required this.timestamp})
       : _to = to;
@@ -191,13 +205,15 @@ class _$MessageDtoImpl implements _MessageDto {
   @override
   final String message;
   @override
+  final int messageType;
+  @override
   final String chatId;
   @override
   final String timestamp;
 
   @override
   String toString() {
-    return 'MessageDto(id: $id, to: $to, from: $from, message: $message, chatId: $chatId, timestamp: $timestamp)';
+    return 'MessageDto(id: $id, to: $to, from: $from, message: $message, messageType: $messageType, chatId: $chatId, timestamp: $timestamp)';
   }
 
   @override
@@ -209,6 +225,8 @@ class _$MessageDtoImpl implements _MessageDto {
             const DeepCollectionEquality().equals(other._to, _to) &&
             (identical(other.from, from) || other.from == from) &&
             (identical(other.message, message) || other.message == message) &&
+            (identical(other.messageType, messageType) ||
+                other.messageType == messageType) &&
             (identical(other.chatId, chatId) || other.chatId == chatId) &&
             (identical(other.timestamp, timestamp) ||
                 other.timestamp == timestamp));
@@ -222,6 +240,7 @@ class _$MessageDtoImpl implements _MessageDto {
       const DeepCollectionEquality().hash(_to),
       from,
       message,
+      messageType,
       chatId,
       timestamp);
 
@@ -245,6 +264,7 @@ abstract class _MessageDto implements MessageDto {
       required final List<String> to,
       required final String from,
       required final String message,
+      required final int messageType,
       required final String chatId,
       required final String timestamp}) = _$MessageDtoImpl;
 
@@ -259,6 +279,8 @@ abstract class _MessageDto implements MessageDto {
   String get from;
   @override
   String get message;
+  @override
+  int get messageType;
   @override
   String get chatId;
   @override

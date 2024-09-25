@@ -10,7 +10,7 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 part 'auth/auth_service.dart';
 part 'chats/chats_service.dart';
-part 'messaging/messaging_service.dart';
+part 'keys/keys_service.dart';
 part 'stories/stories_service.dart';
 part 'users/users_service.dart';
 part 'api.chopper.dart';
@@ -27,6 +27,9 @@ final apiService = ChopperClient(
       ChopperClient(),
     ),
     UsersService.create(
+      ChopperClient(),
+    ),
+    KeysService.create(
       ChopperClient(),
     ),
   ],

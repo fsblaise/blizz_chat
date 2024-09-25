@@ -42,14 +42,8 @@ class AuthRepository extends RepositoryInterface<AuthService> {
 
   static Future<void> signOut() async {
     // TODO: implement
-    await getIt
-        .get<SharedPreferencesService>()
-        .preferences!
-        .setString('token', '');
-    await getIt
-        .get<SharedPreferencesService>()
-        .preferences!
-        .setString('user', '');
+    await getIt.get<SharedPreferencesService>().preferences!.remove('token');
+    await getIt.get<SharedPreferencesService>().preferences!.remove('user');
   }
 
   /// It processes the signInResponse from the backend.

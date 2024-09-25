@@ -12,6 +12,7 @@ _$MessageDtoImpl _$$MessageDtoImplFromJson(Map<String, dynamic> json) =>
       to: (json['to'] as List<dynamic>).map((e) => e as String).toList(),
       from: json['from'] as String,
       message: json['message'] as String,
+      messageType: (json['messageType'] as num).toInt(),
       chatId: json['chatId'] as String,
       timestamp: json['timestamp'] as String,
     );
@@ -22,6 +23,7 @@ Map<String, dynamic> _$$MessageDtoImplToJson(_$MessageDtoImpl instance) =>
       'to': instance.to,
       'from': instance.from,
       'message': instance.message,
+      'messageType': instance.messageType,
       'chatId': instance.chatId,
       'timestamp': instance.timestamp,
     };

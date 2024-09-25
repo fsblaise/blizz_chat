@@ -18,6 +18,9 @@ export class MessageQueue {
   message: string;
 
   @Prop({ required: true })
+  messageType: number;
+
+  @Prop({ required: true })
   timestamp: string;
 
   @Prop({ required: true })

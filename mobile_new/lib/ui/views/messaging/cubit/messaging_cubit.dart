@@ -4,29 +4,36 @@ import 'package:blizz_chat/repositories/repositories.dart';
 import 'package:blizz_chat/ui/ui.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:libsignal_protocol_dart/libsignal_protocol_dart.dart';
 
 part 'messaging_states.dart';
 part 'messaging_cubit.freezed.dart';
 
 class MessagingCubit extends Cubit<MessagingState> {
   MessagingCubit(
-    this.messagingRepository,
     this.chatsCubit,
     this.usersCubit,
   ) : super(const MessagingInitial());
-  final MessagingRepository messagingRepository;
+  late MessagingRepository? messagingRepository;
   final ChatsCubit chatsCubit;
   final UsersCubit usersCubit;
   bool _listenersActive = false;
 
-  void connect(String token) {
+  Future<void> connect(String token) async {
+    messagingRepository = MessagingRepository();
     print("run?");
-    messagingRepository.connect(token);
+    messagingRepository!.connect(token);
+
+    // create and send public key to the server
+    final publicKey = messagingRepository!.libsignalService.getPublicKeys();
+    await KeysRepository.sharePublicKeys(publicKey);
+
     _setupListeners();
   }
 
   void disconnect() {
-    messagingRepository.disconnect();
+    messagingRepository!.disconnect();
+    messagingRepository = null;
   }
 
   // The Message that we send has an array of recipients,
@@ -36,9 +43,9 @@ class MessagingCubit extends Cubit<MessagingState> {
     if (state is MessagingFetched) {
       final currentState = state as MessagingFetched;
 
-      messagingRepository.sendMessage(message);
+      messagingRepository!.sendMessage(message);
       final newMessage = convertDtoToMessage(message);
-      await messagingRepository.saveMessage(newMessage);
+      await messagingRepository!.saveMessage(newMessage);
 
       if (newMessage.chatId == currentState.chatId) {
         final updatedMessages = List<Message>.from(currentState.messages)
@@ -57,7 +64,7 @@ class MessagingCubit extends Cubit<MessagingState> {
     if (state is MessagingFetched) {
       final currentState = state as MessagingFetched;
 
-      await messagingRepository.deleteMessage(messageId);
+      await messagingRepository!.deleteMessage(messageId);
 
       final updatedMessages = currentState.messages
           .where((message) => message.id != messageId)
@@ -72,12 +79,40 @@ class MessagingCubit extends Cubit<MessagingState> {
     }
   }
 
-  Future<void> fetchMessages(String chatId) async {
+  // This could be the init function of a chat/messaging
+  // Maybe put the key fetching and session creation call here
+  Future<void> fetchMessages(Chat? chat, String? userEmail) async {
     try {
-      final messages = await messagingRepository.fetchMessages(chatId);
-      emit(MessagingFetched(messages: sortMessages(messages), chatId: chatId));
-    } catch (e) {
-      emit(MessagingError(message: e.toString()));
+      final messages = await messagingRepository!.fetchMessages(chat!.id);
+
+      final remoteUserEmail = chat.participants
+          .firstWhere((participant) => participant.email != userEmail)
+          .email;
+
+      final remoteAddress = SignalProtocolAddress(remoteUserEmail, 1);
+
+      print('Checking if session exists for $remoteUserEmail');
+
+      final sessionExists = await messagingRepository!
+          .libsignalService.sessionStore
+          .containsSession(remoteAddress);
+
+      print('Session exists: $sessionExists');
+
+      if (!sessionExists) {
+        final keyDtos = await KeysRepository.fetchPublicKeys([remoteUserEmail]);
+
+        print('Received keys: ${keyDtos.first}');
+
+        await messagingRepository!.libsignalService
+            .createSession(remoteUserEmail, KeysDto.toLibsignal(keyDtos.first));
+      }
+
+      emit(MessagingFetched(messages: sortMessages(messages), chatId: chat.id));
+    } catch (e, stackTrace) {
+      emit(MessagingFetched(messages: [], chatId: chat?.id ?? ''));
+      print(e);
+      print(stackTrace);
     }
   }
 
@@ -90,7 +125,7 @@ class MessagingCubit extends Cubit<MessagingState> {
   }
 
   void _listenForMessages() {
-    messagingRepository.listenForMessages((message) {
+    messagingRepository!.listenForMessages((message) {
       // Handle the received message
       // For example, you can add the message to the current state
       if (state is MessagingFetched) {
@@ -106,12 +141,12 @@ class MessagingCubit extends Cubit<MessagingState> {
           );
         }
       }
-      messagingRepository.saveMessage(message);
+      messagingRepository!.saveMessage(message);
     });
   }
 
   void _listenForStatus() {
-    messagingRepository.listenForStatus((UserStatusDto? dto) {
+    messagingRepository!.listenForStatus((UserStatusDto? dto) {
       if (dto != null) {
         print('User updated: ${dto.userEmail}');
         print('User status: ${dto.status}');
@@ -127,6 +162,7 @@ class MessagingCubit extends Cubit<MessagingState> {
     return Message(
       id: dto.id,
       message: dto.message,
+      messageType: dto.messageType,
       from: dto.from,
       to: dto.to.join(','),
       chatId: dto.chatId,

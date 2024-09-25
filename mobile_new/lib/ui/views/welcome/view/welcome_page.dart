@@ -39,6 +39,7 @@ class _WelcomePageState extends State<WelcomePage> {
   void _initWs(AuthAuthenticated state) {
     if (!hasInit) {
       final token = state.token;
+      print(token);
       _messagingCubit.connect(token);
       hasInit = true;
     }

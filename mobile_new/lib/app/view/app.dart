@@ -25,7 +25,6 @@ class App extends StatelessWidget {
             providers: [
               BlocProvider(
                 create: (_) => MessagingCubit(
-                  MessagingRepository(),
                   context.read<ChatsCubit>(),
                   context.read<UsersCubit>(),
                 ),

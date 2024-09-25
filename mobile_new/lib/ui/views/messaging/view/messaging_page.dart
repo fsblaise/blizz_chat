@@ -33,10 +33,10 @@ class _MessagingPageState extends State<MessagingPage> {
   @override
   void initState() {
     _messagingCubit = context.read<MessagingCubit>();
-    _messagingCubit.fetchMessages(widget.chatId);
     _authCubit = context.read<AuthCubit>();
     _user = _authCubit.getCurrentUser();
     _chat = context.read<ChatsCubit>().getChat(widget.chatId);
+    _messagingCubit.fetchMessages(_chat, _user?.email);
     _focusNode = FocusNode();
 
     super.initState();
@@ -60,6 +60,7 @@ class _MessagingPageState extends State<MessagingPage> {
         MessageDto(
           id: const Uuid().v4(),
           message: text,
+          messageType: 0,
           from: _user?.email ?? '',
           to: toParticipants,
           chatId: widget.chatId,

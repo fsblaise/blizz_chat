@@ -8,9 +8,8 @@ export class OnlineUsersService {
     this.onlineUsers.set(email, socketId);
   }
 
-  removeUser(socketId: string) {
-    const email = Array.from(this.onlineUsers).find(([_, id]) => id === socketId)?.[0];
-    if (email) {
+  removeUser(email: string) {
+    if (this.onlineUsers.has(email)) {
       this.onlineUsers.delete(email);
       return email;
     }

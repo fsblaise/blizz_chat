@@ -5,6 +5,7 @@ import {
   WebSocketServer,
   WsException,
   WsResponse,
+  ConnectedSocket,
 } from '@nestjs/websockets';
 import { MessagesService } from './messages.service';
 import { CreateMessageDto } from './dto/create-message.dto';
@@ -12,6 +13,8 @@ import { Server, Socket } from 'socket.io';
 import { from, map, Observable, timestamp } from 'rxjs';
 import { JwtService } from '@nestjs/jwt';
 import { OnlineUsersService } from './online_users.service';
+import { AuthGuard } from 'src/shared/guards/auth.guard';
+import { Status } from './dto/status.dto';
 
 @WebSocketGateway({ cors: { origin: '*', }, transports: ['websocket'], })
 export class MessagesGateway {
@@ -23,12 +26,15 @@ export class MessagesGateway {
     private onlineUsersService: OnlineUsersService,
   ) { }
 
-  async handleConnection(client: Socket) {    
+  async handleConnection(@ConnectedSocket() client: Socket) {    
     console.log('Client connected');
     
-    try {
-      const token = client.handshake.query.token as string;
-      // console.log(token);
+    try {      
+      const token = AuthGuard.extractTokenFromHeader(client.handshake.headers.authorization);
+
+      if (!token) {
+        throw new WsException('Invalid token');
+      }
       console.log(client.handshake);
       
       const user = this.jwtService.verify(token);
@@ -39,23 +45,62 @@ export class MessagesGateway {
       // sync messages
       await this.sendOfflineMessages(email, client.id);
     } catch (error) {
-      client.disconnect();
+      client.disconnect(true);
       throw new WsException('Invalid token');
     }
     console.log(JSON.stringify(Array.from(this.onlineUsersService.getOnlineUsers())));
   }
 
-  handleDisconnect(client: Socket) {
+  handleDisconnect(@ConnectedSocket() client: Socket) {
     console.log('Client disconnected');
-    const email = this.onlineUsersService.removeUser(client.id);
-    if (email) {
+    const token = AuthGuard.extractTokenFromHeader(client.handshake.headers.authorization);
+    try {
+      const user = this.jwtService.verify(token);
+      const email = user.email;
+
+      const socketId = this.onlineUsersService.getUserSocketId(email);
+
+      this.server.sockets.sockets.get(socketId)?.disconnect(true); // Disconnect the old socket
+
+      this.onlineUsersService.removeUser(email);
+      console.log(JSON.stringify(Array.from(this.onlineUsersService.getOnlineUsers())));
       this.broadcastStatus(email, 'offline');
+    } catch(e) {
+      console.error('Error during disconnect:', e);
+    } finally {
+      client.disconnect(true);
     }
   }
+
+  // @SubscribeMessage('status')
+  // async status(@MessageBody() status: Status, @ConnectedSocket() client: Socket) {
+  //   try {
+  //     const token = AuthGuard.extractTokenFromHeader(client.handshake.headers.authorization);
+
+  //     if (!token) {
+  //       throw new WsException('Invalid token');
+  //     }
+
+  //     const user = this.jwtService.verify(token);
+
+  //     console.log(user);
+  //     console.log(status);
+
+  //     if (user.email !== status.email) {
+  //       throw new WsException('Unauthorized');
+  //     }
+
+  //     return this.onlineUsersService.isUserOnline(email);
+  //   } catch (error) {
+  //     throw new WsException('Invalid token');
+  //   }
+  // }
 
   @SubscribeMessage('createMessage')
   async create(@MessageBody() createMessageDto: CreateMessageDto) {
     // iterate through all recipients
+    console.log(`Message: ${createMessageDto.message}`);
+    
     createMessageDto.to.forEach(async recipientEmail => {
       const recipientSocketId = this.onlineUsersService.getUserSocketId(recipientEmail);
       if (recipientSocketId) {
@@ -64,6 +109,7 @@ export class MessagesGateway {
           from: createMessageDto.from,
           to: recipientEmail,
           message: createMessageDto.message,
+          messageType: createMessageDto.messageType,
           timestamp: createMessageDto.timestamp,
           chatId: createMessageDto.chatId
         });
@@ -74,6 +120,7 @@ export class MessagesGateway {
           createMessageDto.from,
           recipientEmail,
           createMessageDto.message,
+          createMessageDto.messageType,
           createMessageDto.timestamp,
           createMessageDto.chatId,
         );

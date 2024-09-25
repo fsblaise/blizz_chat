@@ -44,7 +44,7 @@ class _ChatsListState extends State<ChatsList> {
 
   void _launchMessaging(Chat chat, String title) {
     print(chat.id);
-    AutoRouter.of(context).navigate(
+    context.router.push(
       MessagingRoute(
         chatId: chat.id,
         title: title,

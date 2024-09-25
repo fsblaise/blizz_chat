@@ -7,6 +7,7 @@ import { MessagesModule } from './messages/messages.module';
 import { StoriesModule } from './stories/stories.module';
 import { MongooseModule } from '@nestjs/mongoose';
 import { ConfigModule, ConfigService } from '@nestjs/config';
+import { KeysModule } from './keys/keys.module';
 
 const ENV = process.env.NODE_ENV;
 
@@ -31,6 +32,7 @@ const ENV = process.env.NODE_ENV;
     ChatsModule,
     MessagesModule,
     StoriesModule,
+    KeysModule
   ],
   controllers: [AppController],
   providers: [AppService],

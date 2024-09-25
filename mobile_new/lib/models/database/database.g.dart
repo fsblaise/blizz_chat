@@ -42,6 +42,14 @@ class $MessagesTableTable extends MessagesTable
           GeneratedColumn.checkTextLength(minTextLength: 1, maxTextLength: 500),
       type: DriftSqlType.string,
       requiredDuringInsert: true);
+  static const VerificationMeta _messageTypeMeta =
+      const VerificationMeta('messageType');
+  @override
+  late final GeneratedColumn<int> messageType = GeneratedColumn<int>(
+      'message_type', aliasedName, false,
+      type: DriftSqlType.int,
+      requiredDuringInsert: false,
+      defaultValue: Constant(0));
   static const VerificationMeta _timestampMeta =
       const VerificationMeta('timestamp');
   @override
@@ -61,7 +69,7 @@ class $MessagesTableTable extends MessagesTable
       requiredDuringInsert: true);
   @override
   List<GeneratedColumn> get $columns =>
-      [id, from, to, message, timestamp, chatId];
+      [id, from, to, message, messageType, timestamp, chatId];
   @override
   String get aliasedName => _alias ?? actualTableName;
   @override
@@ -94,6 +102,12 @@ class $MessagesTableTable extends MessagesTable
     } else if (isInserting) {
       context.missing(_messageMeta);
     }
+    if (data.containsKey('message_type')) {
+      context.handle(
+          _messageTypeMeta,
+          messageType.isAcceptableOrUnknown(
+              data['message_type']!, _messageTypeMeta));
+    }
     if (data.containsKey('timestamp')) {
       context.handle(_timestampMeta,
           timestamp.isAcceptableOrUnknown(data['timestamp']!, _timestampMeta));
@@ -123,6 +137,8 @@ class $MessagesTableTable extends MessagesTable
           .read(DriftSqlType.string, data['${effectivePrefix}to'])!,
       message: attachedDatabase.typeMapping
           .read(DriftSqlType.string, data['${effectivePrefix}message'])!,
+      messageType: attachedDatabase.typeMapping
+          .read(DriftSqlType.int, data['${effectivePrefix}message_type'])!,
       timestamp: attachedDatabase.typeMapping
           .read(DriftSqlType.string, data['${effectivePrefix}timestamp'])!,
       chatId: attachedDatabase.typeMapping
@@ -141,6 +157,7 @@ class Message extends DataClass implements Insertable<Message> {
   final String from;
   final String to;
   final String message;
+  final int messageType;
   final String timestamp;
   final String chatId;
   const Message(
@@ -148,6 +165,7 @@ class Message extends DataClass implements Insertable<Message> {
       required this.from,
       required this.to,
       required this.message,
+      required this.messageType,
       required this.timestamp,
       required this.chatId});
   @override
@@ -157,6 +175,7 @@ class Message extends DataClass implements Insertable<Message> {
     map['from'] = Variable<String>(from);
     map['to'] = Variable<String>(to);
     map['message'] = Variable<String>(message);
+    map['message_type'] = Variable<int>(messageType);
     map['timestamp'] = Variable<String>(timestamp);
     map['chat_id'] = Variable<String>(chatId);
     return map;
@@ -168,6 +187,7 @@ class Message extends DataClass implements Insertable<Message> {
       from: Value(from),
       to: Value(to),
       message: Value(message),
+      messageType: Value(messageType),
       timestamp: Value(timestamp),
       chatId: Value(chatId),
     );
@@ -181,6 +201,7 @@ class Message extends DataClass implements Insertable<Message> {
       from: serializer.fromJson<String>(json['from']),
       to: serializer.fromJson<String>(json['to']),
       message: serializer.fromJson<String>(json['message']),
+      messageType: serializer.fromJson<int>(json['messageType']),
       timestamp: serializer.fromJson<String>(json['timestamp']),
       chatId: serializer.fromJson<String>(json['chatId']),
     );
@@ -193,6 +214,7 @@ class Message extends DataClass implements Insertable<Message> {
       'from': serializer.toJson<String>(from),
       'to': serializer.toJson<String>(to),
       'message': serializer.toJson<String>(message),
+      'messageType': serializer.toJson<int>(messageType),
       'timestamp': serializer.toJson<String>(timestamp),
       'chatId': serializer.toJson<String>(chatId),
     };
@@ -203,6 +225,7 @@ class Message extends DataClass implements Insertable<Message> {
           String? from,
           String? to,
           String? message,
+          int? messageType,
           String? timestamp,
           String? chatId}) =>
       Message(
@@ -210,6 +233,7 @@ class Message extends DataClass implements Insertable<Message> {
         from: from ?? this.from,
         to: to ?? this.to,
         message: message ?? this.message,
+        messageType: messageType ?? this.messageType,
         timestamp: timestamp ?? this.timestamp,
         chatId: chatId ?? this.chatId,
       );
@@ -219,6 +243,8 @@ class Message extends DataClass implements Insertable<Message> {
       from: data.from.present ? data.from.value : this.from,
       to: data.to.present ? data.to.value : this.to,
       message: data.message.present ? data.message.value : this.message,
+      messageType:
+          data.messageType.present ? data.messageType.value : this.messageType,
       timestamp: data.timestamp.present ? data.timestamp.value : this.timestamp,
       chatId: data.chatId.present ? data.chatId.value : this.chatId,
     );
@@ -231,6 +257,7 @@ class Message extends DataClass implements Insertable<Message> {
           ..write('from: $from, ')
           ..write('to: $to, ')
           ..write('message: $message, ')
+          ..write('messageType: $messageType, ')
           ..write('timestamp: $timestamp, ')
           ..write('chatId: $chatId')
           ..write(')'))
@@ -238,7 +265,8 @@ class Message extends DataClass implements Insertable<Message> {
   }
 
   @override
-  int get hashCode => Object.hash(id, from, to, message, timestamp, chatId);
+  int get hashCode =>
+      Object.hash(id, from, to, message, messageType, timestamp, chatId);
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
@@ -247,6 +275,7 @@ class Message extends DataClass implements Insertable<Message> {
           other.from == this.from &&
           other.to == this.to &&
           other.message == this.message &&
+          other.messageType == this.messageType &&
           other.timestamp == this.timestamp &&
           other.chatId == this.chatId);
 }
@@ -256,6 +285,7 @@ class MessagesTableCompanion extends UpdateCompanion<Message> {
   final Value<String> from;
   final Value<String> to;
   final Value<String> message;
+  final Value<int> messageType;
   final Value<String> timestamp;
   final Value<String> chatId;
   final Value<int> rowid;
@@ -264,6 +294,7 @@ class MessagesTableCompanion extends UpdateCompanion<Message> {
     this.from = const Value.absent(),
     this.to = const Value.absent(),
     this.message = const Value.absent(),
+    this.messageType = const Value.absent(),
     this.timestamp = const Value.absent(),
     this.chatId = const Value.absent(),
     this.rowid = const Value.absent(),
@@ -273,6 +304,7 @@ class MessagesTableCompanion extends UpdateCompanion<Message> {
     required String from,
     required String to,
     required String message,
+    this.messageType = const Value.absent(),
     required String timestamp,
     required String chatId,
     this.rowid = const Value.absent(),
@@ -287,6 +319,7 @@ class MessagesTableCompanion extends UpdateCompanion<Message> {
     Expression<String>? from,
     Expression<String>? to,
     Expression<String>? message,
+    Expression<int>? messageType,
     Expression<String>? timestamp,
     Expression<String>? chatId,
     Expression<int>? rowid,
@@ -296,6 +329,7 @@ class MessagesTableCompanion extends UpdateCompanion<Message> {
       if (from != null) 'from': from,
       if (to != null) 'to': to,
       if (message != null) 'message': message,
+      if (messageType != null) 'message_type': messageType,
       if (timestamp != null) 'timestamp': timestamp,
       if (chatId != null) 'chat_id': chatId,
       if (rowid != null) 'rowid': rowid,
@@ -307,6 +341,7 @@ class MessagesTableCompanion extends UpdateCompanion<Message> {
       Value<String>? from,
       Value<String>? to,
       Value<String>? message,
+      Value<int>? messageType,
       Value<String>? timestamp,
       Value<String>? chatId,
       Value<int>? rowid}) {
@@ -315,6 +350,7 @@ class MessagesTableCompanion extends UpdateCompanion<Message> {
       from: from ?? this.from,
       to: to ?? this.to,
       message: message ?? this.message,
+      messageType: messageType ?? this.messageType,
       timestamp: timestamp ?? this.timestamp,
       chatId: chatId ?? this.chatId,
       rowid: rowid ?? this.rowid,
@@ -336,6 +372,9 @@ class MessagesTableCompanion extends UpdateCompanion<Message> {
     if (message.present) {
       map['message'] = Variable<String>(message.value);
     }
+    if (messageType.present) {
+      map['message_type'] = Variable<int>(messageType.value);
+    }
     if (timestamp.present) {
       map['timestamp'] = Variable<String>(timestamp.value);
     }
@@ -355,6 +394,7 @@ class MessagesTableCompanion extends UpdateCompanion<Message> {
           ..write('from: $from, ')
           ..write('to: $to, ')
           ..write('message: $message, ')
+          ..write('messageType: $messageType, ')
           ..write('timestamp: $timestamp, ')
           ..write('chatId: $chatId, ')
           ..write('rowid: $rowid')
@@ -380,6 +420,7 @@ typedef $$MessagesTableTableCreateCompanionBuilder = MessagesTableCompanion
   required String from,
   required String to,
   required String message,
+  Value<int> messageType,
   required String timestamp,
   required String chatId,
   Value<int> rowid,
@@ -390,6 +431,7 @@ typedef $$MessagesTableTableUpdateCompanionBuilder = MessagesTableCompanion
   Value<String> from,
   Value<String> to,
   Value<String> message,
+  Value<int> messageType,
   Value<String> timestamp,
   Value<String> chatId,
   Value<int> rowid,
@@ -416,6 +458,7 @@ class $$MessagesTableTableTableManager extends RootTableManager<
             Value<String> from = const Value.absent(),
             Value<String> to = const Value.absent(),
             Value<String> message = const Value.absent(),
+            Value<int> messageType = const Value.absent(),
             Value<String> timestamp = const Value.absent(),
             Value<String> chatId = const Value.absent(),
             Value<int> rowid = const Value.absent(),
@@ -425,6 +468,7 @@ class $$MessagesTableTableTableManager extends RootTableManager<
             from: from,
             to: to,
             message: message,
+            messageType: messageType,
             timestamp: timestamp,
             chatId: chatId,
             rowid: rowid,
@@ -434,6 +478,7 @@ class $$MessagesTableTableTableManager extends RootTableManager<
             required String from,
             required String to,
             required String message,
+            Value<int> messageType = const Value.absent(),
             required String timestamp,
             required String chatId,
             Value<int> rowid = const Value.absent(),
@@ -443,6 +488,7 @@ class $$MessagesTableTableTableManager extends RootTableManager<
             from: from,
             to: to,
             message: message,
+            messageType: messageType,
             timestamp: timestamp,
             chatId: chatId,
             rowid: rowid,
@@ -470,6 +516,11 @@ class $$MessagesTableTableFilterComposer
 
   ColumnFilters<String> get message => $state.composableBuilder(
       column: $state.table.message,
+      builder: (column, joinBuilders) =>
+          ColumnFilters(column, joinBuilders: joinBuilders));
+
+  ColumnFilters<int> get messageType => $state.composableBuilder(
+      column: $state.table.messageType,
       builder: (column, joinBuilders) =>
           ColumnFilters(column, joinBuilders: joinBuilders));
 
@@ -504,6 +555,11 @@ class $$MessagesTableTableOrderingComposer
 
   ColumnOrderings<String> get message => $state.composableBuilder(
       column: $state.table.message,
+      builder: (column, joinBuilders) =>
+          ColumnOrderings(column, joinBuilders: joinBuilders));
+
+  ColumnOrderings<int> get messageType => $state.composableBuilder(
+      column: $state.table.messageType,
       builder: (column, joinBuilders) =>
           ColumnOrderings(column, joinBuilders: joinBuilders));
 

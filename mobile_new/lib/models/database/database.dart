@@ -15,7 +15,20 @@ class AppDatabase extends _$AppDatabase {
   AppDatabase() : super(_openConnection());
 
   @override
-  int get schemaVersion => 3;
+  int get schemaVersion => 4;
+
+  @override
+  MigrationStrategy get migration => MigrationStrategy(
+        onUpgrade: (Migrator m, int from, int to) async {
+          if (from == 3 && to == 4) {
+            // Add migration logic here for schema version 3 to 4
+            // For example:
+            // await m.addColumn(messagesTable, messagesTable.newColumn);
+            await m.addColumn(messagesTable, messagesTable.messageType);
+          }
+          // Add more migration steps as needed
+        },
+      );
 }
 
 LazyDatabase _openConnection() {

@@ -10,6 +10,7 @@ class MessageDto with _$MessageDto {
     required List<String> to,
     required String from,
     required String message,
+    required int messageType,
     required String chatId,
     required String timestamp,
   }) = _MessageDto;
