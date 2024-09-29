@@ -61,3 +61,43 @@ Map<String, dynamic> _$$KeysDtoImplToJson(_$KeysDtoImpl instance) =>
       'signedKeySignature': uint8ListToJson(instance.signedKeySignature),
       'email': instance.email,
     };
+
+_$ShareDistributionKeyDtoImpl _$$ShareDistributionKeyDtoImplFromJson(
+        Map<String, dynamic> json) =>
+    _$ShareDistributionKeyDtoImpl(
+      key: uint8ListFromJsonWs(json['key']),
+      senderEmail: json['senderEmail'] as String,
+      groupId: json['groupId'] as String,
+      messageType: (json['messageType'] as num).toInt(),
+      to: (json['to'] as List<dynamic>).map((e) => e as String).toList(),
+    );
+
+Map<String, dynamic> _$$ShareDistributionKeyDtoImplToJson(
+        _$ShareDistributionKeyDtoImpl instance) =>
+    <String, dynamic>{
+      'key': uint8ListToJsonWs(instance.key),
+      'senderEmail': instance.senderEmail,
+      'groupId': instance.groupId,
+      'messageType': instance.messageType,
+      'to': instance.to,
+    };
+
+_$DistributionKeyDtoImpl _$$DistributionKeyDtoImplFromJson(
+        Map<String, dynamic> json) =>
+    _$DistributionKeyDtoImpl(
+      key: uint8ListFromJsonWs(json['key']),
+      senderEmail: json['senderEmail'] as String,
+      groupId: json['groupId'] as String,
+      messageType: (json['messageType'] as num).toInt(),
+      to: json['to'] as String,
+    );
+
+Map<String, dynamic> _$$DistributionKeyDtoImplToJson(
+        _$DistributionKeyDtoImpl instance) =>
+    <String, dynamic>{
+      'key': uint8ListToJsonWs(instance.key),
+      'senderEmail': instance.senderEmail,
+      'groupId': instance.groupId,
+      'messageType': instance.messageType,
+      'to': instance.to,
+    };

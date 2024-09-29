@@ -660,3 +660,486 @@ abstract class _KeysDto implements KeysDto {
   _$$KeysDtoImplCopyWith<_$KeysDtoImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
+
+ShareDistributionKeyDto _$ShareDistributionKeyDtoFromJson(
+    Map<String, dynamic> json) {
+  return _ShareDistributionKeyDto.fromJson(json);
+}
+
+/// @nodoc
+mixin _$ShareDistributionKeyDto {
+  @JsonKey(fromJson: uint8ListFromJsonWs, toJson: uint8ListToJsonWs)
+  Uint8List get key => throw _privateConstructorUsedError;
+  String get senderEmail => throw _privateConstructorUsedError;
+  String get groupId => throw _privateConstructorUsedError;
+  int get messageType => throw _privateConstructorUsedError;
+  List<String> get to => throw _privateConstructorUsedError;
+
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  @JsonKey(ignore: true)
+  $ShareDistributionKeyDtoCopyWith<ShareDistributionKeyDto> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $ShareDistributionKeyDtoCopyWith<$Res> {
+  factory $ShareDistributionKeyDtoCopyWith(ShareDistributionKeyDto value,
+          $Res Function(ShareDistributionKeyDto) then) =
+      _$ShareDistributionKeyDtoCopyWithImpl<$Res, ShareDistributionKeyDto>;
+  @useResult
+  $Res call(
+      {@JsonKey(fromJson: uint8ListFromJsonWs, toJson: uint8ListToJsonWs)
+      Uint8List key,
+      String senderEmail,
+      String groupId,
+      int messageType,
+      List<String> to});
+}
+
+/// @nodoc
+class _$ShareDistributionKeyDtoCopyWithImpl<$Res,
+        $Val extends ShareDistributionKeyDto>
+    implements $ShareDistributionKeyDtoCopyWith<$Res> {
+  _$ShareDistributionKeyDtoCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? key = null,
+    Object? senderEmail = null,
+    Object? groupId = null,
+    Object? messageType = null,
+    Object? to = null,
+  }) {
+    return _then(_value.copyWith(
+      key: null == key
+          ? _value.key
+          : key // ignore: cast_nullable_to_non_nullable
+              as Uint8List,
+      senderEmail: null == senderEmail
+          ? _value.senderEmail
+          : senderEmail // ignore: cast_nullable_to_non_nullable
+              as String,
+      groupId: null == groupId
+          ? _value.groupId
+          : groupId // ignore: cast_nullable_to_non_nullable
+              as String,
+      messageType: null == messageType
+          ? _value.messageType
+          : messageType // ignore: cast_nullable_to_non_nullable
+              as int,
+      to: null == to
+          ? _value.to
+          : to // ignore: cast_nullable_to_non_nullable
+              as List<String>,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$ShareDistributionKeyDtoImplCopyWith<$Res>
+    implements $ShareDistributionKeyDtoCopyWith<$Res> {
+  factory _$$ShareDistributionKeyDtoImplCopyWith(
+          _$ShareDistributionKeyDtoImpl value,
+          $Res Function(_$ShareDistributionKeyDtoImpl) then) =
+      __$$ShareDistributionKeyDtoImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call(
+      {@JsonKey(fromJson: uint8ListFromJsonWs, toJson: uint8ListToJsonWs)
+      Uint8List key,
+      String senderEmail,
+      String groupId,
+      int messageType,
+      List<String> to});
+}
+
+/// @nodoc
+class __$$ShareDistributionKeyDtoImplCopyWithImpl<$Res>
+    extends _$ShareDistributionKeyDtoCopyWithImpl<$Res,
+        _$ShareDistributionKeyDtoImpl>
+    implements _$$ShareDistributionKeyDtoImplCopyWith<$Res> {
+  __$$ShareDistributionKeyDtoImplCopyWithImpl(
+      _$ShareDistributionKeyDtoImpl _value,
+      $Res Function(_$ShareDistributionKeyDtoImpl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? key = null,
+    Object? senderEmail = null,
+    Object? groupId = null,
+    Object? messageType = null,
+    Object? to = null,
+  }) {
+    return _then(_$ShareDistributionKeyDtoImpl(
+      key: null == key
+          ? _value.key
+          : key // ignore: cast_nullable_to_non_nullable
+              as Uint8List,
+      senderEmail: null == senderEmail
+          ? _value.senderEmail
+          : senderEmail // ignore: cast_nullable_to_non_nullable
+              as String,
+      groupId: null == groupId
+          ? _value.groupId
+          : groupId // ignore: cast_nullable_to_non_nullable
+              as String,
+      messageType: null == messageType
+          ? _value.messageType
+          : messageType // ignore: cast_nullable_to_non_nullable
+              as int,
+      to: null == to
+          ? _value._to
+          : to // ignore: cast_nullable_to_non_nullable
+              as List<String>,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$ShareDistributionKeyDtoImpl implements _ShareDistributionKeyDto {
+  const _$ShareDistributionKeyDtoImpl(
+      {@JsonKey(fromJson: uint8ListFromJsonWs, toJson: uint8ListToJsonWs)
+      required this.key,
+      required this.senderEmail,
+      required this.groupId,
+      required this.messageType,
+      required final List<String> to})
+      : _to = to;
+
+  factory _$ShareDistributionKeyDtoImpl.fromJson(Map<String, dynamic> json) =>
+      _$$ShareDistributionKeyDtoImplFromJson(json);
+
+  @override
+  @JsonKey(fromJson: uint8ListFromJsonWs, toJson: uint8ListToJsonWs)
+  final Uint8List key;
+  @override
+  final String senderEmail;
+  @override
+  final String groupId;
+  @override
+  final int messageType;
+  final List<String> _to;
+  @override
+  List<String> get to {
+    if (_to is EqualUnmodifiableListView) return _to;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_to);
+  }
+
+  @override
+  String toString() {
+    return 'ShareDistributionKeyDto(key: $key, senderEmail: $senderEmail, groupId: $groupId, messageType: $messageType, to: $to)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$ShareDistributionKeyDtoImpl &&
+            const DeepCollectionEquality().equals(other.key, key) &&
+            (identical(other.senderEmail, senderEmail) ||
+                other.senderEmail == senderEmail) &&
+            (identical(other.groupId, groupId) || other.groupId == groupId) &&
+            (identical(other.messageType, messageType) ||
+                other.messageType == messageType) &&
+            const DeepCollectionEquality().equals(other._to, _to));
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode => Object.hash(
+      runtimeType,
+      const DeepCollectionEquality().hash(key),
+      senderEmail,
+      groupId,
+      messageType,
+      const DeepCollectionEquality().hash(_to));
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$ShareDistributionKeyDtoImplCopyWith<_$ShareDistributionKeyDtoImpl>
+      get copyWith => __$$ShareDistributionKeyDtoImplCopyWithImpl<
+          _$ShareDistributionKeyDtoImpl>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$ShareDistributionKeyDtoImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class _ShareDistributionKeyDto implements ShareDistributionKeyDto {
+  const factory _ShareDistributionKeyDto(
+      {@JsonKey(fromJson: uint8ListFromJsonWs, toJson: uint8ListToJsonWs)
+      required final Uint8List key,
+      required final String senderEmail,
+      required final String groupId,
+      required final int messageType,
+      required final List<String> to}) = _$ShareDistributionKeyDtoImpl;
+
+  factory _ShareDistributionKeyDto.fromJson(Map<String, dynamic> json) =
+      _$ShareDistributionKeyDtoImpl.fromJson;
+
+  @override
+  @JsonKey(fromJson: uint8ListFromJsonWs, toJson: uint8ListToJsonWs)
+  Uint8List get key;
+  @override
+  String get senderEmail;
+  @override
+  String get groupId;
+  @override
+  int get messageType;
+  @override
+  List<String> get to;
+  @override
+  @JsonKey(ignore: true)
+  _$$ShareDistributionKeyDtoImplCopyWith<_$ShareDistributionKeyDtoImpl>
+      get copyWith => throw _privateConstructorUsedError;
+}
+
+DistributionKeyDto _$DistributionKeyDtoFromJson(Map<String, dynamic> json) {
+  return _DistributionKeyDto.fromJson(json);
+}
+
+/// @nodoc
+mixin _$DistributionKeyDto {
+  @JsonKey(fromJson: uint8ListFromJsonWs, toJson: uint8ListToJsonWs)
+  Uint8List get key => throw _privateConstructorUsedError;
+  String get senderEmail => throw _privateConstructorUsedError;
+  String get groupId => throw _privateConstructorUsedError;
+  int get messageType => throw _privateConstructorUsedError;
+  String get to => throw _privateConstructorUsedError;
+
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  @JsonKey(ignore: true)
+  $DistributionKeyDtoCopyWith<DistributionKeyDto> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $DistributionKeyDtoCopyWith<$Res> {
+  factory $DistributionKeyDtoCopyWith(
+          DistributionKeyDto value, $Res Function(DistributionKeyDto) then) =
+      _$DistributionKeyDtoCopyWithImpl<$Res, DistributionKeyDto>;
+  @useResult
+  $Res call(
+      {@JsonKey(fromJson: uint8ListFromJsonWs, toJson: uint8ListToJsonWs)
+      Uint8List key,
+      String senderEmail,
+      String groupId,
+      int messageType,
+      String to});
+}
+
+/// @nodoc
+class _$DistributionKeyDtoCopyWithImpl<$Res, $Val extends DistributionKeyDto>
+    implements $DistributionKeyDtoCopyWith<$Res> {
+  _$DistributionKeyDtoCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? key = null,
+    Object? senderEmail = null,
+    Object? groupId = null,
+    Object? messageType = null,
+    Object? to = null,
+  }) {
+    return _then(_value.copyWith(
+      key: null == key
+          ? _value.key
+          : key // ignore: cast_nullable_to_non_nullable
+              as Uint8List,
+      senderEmail: null == senderEmail
+          ? _value.senderEmail
+          : senderEmail // ignore: cast_nullable_to_non_nullable
+              as String,
+      groupId: null == groupId
+          ? _value.groupId
+          : groupId // ignore: cast_nullable_to_non_nullable
+              as String,
+      messageType: null == messageType
+          ? _value.messageType
+          : messageType // ignore: cast_nullable_to_non_nullable
+              as int,
+      to: null == to
+          ? _value.to
+          : to // ignore: cast_nullable_to_non_nullable
+              as String,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$DistributionKeyDtoImplCopyWith<$Res>
+    implements $DistributionKeyDtoCopyWith<$Res> {
+  factory _$$DistributionKeyDtoImplCopyWith(_$DistributionKeyDtoImpl value,
+          $Res Function(_$DistributionKeyDtoImpl) then) =
+      __$$DistributionKeyDtoImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call(
+      {@JsonKey(fromJson: uint8ListFromJsonWs, toJson: uint8ListToJsonWs)
+      Uint8List key,
+      String senderEmail,
+      String groupId,
+      int messageType,
+      String to});
+}
+
+/// @nodoc
+class __$$DistributionKeyDtoImplCopyWithImpl<$Res>
+    extends _$DistributionKeyDtoCopyWithImpl<$Res, _$DistributionKeyDtoImpl>
+    implements _$$DistributionKeyDtoImplCopyWith<$Res> {
+  __$$DistributionKeyDtoImplCopyWithImpl(_$DistributionKeyDtoImpl _value,
+      $Res Function(_$DistributionKeyDtoImpl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? key = null,
+    Object? senderEmail = null,
+    Object? groupId = null,
+    Object? messageType = null,
+    Object? to = null,
+  }) {
+    return _then(_$DistributionKeyDtoImpl(
+      key: null == key
+          ? _value.key
+          : key // ignore: cast_nullable_to_non_nullable
+              as Uint8List,
+      senderEmail: null == senderEmail
+          ? _value.senderEmail
+          : senderEmail // ignore: cast_nullable_to_non_nullable
+              as String,
+      groupId: null == groupId
+          ? _value.groupId
+          : groupId // ignore: cast_nullable_to_non_nullable
+              as String,
+      messageType: null == messageType
+          ? _value.messageType
+          : messageType // ignore: cast_nullable_to_non_nullable
+              as int,
+      to: null == to
+          ? _value.to
+          : to // ignore: cast_nullable_to_non_nullable
+              as String,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$DistributionKeyDtoImpl implements _DistributionKeyDto {
+  const _$DistributionKeyDtoImpl(
+      {@JsonKey(fromJson: uint8ListFromJsonWs, toJson: uint8ListToJsonWs)
+      required this.key,
+      required this.senderEmail,
+      required this.groupId,
+      required this.messageType,
+      required this.to});
+
+  factory _$DistributionKeyDtoImpl.fromJson(Map<String, dynamic> json) =>
+      _$$DistributionKeyDtoImplFromJson(json);
+
+  @override
+  @JsonKey(fromJson: uint8ListFromJsonWs, toJson: uint8ListToJsonWs)
+  final Uint8List key;
+  @override
+  final String senderEmail;
+  @override
+  final String groupId;
+  @override
+  final int messageType;
+  @override
+  final String to;
+
+  @override
+  String toString() {
+    return 'DistributionKeyDto(key: $key, senderEmail: $senderEmail, groupId: $groupId, messageType: $messageType, to: $to)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$DistributionKeyDtoImpl &&
+            const DeepCollectionEquality().equals(other.key, key) &&
+            (identical(other.senderEmail, senderEmail) ||
+                other.senderEmail == senderEmail) &&
+            (identical(other.groupId, groupId) || other.groupId == groupId) &&
+            (identical(other.messageType, messageType) ||
+                other.messageType == messageType) &&
+            (identical(other.to, to) || other.to == to));
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode => Object.hash(
+      runtimeType,
+      const DeepCollectionEquality().hash(key),
+      senderEmail,
+      groupId,
+      messageType,
+      to);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$DistributionKeyDtoImplCopyWith<_$DistributionKeyDtoImpl> get copyWith =>
+      __$$DistributionKeyDtoImplCopyWithImpl<_$DistributionKeyDtoImpl>(
+          this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$DistributionKeyDtoImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class _DistributionKeyDto implements DistributionKeyDto {
+  const factory _DistributionKeyDto(
+      {@JsonKey(fromJson: uint8ListFromJsonWs, toJson: uint8ListToJsonWs)
+      required final Uint8List key,
+      required final String senderEmail,
+      required final String groupId,
+      required final int messageType,
+      required final String to}) = _$DistributionKeyDtoImpl;
+
+  factory _DistributionKeyDto.fromJson(Map<String, dynamic> json) =
+      _$DistributionKeyDtoImpl.fromJson;
+
+  @override
+  @JsonKey(fromJson: uint8ListFromJsonWs, toJson: uint8ListToJsonWs)
+  Uint8List get key;
+  @override
+  String get senderEmail;
+  @override
+  String get groupId;
+  @override
+  int get messageType;
+  @override
+  String get to;
+  @override
+  @JsonKey(ignore: true)
+  _$$DistributionKeyDtoImplCopyWith<_$DistributionKeyDtoImpl> get copyWith =>
+      throw _privateConstructorUsedError;
+}

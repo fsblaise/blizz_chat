@@ -16,6 +16,7 @@ class LibsignalService {
     required this.signedPreKeyStore,
     required this.identityStore,
     required this.registrationId,
+    required this.senderKeyStore,
   });
 
   final IdentityKeyPair identityKeyPair;
@@ -25,6 +26,7 @@ class LibsignalService {
   final InMemoryPreKeyStore preKeyStore;
   final InMemorySignedPreKeyStore signedPreKeyStore;
   final InMemoryIdentityKeyStore identityStore;
+  final InMemorySenderKeyStore senderKeyStore;
   final int registrationId;
 
   @FactoryMethod(preResolve: true)
@@ -39,6 +41,7 @@ class LibsignalService {
     final registrationId = generateRegistrationId(false);
     final identityStore =
         InMemoryIdentityKeyStore(identityKeyPair, registrationId);
+    final senderKeyStore = InMemorySenderKeyStore();
 
     for (var p in preKeys) {
       await preKeyStore.storePreKey(p.id, p);
@@ -53,44 +56,9 @@ class LibsignalService {
         preKeyStore: preKeyStore,
         signedPreKeyStore: signedPreKeyStore,
         identityStore: identityStore,
-        registrationId: registrationId);
+        registrationId: registrationId,
+        senderKeyStore: senderKeyStore);
   }
-
-//   //1. get public part in String format from IdentityKeyPair
-//   String getIdentityPublicKey({required IdentityKeyPair identityKeyPair}) {
-// return base64.encode(identityKeyPair.getPublicKey().serialize());
-// }
-
-// //2. registration id is in int format so it can be send directly to server
-
-// //3. get public part in String from signedPreKeyRecord
-//  String getSignedKeyPublic( {required SignedPreKeyRecord signedPreKeyRecord}) {
-//       return base64.encode(signedPreKeyRecord.getKeyPair().publicKey.serialize());
-// }
-
-// //4. get signedKeySignature in String format from signedPreKeyRecord
-// String getSignedKeySignature(
-//       {required SignedPreKeyRecord signedPreKeyRecord}) {
-//     return base64.encode(signedPreKeyRecord.signature);
-//   }
-
-// //5. getSignedId from signedPreKeyRecord
-
-// int getSignedIdFromSignedPreKeyRecord(
-//       {required SignedPreKeyRecord signedPreKeyRecord}) {
-//     return signedPreKeyRecord.id;
-//   }
-// //6. prekeys in string format
-
-  // final retrievedPreKey = PreKeyBundle(
-  //     remoteRegId,
-  //     1,
-  //     remotePreKeys[0].id,
-  //     remotePreKeys[0].getKeyPair().publicKey,
-  //     remoteSignedPreKey.id,
-  //     remoteSignedPreKey.getKeyPair().publicKey,
-  //     remoteSignedPreKey.signature,
-  //     remoteIdentityKeyPair.getPublicKey());
 
   ShareKeysDto getPublicKeys() {
     return ShareKeysDto.fromLibsignal(
@@ -160,4 +128,150 @@ class LibsignalService {
       rethrow;
     }
   }
+
+  // Groups
+
+  Future<SenderKeyName> getSenderKeyName(String groupId, String email) async {
+    return SenderKeyName(groupId, SignalProtocolAddress(email, 1));
+  }
+
+  Future<void> createGroupSession(
+    String groupId,
+    String senderId,
+    void Function(String, SenderKeyDistributionMessageWrapper)
+        sendDistributionMessageToMembers,
+  ) async {
+    final senderKeyName = await getSenderKeyName(groupId, senderId);
+    final groupSessionBuilder = GroupSessionBuilder(senderKeyStore);
+
+    final distributionMessage = await groupSessionBuilder.create(
+      senderKeyName,
+    );
+
+    // storing group session
+    // final senderKeyRecord = await senderKeyStore.loadSenderKey(senderKeyName);
+    // if (senderKeyRecord.serialize().isEmpty) {
+    //   await senderKeyStore.storeSenderKey(senderKeyName, senderKeyRecord);
+    // }
+
+    sendDistributionMessageToMembers(groupId, distributionMessage);
+
+    // According to the example inside the package repo,
+    // we should send a message containing a from, msd and type
+    // to the members of the group
+    // from: user's email
+    // msg: senderKeyDistributionMessage.serialize()
+    // type: CiphertextMessage.senderKeyDistributionType
+    // then jsonEncode it and send it to the members
+
+    // Idea: send a callback as parameter that will be handled in the repository
+    // to send the message to the members
+    // Or just return a half complete dto, and let the repository put in the
+    // to field
+  }
+
+  // // OBSOLETE
+  // Future<CiphertextMessage> encryptDistributionMessage(
+  //   String email,
+  //   SenderKeyDistributionMessageWrapper distributionMessage,
+  // ) async {
+  //   // print('Encrypting distribution message for $email');
+  //   // final sessionCipher = await getSessionCipher(email);
+  //   // final cipherText =
+  //   //     await sessionCipher.encrypt(distributionMessage.serialize());
+  //   // print('Type: ${cipherText.getType()}');
+  //   // return cipherText;
+  //   print('Encrypting distribution message for $email');
+  //   final sessionCipher = await getSessionCipher(email);
+
+  //   final serializedMessage = distributionMessage.serialize();
+  //   print('Serialized SenderKeyDistributionMessage: $serializedMessage');
+
+  //   final cipherText = await sessionCipher.encrypt(serializedMessage);
+  //   print('Type: ${cipherText.getType()}');
+  //   return cipherText;
+  // }
+
+  Future<void> registerGroupSession(
+    String groupId,
+    String senderId,
+    // ez ugye stringben jon le, de majd a model decodeolja
+    Uint8List ciphertext,
+    int messageType,
+  ) async {
+    try {
+      print('Registering group session');
+      if (messageType == CiphertextMessage.senderKeyDistributionType) {
+        print('Processing distribution message');
+        final senderKeyName = await getSenderKeyName(groupId, senderId);
+        final groupSessionBuilder = GroupSessionBuilder(senderKeyStore);
+        final distributionMessage =
+            SenderKeyDistributionMessageWrapper.fromSerialized(ciphertext);
+
+        await groupSessionBuilder.process(senderKeyName, distributionMessage);
+
+        // storing group session
+        // i dont think it ever runs
+        final senderKeyRecord =
+            await senderKeyStore.loadSenderKey(senderKeyName);
+        print(senderKeyRecord.serialize());
+        if (senderKeyRecord.serialize().isEmpty) {
+          print('Storing group session');
+          await senderKeyStore.storeSenderKey(senderKeyName, senderKeyRecord);
+        }
+      }
+    } catch (e, stackTrace) {
+      print('Error registering group session: $e');
+      print(stackTrace);
+    }
+  }
+
+  Future<bool> groupSessionExists(String groupId, String email) async {
+    final senderKeyName = await getSenderKeyName(groupId, email);
+    final senderKeyRecord = await senderKeyStore.loadSenderKey(senderKeyName);
+    return senderKeyRecord.serialize().isNotEmpty;
+  }
+
+  Future<Uint8List?> encryptGroupMessage(
+    String groupId,
+    String email,
+    String message,
+  ) async {
+    try {
+      final senderKeyName = await getSenderKeyName(groupId, email);
+      final groupSessionCipher = GroupCipher(senderKeyStore, senderKeyName);
+
+      final ciphertext = await groupSessionCipher.encrypt(
+        Uint8List.fromList(utf8.encode(message)),
+      );
+
+      return ciphertext;
+    } catch (e, stackTrace) {
+      print('Error encrypting group message: $e');
+      print(stackTrace);
+      return null;
+    }
+  }
+
+  Future<String?> decryptGroupMessage(
+      String groupId, String email, Uint8List cipherText) async {
+    try {
+      final senderKeyName = await getSenderKeyName(groupId, email);
+      final groupSessionCipher = GroupCipher(senderKeyStore, senderKeyName);
+
+      final plaintext = await groupSessionCipher.decrypt(cipherText);
+
+      return utf8.decode(plaintext);
+    } catch (e, stackTrace) {
+      print('Error decrypting group message: $e');
+      print(stackTrace);
+      return null;
+    }
+  }
+
+  // Future<bool> groupSessionExists(String groupId, String senderEmail) async {
+  //   final senderKeyName = await getSenderKeyName(groupId, senderEmail);
+  //   final senderKeyRecord = await senderKeyStore.loadSenderKey(senderKeyName);
+  //   return senderKeyRecord.serialize().isNotEmpty;
+  // }
 }

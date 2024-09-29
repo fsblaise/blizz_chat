@@ -11,7 +11,7 @@ export class KeysController {
   @UseGuards(AuthGuard)
   sharePublicKeys(@Body() publicKeys: CreateKeyDto, @Req() request: Request) : Promise<KeyDto> {
     const user = request['user'];
-    console.log('asd');
+    console.log('asd');    
     
     return this.keysService.create(publicKeys, user.email);
   }

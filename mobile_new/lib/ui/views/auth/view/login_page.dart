@@ -56,6 +56,7 @@ class _LoginPageState extends State<LoginPage> {
                   ),
                   AuthTextField(
                     obscure: false,
+                    keyboardType: TextInputType.emailAddress,
                     controller: _emailController,
                     onChanged: context.read<LoginFormCubit>().updateEmail,
                     errorText: state.emailError,

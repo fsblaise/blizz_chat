@@ -34,18 +34,20 @@ class MessagingCubit extends Cubit<MessagingState> {
   void disconnect() {
     messagingRepository!.disconnect();
     messagingRepository = null;
+    _listenersActive = false;
   }
 
   // The Message that we send has an array of recipients,
   // While the Message we save is joined string of recipients
   // Locally we only need the to field, to determine if the message is for us
-  Future<void> sendMessage(MessageDto message) async {
+  void sendMessage(MessageDto message) {
     if (state is MessagingFetched) {
       final currentState = state as MessagingFetched;
 
+      // removed awaits, because we don't use their values
       messagingRepository!.sendMessage(message);
       final newMessage = convertDtoToMessage(message);
-      await messagingRepository!.saveMessage(newMessage);
+      messagingRepository!.saveMessage(newMessage);
 
       if (newMessage.chatId == currentState.chatId) {
         final updatedMessages = List<Message>.from(currentState.messages)
@@ -85,27 +87,98 @@ class MessagingCubit extends Cubit<MessagingState> {
     try {
       final messages = await messagingRepository!.fetchMessages(chat!.id);
 
-      final remoteUserEmail = chat.participants
-          .firstWhere((participant) => participant.email != userEmail)
-          .email;
+      for (final participant in chat.participants) {
+        if (participant.email != userEmail) {
+          final remoteUserEmail = participant.email;
+          final remoteAddress = SignalProtocolAddress(remoteUserEmail, 1);
 
-      final remoteAddress = SignalProtocolAddress(remoteUserEmail, 1);
+          print('Checking if session exists for $remoteUserEmail');
 
-      print('Checking if session exists for $remoteUserEmail');
+          final sessionExists = await messagingRepository!
+              .libsignalService.sessionStore
+              .containsSession(remoteAddress);
 
-      final sessionExists = await messagingRepository!
-          .libsignalService.sessionStore
-          .containsSession(remoteAddress);
+          print('Session exists: $sessionExists');
 
-      print('Session exists: $sessionExists');
+          if (!sessionExists) {
+            final keyDtos =
+                await KeysRepository.fetchPublicKeys([remoteUserEmail]);
 
-      if (!sessionExists) {
-        final keyDtos = await KeysRepository.fetchPublicKeys([remoteUserEmail]);
+            if (keyDtos.isEmpty) {
+              print('No keys found for $remoteUserEmail');
+              continue;
+            }
+            // print('Received keys: ${keyDtos.first}');
 
-        print('Received keys: ${keyDtos.first}');
+            await messagingRepository!.libsignalService.createSession(
+                remoteUserEmail, KeysDto.toLibsignal(keyDtos.first));
+          }
+        }
+      }
 
-        await messagingRepository!.libsignalService
-            .createSession(remoteUserEmail, KeysDto.toLibsignal(keyDtos.first));
+      if (chat.participants.length > 2) {
+        final groupId = chat.id;
+        var participantSessionExists = false;
+
+        // We iterate through the participants (excl. user)
+        // And check if a group session exists with the participant as sender
+        final participantEmails = chat.participants
+            .where((participant) => participant.email != userEmail)
+            .map((participant) => participant.email)
+            .toList();
+        for (final email in participantEmails) {
+          print('Checking if group exist with the sender being: $email');
+
+          final exists = await messagingRepository!.libsignalService
+              .groupSessionExists(groupId, email);
+          if (exists) {
+            participantSessionExists = true;
+            break;
+          }
+        }
+
+        print('Participant session exists: $participantSessionExists');
+
+        if (!participantSessionExists) {
+          // If no group session exists for a participant, we check if the user has one
+          final exists = await messagingRepository!.libsignalService
+              .groupSessionExists(groupId, userEmail!);
+
+          if (exists) {
+            print('Group session exists: $exists');
+            print(
+                'Creating group session, groupId: $groupId, userEmail: $userEmail');
+            await messagingRepository!.libsignalService.createGroupSession(
+              groupId,
+              userEmail,
+              (groupId, distributionMessage) async {
+                final recipients = chat.participants
+                    .where((participant) => participant.email != userEmail)
+                    .map((participant) => participant.email)
+                    .toList();
+
+                if (recipients.isNotEmpty) {
+                  final messageType = distributionMessage.getType();
+                  print('MessageType: $messageType');
+                  print(
+                    'SerializedMessage: ${distributionMessage.serialize()}',
+                  );
+                  // send message to server
+                  final shareDistributionKeyDto = ShareDistributionKeyDto(
+                    to: recipients,
+                    groupId: groupId,
+                    senderEmail: userEmail,
+                    key: distributionMessage.serialize(),
+                    messageType: messageType,
+                  );
+                  // no need for await, since we don't rely on the response
+                  await messagingRepository!
+                      .sendDistributionKey(shareDistributionKeyDto);
+                }
+              },
+            );
+          }
+        }
       }
 
       emit(MessagingFetched(messages: sortMessages(messages), chatId: chat.id));
@@ -120,8 +193,15 @@ class MessagingCubit extends Cubit<MessagingState> {
     if (!_listenersActive) {
       _listenForMessages();
       _listenForStatus();
+      _listenForDistributionKeys();
       _listenersActive = true;
     }
+  }
+
+  void _listenForDistributionKeys() {
+    messagingRepository!.listenForDistributionKeys((keyDto) {
+      print(keyDto);
+    });
   }
 
   void _listenForMessages() {

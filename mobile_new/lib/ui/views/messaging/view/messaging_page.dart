@@ -126,7 +126,7 @@ class _MessagingPageState extends State<MessagingPage> {
         children: [
           IconButton(
             onPressed: () {
-              context.router.back();
+              context.router.popForced();
             },
             icon: const Icon(Icons.arrow_back),
           ),

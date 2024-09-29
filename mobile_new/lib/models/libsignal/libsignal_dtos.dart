@@ -1,8 +1,8 @@
 // ignore_for_file: invalid_annotation_target
 
-import 'dart:convert';
 import 'dart:typed_data';
 
+import 'package:blizz_chat/models/libsignal/libsignal_utils.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:libsignal_protocol_dart/libsignal_protocol_dart.dart';
 part 'libsignal_dtos.freezed.dart';
@@ -88,14 +88,32 @@ class KeysDto with _$KeysDto {
   }
 }
 
-Uint8List uint8ListFromJson(Map<String, dynamic> json) =>
-    Uint8List.fromList(List<int>.from(json['data']));
+@freezed
+class ShareDistributionKeyDto with _$ShareDistributionKeyDto {
+  const factory ShareDistributionKeyDto({
+    @JsonKey(fromJson: uint8ListFromJsonWs, toJson: uint8ListToJsonWs)
+    required Uint8List key,
+    required String senderEmail,
+    required String groupId,
+    required int messageType,
+    required List<String> to,
+  }) = _ShareDistributionKeyDto;
 
-Map<String, dynamic> uint8ListToJson(Uint8List data) =>
-    {'type': 'Buffer', 'data': data};
+  factory ShareDistributionKeyDto.fromJson(Map<String, dynamic> json) =>
+      _$ShareDistributionKeyDtoFromJson(json);
+}
 
-List<Uint8List> uint8ListListFromJson(List<dynamic> json) =>
-    json.map((e) => uint8ListFromJson(e as Map<String, dynamic>)).toList();
+@freezed
+class DistributionKeyDto with _$DistributionKeyDto {
+  const factory DistributionKeyDto({
+    @JsonKey(fromJson: uint8ListFromJsonWs, toJson: uint8ListToJsonWs)
+    required Uint8List key,
+    required String senderEmail,
+    required String groupId,
+    required int messageType,
+    required String to,
+  }) = _DistributionKeyDto;
 
-List<Map<String, dynamic>> uint8ListListToJson(List<Uint8List> data) =>
-    data.map((e) => uint8ListToJson(e)).toList();
+  factory DistributionKeyDto.fromJson(Map<String, dynamic> json) =>
+      _$DistributionKeyDtoFromJson(json);
+}

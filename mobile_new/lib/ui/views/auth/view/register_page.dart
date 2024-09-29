@@ -182,6 +182,7 @@ class StepOne extends StatelessWidget {
             AuthTextField(
               obscure: false,
               controller: emailController,
+              keyboardType: TextInputType.emailAddress,
               onChanged: context.read<RegisterFormCubit>().updateEmail,
               errorText: state.emailError,
               icon: const Icon(Icons.email),

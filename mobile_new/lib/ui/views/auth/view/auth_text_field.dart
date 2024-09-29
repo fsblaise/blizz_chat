@@ -5,6 +5,7 @@ class AuthTextField extends StatelessWidget {
     required this.icon,
     required this.hint,
     required this.obscure,
+    this.keyboardType,
     required this.errorText,
     required this.onChanged,
     required this.controller,
@@ -14,6 +15,7 @@ class AuthTextField extends StatelessWidget {
   final Icon icon;
   final String hint;
   final bool obscure;
+  final TextInputType? keyboardType;
   final String? errorText;
   final ValueChanged<String>? onChanged;
 
@@ -30,6 +32,7 @@ class AuthTextField extends StatelessWidget {
             padding: const EdgeInsets.all(8),
             child: TextFormField(
               obscureText: obscure,
+              keyboardType: keyboardType,
               onChanged: onChanged,
               controller: controller,
               decoration: InputDecoration(

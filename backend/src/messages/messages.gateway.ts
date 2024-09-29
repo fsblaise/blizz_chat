@@ -14,7 +14,7 @@ import { from, map, Observable, timestamp } from 'rxjs';
 import { JwtService } from '@nestjs/jwt';
 import { OnlineUsersService } from './online_users.service';
 import { AuthGuard } from 'src/shared/guards/auth.guard';
-import { Status } from './dto/status.dto';
+import { CreateDistributionKeyDto } from './dto/distribution-key.dto';
 
 @WebSocketGateway({ cors: { origin: '*', }, transports: ['websocket'], })
 export class MessagesGateway {
@@ -44,6 +44,8 @@ export class MessagesGateway {
       this.broadcastStatus(email, 'online');
       // sync messages
       await this.sendOfflineMessages(email, client.id);
+      // sync distribution keys
+      await this.sendOfflineDistributionKeys(email, client.id);
     } catch (error) {
       client.disconnect(true);
       throw new WsException('Invalid token');
@@ -71,30 +73,6 @@ export class MessagesGateway {
       client.disconnect(true);
     }
   }
-
-  // @SubscribeMessage('status')
-  // async status(@MessageBody() status: Status, @ConnectedSocket() client: Socket) {
-  //   try {
-  //     const token = AuthGuard.extractTokenFromHeader(client.handshake.headers.authorization);
-
-  //     if (!token) {
-  //       throw new WsException('Invalid token');
-  //     }
-
-  //     const user = this.jwtService.verify(token);
-
-  //     console.log(user);
-  //     console.log(status);
-
-  //     if (user.email !== status.email) {
-  //       throw new WsException('Unauthorized');
-  //     }
-
-  //     return this.onlineUsersService.isUserOnline(email);
-  //   } catch (error) {
-  //     throw new WsException('Invalid token');
-  //   }
-  // }
 
   @SubscribeMessage('createMessage')
   async create(@MessageBody() createMessageDto: CreateMessageDto) {
@@ -128,6 +106,36 @@ export class MessagesGateway {
     });
   }
 
+  @SubscribeMessage('createDistributionKey')
+  async createDistributionKey(@MessageBody() createDistributionKeyDto: CreateDistributionKeyDto) {
+    console.log(createDistributionKeyDto);
+    try {
+      createDistributionKeyDto.to.forEach(async recipientEmail => {
+        const recipientSocketId = this.onlineUsersService.getUserSocketId(recipientEmail);
+        if (recipientSocketId) {
+          this.server.to(recipientSocketId).emit('receiveDistributionKey', {
+            key: createDistributionKeyDto.key,
+            senderEmail: createDistributionKeyDto.senderEmail,
+            groupId: createDistributionKeyDto.groupId,
+            messageType: createDistributionKeyDto.messageType,
+            to: recipientEmail
+          });
+        } else {
+          // Add message to queue if recipient is offline
+          await this.messagesService.createDistributionKey(
+            createDistributionKeyDto.key,
+            createDistributionKeyDto.senderEmail,
+            createDistributionKeyDto.groupId,
+            createDistributionKeyDto.messageType,
+            recipientEmail
+          );
+        }
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
   // Not sure about these functions
 
   // @SubscribeMessage('findAllMessages')
@@ -146,6 +154,8 @@ export class MessagesGateway {
   // }
 
   private async sendOfflineMessages(email: string, socketId: string) {
+    console.log('sendOfflineMessages');
+    
     const messages = await this.messagesService.findMessagesForUser(email);
     messages.forEach(async message => {
       this.server.to(socketId).emit('receiveMessage', {
@@ -157,6 +167,22 @@ export class MessagesGateway {
         chatId: message.chatId
       });
       await this.messagesService.remove(message._id);
+    });
+  }
+
+  private async sendOfflineDistributionKeys(email: string, socketId: string) {
+    console.log('sendOfflineDistributionKeys');
+    
+    const distributionKeys = await this.messagesService.findDistributionKeysForUser(email);
+    distributionKeys.forEach(async distributionKey => {
+      this.server.to(socketId).emit('receiveDistributionKey', {
+        to: distributionKey.to,
+        key: distributionKey.key,
+        messageType: distributionKey.messageType,
+        senderEmail: distributionKey.senderEmail,
+        groupId: distributionKey.groupId
+      });
+      await this.messagesService.removeDistributionKey(distributionKey);
     });
   }
 

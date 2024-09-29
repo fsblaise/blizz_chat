@@ -67,6 +67,31 @@ class MessagingRepository {
     });
   }
 
+  void listenForDistributionKeys(
+      void Function(DistributionKeyDto) onDistributionKey) {
+    print('listening for distro keys');
+    _socket?.on('receiveDistributionKey', (data) async {
+      try {
+        print('received distro key');
+        print(data);
+        print(data.runtimeType);
+        final distributionKeyDto =
+            DistributionKeyDto.fromJson(data as Map<String, dynamic>);
+        print(distributionKeyDto);
+        await libsignalService.registerGroupSession(
+          distributionKeyDto.groupId,
+          distributionKeyDto.senderEmail,
+          distributionKeyDto.key,
+          distributionKeyDto.messageType,
+        );
+        onDistributionKey(distributionKeyDto);
+      } catch (e, stackTrace) {
+        print('Error parsing distributionKey data: $e');
+        print(stackTrace);
+      }
+    });
+  }
+
   void listenForStatus(void Function(UserStatusDto?) onStatus) {
     _socket?.on('userStatus', (data) {
       try {
@@ -82,21 +107,37 @@ class MessagingRepository {
   }
 
   Future<void> sendMessage(MessageDto message) async {
-    // lets pretend group chats do not exist
-    final encryptedMessage = await libsignalService.encryptMessage(
-      message.to[0],
-      message.message,
-    );
+    if (message.to.length == 1) {
+      // lets pretend group chats do not exist
+      final encryptedMessage = await libsignalService.encryptMessage(
+        message.to[0],
+        message.message,
+      );
 
-    final messageType = encryptedMessage.getType();
-    final serializedMessage = base64Encode(encryptedMessage.serialize());
+      final messageType = encryptedMessage.getType();
+      final serializedMessage = base64Encode(encryptedMessage.serialize());
 
-    final messageToSend = message.copyWith(
-      message: serializedMessage,
-      messageType: messageType,
-    );
-    print('messageToSend: ${messageToSend.toJson()}');
-    _socket?.emit('createMessage', messageToSend.toJson());
+      final messageToSend = message.copyWith(
+        message: serializedMessage,
+        messageType: messageType,
+      );
+      print('messageToSend: ${messageToSend.toJson()}');
+      _socket?.emit('createMessage', messageToSend.toJson());
+    } else {
+      final encryptedMessage = await libsignalService.encryptGroupMessage(
+        message.chatId,
+        message.from,
+        message.message,
+      );
+
+      final serializedMessage = base64Encode(encryptedMessage!);
+    }
+  }
+
+  Future<void> sendDistributionKey(
+      ShareDistributionKeyDto shareDistributionKeyDto) async {
+    print('Sending distribution key');
+    _socket?.emit('createDistributionKey', shareDistributionKeyDto.toJson());
   }
 
   void disconnect() {
