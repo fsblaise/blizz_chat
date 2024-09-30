@@ -13,7 +13,7 @@ abstract class ChatsService extends ChopperService {
   @Get(
     path: '/{id}',
   )
-  Future<Response<dynamic>> findOne();
+  Future<Response<dynamic>> findOne(@Path('id') String chatId);
 
   @Patch(
     path: '/{id}',

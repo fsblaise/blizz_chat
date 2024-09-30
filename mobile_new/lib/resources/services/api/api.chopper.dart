@@ -104,8 +104,8 @@ final class _$ChatsService extends ChatsService {
   }
 
   @override
-  Future<Response<dynamic>> findOne() {
-    final Uri $url = Uri.parse('/chats/{id}');
+  Future<Response<dynamic>> findOne(String chatId) {
+    final Uri $url = Uri.parse('/chats/${chatId}');
     final Request $request = Request(
       'GET',
       $url,
