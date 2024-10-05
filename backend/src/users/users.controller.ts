@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, Query, UseGuards, Req } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, Query, UseGuards, Req, UseInterceptors, UploadedFile } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
@@ -6,6 +6,27 @@ import { SignInUserDto, AuthResponseDto } from './dto/sign-in-user.dto';
 import { UserDto, UserProfileDto } from './dto/user.dto';
 import { AuthGuard } from 'src/shared/guards/auth.guard';
 import { CreateContactDto, UpdateContactDto } from './dto/contact-dtos';
+import { diskStorage } from 'multer';
+import { join } from 'path';
+import * as fs from 'fs';
+import { FileInterceptor } from '@nestjs/platform-express';
+import { Request } from 'express';
+
+const storage = diskStorage({
+  destination: (req, file, cb) => {
+    const dir = join(__dirname, '..', 'uploads/users');
+
+    if (!fs.existsSync(dir)) {
+      fs.mkdirSync(dir, { recursive: true });
+    }
+
+    cb(null, dir);
+  },
+  filename: (req, file, cb) => {
+    const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1e9);
+    cb(null, `${file.fieldname}-${uniqueSuffix}-${file.originalname}`);
+  },
+});
 
 @Controller('users')
 export class UsersController {
@@ -79,6 +100,14 @@ export class UsersController {
   updateContact(@Req() request: Request, @Body() updateContactDto: UpdateContactDto): Promise<UserProfileDto> {
     const user = request['user'];
     return this.usersService.updateContact(user.sub, updateContactDto);
+  }
+
+  @Patch('/image')
+  @UseGuards(AuthGuard)
+  @UseInterceptors(FileInterceptor('file', { storage }))
+  updateImage(@Req() request: Request, @UploadedFile() file: Express.Multer.File,): Promise<UserProfileDto> {
+    const user = request['user'];
+    return this.usersService.updateImage(user.sub, file, request);
   }
 
   @Delete()

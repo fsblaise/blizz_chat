@@ -1,24 +1,24 @@
 import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose";
-import { HydratedDocument, Types } from "mongoose";
+import { Document, HydratedDocument, Types } from "mongoose";
 
 export type StoryDocument = HydratedDocument<Story>;
 
 @Schema()
-export class Story {
+export class Story extends Document{
   @Prop()
   caption: string;
 
   @Prop({ required: true })
   extension: string;
 
-  @Prop({ required: true })
+  @Prop({ required: true, unique: true })
   imgUrl: string;
 
   @Prop({ required: true })
   timestamp: string;
 
-  @Prop({ type: Types.ObjectId, ref: 'User', required: true })
-  senderId: Types.ObjectId;
+  @Prop({ required: true })
+  email: string;
 }
 
 export const StorySchema = SchemaFactory.createForClass(Story);

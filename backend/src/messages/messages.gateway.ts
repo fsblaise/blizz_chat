@@ -10,7 +10,7 @@ import {
 import { MessagesService } from './messages.service';
 import { CreateMessageDto } from './dto/create-message.dto';
 import { Server, Socket } from 'socket.io';
-import { from, map, Observable, timestamp } from 'rxjs';
+import { from, map, Observable } from 'rxjs';
 import { JwtService } from '@nestjs/jwt';
 import { OnlineUsersService } from './online_users.service';
 import { AuthGuard } from 'src/shared/guards/auth.guard';
@@ -88,7 +88,7 @@ export class MessagesGateway {
           to: recipientEmail,
           message: createMessageDto.message,
           messageType: createMessageDto.messageType,
-          timestamp: createMessageDto.timestamp,
+          timestamp: new Date().toISOString(),
           chatId: createMessageDto.chatId
         });
       } else {
@@ -99,7 +99,7 @@ export class MessagesGateway {
           recipientEmail,
           createMessageDto.message,
           createMessageDto.messageType,
-          createMessageDto.timestamp,
+          new Date().toISOString(),
           createMessageDto.chatId,
         );
       }

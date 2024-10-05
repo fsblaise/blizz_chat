@@ -1,12 +1,13 @@
 export class StoryDto {
+  _id: string;
   caption: string;
   extension: string;
   imgUrl: string;
   timestamp: string;
-  sender: UserDto;
+  email: string;
 }
 
-export class UserDto {
-  fullName: string;
+export class CreateStoryDto {
+  caption: string;
   email: string;
 }

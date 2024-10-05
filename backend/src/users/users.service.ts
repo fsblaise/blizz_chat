@@ -10,6 +10,7 @@ import { JwtService } from '@nestjs/jwt';
 import { UserDto, UserProfileDto } from './dto/user.dto';
 import { CreateContactDto, UpdateContactDto } from './dto/contact-dtos';
 import { OnlineUsersService } from 'src/messages/online_users.service';
+import { Request } from 'express';
 
 @Injectable()
 export class UsersService {
@@ -118,6 +119,19 @@ export class UsersService {
       throw new Error('Contact not found');
     }
     entity.contacts[index] = { ...entity.contacts[index], ...updateContactDto };
+    await entity.save();
+    return this.convertEntityToProfileDto(entity);
+  }
+
+  async updateImage(userId: number, file: Express.Multer.File, request: Request): Promise<UserProfileDto> {
+    console.log('updateImage');
+    console.log(file);
+    const entity = await this.userModel.findById(userId).exec();
+    if (!entity) {
+      throw new NotFoundException('User not found');
+    }
+    const baseUrl = `${request.protocol}://${request.get('host')}`;
+    entity.profileUrl = `${baseUrl}/uploads/users/${file.filename}`;
     await entity.save();
     return this.convertEntityToProfileDto(entity);
   }

@@ -9,6 +9,8 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { KeysModule } from './keys/keys.module';
 import { CompaniesModule } from './companies/companies.module';
+import { ServeStaticModule } from '@nestjs/serve-static';
+import { join } from 'path';
 
 const ENV = process.env.NODE_ENV;
 
@@ -28,6 +30,10 @@ const ENV = process.env.NODE_ENV;
         };
       },
       inject: [ConfigService]
+    }),
+    ServeStaticModule.forRoot({
+      rootPath: join(__dirname, 'uploads'),
+      serveRoot: '/uploads/',
     }),
     UsersModule,
     ChatsModule,
