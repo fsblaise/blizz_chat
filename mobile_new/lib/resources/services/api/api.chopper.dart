@@ -316,3 +316,26 @@ final class _$UsersService extends UsersService {
     return client.send<dynamic, dynamic>($request);
   }
 }
+
+// coverage:ignore-file
+// ignore_for_file: type=lint
+final class _$CompaniesService extends CompaniesService {
+  _$CompaniesService([ChopperClient? client]) {
+    if (client == null) return;
+    this.client = client;
+  }
+
+  @override
+  final Type definitionType = CompaniesService;
+
+  @override
+  Future<Response<dynamic>> checkIfEmailInCompany(String email) {
+    final Uri $url = Uri.parse('/companies/init/${email}');
+    final Request $request = Request(
+      'GET',
+      $url,
+      client.baseUrl,
+    );
+    return client.send<dynamic, dynamic>($request);
+  }
+}

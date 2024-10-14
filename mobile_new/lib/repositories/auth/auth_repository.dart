@@ -21,6 +21,7 @@ class AuthRepository extends RepositoryInterface<AuthService> {
   static Future<AuthResponseDto?> getLoggedInUser() async {
     final token =
         getIt.get<SharedPreferencesService>().preferences!.getString('token');
+
     // We should not fetch the user from the sharedprefs.
     // final user =
     //     getIt.get<SharedPreferencesService>().preferences!.getString('user');

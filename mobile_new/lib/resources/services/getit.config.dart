@@ -15,6 +15,7 @@ import 'database/database_service.dart' as _i664;
 import 'dialogs/dialog_service.dart' as _i178;
 import 'libsignal/libsignal_service.dart' as _i1028;
 import 'preferences/preferences.dart' as _i774;
+import 'preferences/shared_preferences/session_manager.dart' as _i377;
 
 extension GetItInjectableX on _i174.GetIt {
 // initializes the registration of main-scope dependencies inside of GetIt
@@ -29,6 +30,10 @@ extension GetItInjectableX on _i174.GetIt {
     );
     await gh.singletonAsync<_i664.DatabaseService>(
       () => _i664.DatabaseService.initialize(),
+      preResolve: true,
+    );
+    await gh.singletonAsync<_i377.SessionManager>(
+      () => _i377.SessionManager.initialize(),
       preResolve: true,
     );
     await gh.singletonAsync<_i1028.LibsignalService>(

@@ -21,6 +21,12 @@ abstract class _$AppRouter extends RootStackRouter {
         child: const ChatsPage(),
       );
     },
+    CheckEmailRoute.name: (routeData) {
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: const CheckEmailPage(),
+      );
+    },
     CounterRoute.name: (routeData) {
       return AutoRoutePage<dynamic>(
         routeData: routeData,
@@ -98,6 +104,20 @@ class ChatsRoute extends PageRouteInfo<void> {
         );
 
   static const String name = 'ChatsRoute';
+
+  static const PageInfo<void> page = PageInfo<void>(name);
+}
+
+/// generated route for
+/// [CheckEmailPage]
+class CheckEmailRoute extends PageRouteInfo<void> {
+  const CheckEmailRoute({List<PageRouteInfo>? children})
+      : super(
+          CheckEmailRoute.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'CheckEmailRoute';
 
   static const PageInfo<void> page = PageInfo<void>(name);
 }

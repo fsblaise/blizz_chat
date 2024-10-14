@@ -121,7 +121,7 @@ class DialogService {
       SheetButton(
         onTap: () async {
           final state = context.read<AuthCubit>().state as AuthAuthenticated;
-          print(state.token);
+          print(state.userSession.token);
         },
         iconData: Icons.settings,
         text: 'Fetch Token (DEV)',

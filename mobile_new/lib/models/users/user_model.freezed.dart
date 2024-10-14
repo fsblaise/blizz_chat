@@ -1383,3 +1383,441 @@ abstract class _Contact implements Contact {
   _$$ContactImplCopyWith<_$ContactImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
+
+UserSession _$UserSessionFromJson(Map<String, dynamic> json) {
+  return _UserSession.fromJson(json);
+}
+
+/// @nodoc
+mixin _$UserSession {
+  String get token => throw _privateConstructorUsedError;
+  String get apiUrl => throw _privateConstructorUsedError;
+  UserProfile get user => throw _privateConstructorUsedError;
+
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  @JsonKey(ignore: true)
+  $UserSessionCopyWith<UserSession> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $UserSessionCopyWith<$Res> {
+  factory $UserSessionCopyWith(
+          UserSession value, $Res Function(UserSession) then) =
+      _$UserSessionCopyWithImpl<$Res, UserSession>;
+  @useResult
+  $Res call({String token, String apiUrl, UserProfile user});
+
+  $UserProfileCopyWith<$Res> get user;
+}
+
+/// @nodoc
+class _$UserSessionCopyWithImpl<$Res, $Val extends UserSession>
+    implements $UserSessionCopyWith<$Res> {
+  _$UserSessionCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? token = null,
+    Object? apiUrl = null,
+    Object? user = null,
+  }) {
+    return _then(_value.copyWith(
+      token: null == token
+          ? _value.token
+          : token // ignore: cast_nullable_to_non_nullable
+              as String,
+      apiUrl: null == apiUrl
+          ? _value.apiUrl
+          : apiUrl // ignore: cast_nullable_to_non_nullable
+              as String,
+      user: null == user
+          ? _value.user
+          : user // ignore: cast_nullable_to_non_nullable
+              as UserProfile,
+    ) as $Val);
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $UserProfileCopyWith<$Res> get user {
+    return $UserProfileCopyWith<$Res>(_value.user, (value) {
+      return _then(_value.copyWith(user: value) as $Val);
+    });
+  }
+}
+
+/// @nodoc
+abstract class _$$UserSessionImplCopyWith<$Res>
+    implements $UserSessionCopyWith<$Res> {
+  factory _$$UserSessionImplCopyWith(
+          _$UserSessionImpl value, $Res Function(_$UserSessionImpl) then) =
+      __$$UserSessionImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call({String token, String apiUrl, UserProfile user});
+
+  @override
+  $UserProfileCopyWith<$Res> get user;
+}
+
+/// @nodoc
+class __$$UserSessionImplCopyWithImpl<$Res>
+    extends _$UserSessionCopyWithImpl<$Res, _$UserSessionImpl>
+    implements _$$UserSessionImplCopyWith<$Res> {
+  __$$UserSessionImplCopyWithImpl(
+      _$UserSessionImpl _value, $Res Function(_$UserSessionImpl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? token = null,
+    Object? apiUrl = null,
+    Object? user = null,
+  }) {
+    return _then(_$UserSessionImpl(
+      token: null == token
+          ? _value.token
+          : token // ignore: cast_nullable_to_non_nullable
+              as String,
+      apiUrl: null == apiUrl
+          ? _value.apiUrl
+          : apiUrl // ignore: cast_nullable_to_non_nullable
+              as String,
+      user: null == user
+          ? _value.user
+          : user // ignore: cast_nullable_to_non_nullable
+              as UserProfile,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$UserSessionImpl implements _UserSession {
+  const _$UserSessionImpl(
+      {required this.token, required this.apiUrl, required this.user});
+
+  factory _$UserSessionImpl.fromJson(Map<String, dynamic> json) =>
+      _$$UserSessionImplFromJson(json);
+
+  @override
+  final String token;
+  @override
+  final String apiUrl;
+  @override
+  final UserProfile user;
+
+  @override
+  String toString() {
+    return 'UserSession(token: $token, apiUrl: $apiUrl, user: $user)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$UserSessionImpl &&
+            (identical(other.token, token) || other.token == token) &&
+            (identical(other.apiUrl, apiUrl) || other.apiUrl == apiUrl) &&
+            (identical(other.user, user) || other.user == user));
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode => Object.hash(runtimeType, token, apiUrl, user);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$UserSessionImplCopyWith<_$UserSessionImpl> get copyWith =>
+      __$$UserSessionImplCopyWithImpl<_$UserSessionImpl>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$UserSessionImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class _UserSession implements UserSession {
+  const factory _UserSession(
+      {required final String token,
+      required final String apiUrl,
+      required final UserProfile user}) = _$UserSessionImpl;
+
+  factory _UserSession.fromJson(Map<String, dynamic> json) =
+      _$UserSessionImpl.fromJson;
+
+  @override
+  String get token;
+  @override
+  String get apiUrl;
+  @override
+  UserProfile get user;
+  @override
+  @JsonKey(ignore: true)
+  _$$UserSessionImplCopyWith<_$UserSessionImpl> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+UserPrefsSession _$UserPrefsSessionFromJson(Map<String, dynamic> json) {
+  return _UserPrefsSession.fromJson(json);
+}
+
+/// @nodoc
+mixin _$UserPrefsSession {
+  String get email => throw _privateConstructorUsedError;
+  set email(String value) => throw _privateConstructorUsedError;
+  String get apiUrl => throw _privateConstructorUsedError;
+  set apiUrl(String value) => throw _privateConstructorUsedError;
+  String get companyName => throw _privateConstructorUsedError;
+  set companyName(String value) => throw _privateConstructorUsedError;
+  bool get isActive => throw _privateConstructorUsedError;
+  set isActive(bool value) => throw _privateConstructorUsedError;
+  String? get token => throw _privateConstructorUsedError;
+  set token(String? value) => throw _privateConstructorUsedError;
+  UserProfile? get user => throw _privateConstructorUsedError;
+  set user(UserProfile? value) => throw _privateConstructorUsedError;
+
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  @JsonKey(ignore: true)
+  $UserPrefsSessionCopyWith<UserPrefsSession> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $UserPrefsSessionCopyWith<$Res> {
+  factory $UserPrefsSessionCopyWith(
+          UserPrefsSession value, $Res Function(UserPrefsSession) then) =
+      _$UserPrefsSessionCopyWithImpl<$Res, UserPrefsSession>;
+  @useResult
+  $Res call(
+      {String email,
+      String apiUrl,
+      String companyName,
+      bool isActive,
+      String? token,
+      UserProfile? user});
+
+  $UserProfileCopyWith<$Res>? get user;
+}
+
+/// @nodoc
+class _$UserPrefsSessionCopyWithImpl<$Res, $Val extends UserPrefsSession>
+    implements $UserPrefsSessionCopyWith<$Res> {
+  _$UserPrefsSessionCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? email = null,
+    Object? apiUrl = null,
+    Object? companyName = null,
+    Object? isActive = null,
+    Object? token = freezed,
+    Object? user = freezed,
+  }) {
+    return _then(_value.copyWith(
+      email: null == email
+          ? _value.email
+          : email // ignore: cast_nullable_to_non_nullable
+              as String,
+      apiUrl: null == apiUrl
+          ? _value.apiUrl
+          : apiUrl // ignore: cast_nullable_to_non_nullable
+              as String,
+      companyName: null == companyName
+          ? _value.companyName
+          : companyName // ignore: cast_nullable_to_non_nullable
+              as String,
+      isActive: null == isActive
+          ? _value.isActive
+          : isActive // ignore: cast_nullable_to_non_nullable
+              as bool,
+      token: freezed == token
+          ? _value.token
+          : token // ignore: cast_nullable_to_non_nullable
+              as String?,
+      user: freezed == user
+          ? _value.user
+          : user // ignore: cast_nullable_to_non_nullable
+              as UserProfile?,
+    ) as $Val);
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $UserProfileCopyWith<$Res>? get user {
+    if (_value.user == null) {
+      return null;
+    }
+
+    return $UserProfileCopyWith<$Res>(_value.user!, (value) {
+      return _then(_value.copyWith(user: value) as $Val);
+    });
+  }
+}
+
+/// @nodoc
+abstract class _$$UserPrefsSessionImplCopyWith<$Res>
+    implements $UserPrefsSessionCopyWith<$Res> {
+  factory _$$UserPrefsSessionImplCopyWith(_$UserPrefsSessionImpl value,
+          $Res Function(_$UserPrefsSessionImpl) then) =
+      __$$UserPrefsSessionImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call(
+      {String email,
+      String apiUrl,
+      String companyName,
+      bool isActive,
+      String? token,
+      UserProfile? user});
+
+  @override
+  $UserProfileCopyWith<$Res>? get user;
+}
+
+/// @nodoc
+class __$$UserPrefsSessionImplCopyWithImpl<$Res>
+    extends _$UserPrefsSessionCopyWithImpl<$Res, _$UserPrefsSessionImpl>
+    implements _$$UserPrefsSessionImplCopyWith<$Res> {
+  __$$UserPrefsSessionImplCopyWithImpl(_$UserPrefsSessionImpl _value,
+      $Res Function(_$UserPrefsSessionImpl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? email = null,
+    Object? apiUrl = null,
+    Object? companyName = null,
+    Object? isActive = null,
+    Object? token = freezed,
+    Object? user = freezed,
+  }) {
+    return _then(_$UserPrefsSessionImpl(
+      email: null == email
+          ? _value.email
+          : email // ignore: cast_nullable_to_non_nullable
+              as String,
+      apiUrl: null == apiUrl
+          ? _value.apiUrl
+          : apiUrl // ignore: cast_nullable_to_non_nullable
+              as String,
+      companyName: null == companyName
+          ? _value.companyName
+          : companyName // ignore: cast_nullable_to_non_nullable
+              as String,
+      isActive: null == isActive
+          ? _value.isActive
+          : isActive // ignore: cast_nullable_to_non_nullable
+              as bool,
+      token: freezed == token
+          ? _value.token
+          : token // ignore: cast_nullable_to_non_nullable
+              as String?,
+      user: freezed == user
+          ? _value.user
+          : user // ignore: cast_nullable_to_non_nullable
+              as UserProfile?,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$UserPrefsSessionImpl implements _UserPrefsSession {
+  _$UserPrefsSessionImpl(
+      {required this.email,
+      required this.apiUrl,
+      required this.companyName,
+      required this.isActive,
+      this.token,
+      this.user});
+
+  factory _$UserPrefsSessionImpl.fromJson(Map<String, dynamic> json) =>
+      _$$UserPrefsSessionImplFromJson(json);
+
+  @override
+  String email;
+  @override
+  String apiUrl;
+  @override
+  String companyName;
+  @override
+  bool isActive;
+  @override
+  String? token;
+  @override
+  UserProfile? user;
+
+  @override
+  String toString() {
+    return 'UserPrefsSession(email: $email, apiUrl: $apiUrl, companyName: $companyName, isActive: $isActive, token: $token, user: $user)';
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$UserPrefsSessionImplCopyWith<_$UserPrefsSessionImpl> get copyWith =>
+      __$$UserPrefsSessionImplCopyWithImpl<_$UserPrefsSessionImpl>(
+          this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$UserPrefsSessionImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class _UserPrefsSession implements UserPrefsSession {
+  factory _UserPrefsSession(
+      {required String email,
+      required String apiUrl,
+      required String companyName,
+      required bool isActive,
+      String? token,
+      UserProfile? user}) = _$UserPrefsSessionImpl;
+
+  factory _UserPrefsSession.fromJson(Map<String, dynamic> json) =
+      _$UserPrefsSessionImpl.fromJson;
+
+  @override
+  String get email;
+  set email(String value);
+  @override
+  String get apiUrl;
+  set apiUrl(String value);
+  @override
+  String get companyName;
+  set companyName(String value);
+  @override
+  bool get isActive;
+  set isActive(bool value);
+  @override
+  String? get token;
+  set token(String? value);
+  @override
+  UserProfile? get user;
+  set user(UserProfile? value);
+  @override
+  @JsonKey(ignore: true)
+  _$$UserPrefsSessionImplCopyWith<_$UserPrefsSessionImpl> get copyWith =>
+      throw _privateConstructorUsedError;
+}

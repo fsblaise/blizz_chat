@@ -6,3 +6,4 @@ export 'libsignal/libsignal_dtos.dart';
 export 'stories/story_model.dart';
 export 'users/user_dtos.dart';
 export 'users/user_model.dart';
+export 'companies/company_model.dart';
