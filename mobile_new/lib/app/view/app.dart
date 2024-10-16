@@ -2,6 +2,7 @@ import 'package:blizz_chat/l10n/l10n.dart';
 import 'package:blizz_chat/repositories/repositories.dart';
 import 'package:blizz_chat/resources/routes/app_router.dart';
 import 'package:blizz_chat/ui/ui.dart';
+import 'package:blizz_chat/ui/views/auth/cubit/check/check_form_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -13,6 +14,7 @@ class App extends StatelessWidget {
     final appRouter = AppRouter();
     return MultiBlocProvider(
       providers: [
+        BlocProvider(create: (_) => CheckFormCubit()),
         BlocProvider(create: (_) => AuthCubit()),
         BlocProvider(create: (_) => LoginFormCubit()),
         BlocProvider(create: (_) => RegisterFormCubit()),

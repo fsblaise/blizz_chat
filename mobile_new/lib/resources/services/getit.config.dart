@@ -32,6 +32,10 @@ extension GetItInjectableX on _i174.GetIt {
       () => _i664.DatabaseService.initialize(),
       preResolve: true,
     );
+    await gh.singletonAsync<_i774.SharedPreferencesService>(
+      () => _i774.SharedPreferencesService.init(),
+      preResolve: true,
+    );
     await gh.singletonAsync<_i377.SessionManager>(
       () => _i377.SessionManager.initialize(),
       preResolve: true,
@@ -42,10 +46,6 @@ extension GetItInjectableX on _i174.GetIt {
     );
     await gh.singletonAsync<_i178.DialogService>(
       () => _i178.DialogService.initialize(),
-      preResolve: true,
-    );
-    await gh.lazySingletonAsync<_i774.SharedPreferencesService>(
-      () => _i774.SharedPreferencesService.init(),
       preResolve: true,
     );
     return this;

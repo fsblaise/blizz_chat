@@ -15,7 +15,7 @@ class AuthCubit extends Cubit<AuthState> {
     final authData = await AuthRepository.getLoggedInUser();
     final apiUrl = CompaniesRepository.getApiUrl();
     emit(
-      authData != null && apiUrl != null
+      authData != null
           ? AuthState.authenticated(
               userSession: UserSession(
               apiUrl: apiUrl,

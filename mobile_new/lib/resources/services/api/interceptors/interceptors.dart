@@ -33,8 +33,8 @@ class TokenInterceptor implements Interceptor {
   FutureOr<Response<BodyType>> intercept<BodyType>(
     Chain<BodyType> chain,
   ) async {
-    final token =
-        getIt.get<SharedPreferencesService>().preferences!.getString('token');
+    final token = getIt.get<SessionManager>().getCurrentSession()?.token;
+    print(token);
 
     if (token == null) {
       return chain.proceed(chain.request);

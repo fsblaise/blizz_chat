@@ -77,7 +77,7 @@ class _WelcomePageState extends State<WelcomePage> {
             children: [
               OutlinedButton(
                 onPressed: () {
-                  context.router.push(const LoginRoute());
+                  context.router.push(CheckEmailRoute());
                 },
                 style: const ButtonStyle(
                   minimumSize: WidgetStatePropertyAll(Size(120, 40)),

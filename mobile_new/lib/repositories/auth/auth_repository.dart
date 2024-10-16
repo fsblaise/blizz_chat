@@ -19,8 +19,7 @@ class AuthRepository extends RepositoryInterface<AuthService> {
   }
 
   static Future<AuthResponseDto?> getLoggedInUser() async {
-    final token =
-        getIt.get<SharedPreferencesService>().preferences!.getString('token');
+    final token = getIt.get<SessionManager>().getCurrentSession()?.token;
 
     // We should not fetch the user from the sharedprefs.
     // final user =
@@ -43,8 +42,7 @@ class AuthRepository extends RepositoryInterface<AuthService> {
 
   static Future<void> signOut() async {
     // TODO: implement
-    await getIt.get<SharedPreferencesService>().preferences!.remove('token');
-    await getIt.get<SharedPreferencesService>().preferences!.remove('user');
+    await getIt.get<SessionManager>().signOut();
   }
 
   /// It processes the signInResponse from the backend.
@@ -59,13 +57,17 @@ class AuthRepository extends RepositoryInterface<AuthService> {
     final signInResponse = AuthResponseDto.fromJson(decodedResponse);
 
     await getIt
-        .get<SharedPreferencesService>()
-        .preferences!
-        .setString('token', signInResponse.token);
-    await getIt
-        .get<SharedPreferencesService>()
-        .preferences!
-        .setString('user', jsonEncode(signInResponse.user.toJson()));
+        .get<SessionManager>()
+        .handleAuth(signInResponse.token, signInResponse.user);
+
+    // await getIt
+    //     .get<SharedPreferencesService>()
+    //     .preferences!
+    //     .setString('token', signInResponse.token);
+    // await getIt
+    //     .get<SharedPreferencesService>()
+    //     .preferences!
+    //     .setString('user', jsonEncode(signInResponse.user.toJson()));
 
     return signInResponse;
   }

@@ -40,9 +40,14 @@ abstract class _$AppRouter extends RootStackRouter {
       );
     },
     LoginRoute.name: (routeData) {
+      final args = routeData.argsAs<LoginRouteArgs>(
+          orElse: () => const LoginRouteArgs());
       return AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: const LoginPage(),
+        child: LoginPage(
+          email: args.email,
+          key: args.key,
+        ),
       );
     },
     MapRoute.name: (routeData) {
@@ -68,9 +73,14 @@ abstract class _$AppRouter extends RootStackRouter {
       );
     },
     RegisterRoute.name: (routeData) {
+      final args = routeData.argsAs<RegisterRouteArgs>(
+          orElse: () => const RegisterRouteArgs());
       return AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: const RegisterPage(),
+        child: RegisterPage(
+          email: args.email,
+          key: args.key,
+        ),
       );
     },
     SettingsRoute.name: (routeData) {
@@ -152,16 +162,39 @@ class HomeRoute extends PageRouteInfo<void> {
 
 /// generated route for
 /// [LoginPage]
-class LoginRoute extends PageRouteInfo<void> {
-  const LoginRoute({List<PageRouteInfo>? children})
-      : super(
+class LoginRoute extends PageRouteInfo<LoginRouteArgs> {
+  LoginRoute({
+    String? email,
+    Key? key,
+    List<PageRouteInfo>? children,
+  }) : super(
           LoginRoute.name,
+          args: LoginRouteArgs(
+            email: email,
+            key: key,
+          ),
           initialChildren: children,
         );
 
   static const String name = 'LoginRoute';
 
-  static const PageInfo<void> page = PageInfo<void>(name);
+  static const PageInfo<LoginRouteArgs> page = PageInfo<LoginRouteArgs>(name);
+}
+
+class LoginRouteArgs {
+  const LoginRouteArgs({
+    this.email,
+    this.key,
+  });
+
+  final String? email;
+
+  final Key? key;
+
+  @override
+  String toString() {
+    return 'LoginRouteArgs{email: $email, key: $key}';
+  }
 }
 
 /// generated route for
@@ -227,16 +260,40 @@ class MessagingRouteArgs {
 
 /// generated route for
 /// [RegisterPage]
-class RegisterRoute extends PageRouteInfo<void> {
-  const RegisterRoute({List<PageRouteInfo>? children})
-      : super(
+class RegisterRoute extends PageRouteInfo<RegisterRouteArgs> {
+  RegisterRoute({
+    String? email,
+    Key? key,
+    List<PageRouteInfo>? children,
+  }) : super(
           RegisterRoute.name,
+          args: RegisterRouteArgs(
+            email: email,
+            key: key,
+          ),
           initialChildren: children,
         );
 
   static const String name = 'RegisterRoute';
 
-  static const PageInfo<void> page = PageInfo<void>(name);
+  static const PageInfo<RegisterRouteArgs> page =
+      PageInfo<RegisterRouteArgs>(name);
+}
+
+class RegisterRouteArgs {
+  const RegisterRouteArgs({
+    this.email,
+    this.key,
+  });
+
+  final String? email;
+
+  final Key? key;
+
+  @override
+  String toString() {
+    return 'RegisterRouteArgs{email: $email, key: $key}';
+  }
 }
 
 /// generated route for

@@ -32,7 +32,7 @@ class _HomePageState extends State<HomePage> {
         final tabsRouter = AutoTabsRouter.of(context);
 
         return PopScope(
-          onPopInvoked: (didPop) async {
+          onPopInvokedWithResult: (didPop, result) async {
             if (_prevPages.isNotEmpty) {
               setState(() {
                 _selectedPage = _prevPages.removeLast();

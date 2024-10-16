@@ -61,18 +61,32 @@ class SessionManager {
     await prefs.setString(_sessionsKey, jsonEncode(updatedSessions));
   }
 
-  Future<void> updateToken(String email, String apiUrl, String token) async {
-    final sessions = await getSessions() ?? [];
-    final updatedSessions = sessions.map((session) {
-      if (session.email == email && session.apiUrl == apiUrl) {
-        return session.copyWith(token: token);
-      }
-      return session;
-    }).toList();
-    await prefs.setString(_sessionsKey, jsonEncode(updatedSessions));
+  Future<void> handleAuth(String token, UserProfile user) async {
+    final currentSession = getCurrentSession();
+    if (currentSession != null && currentSession.email == user.email) {
+      // updating current session
+      final updatedCurrentSession =
+          currentSession.copyWith(token: token, user: user);
+      await prefs.setString(
+          _currentSession, jsonEncode(updatedCurrentSession.toJson()));
+
+      // updating the same session in the list
+      final sessions = await getSessions() ?? [];
+      final updatedSessions = sessions.map((session) {
+        if (session.email == user.email &&
+            session.apiUrl == currentSession.apiUrl) {
+          return session.copyWith(token: token, user: user);
+        }
+        return session;
+      }).toList();
+      await prefs.setString(_sessionsKey, jsonEncode(updatedSessions));
+    }
   }
 
-  Future<void> setActiveSession(String email, String apiUrl) async {
+  Future<void> setActiveSession(String email, {String? apiUrl}) async {
+    if (apiUrl == null) {
+      apiUrl = '${dotenv.env['API_URL']}';
+    }
     final sessions = await getSessions() ?? [];
     UserPrefsSession? activeSession;
 
@@ -102,5 +116,24 @@ class SessionManager {
       return UserPrefsSession.fromJson(decodedPref);
     }
     return null;
+  }
+
+  Future<void> signOut() async {
+    final currentSession = getCurrentSession();
+    if (currentSession != null) {
+      // Remove current session
+      await prefs.remove(_currentSession);
+
+      // Remove auth data from current session in list
+      final sessions = await getSessions() ?? [];
+      final updatedSessions = sessions.map((session) {
+        if (session.email == currentSession.email &&
+            session.apiUrl == currentSession.apiUrl) {
+          return session.copyWith(isActive: false, token: null, user: null);
+        }
+        return session;
+      }).toList();
+      await prefs.setString(_sessionsKey, jsonEncode(updatedSessions));
+    }
   }
 }

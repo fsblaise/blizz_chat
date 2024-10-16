@@ -8,6 +8,10 @@ final normalRoutes = [
     initial: true,
   ),
   AutoRoute(
+    page: CheckEmailRoute.page,
+    path: '/check-email',
+  ),
+  AutoRoute(
     page: LoginRoute.page,
     path: '/login',
   ),

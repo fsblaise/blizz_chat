@@ -10,9 +10,11 @@ class CompaniesRepository extends RepositoryInterface<CompaniesService> {
 
   static Future<Company?> checkIfEmailInCompany(String email) async {
     final response = await _singleton.service.checkIfEmailInCompany(email);
-    if (response.isSuccessful) {
+    if (response.isSuccessful && response.bodyString.isNotEmpty) {
       final decodedResponse =
           jsonDecode(response.bodyString) as Map<String, dynamic>;
+
+      print(decodedResponse);
 
       final company = Company.fromJson(decodedResponse);
 
@@ -20,9 +22,14 @@ class CompaniesRepository extends RepositoryInterface<CompaniesService> {
           .get<SessionManager>()
           .saveSession(email, apiUrl: company.apiUrl);
 
+      await getIt
+          .get<SessionManager>()
+          .setActiveSession(email, apiUrl: company.apiUrl);
+
       return company;
     } else {
       await getIt.get<SessionManager>().saveSession(email);
+      await getIt.get<SessionManager>().setActiveSession(email);
       return null;
     }
   }
@@ -30,6 +37,6 @@ class CompaniesRepository extends RepositoryInterface<CompaniesService> {
   static String getApiUrl() {
     final session = getIt.get<SessionManager>().getCurrentSession();
     // it should not fall to null, but who knows
-    return session != null ? session.apiUrl : '';
+    return session != null ? session.apiUrl : '${dotenv.env['API_URL']}';
   }
 }

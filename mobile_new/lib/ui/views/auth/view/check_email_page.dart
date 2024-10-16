@@ -39,7 +39,7 @@ class _CheckEmailPageState extends State<CheckEmailPage> {
   _checkEmail(String email) async {
     await context.read<CheckFormCubit>().checkEmail(email);
     // navigate to login
-    context.router.replace(const LoginRoute());
+    context.router.replace(LoginRoute(email: email));
   }
 
   @override
@@ -63,7 +63,7 @@ class _CheckEmailPageState extends State<CheckEmailPage> {
                 children: [
                   const Text(
                     'Please enter your email address',
-                    style: TextStyle(fontSize: 18),
+                    style: TextStyle(fontSize: 20),
                   ),
                   AuthTextField(
                     obscure: false,
@@ -75,7 +75,8 @@ class _CheckEmailPageState extends State<CheckEmailPage> {
                     hint: 'Email Address',
                   ),
                   ExpandedButton(
-                    onTap: state.isValid ? _checkEmail(state.email) : null,
+                    onTap:
+                        state.isValid ? () => _checkEmail(state.email) : null,
                     text: 'Sign In',
                   ),
                 ],
