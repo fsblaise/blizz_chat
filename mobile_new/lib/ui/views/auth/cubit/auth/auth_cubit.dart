@@ -1,5 +1,7 @@
 import 'package:blizz_chat/models/models.dart';
 import 'package:blizz_chat/repositories/repositories.dart';
+import 'package:blizz_chat/resources/services/preferences/shared_preferences/session_manager.dart';
+import 'package:blizz_chat/resources/services/services.dart';
 import 'package:bloc/bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
@@ -12,18 +14,24 @@ class AuthCubit extends Cubit<AuthState> {
   }
 
   Future<void> checkLoggedInUser() async {
-    final authData = await AuthRepository.getLoggedInUser();
-    final apiUrl = CompaniesRepository.getApiUrl();
-    emit(
-      authData != null
-          ? AuthState.authenticated(
-              userSession: UserSession(
-              apiUrl: apiUrl,
-              token: authData.token,
-              user: authData.user,
-            ))
-          : const AuthState.unauthenticated(),
-    );
+    try {
+      final authData = await AuthRepository.getLoggedInUser();
+      final apiUrl = CompaniesRepository.getApiUrl();
+      emit(
+        authData != null
+            ? AuthState.authenticated(
+                userSession: UserSession(
+                apiUrl: apiUrl,
+                token: authData.token,
+                user: authData.user,
+              ))
+            : const AuthState.unauthenticated(),
+      );
+    } catch (e) {
+      // api url is not available
+      getIt.get<SessionManager>().removeActiveSession();
+      emit(const AuthState.unauthenticated());
+    }
   }
 
   UserProfile? getCurrentUser() {
@@ -152,5 +160,21 @@ class AuthCubit extends Cubit<AuthState> {
       print(e);
       emit(currentState);
     }
+  }
+
+  Future<void> setCurrentUser(UserPrefsSession session) async {
+    emit(
+      AuthState.authenticated(
+        userSession: UserSession(
+          token: session.token!,
+          user: session.user!,
+          apiUrl: session.apiUrl,
+        ),
+      ),
+    );
+  }
+
+  Future<void> clearCurrentUser() async {
+    emit(const AuthState.unauthenticated());
   }
 }

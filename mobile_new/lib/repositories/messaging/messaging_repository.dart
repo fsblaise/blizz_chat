@@ -1,9 +1,5 @@
 part of '../repositories.dart';
 
-// websocket response handling and database save calls
-// ignore: non_constant_identifier_names
-String WS_URL = 'ws://${dotenv.env['API_URL']}:3000';
-
 class MessagingRepository {
   MessagingRepository();
 
@@ -17,6 +13,12 @@ class MessagingRepository {
   void connect(String token) {
     print(_socket);
     cleanUp();
+
+    final apiUrl = CompaniesRepository.getApiUrl();
+    final split = apiUrl.split('://');
+    final protocol = split[0] == 'https' ? 'wss' : 'ws';
+    final WS_URL = '$protocol://${split[1]}';
+
     // print(Uri.parse(WS_URL).toString());
     try {
       _socket = IO.io(

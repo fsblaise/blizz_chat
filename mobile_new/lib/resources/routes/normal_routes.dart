@@ -24,8 +24,8 @@ final normalRoutes = [
     path: '/counter',
   ),
   AutoRoute(
-    page: SettingsRoute.page,
-    path: '/settings',
+    page: ManageUsersRoute.page,
+    path: '/manage-users',
   ),
   AutoRoute(
     page: MessagingRoute.page,

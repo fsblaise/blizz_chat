@@ -32,7 +32,7 @@ class _HomePageState extends State<HomePage> {
         final tabsRouter = AutoTabsRouter.of(context);
 
         return PopScope(
-          onPopInvokedWithResult: (didPop, result) async {
+          onPopInvoked: (didPop) async {
             if (_prevPages.isNotEmpty) {
               setState(() {
                 _selectedPage = _prevPages.removeLast();
@@ -47,12 +47,18 @@ class _HomePageState extends State<HomePage> {
             appBar: AppBar(
               title: Text(['Chats', 'Stories', 'Maps'][tabsRouter.activeIndex]),
               automaticallyImplyLeading: false,
+              leading: IconButton(
+                onPressed: () {
+                  getIt.get<DialogService>().showSettingsSheetDialog(context);
+                },
+                icon: const Icon(Icons.more_vert),
+              ),
               actions: [
                 IconButton(
                   onPressed: () {
-                    getIt.get<DialogService>().showSettingsSheetDialog(context);
+                    getIt.get<DialogService>().showUserManageDialog(context);
                   },
-                  icon: const Icon(Icons.more_vert),
+                  icon: const Icon(Icons.person),
                 ),
               ],
             ),

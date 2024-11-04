@@ -50,6 +50,12 @@ abstract class _$AppRouter extends RootStackRouter {
         ),
       );
     },
+    ManageUsersRoute.name: (routeData) {
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: const ManageUsersPage(),
+      );
+    },
     MapRoute.name: (routeData) {
       return AutoRoutePage<dynamic>(
         routeData: routeData,
@@ -81,12 +87,6 @@ abstract class _$AppRouter extends RootStackRouter {
           email: args.email,
           key: args.key,
         ),
-      );
-    },
-    SettingsRoute.name: (routeData) {
-      return AutoRoutePage<dynamic>(
-        routeData: routeData,
-        child: const SettingsPage(),
       );
     },
     StoriesRoute.name: (routeData) {
@@ -198,6 +198,20 @@ class LoginRouteArgs {
 }
 
 /// generated route for
+/// [ManageUsersPage]
+class ManageUsersRoute extends PageRouteInfo<void> {
+  const ManageUsersRoute({List<PageRouteInfo>? children})
+      : super(
+          ManageUsersRoute.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'ManageUsersRoute';
+
+  static const PageInfo<void> page = PageInfo<void>(name);
+}
+
+/// generated route for
 /// [MapPage]
 class MapRoute extends PageRouteInfo<void> {
   const MapRoute({List<PageRouteInfo>? children})
@@ -294,20 +308,6 @@ class RegisterRouteArgs {
   String toString() {
     return 'RegisterRouteArgs{email: $email, key: $key}';
   }
-}
-
-/// generated route for
-/// [SettingsPage]
-class SettingsRoute extends PageRouteInfo<void> {
-  const SettingsRoute({List<PageRouteInfo>? children})
-      : super(
-          SettingsRoute.name,
-          initialChildren: children,
-        );
-
-  static const String name = 'SettingsRoute';
-
-  static const PageInfo<void> page = PageInfo<void>(name);
 }
 
 /// generated route for

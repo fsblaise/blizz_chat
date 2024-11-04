@@ -45,3 +45,20 @@ class TokenInterceptor implements Interceptor {
     }
   }
 }
+
+class UrlInterceptor implements Interceptor {
+  UrlInterceptor();
+
+  @override
+  FutureOr<Response<BodyType>> intercept<BodyType>(
+    Chain<BodyType> chain,
+  ) async {
+    final apiUrl = CompaniesRepository.getApiUrl();
+    print(apiUrl);
+
+    final request = chain.request.copyWith(
+      baseUri: Uri.parse(apiUrl),
+    );
+    return chain.proceed(request);
+  }
+}
