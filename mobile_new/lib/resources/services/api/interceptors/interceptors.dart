@@ -33,7 +33,9 @@ class TokenInterceptor implements Interceptor {
   FutureOr<Response<BodyType>> intercept<BodyType>(
     Chain<BodyType> chain,
   ) async {
-    final token = getIt.get<SessionManager>().getCurrentSession()?.token;
+    final session = getIt.get<SessionManager>().getCurrentSession();
+    print(jsonEncode(session?.toJson()));
+    final token = session?.token;
     print(token);
 
     if (token == null) {

@@ -1,7 +1,7 @@
 library api;
 
 import 'dart:async';
-import 'dart:io';
+import 'dart:convert';
 
 import 'package:blizz_chat/models/models.dart';
 import 'package:blizz_chat/models/stories/story_dtos.dart';
@@ -9,7 +9,6 @@ import 'package:blizz_chat/repositories/repositories.dart';
 import 'package:blizz_chat/resources/services/preferences/shared_preferences/session_manager.dart';
 import 'package:blizz_chat/resources/services/services.dart';
 import 'package:chopper/chopper.dart';
-import 'package:http/io_client.dart' as http;
 
 part 'auth/auth_service.dart';
 part 'chats/chats_service.dart';
@@ -25,10 +24,7 @@ final apiService = ChopperClient(
   baseUrl: Uri.parse(CompaniesRepository.getApiUrl()),
   services: [
     AuthService.create(
-      ChopperClient(
-        client: http.IOClient(
-            HttpClient()..connectionTimeout = const Duration(seconds: 15)),
-      ),
+      ChopperClient(),
     ),
     ChatsService.create(
       ChopperClient(),

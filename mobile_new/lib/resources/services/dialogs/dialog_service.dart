@@ -141,18 +141,45 @@ class DialogService {
               shrinkWrap: true,
               itemCount: sessions!.length,
               itemBuilder: (context, index) {
-                return ListTile(
-                  title: Text(sessions[index].user!.fullName),
-                  subtitle: Text(sessions[index].user!.email),
-                  onTap: !sessions[index].isActive
-                      ? () async {
-                          _changeUser(context, sessions[index]);
-                        }
-                      : null,
-                  leading: const Icon(Icons.person),
-                  trailing: sessions[index].isActive
-                      ? Icon(Icons.check, color: theme.primaryColor)
-                      : null,
+                bool isLoading = false;
+                return StatefulBuilder(
+                  builder: (context, setState) {
+                    return ListTile(
+                      title: Text(sessions[index].user!.fullName),
+                      subtitle: Text(sessions[index].user!.email),
+                      onTap: !sessions[index].isActive
+                          ? () async {
+                              setState(() {
+                                isLoading = true;
+                              });
+                              final response =
+                                  await _changeUser(context, sessions[index]);
+                              if (!response) {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  const SnackBar(
+                                    content: Text(
+                                      "This user's workspace (server) is not available!",
+                                    ),
+                                  ),
+                                );
+                              }
+                              setState(() {
+                                isLoading = false;
+                              });
+                            }
+                          : null,
+                      leading: const Icon(Icons.person),
+                      trailing: isLoading
+                          ? const SizedBox(
+                              width: 24,
+                              height: 24,
+                              child: CircularProgressIndicator(strokeWidth: 2),
+                            )
+                          : sessions[index].isActive
+                              ? Icon(Icons.check, color: theme.primaryColor)
+                              : null,
+                    );
+                  },
                 );
               },
             ),
@@ -272,7 +299,7 @@ class DialogService {
     }
   }
 
-  Future<void> _changeUser(
+  Future<bool> _changeUser(
     BuildContext context,
     UserPrefsSession session,
   ) async {
@@ -281,15 +308,24 @@ class DialogService {
     // don't sign out user
     // but replace authCubit
     // navigate to welcome
-    context.read<MessagingCubit>().disconnect();
-    await getIt.get<SessionManager>().setActiveSession(
-          session.email,
-          apiUrl: session.apiUrl,
-        );
-    await context.read<AuthCubit>().setCurrentUser(session);
-    WidgetsBinding.instance.addPostFrameCallback((_) async {
-      await context.router.replace(const WelcomeRoute());
-    });
+
+    // check if the url is available
+    final response =
+        await getIt.get<ConnectionService>().hello(baseUrl: session.apiUrl);
+
+    if (response) {
+      context.read<MessagingCubit>().disconnect();
+      await getIt.get<SessionManager>().setActiveSession(
+            session.email,
+            apiUrl: session.apiUrl,
+          );
+      await context.read<AuthCubit>().setCurrentUser(session);
+
+      WidgetsBinding.instance.addPostFrameCallback((_) async {
+        await context.router.replace(const WelcomeRoute());
+      });
+    }
+    return response;
   }
 
   Future<void> _addUser(BuildContext context) async {

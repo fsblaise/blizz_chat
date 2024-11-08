@@ -11,6 +11,7 @@
 import 'package:get_it/get_it.dart' as _i174;
 import 'package:injectable/injectable.dart' as _i526;
 
+import 'connection/connection_service.dart' as _i3;
 import 'database/database_service.dart' as _i664;
 import 'dialogs/dialog_service.dart' as _i178;
 import 'libsignal/libsignal_service.dart' as _i1028;
@@ -46,6 +47,10 @@ extension GetItInjectableX on _i174.GetIt {
     );
     await gh.singletonAsync<_i178.DialogService>(
       () => _i178.DialogService.initialize(),
+      preResolve: true,
+    );
+    await gh.singletonAsync<_i3.ConnectionService>(
+      () => _i3.ConnectionService.initialize(),
       preResolve: true,
     );
     return this;

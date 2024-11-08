@@ -20,10 +20,6 @@ final normalRoutes = [
     path: '/register',
   ),
   AutoRoute(
-    page: CounterRoute.page,
-    path: '/counter',
-  ),
-  AutoRoute(
     page: ManageUsersRoute.page,
     path: '/manage-users',
   ),

@@ -77,6 +77,7 @@ class SessionManager {
   /// Also updates the session in the session list (sharedpreferences).
   Future<void> handleAuth(String token, UserProfile user) async {
     final currentSession = getCurrentSession();
+    print(jsonEncode(currentSession?.toJson()));
     if (currentSession != null && currentSession.email == user.email) {
       // updating current session
       final updatedCurrentSession =

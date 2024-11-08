@@ -10,7 +10,25 @@ part 'auth_cubit.freezed.dart';
 
 class AuthCubit extends Cubit<AuthState> {
   AuthCubit() : super(const AuthState.initial()) {
+    hello(); // asd
     checkLoggedInUser();
+  }
+
+  Future<void> hello() async {
+    try {
+      final response = await getIt.get<ConnectionService>().hello();
+      if (response) {
+        print('hello');
+      } else {
+        // api url is not available
+        getIt.get<SessionManager>().removeActiveSession();
+        emit(const AuthState.unauthenticated());
+      }
+    } catch (e) {
+      // api url is not available
+      getIt.get<SessionManager>().removeActiveSession();
+      emit(const AuthState.unauthenticated());
+    }
   }
 
   Future<void> checkLoggedInUser() async {
@@ -28,8 +46,6 @@ class AuthCubit extends Cubit<AuthState> {
             : const AuthState.unauthenticated(),
       );
     } catch (e) {
-      // api url is not available
-      getIt.get<SessionManager>().removeActiveSession();
       emit(const AuthState.unauthenticated());
     }
   }
