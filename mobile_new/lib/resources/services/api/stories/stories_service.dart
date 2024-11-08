@@ -9,7 +9,7 @@ abstract class StoriesService extends ChopperService {
   Future<Response<dynamic>> createStory(@Body() CreateStoryDto body);
 
   @Get()
-  Future<Response<void>> findAll();
+  Future<Response<dynamic>> findAll();
 
   @Get(
     path: '/{id}',

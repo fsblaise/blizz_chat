@@ -205,14 +205,14 @@ final class _$StoriesService extends StoriesService {
   }
 
   @override
-  Future<Response<void>> findAll() {
+  Future<Response<dynamic>> findAll() {
     final Uri $url = Uri.parse('/stories');
     final Request $request = Request(
       'GET',
       $url,
       client.baseUrl,
     );
-    return client.send<void, void>($request);
+    return client.send<dynamic, dynamic>($request);
   }
 
   @override

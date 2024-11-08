@@ -19,6 +19,9 @@ export class Story extends Document{
 
   @Prop({ required: true })
   email: string;
+
+  @Prop({ required: true })
+  fullName: string;
 }
 
 export const StorySchema = SchemaFactory.createForClass(Story);

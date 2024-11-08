@@ -60,6 +60,7 @@ export class StoriesService {
       imgUrl: story.imgUrl,    
       timestamp: story.timestamp,
       email: story.email,
+      fullName: story.fullName,
     };
   }
 }
