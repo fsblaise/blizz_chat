@@ -32,6 +32,11 @@ const storage = diskStorage({
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
+  @Get('/hello')
+  hello(): string {
+    return 'Hello!';
+  }
+
   @Post('/signUp')
   create(@Body() createUserDto: CreateUserDto): Promise<AuthResponseDto> {
     return this.usersService.signUp(createUserDto);

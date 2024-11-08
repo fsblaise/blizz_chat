@@ -125,3 +125,41 @@ Map<String, dynamic> _$$ContactImplToJson(_$ContactImpl instance) =>
       'fullName': instance.fullName,
       'email': instance.email,
     };
+
+_$UserSessionImpl _$$UserSessionImplFromJson(Map<String, dynamic> json) =>
+    _$UserSessionImpl(
+      token: json['token'] as String,
+      apiUrl: json['apiUrl'] as String,
+      user: UserProfile.fromJson(json['user'] as Map<String, dynamic>),
+    );
+
+Map<String, dynamic> _$$UserSessionImplToJson(_$UserSessionImpl instance) =>
+    <String, dynamic>{
+      'token': instance.token,
+      'apiUrl': instance.apiUrl,
+      'user': instance.user,
+    };
+
+_$UserPrefsSessionImpl _$$UserPrefsSessionImplFromJson(
+        Map<String, dynamic> json) =>
+    _$UserPrefsSessionImpl(
+      email: json['email'] as String,
+      apiUrl: json['apiUrl'] as String,
+      companyName: json['companyName'] as String,
+      isActive: json['isActive'] as bool,
+      token: json['token'] as String?,
+      user: json['user'] == null
+          ? null
+          : UserProfile.fromJson(json['user'] as Map<String, dynamic>),
+    );
+
+Map<String, dynamic> _$$UserPrefsSessionImplToJson(
+        _$UserPrefsSessionImpl instance) =>
+    <String, dynamic>{
+      'email': instance.email,
+      'apiUrl': instance.apiUrl,
+      'companyName': instance.companyName,
+      'isActive': instance.isActive,
+      'token': instance.token,
+      'user': instance.user,
+    };

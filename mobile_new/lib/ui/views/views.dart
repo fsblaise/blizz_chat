@@ -1,4 +1,3 @@
-export 'counter/counter.dart';
 export 'auth/auth.dart';
 export 'chats/chats.dart';
 export 'home/home.dart';

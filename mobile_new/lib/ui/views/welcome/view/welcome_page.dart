@@ -38,7 +38,7 @@ class _WelcomePageState extends State<WelcomePage> {
 
   void _initWs(AuthAuthenticated state) {
     if (!hasInit) {
-      final token = state.token;
+      final token = state.userSession.token;
       print(token);
       _messagingCubit.connect(token);
       hasInit = true;
@@ -77,7 +77,7 @@ class _WelcomePageState extends State<WelcomePage> {
             children: [
               OutlinedButton(
                 onPressed: () {
-                  context.router.push(const LoginRoute());
+                  context.router.push(CheckEmailRoute());
                 },
                 style: const ButtonStyle(
                   minimumSize: WidgetStatePropertyAll(Size(120, 40)),
@@ -98,6 +98,7 @@ class _WelcomePageState extends State<WelcomePage> {
         // bloc: _authCubit,
         builder: (context, state) {
           if (state is AuthUnauthenticated) {
+            hasInit = false;
             return _renderWelcome();
           } else if (state is AuthAuthenticated) {
             context.router.replace(const HomeRoute());
@@ -106,7 +107,9 @@ class _WelcomePageState extends State<WelcomePage> {
           return const LoadingWidget();
         },
         listener: (context, state) {
-          if (state is AuthAuthenticated) {
+          if (state is AuthUnauthenticated) {
+            hasInit = false;
+          } else if (state is AuthAuthenticated) {
             context.router.replace(const HomeRoute());
             _initWs(state);
           }

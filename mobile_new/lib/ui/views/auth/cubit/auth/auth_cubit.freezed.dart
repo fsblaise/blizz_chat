@@ -21,7 +21,7 @@ mixin _$AuthState {
     required TResult Function() initial,
     required TResult Function() fetching,
     required TResult Function() unauthenticated,
-    required TResult Function(String token, UserProfile user) authenticated,
+    required TResult Function(UserSession userSession) authenticated,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -29,7 +29,7 @@ mixin _$AuthState {
     TResult? Function()? initial,
     TResult? Function()? fetching,
     TResult? Function()? unauthenticated,
-    TResult? Function(String token, UserProfile user)? authenticated,
+    TResult? Function(UserSession userSession)? authenticated,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -37,7 +37,7 @@ mixin _$AuthState {
     TResult Function()? initial,
     TResult Function()? fetching,
     TResult Function()? unauthenticated,
-    TResult Function(String token, UserProfile user)? authenticated,
+    TResult Function(UserSession userSession)? authenticated,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -126,7 +126,7 @@ class _$InitialImpl implements Initial {
     required TResult Function() initial,
     required TResult Function() fetching,
     required TResult Function() unauthenticated,
-    required TResult Function(String token, UserProfile user) authenticated,
+    required TResult Function(UserSession userSession) authenticated,
   }) {
     return initial();
   }
@@ -137,7 +137,7 @@ class _$InitialImpl implements Initial {
     TResult? Function()? initial,
     TResult? Function()? fetching,
     TResult? Function()? unauthenticated,
-    TResult? Function(String token, UserProfile user)? authenticated,
+    TResult? Function(UserSession userSession)? authenticated,
   }) {
     return initial?.call();
   }
@@ -148,7 +148,7 @@ class _$InitialImpl implements Initial {
     TResult Function()? initial,
     TResult Function()? fetching,
     TResult Function()? unauthenticated,
-    TResult Function(String token, UserProfile user)? authenticated,
+    TResult Function(UserSession userSession)? authenticated,
     required TResult orElse(),
   }) {
     if (initial != null) {
@@ -240,7 +240,7 @@ class _$FetchingImpl implements Fetching {
     required TResult Function() initial,
     required TResult Function() fetching,
     required TResult Function() unauthenticated,
-    required TResult Function(String token, UserProfile user) authenticated,
+    required TResult Function(UserSession userSession) authenticated,
   }) {
     return fetching();
   }
@@ -251,7 +251,7 @@ class _$FetchingImpl implements Fetching {
     TResult? Function()? initial,
     TResult? Function()? fetching,
     TResult? Function()? unauthenticated,
-    TResult? Function(String token, UserProfile user)? authenticated,
+    TResult? Function(UserSession userSession)? authenticated,
   }) {
     return fetching?.call();
   }
@@ -262,7 +262,7 @@ class _$FetchingImpl implements Fetching {
     TResult Function()? initial,
     TResult Function()? fetching,
     TResult Function()? unauthenticated,
-    TResult Function(String token, UserProfile user)? authenticated,
+    TResult Function(UserSession userSession)? authenticated,
     required TResult orElse(),
   }) {
     if (fetching != null) {
@@ -355,7 +355,7 @@ class _$AuthUnauthenticatedImpl implements AuthUnauthenticated {
     required TResult Function() initial,
     required TResult Function() fetching,
     required TResult Function() unauthenticated,
-    required TResult Function(String token, UserProfile user) authenticated,
+    required TResult Function(UserSession userSession) authenticated,
   }) {
     return unauthenticated();
   }
@@ -366,7 +366,7 @@ class _$AuthUnauthenticatedImpl implements AuthUnauthenticated {
     TResult? Function()? initial,
     TResult? Function()? fetching,
     TResult? Function()? unauthenticated,
-    TResult? Function(String token, UserProfile user)? authenticated,
+    TResult? Function(UserSession userSession)? authenticated,
   }) {
     return unauthenticated?.call();
   }
@@ -377,7 +377,7 @@ class _$AuthUnauthenticatedImpl implements AuthUnauthenticated {
     TResult Function()? initial,
     TResult Function()? fetching,
     TResult Function()? unauthenticated,
-    TResult Function(String token, UserProfile user)? authenticated,
+    TResult Function(UserSession userSession)? authenticated,
     required TResult orElse(),
   }) {
     if (unauthenticated != null) {
@@ -434,9 +434,9 @@ abstract class _$$AuthAuthenticatedImplCopyWith<$Res> {
           $Res Function(_$AuthAuthenticatedImpl) then) =
       __$$AuthAuthenticatedImplCopyWithImpl<$Res>;
   @useResult
-  $Res call({String token, UserProfile user});
+  $Res call({UserSession userSession});
 
-  $UserProfileCopyWith<$Res> get user;
+  $UserSessionCopyWith<$Res> get userSession;
 }
 
 /// @nodoc
@@ -450,26 +450,21 @@ class __$$AuthAuthenticatedImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? token = null,
-    Object? user = null,
+    Object? userSession = null,
   }) {
     return _then(_$AuthAuthenticatedImpl(
-      token: null == token
-          ? _value.token
-          : token // ignore: cast_nullable_to_non_nullable
-              as String,
-      user: null == user
-          ? _value.user
-          : user // ignore: cast_nullable_to_non_nullable
-              as UserProfile,
+      userSession: null == userSession
+          ? _value.userSession
+          : userSession // ignore: cast_nullable_to_non_nullable
+              as UserSession,
     ));
   }
 
   @override
   @pragma('vm:prefer-inline')
-  $UserProfileCopyWith<$Res> get user {
-    return $UserProfileCopyWith<$Res>(_value.user, (value) {
-      return _then(_value.copyWith(user: value));
+  $UserSessionCopyWith<$Res> get userSession {
+    return $UserSessionCopyWith<$Res>(_value.userSession, (value) {
+      return _then(_value.copyWith(userSession: value));
     });
   }
 }
@@ -477,16 +472,14 @@ class __$$AuthAuthenticatedImplCopyWithImpl<$Res>
 /// @nodoc
 
 class _$AuthAuthenticatedImpl implements AuthAuthenticated {
-  const _$AuthAuthenticatedImpl({required this.token, required this.user});
+  const _$AuthAuthenticatedImpl({required this.userSession});
 
   @override
-  final String token;
-  @override
-  final UserProfile user;
+  final UserSession userSession;
 
   @override
   String toString() {
-    return 'AuthState.authenticated(token: $token, user: $user)';
+    return 'AuthState.authenticated(userSession: $userSession)';
   }
 
   @override
@@ -494,12 +487,12 @@ class _$AuthAuthenticatedImpl implements AuthAuthenticated {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$AuthAuthenticatedImpl &&
-            (identical(other.token, token) || other.token == token) &&
-            (identical(other.user, user) || other.user == user));
+            (identical(other.userSession, userSession) ||
+                other.userSession == userSession));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, token, user);
+  int get hashCode => Object.hash(runtimeType, userSession);
 
   @JsonKey(ignore: true)
   @override
@@ -514,9 +507,9 @@ class _$AuthAuthenticatedImpl implements AuthAuthenticated {
     required TResult Function() initial,
     required TResult Function() fetching,
     required TResult Function() unauthenticated,
-    required TResult Function(String token, UserProfile user) authenticated,
+    required TResult Function(UserSession userSession) authenticated,
   }) {
-    return authenticated(token, user);
+    return authenticated(userSession);
   }
 
   @override
@@ -525,9 +518,9 @@ class _$AuthAuthenticatedImpl implements AuthAuthenticated {
     TResult? Function()? initial,
     TResult? Function()? fetching,
     TResult? Function()? unauthenticated,
-    TResult? Function(String token, UserProfile user)? authenticated,
+    TResult? Function(UserSession userSession)? authenticated,
   }) {
-    return authenticated?.call(token, user);
+    return authenticated?.call(userSession);
   }
 
   @override
@@ -536,11 +529,11 @@ class _$AuthAuthenticatedImpl implements AuthAuthenticated {
     TResult Function()? initial,
     TResult Function()? fetching,
     TResult Function()? unauthenticated,
-    TResult Function(String token, UserProfile user)? authenticated,
+    TResult Function(UserSession userSession)? authenticated,
     required TResult orElse(),
   }) {
     if (authenticated != null) {
-      return authenticated(token, user);
+      return authenticated(userSession);
     }
     return orElse();
   }
@@ -584,12 +577,10 @@ class _$AuthAuthenticatedImpl implements AuthAuthenticated {
 }
 
 abstract class AuthAuthenticated implements AuthState {
-  const factory AuthAuthenticated(
-      {required final String token,
-      required final UserProfile user}) = _$AuthAuthenticatedImpl;
+  const factory AuthAuthenticated({required final UserSession userSession}) =
+      _$AuthAuthenticatedImpl;
 
-  String get token;
-  UserProfile get user;
+  UserSession get userSession;
   @JsonKey(ignore: true)
   _$$AuthAuthenticatedImplCopyWith<_$AuthAuthenticatedImpl> get copyWith =>
       throw _privateConstructorUsedError;

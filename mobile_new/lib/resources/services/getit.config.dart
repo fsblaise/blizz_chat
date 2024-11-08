@@ -11,10 +11,12 @@
 import 'package:get_it/get_it.dart' as _i174;
 import 'package:injectable/injectable.dart' as _i526;
 
+import 'connection/connection_service.dart' as _i3;
 import 'database/database_service.dart' as _i664;
 import 'dialogs/dialog_service.dart' as _i178;
 import 'libsignal/libsignal_service.dart' as _i1028;
 import 'preferences/preferences.dart' as _i774;
+import 'preferences/shared_preferences/session_manager.dart' as _i377;
 
 extension GetItInjectableX on _i174.GetIt {
 // initializes the registration of main-scope dependencies inside of GetIt
@@ -31,6 +33,14 @@ extension GetItInjectableX on _i174.GetIt {
       () => _i664.DatabaseService.initialize(),
       preResolve: true,
     );
+    await gh.singletonAsync<_i774.SharedPreferencesService>(
+      () => _i774.SharedPreferencesService.init(),
+      preResolve: true,
+    );
+    await gh.singletonAsync<_i377.SessionManager>(
+      () => _i377.SessionManager.initialize(),
+      preResolve: true,
+    );
     await gh.singletonAsync<_i1028.LibsignalService>(
       () => _i1028.LibsignalService.initialize(),
       preResolve: true,
@@ -39,8 +49,8 @@ extension GetItInjectableX on _i174.GetIt {
       () => _i178.DialogService.initialize(),
       preResolve: true,
     );
-    await gh.lazySingletonAsync<_i774.SharedPreferencesService>(
-      () => _i774.SharedPreferencesService.init(),
+    await gh.singletonAsync<_i3.ConnectionService>(
+      () => _i3.ConnectionService.initialize(),
       preResolve: true,
     );
     return this;

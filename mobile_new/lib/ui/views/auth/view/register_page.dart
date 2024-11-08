@@ -6,7 +6,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 @RoutePage()
 class RegisterPage extends StatefulWidget {
-  const RegisterPage({super.key});
+  const RegisterPage({this.email, super.key});
+  final String? email;
 
   @override
   State<RegisterPage> createState() => _RegisterPageState();
@@ -40,6 +41,9 @@ class _RegisterPageState extends State<RegisterPage> {
   void initState() {
     super.initState();
     _emailController = TextEditingController();
+    if (widget.email != null && widget.email!.isNotEmpty) {
+      _emailController.text = widget.email!;
+    }
     _passwordController = TextEditingController();
     _rePasswordController = TextEditingController();
     _fullNameController = TextEditingController();
@@ -59,6 +63,9 @@ class _RegisterPageState extends State<RegisterPage> {
     return Scaffold(
       body: BlocBuilder<RegisterFormCubit, RegisterFormState>(
         builder: (context, state) {
+          if (_emailController.text.isNotEmpty) {
+            context.read<LoginFormCubit>().updateEmail(_emailController.text);
+          }
           return SafeArea(
             child: LayoutBuilder(
               builder: (context, viewportConstraints) => SingleChildScrollView(
@@ -177,7 +184,7 @@ class StepOne extends StatelessWidget {
           children: [
             const Text(
               'Please register an account',
-              style: TextStyle(fontSize: 18),
+              style: TextStyle(fontSize: 20),
             ),
             AuthTextField(
               obscure: false,
@@ -215,7 +222,8 @@ class StepOne extends StatelessWidget {
                 const Text('Already a member?'),
                 TextButton(
                   onPressed: () {
-                    context.router.replace(const LoginRoute());
+                    context.router
+                        .replace(LoginRoute(email: emailController.text));
                   },
                   child: const Text('Login now'),
                 ),

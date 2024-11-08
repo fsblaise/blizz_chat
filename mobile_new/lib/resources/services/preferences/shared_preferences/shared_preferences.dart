@@ -1,6 +1,6 @@
 part of '../preferences.dart';
 
-@lazySingleton
+@Singleton()
 class SharedPreferencesService {
   SharedPreferencesService({this.preferences});
   final SharedPreferences? preferences;

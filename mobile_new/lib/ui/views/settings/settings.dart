@@ -1,2 +1,2 @@
 export 'cubit/settings_cubit.dart';
-export 'view/settings_page.dart';
+export 'view/manage_users.dart';

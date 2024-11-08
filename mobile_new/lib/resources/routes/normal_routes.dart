@@ -8,6 +8,10 @@ final normalRoutes = [
     initial: true,
   ),
   AutoRoute(
+    page: CheckEmailRoute.page,
+    path: '/check-email',
+  ),
+  AutoRoute(
     page: LoginRoute.page,
     path: '/login',
   ),
@@ -16,12 +20,8 @@ final normalRoutes = [
     path: '/register',
   ),
   AutoRoute(
-    page: CounterRoute.page,
-    path: '/counter',
-  ),
-  AutoRoute(
-    page: SettingsRoute.page,
-    path: '/settings',
+    page: ManageUsersRoute.page,
+    path: '/manage-users',
   ),
   AutoRoute(
     page: MessagingRoute.page,

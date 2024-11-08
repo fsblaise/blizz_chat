@@ -33,8 +33,10 @@ class TokenInterceptor implements Interceptor {
   FutureOr<Response<BodyType>> intercept<BodyType>(
     Chain<BodyType> chain,
   ) async {
-    final token =
-        getIt.get<SharedPreferencesService>().preferences!.getString('token');
+    final session = getIt.get<SessionManager>().getCurrentSession();
+    print(jsonEncode(session?.toJson()));
+    final token = session?.token;
+    print(token);
 
     if (token == null) {
       return chain.proceed(chain.request);
@@ -43,5 +45,22 @@ class TokenInterceptor implements Interceptor {
           applyHeader(chain.request, 'Authorization', 'Bearer $token');
       return chain.proceed(request);
     }
+  }
+}
+
+class UrlInterceptor implements Interceptor {
+  UrlInterceptor();
+
+  @override
+  FutureOr<Response<BodyType>> intercept<BodyType>(
+    Chain<BodyType> chain,
+  ) async {
+    final apiUrl = CompaniesRepository.getApiUrl();
+    print(apiUrl);
+
+    final request = chain.request.copyWith(
+      baseUri: Uri.parse(apiUrl),
+    );
+    return chain.proceed(request);
   }
 }

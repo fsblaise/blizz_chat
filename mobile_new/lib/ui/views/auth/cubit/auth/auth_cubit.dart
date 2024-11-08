@@ -1,5 +1,7 @@
 import 'package:blizz_chat/models/models.dart';
 import 'package:blizz_chat/repositories/repositories.dart';
+import 'package:blizz_chat/resources/services/preferences/shared_preferences/session_manager.dart';
+import 'package:blizz_chat/resources/services/services.dart';
 import 'package:bloc/bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
@@ -8,28 +10,63 @@ part 'auth_cubit.freezed.dart';
 
 class AuthCubit extends Cubit<AuthState> {
   AuthCubit() : super(const AuthState.initial()) {
+    hello(); // asd
     checkLoggedInUser();
   }
 
+  Future<void> hello() async {
+    try {
+      final response = await getIt.get<ConnectionService>().hello();
+      if (response) {
+        print('hello');
+      } else {
+        // api url is not available
+        getIt.get<SessionManager>().removeActiveSession();
+        emit(const AuthState.unauthenticated());
+      }
+    } catch (e) {
+      // api url is not available
+      getIt.get<SessionManager>().removeActiveSession();
+      emit(const AuthState.unauthenticated());
+    }
+  }
+
   Future<void> checkLoggedInUser() async {
-    final authData = await AuthRepository.getLoggedInUser();
-    emit(
-      authData != null
-          ? AuthState.authenticated(token: authData.token, user: authData.user)
-          : const AuthState.unauthenticated(),
-    );
+    try {
+      final authData = await AuthRepository.getLoggedInUser();
+      final apiUrl = CompaniesRepository.getApiUrl();
+      emit(
+        authData != null
+            ? AuthState.authenticated(
+                userSession: UserSession(
+                apiUrl: apiUrl,
+                token: authData.token,
+                user: authData.user,
+              ))
+            : const AuthState.unauthenticated(),
+      );
+    } catch (e) {
+      emit(const AuthState.unauthenticated());
+    }
   }
 
   UserProfile? getCurrentUser() {
     if (state is AuthAuthenticated) {
-      return (state as AuthAuthenticated).user;
+      return (state as AuthAuthenticated).userSession.user;
     }
     return null;
   }
 
   String? getToken() {
     if (state is AuthAuthenticated) {
-      return (state as AuthAuthenticated).token;
+      return (state as AuthAuthenticated).userSession.token;
+    }
+    return null;
+  }
+
+  String? getApiUrl() {
+    if (state is AuthAuthenticated) {
+      return (state as AuthAuthenticated).userSession.apiUrl;
     }
     return null;
   }
@@ -45,8 +82,11 @@ class AuthCubit extends Cubit<AuthState> {
       );
       emit(
         AuthState.authenticated(
-          token: authResponse.token,
-          user: authResponse.user,
+          userSession: UserSession(
+            token: authResponse.token,
+            user: authResponse.user,
+            apiUrl: CompaniesRepository.getApiUrl(),
+          ),
         ),
       );
     } catch (e) {
@@ -64,8 +104,11 @@ class AuthCubit extends Cubit<AuthState> {
       );
       emit(
         AuthState.authenticated(
-          token: authResponse.token,
-          user: authResponse.user,
+          userSession: UserSession(
+            token: authResponse.token,
+            user: authResponse.user,
+            apiUrl: CompaniesRepository.getApiUrl(),
+          ),
         ),
       );
     } catch (e) {
@@ -84,8 +127,11 @@ class AuthCubit extends Cubit<AuthState> {
       final userProfile = await UsersRepository.addUser(email, fullName);
       emit(
         AuthState.authenticated(
-          token: currentState.token,
-          user: userProfile,
+          userSession: UserSession(
+            token: currentState.userSession.token,
+            user: userProfile,
+            apiUrl: currentState.userSession.apiUrl,
+          ),
         ),
       );
     } catch (e) {
@@ -100,8 +146,11 @@ class AuthCubit extends Cubit<AuthState> {
       final userProfile = await UsersRepository.removeUser(contact.email);
       emit(
         AuthState.authenticated(
-          token: currentState.token,
-          user: userProfile,
+          userSession: UserSession(
+            token: currentState.userSession.token,
+            user: userProfile,
+            apiUrl: currentState.userSession.apiUrl,
+          ),
         ),
       );
     } catch (e) {
@@ -116,13 +165,32 @@ class AuthCubit extends Cubit<AuthState> {
       final userProfile = await UsersRepository.renameContact(contact);
       emit(
         AuthState.authenticated(
-          token: currentState.token,
-          user: userProfile,
+          userSession: UserSession(
+            token: currentState.userSession.token,
+            user: userProfile,
+            apiUrl: currentState.userSession.apiUrl,
+          ),
         ),
       );
     } catch (e) {
       print(e);
       emit(currentState);
     }
+  }
+
+  Future<void> setCurrentUser(UserPrefsSession session) async {
+    emit(
+      AuthState.authenticated(
+        userSession: UserSession(
+          token: session.token!,
+          user: session.user!,
+          apiUrl: session.apiUrl,
+        ),
+      ),
+    );
+  }
+
+  Future<void> clearCurrentUser() async {
+    emit(const AuthState.unauthenticated());
   }
 }

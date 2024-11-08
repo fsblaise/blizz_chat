@@ -81,3 +81,33 @@ class Contact with _$Contact {
   factory Contact.fromJson(Map<String, dynamic> json) =>
       _$ContactFromJson(json);
 }
+
+/// This model is used in the AuthCubit, none of the values can be null, otherwise the user is not authenticated.
+@freezed
+class UserSession with _$UserSession {
+  const factory UserSession({
+    required String token,
+    required String apiUrl,
+    required UserProfile user,
+  }) = _UserSession;
+
+  factory UserSession.fromJson(Map<String, dynamic> json) =>
+      _$UserSessionFromJson(json);
+}
+
+/// This model is used in sharedPreferences, there can be null values.
+/// The model is mutable.
+@unfreezed
+class UserPrefsSession with _$UserPrefsSession {
+  factory UserPrefsSession({
+    required String email,
+    required String apiUrl,
+    required String companyName,
+    required bool isActive,
+    String? token,
+    UserProfile? user,
+  }) = _UserPrefsSession;
+
+  factory UserPrefsSession.fromJson(Map<String, dynamic> json) =>
+      _$UserPrefsSessionFromJson(json);
+}
