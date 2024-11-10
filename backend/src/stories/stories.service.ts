@@ -47,7 +47,18 @@ export class StoriesService {
     contactEmails.push(email);
 
     const entities = await this.storyModel.find({ email: { $in: contactEmails } }).exec();
-    return entities.map(entity => this.renderStory(entity));
+    const validEntities = [];
+
+    for (const entity of entities) {
+      const filePath = join(__dirname, '..', 'uploads/stories', entity.imgUrl.split('/').pop());
+      if (fs.existsSync(filePath)) {
+        validEntities.push(entity);
+      } else {
+        await this.storyModel.findByIdAndDelete(entity._id).exec();
+      }
+    }
+
+    return validEntities.map(entity => this.renderStory(entity));
   }
 
   async findOne(id: string): Promise<StoryDto> {

@@ -3,6 +3,7 @@ import 'package:blizz_chat/repositories/repositories.dart';
 import 'package:blizz_chat/resources/services/preferences/shared_preferences/session_manager.dart';
 import 'package:blizz_chat/resources/services/services.dart';
 import 'package:bloc/bloc.dart';
+import 'package:flutter/foundation.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'auth_states.dart';
@@ -14,20 +15,29 @@ class AuthCubit extends Cubit<AuthState> {
     checkLoggedInUser();
   }
 
-  Future<void> hello() async {
+  Future<bool> hello() async {
     try {
       final response = await getIt.get<ConnectionService>().hello();
       if (response) {
         print('hello');
+        return true;
       } else {
         // api url is not available
         getIt.get<SessionManager>().removeActiveSession();
         emit(const AuthState.unauthenticated());
+        return false;
       }
     } catch (e) {
       // api url is not available
       getIt.get<SessionManager>().removeActiveSession();
+      emit(
+        const AuthState.error(
+          message:
+              'Server is not available. Try a different user/workspace or try again later.',
+        ),
+      );
       emit(const AuthState.unauthenticated());
+      return false;
     }
   }
 

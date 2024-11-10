@@ -7,6 +7,7 @@
 // ha nem tartozik ceghez, akkor marad az alap api url
 
 import 'package:auto_route/auto_route.dart';
+import 'package:blizz_chat/models/models.dart';
 import 'package:blizz_chat/resources/routes/app_router.dart';
 import 'package:blizz_chat/ui/ui.dart';
 import 'package:blizz_chat/ui/views/auth/cubit/check/check_form_cubit.dart';
@@ -37,9 +38,52 @@ class _CheckEmailPageState extends State<CheckEmailPage> {
   }
 
   _checkEmail(String email) async {
-    await context.read<CheckFormCubit>().checkEmail(email);
-    // navigate to login
-    context.router.replace(LoginRoute(email: email));
+    final success = await context.read<AuthCubit>().hello();
+    if (success) {
+      final companies = await context.read<CheckFormCubit>().checkEmail(email);
+      if (companies != null && companies.isNotEmpty) {
+        Company company;
+        if (companies.length > 1) {
+          company = (await showDialog<Company>(
+            context: context,
+            barrierDismissible: false,
+            builder: (context) {
+              return PopScope(
+                canPop: false,
+                child: AlertDialog(
+                  title: const Text('Select Company'),
+                  content: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: companies
+                        .map(
+                          (company) => ListTile(
+                            title: Text(company.name),
+                            onTap: () => Navigator.of(context).pop(company),
+                          ),
+                        )
+                        .toList(),
+                  ),
+                ),
+              );
+            },
+          ))!;
+        } else {
+          company = companies.first;
+        }
+        await context.read<CheckFormCubit>().selectCompany(company, email);
+      }
+      // navigate to login
+      context.router.replace(LoginRoute(email: email));
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text(
+            'Server is not available. Try a different user/workspace or try again later.',
+          ),
+        ),
+      );
+      context.router.back();
+    }
   }
 
   @override
