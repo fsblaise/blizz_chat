@@ -2,6 +2,7 @@ library api;
 
 import 'dart:async';
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:blizz_chat/models/models.dart';
 import 'package:blizz_chat/models/stories/story_dtos.dart';
@@ -9,6 +10,7 @@ import 'package:blizz_chat/repositories/repositories.dart';
 import 'package:blizz_chat/resources/services/preferences/shared_preferences/session_manager.dart';
 import 'package:blizz_chat/resources/services/services.dart';
 import 'package:chopper/chopper.dart';
+import 'package:http/http.dart' show MultipartFile;
 
 part 'auth/auth_service.dart';
 part 'chats/chats_service.dart';

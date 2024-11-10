@@ -36,8 +36,8 @@ export class CompaniesService {
     return this.companyModel.findByIdAndUpdate(id, { $push: { members: member } }).exec();
   }
 
-  checkIfEmailInCompany(email: string): Promise<CompanyDto> {
-    return this.companyModel.findOne({ 'members.email': email }).exec();
+  checkIfEmailInCompany(email: string): Promise<CompanyDto[]> {
+    return this.companyModel.find({ 'members.email': email }).exec();
   }
 
   updateMember(id: string, email: string, member: MemberDto): Promise<CompanyDto> {

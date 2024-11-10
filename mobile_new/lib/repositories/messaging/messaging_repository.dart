@@ -43,7 +43,6 @@ class MessagingRepository {
 
       _socket?.on('disconnect', (_) {
         print('Disconnected from WebSocket');
-        cleanUp();
       });
     } catch (e) {
       print('Error connecting to WebSocket: $e');

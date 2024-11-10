@@ -15,6 +15,16 @@ abstract class _$AppRouter extends RootStackRouter {
 
   @override
   final Map<String, PageFactory> pagesMap = {
+    CameraViewRoute.name: (routeData) {
+      final args = routeData.argsAs<CameraViewRouteArgs>();
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: CameraViewPage(
+          cameras: args.cameras,
+          key: args.key,
+        ),
+      );
+    },
     ChatsRoute.name: (routeData) {
       return AutoRoutePage<dynamic>(
         routeData: routeData,
@@ -25,6 +35,16 @@ abstract class _$AppRouter extends RootStackRouter {
       return AutoRoutePage<dynamic>(
         routeData: routeData,
         child: const CheckEmailPage(),
+      );
+    },
+    DisplayPictureRoute.name: (routeData) {
+      final args = routeData.argsAs<DisplayPictureRouteArgs>();
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: DisplayPicturePage(
+          imgPath: args.imgPath,
+          key: args.key,
+        ),
       );
     },
     HomeRoute.name: (routeData) {
@@ -83,10 +103,26 @@ abstract class _$AppRouter extends RootStackRouter {
         ),
       );
     },
+    StoriesListRoute.name: (routeData) {
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: const StoriesListPage(),
+      );
+    },
     StoriesRoute.name: (routeData) {
       return AutoRoutePage<dynamic>(
         routeData: routeData,
         child: const StoriesPage(),
+      );
+    },
+    StoryViewerRoute.name: (routeData) {
+      final args = routeData.argsAs<StoryViewerRouteArgs>();
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: StoryViewerPage(
+          data: args.data,
+          key: args.key,
+        ),
       );
     },
     WelcomeRoute.name: (routeData) {
@@ -96,6 +132,44 @@ abstract class _$AppRouter extends RootStackRouter {
       );
     },
   };
+}
+
+/// generated route for
+/// [CameraViewPage]
+class CameraViewRoute extends PageRouteInfo<CameraViewRouteArgs> {
+  CameraViewRoute({
+    required List<CameraDescription> cameras,
+    Key? key,
+    List<PageRouteInfo>? children,
+  }) : super(
+          CameraViewRoute.name,
+          args: CameraViewRouteArgs(
+            cameras: cameras,
+            key: key,
+          ),
+          initialChildren: children,
+        );
+
+  static const String name = 'CameraViewRoute';
+
+  static const PageInfo<CameraViewRouteArgs> page =
+      PageInfo<CameraViewRouteArgs>(name);
+}
+
+class CameraViewRouteArgs {
+  const CameraViewRouteArgs({
+    required this.cameras,
+    this.key,
+  });
+
+  final List<CameraDescription> cameras;
+
+  final Key? key;
+
+  @override
+  String toString() {
+    return 'CameraViewRouteArgs{cameras: $cameras, key: $key}';
+  }
 }
 
 /// generated route for
@@ -124,6 +198,44 @@ class CheckEmailRoute extends PageRouteInfo<void> {
   static const String name = 'CheckEmailRoute';
 
   static const PageInfo<void> page = PageInfo<void>(name);
+}
+
+/// generated route for
+/// [DisplayPicturePage]
+class DisplayPictureRoute extends PageRouteInfo<DisplayPictureRouteArgs> {
+  DisplayPictureRoute({
+    required String imgPath,
+    Key? key,
+    List<PageRouteInfo>? children,
+  }) : super(
+          DisplayPictureRoute.name,
+          args: DisplayPictureRouteArgs(
+            imgPath: imgPath,
+            key: key,
+          ),
+          initialChildren: children,
+        );
+
+  static const String name = 'DisplayPictureRoute';
+
+  static const PageInfo<DisplayPictureRouteArgs> page =
+      PageInfo<DisplayPictureRouteArgs>(name);
+}
+
+class DisplayPictureRouteArgs {
+  const DisplayPictureRouteArgs({
+    required this.imgPath,
+    this.key,
+  });
+
+  final String imgPath;
+
+  final Key? key;
+
+  @override
+  String toString() {
+    return 'DisplayPictureRouteArgs{imgPath: $imgPath, key: $key}';
+  }
 }
 
 /// generated route for
@@ -291,6 +403,20 @@ class RegisterRouteArgs {
 }
 
 /// generated route for
+/// [StoriesListPage]
+class StoriesListRoute extends PageRouteInfo<void> {
+  const StoriesListRoute({List<PageRouteInfo>? children})
+      : super(
+          StoriesListRoute.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'StoriesListRoute';
+
+  static const PageInfo<void> page = PageInfo<void>(name);
+}
+
+/// generated route for
 /// [StoriesPage]
 class StoriesRoute extends PageRouteInfo<void> {
   const StoriesRoute({List<PageRouteInfo>? children})
@@ -302,6 +428,44 @@ class StoriesRoute extends PageRouteInfo<void> {
   static const String name = 'StoriesRoute';
 
   static const PageInfo<void> page = PageInfo<void>(name);
+}
+
+/// generated route for
+/// [StoryViewerPage]
+class StoryViewerRoute extends PageRouteInfo<StoryViewerRouteArgs> {
+  StoryViewerRoute({
+    required Story data,
+    Key? key,
+    List<PageRouteInfo>? children,
+  }) : super(
+          StoryViewerRoute.name,
+          args: StoryViewerRouteArgs(
+            data: data,
+            key: key,
+          ),
+          initialChildren: children,
+        );
+
+  static const String name = 'StoryViewerRoute';
+
+  static const PageInfo<StoryViewerRouteArgs> page =
+      PageInfo<StoryViewerRouteArgs>(name);
+}
+
+class StoryViewerRouteArgs {
+  const StoryViewerRouteArgs({
+    required this.data,
+    this.key,
+  });
+
+  final Story data;
+
+  final Key? key;
+
+  @override
+  String toString() {
+    return 'StoryViewerRouteArgs{data: $data, key: $key}';
+  }
 }
 
 /// generated route for

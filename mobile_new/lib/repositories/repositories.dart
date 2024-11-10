@@ -11,6 +11,7 @@ import 'package:chopper/chopper.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:libsignal_protocol_dart/libsignal_protocol_dart.dart';
 import 'package:socket_io_client/socket_io_client.dart' as IO;
+import 'package:http/http.dart' show MultipartFile;
 
 part 'auth/auth_repository.dart';
 part 'chats/chats_repository.dart';

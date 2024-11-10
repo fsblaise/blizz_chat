@@ -8,30 +8,38 @@ class CompaniesRepository extends RepositoryInterface<CompaniesService> {
 
   static final CompaniesRepository _singleton = CompaniesRepository._internal();
 
-  static Future<Company?> checkIfEmailInCompany(String email) async {
+  static Future<List<Company>?> checkIfEmailInCompany(String email) async {
     final response = await _singleton.service.checkIfEmailInCompany(email);
+
     if (response.isSuccessful && response.bodyString.isNotEmpty) {
-      final decodedResponse =
-          jsonDecode(response.bodyString) as Map<String, dynamic>;
-
+      print('itt jarunk?');
+      final decodedResponse = jsonDecode(response.bodyString);
       print(decodedResponse);
-
-      final company = Company.fromJson(decodedResponse);
-
-      await getIt
-          .get<SessionManager>()
-          .saveSession(email, apiUrl: company.apiUrl);
-
-      await getIt
-          .get<SessionManager>()
-          .setActiveSession(email, apiUrl: company.apiUrl);
-
-      return company;
+      final companyList = (decodedResponse as List<dynamic>)
+          .map((company) => Company.fromJson(company as Map<String, dynamic>))
+          .toList();
+      if (companyList.isEmpty) {
+        await getIt.get<SessionManager>().saveSession(email);
+        await getIt.get<SessionManager>().setActiveSession(email);
+        return null;
+      }
+      return companyList;
     } else {
+      print('saving session with no company');
       await getIt.get<SessionManager>().saveSession(email);
       await getIt.get<SessionManager>().setActiveSession(email);
       return null;
     }
+  }
+
+  static Future<void> selectCompany(Company company, String email) async {
+    await getIt
+        .get<SessionManager>()
+        .saveSession(email, apiUrl: company.apiUrl);
+
+    await getIt
+        .get<SessionManager>()
+        .setActiveSession(email, apiUrl: company.apiUrl);
   }
 
   static String getApiUrl() {

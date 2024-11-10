@@ -5,9 +5,15 @@ export class StoryDto {
   imgUrl: string;
   timestamp: string;
   email: string;
+  fullName: string;
 }
 
 export class CreateStoryDto {
   caption: string;
   email: string;
+  fullName: string;
+}
+
+export class CreateStoryDtoWrapper {
+  createStoryDto: CreateStoryDto;
 }

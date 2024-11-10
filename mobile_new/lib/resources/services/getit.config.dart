@@ -41,16 +41,16 @@ extension GetItInjectableX on _i174.GetIt {
       () => _i377.SessionManager.initialize(),
       preResolve: true,
     );
+    await gh.singletonAsync<_i3.ConnectionService>(
+      () => _i3.ConnectionService.initialize(),
+      preResolve: true,
+    );
     await gh.singletonAsync<_i1028.LibsignalService>(
       () => _i1028.LibsignalService.initialize(),
       preResolve: true,
     );
     await gh.singletonAsync<_i178.DialogService>(
       () => _i178.DialogService.initialize(),
-      preResolve: true,
-    );
-    await gh.singletonAsync<_i3.ConnectionService>(
-      () => _i3.ConnectionService.initialize(),
       preResolve: true,
     );
     return this;

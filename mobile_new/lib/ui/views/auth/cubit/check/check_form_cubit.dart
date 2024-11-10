@@ -1,3 +1,4 @@
+import 'package:blizz_chat/models/models.dart';
 import 'package:blizz_chat/repositories/repositories.dart';
 import 'package:bloc/bloc.dart';
 import 'package:flutter/foundation.dart';
@@ -35,9 +36,13 @@ class CheckFormCubit extends Cubit<CheckFormState> {
     emit(state.copyWith(isValid: isValid));
   }
 
-  Future<void> checkEmail(String email) async {
-    await CompaniesRepository.checkIfEmailInCompany(email);
+  Future<List<Company>?> checkEmail(String email) async {
+    return await CompaniesRepository.checkIfEmailInCompany(email);
     // no need for the result, the company won't be saved or anything
     // api url and session is already saved and handled in the repository
+  }
+
+  Future<void> selectCompany(Company company, String email) async {
+    await CompaniesRepository.selectCompany(company, email);
   }
 }

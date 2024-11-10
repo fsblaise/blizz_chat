@@ -20,6 +20,7 @@ class App extends StatelessWidget {
         BlocProvider(create: (_) => RegisterFormCubit()),
         BlocProvider(create: (_) => ChatsCubit()),
         BlocProvider(create: (_) => UsersCubit()),
+        BlocProvider(create: (_) => StoriesCubit()),
       ],
       child: Builder(
         builder: (context) {

@@ -20,8 +20,8 @@ CreateStoryDto _$CreateStoryDtoFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$CreateStoryDto {
+  String get caption => throw _privateConstructorUsedError;
   String get email => throw _privateConstructorUsedError;
-  String get password => throw _privateConstructorUsedError;
   String get fullName => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -36,7 +36,7 @@ abstract class $CreateStoryDtoCopyWith<$Res> {
           CreateStoryDto value, $Res Function(CreateStoryDto) then) =
       _$CreateStoryDtoCopyWithImpl<$Res, CreateStoryDto>;
   @useResult
-  $Res call({String email, String password, String fullName});
+  $Res call({String caption, String email, String fullName});
 }
 
 /// @nodoc
@@ -52,18 +52,18 @@ class _$CreateStoryDtoCopyWithImpl<$Res, $Val extends CreateStoryDto>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? caption = null,
     Object? email = null,
-    Object? password = null,
     Object? fullName = null,
   }) {
     return _then(_value.copyWith(
+      caption: null == caption
+          ? _value.caption
+          : caption // ignore: cast_nullable_to_non_nullable
+              as String,
       email: null == email
           ? _value.email
           : email // ignore: cast_nullable_to_non_nullable
-              as String,
-      password: null == password
-          ? _value.password
-          : password // ignore: cast_nullable_to_non_nullable
               as String,
       fullName: null == fullName
           ? _value.fullName
@@ -81,7 +81,7 @@ abstract class _$$CreateStoryDtoImplCopyWith<$Res>
       __$$CreateStoryDtoImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String email, String password, String fullName});
+  $Res call({String caption, String email, String fullName});
 }
 
 /// @nodoc
@@ -95,18 +95,18 @@ class __$$CreateStoryDtoImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? caption = null,
     Object? email = null,
-    Object? password = null,
     Object? fullName = null,
   }) {
     return _then(_$CreateStoryDtoImpl(
+      caption: null == caption
+          ? _value.caption
+          : caption // ignore: cast_nullable_to_non_nullable
+              as String,
       email: null == email
           ? _value.email
           : email // ignore: cast_nullable_to_non_nullable
-              as String,
-      password: null == password
-          ? _value.password
-          : password // ignore: cast_nullable_to_non_nullable
               as String,
       fullName: null == fullName
           ? _value.fullName
@@ -120,21 +120,21 @@ class __$$CreateStoryDtoImplCopyWithImpl<$Res>
 @JsonSerializable()
 class _$CreateStoryDtoImpl implements _CreateStoryDto {
   const _$CreateStoryDtoImpl(
-      {required this.email, required this.password, required this.fullName});
+      {required this.caption, required this.email, required this.fullName});
 
   factory _$CreateStoryDtoImpl.fromJson(Map<String, dynamic> json) =>
       _$$CreateStoryDtoImplFromJson(json);
 
   @override
-  final String email;
+  final String caption;
   @override
-  final String password;
+  final String email;
   @override
   final String fullName;
 
   @override
   String toString() {
-    return 'CreateStoryDto(email: $email, password: $password, fullName: $fullName)';
+    return 'CreateStoryDto(caption: $caption, email: $email, fullName: $fullName)';
   }
 
   @override
@@ -142,16 +142,15 @@ class _$CreateStoryDtoImpl implements _CreateStoryDto {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$CreateStoryDtoImpl &&
+            (identical(other.caption, caption) || other.caption == caption) &&
             (identical(other.email, email) || other.email == email) &&
-            (identical(other.password, password) ||
-                other.password == password) &&
             (identical(other.fullName, fullName) ||
                 other.fullName == fullName));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, email, password, fullName);
+  int get hashCode => Object.hash(runtimeType, caption, email, fullName);
 
   @JsonKey(ignore: true)
   @override
@@ -170,17 +169,17 @@ class _$CreateStoryDtoImpl implements _CreateStoryDto {
 
 abstract class _CreateStoryDto implements CreateStoryDto {
   const factory _CreateStoryDto(
-      {required final String email,
-      required final String password,
+      {required final String caption,
+      required final String email,
       required final String fullName}) = _$CreateStoryDtoImpl;
 
   factory _CreateStoryDto.fromJson(Map<String, dynamic> json) =
       _$CreateStoryDtoImpl.fromJson;
 
   @override
-  String get email;
+  String get caption;
   @override
-  String get password;
+  String get email;
   @override
   String get fullName;
   @override

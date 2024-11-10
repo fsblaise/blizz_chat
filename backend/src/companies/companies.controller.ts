@@ -40,7 +40,7 @@ export class CompaniesController {
 
   // init, because this is the first endpoint that will be called
   @Get('init/:email')
-  checkIfEmailInCompany(@Param('email') email: string): Promise<CompanyDto> {
+  checkIfEmailInCompany(@Param('email') email: string): Promise<CompanyDto[]> {
     return this.companiesService.checkIfEmailInCompany(email);
   }
 

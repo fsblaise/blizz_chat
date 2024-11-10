@@ -6,18 +6,22 @@ abstract class StoriesService extends ChopperService {
       _$StoriesService(client);
 
   @Post()
-  Future<Response<dynamic>> createStory(@Body() CreateStoryDto body);
+  @Multipart()
+  Future<Response<dynamic>> createStory(
+    @Part('createStoryDto') String createStoryDtoJson,
+    @PartFile('file') MultipartFile file,
+  );
 
   @Get()
-  Future<Response<void>> findAll();
+  Future<Response<dynamic>> findAll();
 
   @Get(
     path: '/{id}',
   )
-  Future<Response<dynamic>> findOne();
+  Future<Response<dynamic>> findOne(@Path('id') String id);
 
   @Delete(
     path: '/{id}',
   )
-  Future<Response<dynamic>> delete();
+  Future<Response<dynamic>> delete(@Path('id') String id);
 }

@@ -1,11 +1,12 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, UseInterceptors, UploadedFile, Req } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, UseInterceptors, UploadedFile, Req, UseGuards } from '@nestjs/common';
 import { StoriesService } from './stories.service';
-import { CreateStoryDto, StoryDto } from './dto/story.dto';
+import { CreateStoryDto, CreateStoryDtoWrapper, StoryDto } from './dto/story.dto';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { diskStorage } from 'multer';
 import { join } from 'path';
 import * as fs from 'fs';
 import { Request } from 'express';
+import { AuthGuard } from 'src/shared/guards/auth.guard';
 
 const storage = diskStorage({
   destination: (req, file, cb) => {
@@ -28,32 +29,34 @@ export class StoriesController {
   constructor(private readonly storiesService: StoriesService) { }
 
   @Post()
+  @UseGuards(AuthGuard)
   @UseInterceptors(FileInterceptor('file', { storage }))
   create(
-    @Body() createStoryDto: CreateStoryDto,
+    @Body('createStoryDto') createStoryDtoJson: string,
     @UploadedFile() file: Express.Multer.File,
     @Req() request: Request,
   ) {
+    const createStoryDto: CreateStoryDto = JSON.parse(createStoryDtoJson);
     return this.storiesService.create(createStoryDto, file, request);
   }
 
   @Get()
-  findAll(): Promise<StoryDto[]> {
-    return this.storiesService.findAll();
+  @UseGuards(AuthGuard)
+  findAll(@Req() request: Request): Promise<StoryDto[]> {
+    const user = request['user'];
+    return this.storiesService.findAll(user.email);
   }
 
   @Get(':id')
+  @UseGuards(AuthGuard)
   findOne(@Param('id') id: string): Promise<StoryDto>  {
     return this.storiesService.findOne(id);
   }
 
-  // @Patch(':id')
-  // update(@Param('id') id: string, @Body() updateStoryDto: UpdateStoryDto) {
-  //   return this.storiesService.update(id, updateStoryDto);
-  // }
-
   @Delete(':id')
-  remove(@Param('id') id: string): Promise<StoryDto>  {
-    return this.storiesService.remove(id);
+  @UseGuards(AuthGuard)
+  remove(@Param('id') id: string, @Req() request: Request): void {
+    const user = request['user'];
+    this.storiesService.remove(id, user.email);
   }
 }

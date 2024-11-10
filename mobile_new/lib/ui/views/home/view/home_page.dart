@@ -31,6 +31,13 @@ class _HomePageState extends State<HomePage> {
       builder: (context, child) {
         final tabsRouter = AutoTabsRouter.of(context);
 
+        print(tabsRouter.currentPath);
+        if (tabsRouter.currentPath == '/home/stories') {
+          _selectedPage = 1;
+        } else if (tabsRouter.currentPath == '/home/chats') {
+          _selectedPage = 0;
+        }
+
         return PopScope(
           onPopInvoked: (didPop) async {
             if (_prevPages.isNotEmpty) {
@@ -74,7 +81,6 @@ class _HomePageState extends State<HomePage> {
                   icon: Icon(Icons.photo),
                   label: 'Stories',
                 ),
-                BottomNavigationBarItem(icon: Icon(Icons.map), label: 'Map'),
               ],
             ),
           ),
@@ -82,8 +88,7 @@ class _HomePageState extends State<HomePage> {
       },
       routes: const [
         ChatsRoute(),
-        StoriesRoute(),
-        MapRoute(),
+        StoriesListRoute(),
       ],
     );
   }

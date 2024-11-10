@@ -7,7 +7,7 @@ final homeRoutes = [
     path: 'chats',
   ),
   AutoRoute(
-    page: StoriesRoute.page,
+    page: StoriesListRoute.page,
     path: 'stories',
   ),
   AutoRoute(

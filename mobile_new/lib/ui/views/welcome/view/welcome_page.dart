@@ -112,6 +112,12 @@ class _WelcomePageState extends State<WelcomePage> {
           } else if (state is AuthAuthenticated) {
             context.router.replace(const HomeRoute());
             _initWs(state);
+          } else if (state is AuthError) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                content: Text(state.message),
+              ),
+            );
           }
         },
       ),

@@ -22,6 +22,7 @@ mixin _$AuthState {
     required TResult Function() fetching,
     required TResult Function() unauthenticated,
     required TResult Function(UserSession userSession) authenticated,
+    required TResult Function(String message) error,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -30,6 +31,7 @@ mixin _$AuthState {
     TResult? Function()? fetching,
     TResult? Function()? unauthenticated,
     TResult? Function(UserSession userSession)? authenticated,
+    TResult? Function(String message)? error,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -38,6 +40,7 @@ mixin _$AuthState {
     TResult Function()? fetching,
     TResult Function()? unauthenticated,
     TResult Function(UserSession userSession)? authenticated,
+    TResult Function(String message)? error,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -47,6 +50,7 @@ mixin _$AuthState {
     required TResult Function(Fetching value) fetching,
     required TResult Function(AuthUnauthenticated value) unauthenticated,
     required TResult Function(AuthAuthenticated value) authenticated,
+    required TResult Function(AuthError value) error,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -55,6 +59,7 @@ mixin _$AuthState {
     TResult? Function(Fetching value)? fetching,
     TResult? Function(AuthUnauthenticated value)? unauthenticated,
     TResult? Function(AuthAuthenticated value)? authenticated,
+    TResult? Function(AuthError value)? error,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -63,6 +68,7 @@ mixin _$AuthState {
     TResult Function(Fetching value)? fetching,
     TResult Function(AuthUnauthenticated value)? unauthenticated,
     TResult Function(AuthAuthenticated value)? authenticated,
+    TResult Function(AuthError value)? error,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -103,12 +109,18 @@ class __$$InitialImplCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$InitialImpl implements Initial {
+class _$InitialImpl with DiagnosticableTreeMixin implements Initial {
   const _$InitialImpl();
 
   @override
-  String toString() {
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
     return 'AuthState.initial()';
+  }
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    super.debugFillProperties(properties);
+    properties.add(DiagnosticsProperty('type', 'AuthState.initial'));
   }
 
   @override
@@ -127,6 +139,7 @@ class _$InitialImpl implements Initial {
     required TResult Function() fetching,
     required TResult Function() unauthenticated,
     required TResult Function(UserSession userSession) authenticated,
+    required TResult Function(String message) error,
   }) {
     return initial();
   }
@@ -138,6 +151,7 @@ class _$InitialImpl implements Initial {
     TResult? Function()? fetching,
     TResult? Function()? unauthenticated,
     TResult? Function(UserSession userSession)? authenticated,
+    TResult? Function(String message)? error,
   }) {
     return initial?.call();
   }
@@ -149,6 +163,7 @@ class _$InitialImpl implements Initial {
     TResult Function()? fetching,
     TResult Function()? unauthenticated,
     TResult Function(UserSession userSession)? authenticated,
+    TResult Function(String message)? error,
     required TResult orElse(),
   }) {
     if (initial != null) {
@@ -164,6 +179,7 @@ class _$InitialImpl implements Initial {
     required TResult Function(Fetching value) fetching,
     required TResult Function(AuthUnauthenticated value) unauthenticated,
     required TResult Function(AuthAuthenticated value) authenticated,
+    required TResult Function(AuthError value) error,
   }) {
     return initial(this);
   }
@@ -175,6 +191,7 @@ class _$InitialImpl implements Initial {
     TResult? Function(Fetching value)? fetching,
     TResult? Function(AuthUnauthenticated value)? unauthenticated,
     TResult? Function(AuthAuthenticated value)? authenticated,
+    TResult? Function(AuthError value)? error,
   }) {
     return initial?.call(this);
   }
@@ -186,6 +203,7 @@ class _$InitialImpl implements Initial {
     TResult Function(Fetching value)? fetching,
     TResult Function(AuthUnauthenticated value)? unauthenticated,
     TResult Function(AuthAuthenticated value)? authenticated,
+    TResult Function(AuthError value)? error,
     required TResult orElse(),
   }) {
     if (initial != null) {
@@ -217,12 +235,18 @@ class __$$FetchingImplCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$FetchingImpl implements Fetching {
+class _$FetchingImpl with DiagnosticableTreeMixin implements Fetching {
   const _$FetchingImpl();
 
   @override
-  String toString() {
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
     return 'AuthState.fetching()';
+  }
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    super.debugFillProperties(properties);
+    properties.add(DiagnosticsProperty('type', 'AuthState.fetching'));
   }
 
   @override
@@ -241,6 +265,7 @@ class _$FetchingImpl implements Fetching {
     required TResult Function() fetching,
     required TResult Function() unauthenticated,
     required TResult Function(UserSession userSession) authenticated,
+    required TResult Function(String message) error,
   }) {
     return fetching();
   }
@@ -252,6 +277,7 @@ class _$FetchingImpl implements Fetching {
     TResult? Function()? fetching,
     TResult? Function()? unauthenticated,
     TResult? Function(UserSession userSession)? authenticated,
+    TResult? Function(String message)? error,
   }) {
     return fetching?.call();
   }
@@ -263,6 +289,7 @@ class _$FetchingImpl implements Fetching {
     TResult Function()? fetching,
     TResult Function()? unauthenticated,
     TResult Function(UserSession userSession)? authenticated,
+    TResult Function(String message)? error,
     required TResult orElse(),
   }) {
     if (fetching != null) {
@@ -278,6 +305,7 @@ class _$FetchingImpl implements Fetching {
     required TResult Function(Fetching value) fetching,
     required TResult Function(AuthUnauthenticated value) unauthenticated,
     required TResult Function(AuthAuthenticated value) authenticated,
+    required TResult Function(AuthError value) error,
   }) {
     return fetching(this);
   }
@@ -289,6 +317,7 @@ class _$FetchingImpl implements Fetching {
     TResult? Function(Fetching value)? fetching,
     TResult? Function(AuthUnauthenticated value)? unauthenticated,
     TResult? Function(AuthAuthenticated value)? authenticated,
+    TResult? Function(AuthError value)? error,
   }) {
     return fetching?.call(this);
   }
@@ -300,6 +329,7 @@ class _$FetchingImpl implements Fetching {
     TResult Function(Fetching value)? fetching,
     TResult Function(AuthUnauthenticated value)? unauthenticated,
     TResult Function(AuthAuthenticated value)? authenticated,
+    TResult Function(AuthError value)? error,
     required TResult orElse(),
   }) {
     if (fetching != null) {
@@ -331,12 +361,20 @@ class __$$AuthUnauthenticatedImplCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$AuthUnauthenticatedImpl implements AuthUnauthenticated {
+class _$AuthUnauthenticatedImpl
+    with DiagnosticableTreeMixin
+    implements AuthUnauthenticated {
   const _$AuthUnauthenticatedImpl();
 
   @override
-  String toString() {
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
     return 'AuthState.unauthenticated()';
+  }
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    super.debugFillProperties(properties);
+    properties.add(DiagnosticsProperty('type', 'AuthState.unauthenticated'));
   }
 
   @override
@@ -356,6 +394,7 @@ class _$AuthUnauthenticatedImpl implements AuthUnauthenticated {
     required TResult Function() fetching,
     required TResult Function() unauthenticated,
     required TResult Function(UserSession userSession) authenticated,
+    required TResult Function(String message) error,
   }) {
     return unauthenticated();
   }
@@ -367,6 +406,7 @@ class _$AuthUnauthenticatedImpl implements AuthUnauthenticated {
     TResult? Function()? fetching,
     TResult? Function()? unauthenticated,
     TResult? Function(UserSession userSession)? authenticated,
+    TResult? Function(String message)? error,
   }) {
     return unauthenticated?.call();
   }
@@ -378,6 +418,7 @@ class _$AuthUnauthenticatedImpl implements AuthUnauthenticated {
     TResult Function()? fetching,
     TResult Function()? unauthenticated,
     TResult Function(UserSession userSession)? authenticated,
+    TResult Function(String message)? error,
     required TResult orElse(),
   }) {
     if (unauthenticated != null) {
@@ -393,6 +434,7 @@ class _$AuthUnauthenticatedImpl implements AuthUnauthenticated {
     required TResult Function(Fetching value) fetching,
     required TResult Function(AuthUnauthenticated value) unauthenticated,
     required TResult Function(AuthAuthenticated value) authenticated,
+    required TResult Function(AuthError value) error,
   }) {
     return unauthenticated(this);
   }
@@ -404,6 +446,7 @@ class _$AuthUnauthenticatedImpl implements AuthUnauthenticated {
     TResult? Function(Fetching value)? fetching,
     TResult? Function(AuthUnauthenticated value)? unauthenticated,
     TResult? Function(AuthAuthenticated value)? authenticated,
+    TResult? Function(AuthError value)? error,
   }) {
     return unauthenticated?.call(this);
   }
@@ -415,6 +458,7 @@ class _$AuthUnauthenticatedImpl implements AuthUnauthenticated {
     TResult Function(Fetching value)? fetching,
     TResult Function(AuthUnauthenticated value)? unauthenticated,
     TResult Function(AuthAuthenticated value)? authenticated,
+    TResult Function(AuthError value)? error,
     required TResult orElse(),
   }) {
     if (unauthenticated != null) {
@@ -471,15 +515,25 @@ class __$$AuthAuthenticatedImplCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$AuthAuthenticatedImpl implements AuthAuthenticated {
+class _$AuthAuthenticatedImpl
+    with DiagnosticableTreeMixin
+    implements AuthAuthenticated {
   const _$AuthAuthenticatedImpl({required this.userSession});
 
   @override
   final UserSession userSession;
 
   @override
-  String toString() {
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
     return 'AuthState.authenticated(userSession: $userSession)';
+  }
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    super.debugFillProperties(properties);
+    properties
+      ..add(DiagnosticsProperty('type', 'AuthState.authenticated'))
+      ..add(DiagnosticsProperty('userSession', userSession));
   }
 
   @override
@@ -508,6 +562,7 @@ class _$AuthAuthenticatedImpl implements AuthAuthenticated {
     required TResult Function() fetching,
     required TResult Function() unauthenticated,
     required TResult Function(UserSession userSession) authenticated,
+    required TResult Function(String message) error,
   }) {
     return authenticated(userSession);
   }
@@ -519,6 +574,7 @@ class _$AuthAuthenticatedImpl implements AuthAuthenticated {
     TResult? Function()? fetching,
     TResult? Function()? unauthenticated,
     TResult? Function(UserSession userSession)? authenticated,
+    TResult? Function(String message)? error,
   }) {
     return authenticated?.call(userSession);
   }
@@ -530,6 +586,7 @@ class _$AuthAuthenticatedImpl implements AuthAuthenticated {
     TResult Function()? fetching,
     TResult Function()? unauthenticated,
     TResult Function(UserSession userSession)? authenticated,
+    TResult Function(String message)? error,
     required TResult orElse(),
   }) {
     if (authenticated != null) {
@@ -545,6 +602,7 @@ class _$AuthAuthenticatedImpl implements AuthAuthenticated {
     required TResult Function(Fetching value) fetching,
     required TResult Function(AuthUnauthenticated value) unauthenticated,
     required TResult Function(AuthAuthenticated value) authenticated,
+    required TResult Function(AuthError value) error,
   }) {
     return authenticated(this);
   }
@@ -556,6 +614,7 @@ class _$AuthAuthenticatedImpl implements AuthAuthenticated {
     TResult? Function(Fetching value)? fetching,
     TResult? Function(AuthUnauthenticated value)? unauthenticated,
     TResult? Function(AuthAuthenticated value)? authenticated,
+    TResult? Function(AuthError value)? error,
   }) {
     return authenticated?.call(this);
   }
@@ -567,6 +626,7 @@ class _$AuthAuthenticatedImpl implements AuthAuthenticated {
     TResult Function(Fetching value)? fetching,
     TResult Function(AuthUnauthenticated value)? unauthenticated,
     TResult Function(AuthAuthenticated value)? authenticated,
+    TResult Function(AuthError value)? error,
     required TResult orElse(),
   }) {
     if (authenticated != null) {
@@ -583,5 +643,164 @@ abstract class AuthAuthenticated implements AuthState {
   UserSession get userSession;
   @JsonKey(ignore: true)
   _$$AuthAuthenticatedImplCopyWith<_$AuthAuthenticatedImpl> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class _$$AuthErrorImplCopyWith<$Res> {
+  factory _$$AuthErrorImplCopyWith(
+          _$AuthErrorImpl value, $Res Function(_$AuthErrorImpl) then) =
+      __$$AuthErrorImplCopyWithImpl<$Res>;
+  @useResult
+  $Res call({String message});
+}
+
+/// @nodoc
+class __$$AuthErrorImplCopyWithImpl<$Res>
+    extends _$AuthStateCopyWithImpl<$Res, _$AuthErrorImpl>
+    implements _$$AuthErrorImplCopyWith<$Res> {
+  __$$AuthErrorImplCopyWithImpl(
+      _$AuthErrorImpl _value, $Res Function(_$AuthErrorImpl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? message = null,
+  }) {
+    return _then(_$AuthErrorImpl(
+      message: null == message
+          ? _value.message
+          : message // ignore: cast_nullable_to_non_nullable
+              as String,
+    ));
+  }
+}
+
+/// @nodoc
+
+class _$AuthErrorImpl with DiagnosticableTreeMixin implements AuthError {
+  const _$AuthErrorImpl({required this.message});
+
+  @override
+  final String message;
+
+  @override
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
+    return 'AuthState.error(message: $message)';
+  }
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    super.debugFillProperties(properties);
+    properties
+      ..add(DiagnosticsProperty('type', 'AuthState.error'))
+      ..add(DiagnosticsProperty('message', message));
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$AuthErrorImpl &&
+            (identical(other.message, message) || other.message == message));
+  }
+
+  @override
+  int get hashCode => Object.hash(runtimeType, message);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$AuthErrorImplCopyWith<_$AuthErrorImpl> get copyWith =>
+      __$$AuthErrorImplCopyWithImpl<_$AuthErrorImpl>(this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function() initial,
+    required TResult Function() fetching,
+    required TResult Function() unauthenticated,
+    required TResult Function(UserSession userSession) authenticated,
+    required TResult Function(String message) error,
+  }) {
+    return error(message);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function()? initial,
+    TResult? Function()? fetching,
+    TResult? Function()? unauthenticated,
+    TResult? Function(UserSession userSession)? authenticated,
+    TResult? Function(String message)? error,
+  }) {
+    return error?.call(message);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? initial,
+    TResult Function()? fetching,
+    TResult Function()? unauthenticated,
+    TResult Function(UserSession userSession)? authenticated,
+    TResult Function(String message)? error,
+    required TResult orElse(),
+  }) {
+    if (error != null) {
+      return error(message);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(Initial value) initial,
+    required TResult Function(Fetching value) fetching,
+    required TResult Function(AuthUnauthenticated value) unauthenticated,
+    required TResult Function(AuthAuthenticated value) authenticated,
+    required TResult Function(AuthError value) error,
+  }) {
+    return error(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(Initial value)? initial,
+    TResult? Function(Fetching value)? fetching,
+    TResult? Function(AuthUnauthenticated value)? unauthenticated,
+    TResult? Function(AuthAuthenticated value)? authenticated,
+    TResult? Function(AuthError value)? error,
+  }) {
+    return error?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(Initial value)? initial,
+    TResult Function(Fetching value)? fetching,
+    TResult Function(AuthUnauthenticated value)? unauthenticated,
+    TResult Function(AuthAuthenticated value)? authenticated,
+    TResult Function(AuthError value)? error,
+    required TResult orElse(),
+  }) {
+    if (error != null) {
+      return error(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class AuthError implements AuthState {
+  const factory AuthError({required final String message}) = _$AuthErrorImpl;
+
+  String get message;
+  @JsonKey(ignore: true)
+  _$$AuthErrorImplCopyWith<_$AuthErrorImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
