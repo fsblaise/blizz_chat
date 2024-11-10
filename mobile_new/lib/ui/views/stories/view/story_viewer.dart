@@ -13,64 +13,63 @@ class StoryViewerPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.black87,
       appBar: AppBar(
+        automaticallyImplyLeading: true,
         backgroundColor: Colors.black,
         foregroundColor: Colors.white,
+        title: Row(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            const CircleAvatar(
+              child: Icon(Icons.person),
+            ),
+            const SizedBox(
+              width: 15,
+            ),
+            Text(
+              data.fullName,
+              style: const TextStyle(fontSize: 20),
+            ),
+          ],
+        ),
       ),
-      extendBodyBehindAppBar: true,
       body: Container(
         color: Colors.black,
-        child: Stack(
-          alignment: Alignment.bottomCenter,
-          children: [
-            Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Container(
-                  decoration:
-                      BoxDecoration(borderRadius: BorderRadius.circular(16)),
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.circular(16),
-                    child: Image.network(
-                      data.imgUrl,
-                      fit: BoxFit.fill,
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Column(
+                mainAxisSize: MainAxisSize.min,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Flexible(
+                    fit: FlexFit.loose,
+                    child: Container(
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(16),
+                      ),
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(16),
+                        child: Image.network(
+                          data.imgUrl,
+                          fit: BoxFit.contain,
+                        ),
+                      ),
                     ),
                   ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Text(
-                    data.caption,
-                    style: const TextStyle(fontSize: 16, color: Colors.white),
-                  ),
-                )
-              ],
-            ),
-            Column(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      const CircleAvatar(
-                        child: Icon(Icons.person),
-                      ),
-                      const SizedBox(
-                        width: 15,
-                      ),
-                      Text(
-                        data.fullName,
-                        style: const TextStyle(color: Colors.white),
-                      ),
-                    ],
-                  ),
-                ),
-              ],
-            )
-          ],
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Text(
+                      data.caption,
+                      style: const TextStyle(fontSize: 16, color: Colors.white),
+                    ),
+                  )
+                ],
+              ),
+            ],
+          ),
         ),
       ),
     );

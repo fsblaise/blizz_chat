@@ -20,6 +20,8 @@ Story _$StoryFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$Story {
+  @JsonKey(name: '_id')
+  String get id => throw _privateConstructorUsedError;
   String get caption => throw _privateConstructorUsedError;
   String get extension => throw _privateConstructorUsedError;
   String get imgUrl => throw _privateConstructorUsedError;
@@ -38,7 +40,8 @@ abstract class $StoryCopyWith<$Res> {
       _$StoryCopyWithImpl<$Res, Story>;
   @useResult
   $Res call(
-      {String caption,
+      {@JsonKey(name: '_id') String id,
+      String caption,
       String extension,
       String imgUrl,
       String timestamp,
@@ -59,6 +62,7 @@ class _$StoryCopyWithImpl<$Res, $Val extends Story>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? id = null,
     Object? caption = null,
     Object? extension = null,
     Object? imgUrl = null,
@@ -67,6 +71,10 @@ class _$StoryCopyWithImpl<$Res, $Val extends Story>
     Object? fullName = null,
   }) {
     return _then(_value.copyWith(
+      id: null == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as String,
       caption: null == caption
           ? _value.caption
           : caption // ignore: cast_nullable_to_non_nullable
@@ -103,7 +111,8 @@ abstract class _$$StoryImplCopyWith<$Res> implements $StoryCopyWith<$Res> {
   @override
   @useResult
   $Res call(
-      {String caption,
+      {@JsonKey(name: '_id') String id,
+      String caption,
       String extension,
       String imgUrl,
       String timestamp,
@@ -122,6 +131,7 @@ class __$$StoryImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? id = null,
     Object? caption = null,
     Object? extension = null,
     Object? imgUrl = null,
@@ -130,6 +140,10 @@ class __$$StoryImplCopyWithImpl<$Res>
     Object? fullName = null,
   }) {
     return _then(_$StoryImpl(
+      id: null == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as String,
       caption: null == caption
           ? _value.caption
           : caption // ignore: cast_nullable_to_non_nullable
@@ -162,7 +176,8 @@ class __$$StoryImplCopyWithImpl<$Res>
 @JsonSerializable()
 class _$StoryImpl implements _Story {
   const _$StoryImpl(
-      {required this.caption,
+      {@JsonKey(name: '_id') required this.id,
+      required this.caption,
       required this.extension,
       required this.imgUrl,
       required this.timestamp,
@@ -172,6 +187,9 @@ class _$StoryImpl implements _Story {
   factory _$StoryImpl.fromJson(Map<String, dynamic> json) =>
       _$$StoryImplFromJson(json);
 
+  @override
+  @JsonKey(name: '_id')
+  final String id;
   @override
   final String caption;
   @override
@@ -187,7 +205,7 @@ class _$StoryImpl implements _Story {
 
   @override
   String toString() {
-    return 'Story(caption: $caption, extension: $extension, imgUrl: $imgUrl, timestamp: $timestamp, email: $email, fullName: $fullName)';
+    return 'Story(id: $id, caption: $caption, extension: $extension, imgUrl: $imgUrl, timestamp: $timestamp, email: $email, fullName: $fullName)';
   }
 
   @override
@@ -195,6 +213,7 @@ class _$StoryImpl implements _Story {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$StoryImpl &&
+            (identical(other.id, id) || other.id == id) &&
             (identical(other.caption, caption) || other.caption == caption) &&
             (identical(other.extension, extension) ||
                 other.extension == extension) &&
@@ -209,7 +228,7 @@ class _$StoryImpl implements _Story {
   @JsonKey(ignore: true)
   @override
   int get hashCode => Object.hash(
-      runtimeType, caption, extension, imgUrl, timestamp, email, fullName);
+      runtimeType, id, caption, extension, imgUrl, timestamp, email, fullName);
 
   @JsonKey(ignore: true)
   @override
@@ -227,7 +246,8 @@ class _$StoryImpl implements _Story {
 
 abstract class _Story implements Story {
   const factory _Story(
-      {required final String caption,
+      {@JsonKey(name: '_id') required final String id,
+      required final String caption,
       required final String extension,
       required final String imgUrl,
       required final String timestamp,
@@ -236,6 +256,9 @@ abstract class _Story implements Story {
 
   factory _Story.fromJson(Map<String, dynamic> json) = _$StoryImpl.fromJson;
 
+  @override
+  @JsonKey(name: '_id')
+  String get id;
   @override
   String get caption;
   @override

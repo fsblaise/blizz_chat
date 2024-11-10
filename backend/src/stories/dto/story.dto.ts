@@ -13,3 +13,7 @@ export class CreateStoryDto {
   email: string;
   fullName: string;
 }
+
+export class CreateStoryDtoWrapper {
+  createStoryDto: CreateStoryDto;
+}

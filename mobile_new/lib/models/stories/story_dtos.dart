@@ -5,8 +5,8 @@ part 'story_dtos.g.dart';
 @freezed
 class CreateStoryDto with _$CreateStoryDto {
   const factory CreateStoryDto({
+    required String caption,
     required String email,
-    required String password,
     required String fullName,
   }) = _CreateStoryDto;
 

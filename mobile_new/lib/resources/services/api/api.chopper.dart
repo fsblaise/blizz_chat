@@ -192,14 +192,27 @@ final class _$StoriesService extends StoriesService {
   final Type definitionType = StoriesService;
 
   @override
-  Future<Response<dynamic>> createStory(CreateStoryDto body) {
+  Future<Response<dynamic>> createStory(
+    String createStoryDtoJson,
+    MultipartFile file,
+  ) {
     final Uri $url = Uri.parse('/stories');
-    final $body = body;
+    final List<PartValue> $parts = <PartValue>[
+      PartValue<String>(
+        'createStoryDto',
+        createStoryDtoJson,
+      ),
+      PartValueFile<MultipartFile>(
+        'file',
+        file,
+      ),
+    ];
     final Request $request = Request(
       'POST',
       $url,
       client.baseUrl,
-      body: $body,
+      parts: $parts,
+      multipart: true,
     );
     return client.send<dynamic, dynamic>($request);
   }
@@ -216,8 +229,8 @@ final class _$StoriesService extends StoriesService {
   }
 
   @override
-  Future<Response<dynamic>> findOne() {
-    final Uri $url = Uri.parse('/stories/{id}');
+  Future<Response<dynamic>> findOne(String id) {
+    final Uri $url = Uri.parse('/stories/${id}');
     final Request $request = Request(
       'GET',
       $url,
@@ -227,8 +240,8 @@ final class _$StoriesService extends StoriesService {
   }
 
   @override
-  Future<Response<dynamic>> delete() {
-    final Uri $url = Uri.parse('/stories/{id}');
+  Future<Response<dynamic>> delete(String id) {
+    final Uri $url = Uri.parse('/stories/${id}');
     final Request $request = Request(
       'DELETE',
       $url,

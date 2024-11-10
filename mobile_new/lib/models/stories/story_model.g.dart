@@ -7,6 +7,7 @@ part of 'story_model.dart';
 // **************************************************************************
 
 _$StoryImpl _$$StoryImplFromJson(Map<String, dynamic> json) => _$StoryImpl(
+      id: json['_id'] as String,
       caption: json['caption'] as String,
       extension: json['extension'] as String,
       imgUrl: json['imgUrl'] as String,
@@ -17,6 +18,7 @@ _$StoryImpl _$$StoryImplFromJson(Map<String, dynamic> json) => _$StoryImpl(
 
 Map<String, dynamic> _$$StoryImplToJson(_$StoryImpl instance) =>
     <String, dynamic>{
+      '_id': instance.id,
       'caption': instance.caption,
       'extension': instance.extension,
       'imgUrl': instance.imgUrl,

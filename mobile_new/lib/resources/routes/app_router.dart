@@ -2,6 +2,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:blizz_chat/models/models.dart';
 import 'package:blizz_chat/resources/routes/home_routes.dart';
 import 'package:blizz_chat/resources/routes/normal_routes.dart';
+import 'package:blizz_chat/resources/routes/create_story_routes.dart';
 import 'package:blizz_chat/ui/ui.dart';
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
@@ -19,5 +20,6 @@ class AppRouter extends _$AppRouter {
         ),
         //
         ...normalRoutes,
+        ...storyRoutes,
       ];
 }

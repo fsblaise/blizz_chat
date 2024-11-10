@@ -8,15 +8,15 @@ part of 'story_dtos.dart';
 
 _$CreateStoryDtoImpl _$$CreateStoryDtoImplFromJson(Map<String, dynamic> json) =>
     _$CreateStoryDtoImpl(
+      caption: json['caption'] as String,
       email: json['email'] as String,
-      password: json['password'] as String,
       fullName: json['fullName'] as String,
     );
 
 Map<String, dynamic> _$$CreateStoryDtoImplToJson(
         _$CreateStoryDtoImpl instance) =>
     <String, dynamic>{
+      'caption': instance.caption,
       'email': instance.email,
-      'password': instance.password,
       'fullName': instance.fullName,
     };

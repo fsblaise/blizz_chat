@@ -1,7 +1,6 @@
 import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards, Req } from '@nestjs/common';
 import { ChatsService } from './chats.service';
 import { CreateChatDto } from './dto/create-chat.dto';
-import { UpdateChatDto } from './dto/update-chat.dto';
 import { AuthGuard } from 'src/shared/guards/auth.guard';
 import { ChatDto } from './dto/chat.dto';
 import { Chat } from './schemas/chat.schema';

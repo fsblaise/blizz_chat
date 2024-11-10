@@ -1,6 +1,5 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:blizz_chat/resources/routes/app_router.dart';
-import 'package:blizz_chat/resources/routes/story_routes.dart';
 
 final homeRoutes = [
   AutoRoute(
@@ -8,8 +7,8 @@ final homeRoutes = [
     path: 'chats',
   ),
   AutoRoute(
-    page: StoriesRoute.page,
-    children: [...storyRoutes],
+    page: StoriesListRoute.page,
+    path: 'stories',
   ),
   AutoRoute(
     page: MapRoute.page,
