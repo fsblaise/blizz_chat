@@ -1,4 +1,4 @@
-import { Component, inject, model } from '@angular/core';
+import { Component, inject, model, OnInit } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import {
   MatDialogRef,
@@ -22,11 +22,18 @@ export interface CompanyDetails {
   templateUrl: './company-form-dialog.component.html',
   styleUrl: './company-form-dialog.component.css'
 })
-export class CompanyFormDialogComponent {
+export class CompanyFormDialogComponent implements OnInit {
   readonly dialogRef = inject(MatDialogRef<CompanyFormDialogComponent>);
   readonly data = inject<CompanyDetails>(MAT_DIALOG_DATA);
   readonly returnModel = model(this.data);
   companyForm = getCompanyForm();
+
+  ngOnInit(): void {
+    this.companyForm.setValue({
+      name: this.data.name,
+      apiUrl: this.data.apiUrl,
+    });
+  }
 
   public get name() {
     return this.companyForm.get('name');
@@ -38,5 +45,13 @@ export class CompanyFormDialogComponent {
 
   onNoClick(): void {
     this.dialogRef.close();
+  }
+
+  submit() {
+    if (this.companyForm.valid) {
+      this.data.apiUrl = this.apiUrl!.value!;
+      this.data.name = this.name!.value!;
+      this.dialogRef.close(this.returnModel());
+    }
   }
 }

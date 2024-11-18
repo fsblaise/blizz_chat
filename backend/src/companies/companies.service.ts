@@ -43,7 +43,7 @@ export class CompaniesService {
   // Members
 
   async addMember(id: string, member: MemberDto): Promise<CompanyDto> {
-    const entity = await this.companyModel.findByIdAndUpdate(id, { $push: { members: member } }).exec();
+    const entity = await this.companyModel.findByIdAndUpdate(id, { $push: { members: member } }, { new: true }).exec();
     return this.renderCompany(entity);
   }
 
@@ -53,12 +53,12 @@ export class CompaniesService {
   }
 
   async updateMember(id: string, email: string, member: MemberDto): Promise<CompanyDto> {
-    const entity = await this.companyModel.findOneAndUpdate({ _id: id, 'members.email': email }, { $set: { 'members.$': member } }).exec();
+    const entity = await this.companyModel.findOneAndUpdate({ _id: id, 'members.email': email }, { $set: { 'members.$': member } }, { new: true }).exec();
     return this.renderCompany(entity);
   }
 
   async removeMember(id: string, email: string): Promise<CompanyDto> {
-    const entity = await this.companyModel.findByIdAndUpdate(id, { $pull: { 'members.email': email } }).exec();
+    const entity = await this.companyModel.findByIdAndUpdate(id, { $pull: { members: { email } } }, { new: true }).exec();
     return this.renderCompany(entity);
   }
 

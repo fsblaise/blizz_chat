@@ -1,0 +1,12 @@
+<h2 mat-dialog-title>Confirm</h2>
+<mat-dialog-content>
+  <div class="w-full py-4 px-8 flex flex-col items-center justify-center text-lg">
+    {{data.message}}
+  </div>
+</mat-dialog-content>
+<mat-dialog-actions>
+  <div class="w-full flex justify-evenly">
+    <button mat-button (click)="onCancel()">No</button>
+    <button mat-button class="text-[var(--md-sys-color-primary)]" (click)="onConfirm()" cdkFocusInitial>Yes</button>
+  </div>
+</mat-dialog-actions>

@@ -1,15 +1,13 @@
-@if (router.url != '/welcome') {
-    <mat-toolbar class="!h-[60px]">
-        <span id="title" routerLink="/welcome">Blizz Chat</span>
-        @if (router.url != '/login' && router.url != '/signup') {
-            <div id="nav-buttons">
-                <button mat-button routerLink="/workspace" [class.active]="router.url.includes('/workspace')">Workspace</button>
-                <button mat-button routerLink="/profile" [class.active]="router.url.includes('/profile')">Profile</button>
-                <button mat-button routerLink="/welcome">Logout</button>
-            </div>
-        }
-    </mat-toolbar>
-}
+<mat-toolbar class="!h-[60px] !min-h-[60px]">
+    <span id="title" routerLink="/welcome">Blizz Chat</span>
+    @if ((auth.user$ | async) && router.url !== '/login' && router.url !== '/signup') {
+        <div id="nav-buttons">
+            <button mat-button routerLink="/workspace" [class.active]="router.url.includes('/workspace')">Workspace</button>
+            <button mat-button routerLink="/profile" [class.active]="router.url.includes('/profile')">Profile</button>
+            <button mat-button routerLink="/welcome">Logout</button>
+        </div>
+    }
+</mat-toolbar>
 <div id="page-wrapper" class="fullscreen">
     <router-outlet></router-outlet>
 </div>

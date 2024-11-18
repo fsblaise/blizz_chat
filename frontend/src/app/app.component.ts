@@ -5,11 +5,12 @@ import { Component, OnInit } from '@angular/core';
 import { Router, RouterLink, RouterOutlet } from '@angular/router';
 import { AuthService } from '../shared/services/auth.service';
 import { CompanyService } from '../shared/services/company.service';
+import { AsyncPipe } from '@angular/common';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, MatToolbarModule, MatButton, RouterLink],
+  imports: [RouterOutlet, MatToolbarModule, MatButton, RouterLink, AsyncPipe],
   schemas: [],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
@@ -17,7 +18,7 @@ import { CompanyService } from '../shared/services/company.service';
 export class AppComponent implements OnInit {
   title = 'blizz-chat-web';
 
-  constructor(protected router: Router, private auth: AuthService, private companyService: CompanyService) {}
+  constructor(protected router: Router, protected auth: AuthService, private companyService: CompanyService) {}
 
   ngOnInit(): void {
     

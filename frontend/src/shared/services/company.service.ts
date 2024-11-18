@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from '../../environments/environment';
 import { BehaviorSubject, catchError, map, Observable, of } from 'rxjs';
-import { Company } from '../models/company.model';
+import { Company, Member } from '../models/company.model';
 import { CreateCompanyDto } from '../models/company.dtos';
 
 @Injectable({
@@ -15,16 +15,16 @@ export class CompanyService {
   constructor(private http: HttpClient) { }
 
   // check if email is in company
-  
+
   getCompanies(email: string): Observable<Company[]> {
     console.log('Getting companies');
     console.log(`${environment.API_URL}/companies/init/${email}`);
-    
+
     return this.http.get(`${environment.API_URL}/companies/init/${email}`, { observe: 'response' }).pipe(
-      map((response: any) => {        
+      map((response: any) => {
         if (response.ok && response.body) {
           console.log("Success");
-          
+
           const companies = response.body as Company[];
           this.companiesSubject.next(companies);
           return companies;
@@ -81,6 +81,9 @@ export class CompanyService {
     return this.http.delete(`${environment.API_URL}/companies/${id}`, { observe: 'response', withCredentials: true }).pipe(
       map((response: any) => {
         if (response.ok) {
+          const currentCompanies = this.companiesSubject.value;
+          const updatedCompanies = currentCompanies.filter((c: Company) => c.id !== id);
+          this.companiesSubject.next(updatedCompanies);
           return response;
         } else {
           throw new Error('Failed to delete company');
@@ -95,11 +98,14 @@ export class CompanyService {
 
   // members
 
-  addMember(id: string, member: any): Observable<Company | null> {
+  addMember(id: string, member: Member): Observable<Company | null> {
     return this.http.post(`${environment.API_URL}/companies/${id}/members`, member, { observe: 'response', withCredentials: true }).pipe(
       map((response: any) => {
         if (response.ok && response.body) {
           const company = response.body as Company;
+          const currentCompanies = this.companiesSubject.value;
+          const updatedCompanies = currentCompanies.map((c: Company) => c.id === company.id ? company : c);
+          this.companiesSubject.next(updatedCompanies);
           return company;
         } else {
           throw new Error('Failed to add member');
@@ -112,11 +118,14 @@ export class CompanyService {
     );
   }
 
-  updateMember(id: string, email: string, member: any): Observable<Company | null> {
-    return this.http.patch(`${environment.API_URL}/companies/${id}/members/${email}`, member, { observe: 'response', withCredentials: true }).pipe(
+  updateMember(id: string, member: Member): Observable<Company | null> {
+    return this.http.patch(`${environment.API_URL}/companies/${id}/members/${member.email}`, member, { observe: 'response', withCredentials: true }).pipe(
       map((response: any) => {
         if (response.ok && response.body) {
           const company = response.body as Company;
+          const currentCompanies = this.companiesSubject.value;
+          const updatedCompanies = currentCompanies.map((c: Company) => c.id === company.id ? company : c);
+          this.companiesSubject.next(updatedCompanies);
           return company;
         } else {
           throw new Error('Failed to update member');
@@ -134,6 +143,9 @@ export class CompanyService {
       map((response: any) => {
         if (response.ok && response.body) {
           const company = response.body as Company;
+          const currentCompanies = this.companiesSubject.value;
+          const updatedCompanies = currentCompanies.map((c: Company) => c.id === company.id ? company : c);
+          this.companiesSubject.next(updatedCompanies);
           return company;
         } else {
           throw new Error('Failed to delete member');

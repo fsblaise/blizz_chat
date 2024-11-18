@@ -1,0 +1,41 @@
+<h2 mat-dialog-title>Add member</h2>
+<mat-dialog-content>
+  <div class="w-full py-4 px-8 flex flex-col items-center justify-center">
+    <form [formGroup]="memberForm">
+      <mat-form-field appearance="outline" class="w-full mb-4">
+        <mat-label>Name</mat-label>
+        <input matInput formControlName="name" />
+        @if (name?.getError('required')) {
+          <mat-error>Name is required</mat-error>
+        } @else if (name?.getError('minlength')) {
+          <mat-error>Name must be at least 3 characters long</mat-error>
+        }
+      </mat-form-field>
+      <mat-form-field appearance="outline" class="w-full mb-4">
+        <mat-label>Email address</mat-label>
+        <input matInput formControlName="email" />
+        @if (email?.getError('required')) {
+          <mat-error>Email address is required</mat-error>
+        } @else if (email?.getError('email')) {
+          <mat-error>Email address is not valid</mat-error>
+        }
+      </mat-form-field>
+      <mat-form-field appearance="outline" class="w-full">
+        <mat-label>Role</mat-label>
+        <mat-select formControlName="role">
+          <mat-option value="admin">Admin</mat-option>
+          <mat-option value="member">Member</mat-option>
+        </mat-select>
+        @if (role?.getError('required')) {
+          <mat-error>Role is required</mat-error>
+        }
+      </mat-form-field>
+    </form>
+  </div>
+</mat-dialog-content>
+<mat-dialog-actions>
+  <div class="w-full flex justify-between">
+    <button mat-button (click)="onNoClick()">Cancel</button>
+    <button mat-button class="text-[var(--md-sys-color-primary)]" [disabled]="memberForm.invalid" (click)="submit()" cdkFocusInitial>Submit</button>
+  </div>
+</mat-dialog-actions>
