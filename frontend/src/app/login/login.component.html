@@ -1,10 +1,10 @@
-<div class="h-full w-2/5 bg-[var(--md-sys-color-secondary-container)] flex center text-center">
+<div class="h-full w-2/5 bg-secondary-container flex center text-center">
     <h1>Welcome back!</h1>
 </div>
 <div class="h-full w-3/5 flex center">
     <mat-card appearance="outlined">
         <mat-card-content class="flex flex-col center">
-            <form class="flex flex-col center" [formGroup]="loginForm" (submit)="login()">
+            <form class="flex flex-col center border-b-outline border-b" [formGroup]="loginForm" (submit)="login()">
                 <h3>Please log in to your account</h3>
                 <mat-form-field appearance="outline">
                     <mat-label>

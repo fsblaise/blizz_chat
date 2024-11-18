@@ -1,5 +1,4 @@
 mat-toolbar {
-    border-bottom: solid 1px var(--md-sys-color-outline);
     padding: 0 32px;
     justify-content: space-between;
 }
@@ -8,7 +7,6 @@ mat-toolbar {
     font-weight: bold;
     font-size: 32px;
     letter-spacing: 1px;
-    color: var(--md-sys-color-primary);
     cursor: pointer;
 }
 
@@ -19,7 +17,6 @@ mat-toolbar {
 
 #nav-buttons button {
     font-size: 20px;
-    color: var(--md-sys-color-on-surface) !important;
 }
 
 #nav-buttons .active {

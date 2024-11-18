@@ -32,7 +32,6 @@ mat-card-content {
 }
 
 form {
-    border-bottom: solid 1px var(--md-sys-color-outline);
     gap: 16px;
     padding-bottom: 16px;
 }

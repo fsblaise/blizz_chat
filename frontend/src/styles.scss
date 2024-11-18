@@ -7,6 +7,7 @@
 @import "./assets/theme/colors.module.css";
 
 html, body {
+  @apply text #{!important};
   height: 100%;
 }
 body {
@@ -32,6 +33,7 @@ app-root {
   --mat-sidenav-content-text-color: var(--md-sys-color-on-surface);
   --mat-standard-button-toggle-text-color: var(--md-sys-color-on-surface);
   --mat-standard-button-toggle-selected-state-text-color: var(--md-sys-color-on-surface);
+  --md-sys-color-on-surface: #322f38;
 }
 
 // .secondary {

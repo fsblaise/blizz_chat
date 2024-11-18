@@ -10,7 +10,6 @@
 }
 
 #continue {
-    border-color: var(--md-sys-color-primary);
     width: 150px;
     height: 48px;
     font-size: 18px;
@@ -20,5 +19,4 @@ mat-icon {
     width: 250px;
     height: 250px;
     font-size: 250px;
-    color: var(--md-sys-color-primary);
 }

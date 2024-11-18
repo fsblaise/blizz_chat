@@ -2,7 +2,6 @@
   border-top-right-radius: 16px;
   border-bottom-right-radius: 16px;
   height: 100%;
-  border-right: solid 1px var(--md-sys-color-outline);
   padding: 16px;
 }
 

@@ -1,4 +1,4 @@
-<div class="h-full w-2/5 bg-[var(--md-sys-color-secondary-container)] flex center text-center">
+<div class="h-full w-2/5 bg-secondary-container flex center text-center">
     <h1>Welcome newcomer!</h1>
 </div>
 <div class="h-full w-3/5 flex center">
@@ -11,7 +11,7 @@
                 </button>
             </div>
             }
-            <form class="flex flex-col center overflow-hidden" [formGroup]="signUpForm" (submit)="signUp()">
+            <form class="flex flex-col center overflow-hidden border-b-outline border-b" [formGroup]="signUpForm" (submit)="signUp()">
                 <div class="flex flex-col center w-full transition-transform duration-300 ease-in-out"
                     [ngClass]="{'-translate-x-full': step !== 0, 'translate-x-0': step === 0, 'opacity-0': step !== 0, 'opacity-100': step === 0, 'h-0': step !== 0, 'h-auto': step === 0}">
                     <h3>Please register an account</h3>
@@ -59,12 +59,12 @@
                 </div>
 
                 <div class="flex flex-row center !gap-2">
-                    <div class="!w-4 !h-4 rounded-full bg-[var(--md-sys-color-outline)]"
-                        [ngClass]="step === 0 ? '!bg-[var(--md-sys-color-primary)]' : 'cursor-pointer'"
+                    <div class="!w-4 !h-4 rounded-full bg-outline"
+                        [ngClass]="step === 0 ? '!bg-primary' : 'cursor-pointer'"
                         (click)="step === 1 ? prevStep() : ''">
                     </div>
-                    <div class="!w-4 !h-4 rounded-full bg-[var(--md-sys-color-outline)]"
-                        [ngClass]="step === 1 ? '!bg-[var(--md-sys-color-primary)]' : isFirstStepValid() && step === 0 ? 'cursor-pointer' : 'cursor-auto'"
+                    <div class="!w-4 !h-4 rounded-full bg-outline"
+                        [ngClass]="step === 1 ? '!bg-primary' : isFirstStepValid() && step === 0 ? 'cursor-pointer' : 'cursor-auto'"
                         (click)="isFirstStepValid() && step === 0 ? nextStep() : ''">
                     </div>
                 </div>
