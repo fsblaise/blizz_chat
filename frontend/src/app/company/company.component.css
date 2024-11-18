@@ -1,0 +1,11 @@
+:host {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  /* padding: 24px 32px; */
+  /* gap: 64px; */
+}
+
+mat-icon {
+  color: var(--md-sys-color-primary);
+}

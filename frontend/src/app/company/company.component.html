@@ -1,0 +1,96 @@
+@if (companyService.companies$ | async; as companies) {
+@if (companies.length > 0) {
+<h1 class="py-6 px-8 text-3xl font-medium pb-6">Workspaces</h1>
+}
+@for(company of companies; track company.id) {
+<mat-card class="my-6 mx-8" appearance="outlined">
+  <mat-expansion-panel class="!shadow-none">
+    <mat-expansion-panel-header>
+      <mat-panel-title>{{ company.name }}</mat-panel-title>
+      <mat-panel-description>Members: {{ company.members.length }}</mat-panel-description>
+    </mat-expansion-panel-header>
+    <div class="w-full flex mb-4 font-medium">
+      <div class="flex grow mr-6">Api url: </div>
+      <div class="flex grow-[2]">{{ company.apiUrl }}</div>
+    </div>
+    <div class="mb-2 flex justify-between">
+      <h3 class="font-medium">Members:</h3>
+      <button mat-button class="!h-min">
+        <mat-icon fontIcon="person_add"></mat-icon>
+        Add
+      </button>
+    </div>
+    <div class="flex flex-col rounded-xl border border-[var(--mdc-outlined-card-outline-color)]">
+      <div class="flex w-full justify-center border-b py-2 border-[var(--mdc-outlined-card-outline-color)] text-center">
+        <span class="w-[30%] font-semibold">Name</span>
+        <span class="w-[30%] font-semibold">Email</span>
+        <span class="w-[30%] font-semibold">Role</span>
+        <span class="w-[10%] font-semibold"></span>
+      </div>
+      @for(member of company.members; track member.email) {
+      <div class="flex justify-center items-center [&:not(:last-child)]:border-b w-full py-2 text-center">
+        <span class="w-[30%]">{{ member.fullName }}</span>
+        <span class="w-[30%]">{{ member.email }}</span>
+        <span class="w-[30%]">{{ member.role }}</span>
+        <span class="w-[10%]">
+          <button mat-icon-button>
+            <mat-icon fontIcon="delete"></mat-icon>
+          </button>
+        </span>
+      </div>
+      }
+    </div>
+  </mat-expansion-panel>
+</mat-card>
+} @empty {
+<div class="flex justify-evenly items-center bg-[var(--md-sys-color-primary)] py-16 px-8 text-[var(--md-sys-color-on-primary)]">
+  <div class="flex flex-col gap-1">
+    <h3 class="text-2xl font-medium mb-4">Create your own workspace, where:</h3>
+    <ul class="ml-8 list-disc">
+      <li>you can invite your colleagues</li>
+      <li>you host your own chat server</li>
+      <li>nobody sees your messages or chat metadata</li>
+    </ul>
+  </div>
+  <div class="flex justify-center items-center">
+    <mat-icon fontIcon="dns" class="!w-32 !h-32 text-9xl !text-[var(--md-sys-color-on-primary)]"></mat-icon>
+  </div>
+</div>
+<div class="flex flex-col py-16 px-8 gap-8">
+  <h1 class="text-2xl font-medium pb-6 text-center">How to self-host?</h1>
+  <div class="flex justify-evenly gap-4 items-center">
+    <div class="flex flex-col justify-between items-center gap-2 max-w-48">
+      <mat-icon fontIcon="public" class="!w-24 !h-24 text-8xl"></mat-icon>
+      <p class="text-xl text-center">
+        Check your server's ip address
+      </p>
+    </div>
+    <div class="flex flex-col justify-between items-center gap-2 max-w-48">
+      <mat-icon svgIcon="docker" class="!w-24 !h-24 text-8xl"></mat-icon>
+      <p class="text-xl text-center">
+        docker pull (backend)<br>
+        docker run (backend)
+      </p>
+    </div>
+    <div class="flex flex-col justify-between items-center gap-2 max-w-48">
+      <mat-icon fontIcon="domain_add" class="!w-24 !h-24 text-8xl"></mat-icon>
+      <p class="text-xl text-center">
+        Create the workspace
+      </p>
+    </div>
+  </div>
+</div>
+<div class="h-full flex justify-center bg-[var(--md-sys-color-primary)] py-16 px-8 text-[var(--md-sys-color-on-primary)]">
+  <div class="w-full flex flex-col items-center gap-8">
+    <h1 class="text-2xl font-medium pb-6 text-center">Ready?</h1>
+    <button mat-stroked-button (click)="create()" class="w-max h-max !bg-[var(--md-sys-color-on-primary)]">Create workspace</button>
+  </div>
+  <div class="w-full flex flex-col items-center gap-8 border-l border-[var(--md-sys-color-outline-variant)]">
+    <h1 class="text-2xl font-medium pb-6 text-center">Not sure what to do?</h1>
+    <a mat-stroked-button class="w-max h-max !bg-[var(--md-sys-color-on-primary)]" href="https://github.com/fsblaise/blizz_chat">Need more info</a>
+  </div>
+</div>
+}
+} @else {
+<mat-progress-spinner mode="indeterminate"></mat-progress-spinner>
+}

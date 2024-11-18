@@ -1,0 +1,33 @@
+<h2 mat-dialog-title>Create your workspace (company)</h2>
+<mat-dialog-content>
+  <div class="w-full py-4 px-8 flex flex-col items-center justify-center">
+    <form [formGroup]="companyForm">
+      <mat-form-field appearance="outline" class="w-full mb-4">
+        <mat-label>Name</mat-label>
+        <input matInput [(ngModel)]="data.name" formControlName="name" />
+        @if (name?.getError('required')) {
+          <mat-error>Name is required</mat-error>
+        } @else if (name?.getError('minlength')) {
+          <mat-error>Name must be at least 3 characters long</mat-error>
+        }
+      </mat-form-field>
+      <mat-form-field appearance="outline" class="w-full">
+        <mat-label>Full Api URL</mat-label>
+        <input matInput [(ngModel)]="data.apiUrl" formControlName="apiUrl" />
+        <span matSuffix matTooltip="Example: https://customdomain:3000 or https:123.123.1.1:3000" class="pr-4">ⓘ</span>
+        <mat-hint>Enter the full API URL including http or https and port</mat-hint>
+        @if (apiUrl?.getError('required')) {
+          <mat-error>Api URL is required</mat-error>
+        } @else if (apiUrl?.getError('pattern')) {
+          <mat-error>Api URL must be a valid URL with protocol and port</mat-error>
+        }
+      </mat-form-field>
+    </form>
+  </div>
+</mat-dialog-content>
+<mat-dialog-actions>
+  <div class="w-full flex justify-between">
+    <button mat-button (click)="onNoClick()">Cancel</button>
+    <button mat-button class="text-[var(--md-sys-color-primary)]" [mat-dialog-close]="returnModel()" cdkFocusInitial>Submit</button>
+  </div>
+</mat-dialog-actions>

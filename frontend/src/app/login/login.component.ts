@@ -7,6 +7,7 @@ import { MatInput } from '@angular/material/input';
 import { Router, RouterLink } from '@angular/router';
 import { getLogInForm } from '../../shared/forms/login.form';
 import { ReactiveFormsModule } from '@angular/forms';
+import { AuthService } from '../../shared/services/auth.service';
 
 @Component({
   selector: 'app-login',
@@ -16,11 +17,31 @@ import { ReactiveFormsModule } from '@angular/forms';
   styleUrl: './login.component.css'
 })
 export class LoginComponent {
-  loginFrom = getLogInForm();
+  loginForm = getLogInForm();
 
-  constructor(private router: Router) {}
+  constructor(private router: Router, private auth: AuthService) {}
+
+  public get email() {
+    return this.loginForm.get('email');
+  }
+
+  public get password() {
+    return this.loginForm.get('password');
+  }
 
   login(): void {
-    this.router.navigate(['/chats']);
+    if (this.loginForm.valid) {
+      console.log('Login');
+      this.auth.login(
+        this.email?.value as string, 
+        this.password?.value as string, 
+      ).subscribe((user) => {
+        if (user) {
+          this.router.navigateByUrl('/profile');
+        } else {
+          console.error('Failed to create user');
+        }
+      });
+    }
   }
 }

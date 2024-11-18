@@ -3,9 +3,7 @@
         <span id="title" routerLink="/welcome">Blizz Chat</span>
         @if (router.url != '/login' && router.url != '/signup') {
             <div id="nav-buttons">
-                <button mat-button routerLink="/chats" [class.active]="router.url.includes('/chats')">Chats</button>
-                <button mat-button routerLink="/stories" [class.active]="router.url.includes('/stories')">Stories</button>
-                <button mat-button routerLink="/map" [class.active]="router.url.includes('/map')">Map</button>
+                <button mat-button routerLink="/workspace" [class.active]="router.url.includes('/workspace')">Workspace</button>
                 <button mat-button routerLink="/profile" [class.active]="router.url.includes('/profile')">Profile</button>
                 <button mat-button routerLink="/welcome">Logout</button>
             </div>

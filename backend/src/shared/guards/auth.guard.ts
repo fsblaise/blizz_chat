@@ -18,7 +18,19 @@ export class AuthGuard implements CanActivate {
 
       console.log(request.headers.authorization);
 
-      const token = AuthGuard.extractTokenFromHeader(request.headers.authorization);
+      let token = AuthGuard.extractTokenFromHeader(request.headers.authorization);
+
+      console.log(`Token: ${token}`);
+      
+
+      if (!token) {
+        console.log('no token in header');
+        
+        console.log(request.cookies);
+        
+        token = request.cookies['authToken'];
+      }
+
       const secret = process.env['JWT_SECRET'];
 
       console.log(secret);
@@ -36,14 +48,20 @@ export class AuthGuard implements CanActivate {
       // 💡 We're assigning the payload to the request object here
       // so that we can access it in our route handlers
       request['user'] = payload;
-    } catch {
+    } catch (e) {
+      console.log(e);
+      
       throw new UnauthorizedException();
     }
     return true;
   }
 
   static extractTokenFromHeader(authorization: String): string | undefined {
-    const [type, token] = authorization.split(' ') ?? [];
-    return type === 'Bearer' ? token : undefined;
+    try {
+      const [type, token] = authorization.split(' ') ?? [];
+      return type === 'Bearer' ? token : undefined;
+    } catch {
+      return undefined;
+    }
   }
 }

@@ -4,7 +4,7 @@
 <div class="h-full w-3/5 flex center">
     <mat-card appearance="outlined">
         <mat-card-content class="flex flex-col center">
-            <form class="flex flex-col center" [formGroup]="loginFrom" (submit)="login()">
+            <form class="flex flex-col center" [formGroup]="loginForm" (submit)="login()">
                 <h3>Please log in to your account</h3>
                 <mat-form-field appearance="outline">
                     <mat-label>
@@ -20,7 +20,7 @@
                     </mat-label>
                     <input matInput type="password" formControlName="password">
                 </mat-form-field>
-                <button mat-flat-button type="submit">Log In</button>
+                <button mat-flat-button type="submit" [disabled]="loginForm.invalid">Log In</button>
             </form>
             <div id="switcher" class="flex flex-row center">
                 <span>Not a member yet?</span>

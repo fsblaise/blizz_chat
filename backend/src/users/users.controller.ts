@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, Query, UseGuards, Req, UseInterceptors, UploadedFile } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, Query, UseGuards, Req, UseInterceptors, UploadedFile, Res } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
@@ -10,7 +10,7 @@ import { diskStorage } from 'multer';
 import { join } from 'path';
 import * as fs from 'fs';
 import { FileInterceptor } from '@nestjs/platform-express';
-import { Request } from 'express';
+import { Request, Response } from 'express';
 
 const storage = diskStorage({
   destination: (req, file, cb) => {
@@ -38,13 +38,29 @@ export class UsersController {
   }
 
   @Post('/signUp')
-  create(@Body() createUserDto: CreateUserDto): Promise<AuthResponseDto> {
-    return this.usersService.signUp(createUserDto);
+  async create(@Res({ passthrough: true }) res: Response, @Body() createUserDto: CreateUserDto): Promise<AuthResponseDto> {
+    const dto = await this.usersService.signUp(createUserDto);
+    res.cookie('authToken', dto.token, {
+      httpOnly: true,
+      secure: false,     // Use 'true' in production (for HTTPS)
+      sameSite: 'strict',
+    });
+    return dto;
   }
 
   @Post('/signIn')
-  signIn(@Body() signInUserDto: SignInUserDto): Promise<AuthResponseDto> {
-    return this.usersService.signIn(signInUserDto);
+  async signIn(@Res({ passthrough: true }) res: Response, @Body() signInUserDto: SignInUserDto): Promise<AuthResponseDto> {
+    console.log(signInUserDto);
+    
+    const dto = await this.usersService.signIn(signInUserDto);
+    res.cookie('authToken', dto.token, {
+      httpOnly: true,
+      secure: false,     // Use 'true' in production (for HTTPS)
+      sameSite: 'strict',
+    });
+    console.log("success?");
+    
+    return dto;
   }
 
   @Get()
