@@ -41,6 +41,7 @@ class SessionManager {
         user: null,
         token: null,
       );
+      print('apiUrl: ${sessionData.apiUrl}');
       sessions.add(sessionData);
       await prefs.setString(_sessionsKey, jsonEncode(sessions));
     }

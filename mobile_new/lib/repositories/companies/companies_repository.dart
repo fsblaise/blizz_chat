@@ -9,6 +9,7 @@ class CompaniesRepository extends RepositoryInterface<CompaniesService> {
   static final CompaniesRepository _singleton = CompaniesRepository._internal();
 
   static Future<List<Company>?> checkIfEmailInCompany(String email) async {
+    print('eljutunk egyaltalan ide?');
     final response = await _singleton.service.checkIfEmailInCompany(email);
 
     if (response.isSuccessful && response.bodyString.isNotEmpty) {
@@ -35,7 +36,7 @@ class CompaniesRepository extends RepositoryInterface<CompaniesService> {
   static Future<void> selectCompany(Company company, String email) async {
     await getIt
         .get<SessionManager>()
-        .saveSession(email, apiUrl: company.apiUrl);
+        .saveSession(email, apiUrl: company.apiUrl, companyName: company.name);
 
     await getIt
         .get<SessionManager>()

@@ -9,10 +9,13 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:blizz_chat/models/models.dart';
 import 'package:blizz_chat/resources/routes/app_router.dart';
+import 'package:blizz_chat/resources/services/connection/connection_service.dart';
+import 'package:blizz_chat/resources/services/services.dart';
 import 'package:blizz_chat/ui/ui.dart';
 import 'package:blizz_chat/ui/views/auth/cubit/check/check_form_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 @RoutePage()
 class CheckEmailPage extends StatefulWidget {
@@ -39,11 +42,19 @@ class _CheckEmailPageState extends State<CheckEmailPage> {
 
   _checkEmail(String email) async {
     final success = await context.read<AuthCubit>().hello();
+    print('success: $success');
     if (success) {
       final companies = await context.read<CheckFormCubit>().checkEmail(email);
       if (companies != null && companies.isNotEmpty) {
         Company company;
         if (companies.length > 1) {
+          companies.add(
+            Company(
+              name: 'Blizz Chat (default)',
+              apiUrl: dotenv.env['API_URL']!,
+              members: [],
+            ),
+          );
           company = (await showDialog<Company>(
             context: context,
             barrierDismissible: false,
@@ -54,14 +65,67 @@ class _CheckEmailPageState extends State<CheckEmailPage> {
                   title: const Text('Select Company'),
                   content: Column(
                     mainAxisSize: MainAxisSize.min,
-                    children: companies
-                        .map(
-                          (company) => ListTile(
-                            title: Text(company.name),
-                            onTap: () => Navigator.of(context).pop(company),
-                          ),
-                        )
-                        .toList(),
+                    children: [
+                      ...companies.map(
+                        (company) {
+                          bool isLoading = false;
+                          String errorMessage = '';
+                          return StatefulBuilder(
+                            builder: (context, setState) => ListTile(
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(16),
+                              ),
+                              title: Text(
+                                company.name,
+                                style: TextStyle(
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.normal,
+                                  color: Theme.of(context).primaryColor,
+                                ),
+                              ),
+                              onTap: () async {
+                                setState(() {
+                                  isLoading = true;
+                                });
+                                final response = await getIt
+                                    .get<ConnectionService>()
+                                    .hello(baseUrl: company.apiUrl);
+                                if (response) {
+                                  setState(() {
+                                    isLoading = false;
+                                  });
+                                  Navigator.of(context).pop(company);
+                                } else {
+                                  setState(() {
+                                    errorMessage =
+                                        "This workspace/company is not available!";
+                                    isLoading = false;
+                                  });
+                                }
+                              },
+                              trailing: isLoading
+                                  ? const SizedBox(
+                                      width: 24,
+                                      height: 24,
+                                      child: CircularProgressIndicator(
+                                        strokeWidth: 3,
+                                      ),
+                                    )
+                                  : null,
+                              subtitle: errorMessage.isNotEmpty
+                                  ? Text(
+                                      errorMessage,
+                                      style: TextStyle(
+                                        color: Colors.red,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    )
+                                  : null,
+                            ),
+                          );
+                        },
+                      ),
+                    ],
                   ),
                 ),
               );

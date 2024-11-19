@@ -46,6 +46,7 @@ final apiService = ChopperClient(
   ],
   interceptors: [
     TokenInterceptor(),
+    UrlInterceptor(),
   ],
   converter: const JsonConverter(),
   errorConverter: const JsonConverter(),

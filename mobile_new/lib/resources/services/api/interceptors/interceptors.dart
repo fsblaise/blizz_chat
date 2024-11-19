@@ -56,7 +56,7 @@ class UrlInterceptor implements Interceptor {
     Chain<BodyType> chain,
   ) async {
     final apiUrl = CompaniesRepository.getApiUrl();
-    print(apiUrl);
+    print('------------------Api url: ' + apiUrl);
 
     final request = chain.request.copyWith(
       baseUri: Uri.parse(apiUrl),

@@ -145,8 +145,8 @@ class DialogService {
                 return StatefulBuilder(
                   builder: (context, setState) {
                     return ListTile(
-                      title: Text(sessions[index].user!.fullName),
-                      subtitle: Text(sessions[index].user!.email),
+                      title: Text(sessions[index].user!.email),
+                      subtitle: Text(sessions[index].apiUrl),
                       onTap: !sessions[index].isActive
                           ? () async {
                               setState(() {
@@ -173,7 +173,7 @@ class DialogService {
                           ? const SizedBox(
                               width: 24,
                               height: 24,
-                              child: CircularProgressIndicator(strokeWidth: 2),
+                              child: CircularProgressIndicator(strokeWidth: 3),
                             )
                           : sessions[index].isActive
                               ? Icon(Icons.check, color: theme.primaryColor)
