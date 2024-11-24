@@ -4,7 +4,7 @@ import { UpdateUserDto } from './dto/update-user.dto';
 import { InjectModel } from '@nestjs/mongoose';
 import { Contact, User } from './schemas/user.schema';
 import { Model } from 'mongoose';
-import * as bcrypt from 'bcrypt';
+import * as bcrypt from 'bcryptjs';
 import { SignInUserDto, AuthResponseDto } from './dto/sign-in-user.dto';
 import { JwtService } from '@nestjs/jwt';
 import { UserDto, UserProfileDto } from './dto/user.dto';
