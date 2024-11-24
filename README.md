@@ -14,6 +14,31 @@ This is a simple instant messenger/social media app with a minimalist design (ma
 
 ## Installation
 
+### Docker
+
+1. Pull the images
+```
+docker pull mongo:latest
+docker pull fsblaise/blizz-chat-backend:latest
+```
+2. Create docker network locally
+```
+docker network create ${NETWORK_NAME}
+```
+3. Run mongodb container
+```
+docker run -d --name ${MONGODB_CONTAINER_NAME} --network ${NETWORK_NAME} -e MONGO_INITDB_ROOT_USERNAME=${username} -e MONGO_INITDB_ROOT_PASSWORD=${password} -p 27017:27017 -v ./mongo-data:/data/db mongo:latest
+```
+4. Run backend container
+```
+docker run -d --name ${BACKEND_CONTAINER_NAME} -p 3000:3000 --network ${NETWORK_NAME} -e DB_URI=mongodb://${username}:${password}@${MONGODB_CONTAINER_NAME}:27017 -e JWT_SECRET=${CUSTOM_SECRET} fsblaise/blizz-chat-backend:latest
+```
+
+*Backend url: http://localhost:3000* <br>
+*Db url: mongodb://${username}:${password}@localhost:27017*
+
+### Source code build
+
 **Api** (requires nodejs 20):
 ```
 cd backend
