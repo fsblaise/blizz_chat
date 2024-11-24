@@ -14,7 +14,7 @@ This is a simple instant messenger/social media app with a minimalist design (ma
 
 ## Installation
 
-### Docker
+### Docker (self hosted backend)
 
 1. Pull the images
 ```
