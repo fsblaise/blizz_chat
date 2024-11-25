@@ -9,10 +9,14 @@ async function bootstrap() {
   //   origin: '*',  // Ensure this aligns with your WebSocket CORS setup
   // });
   app.enableCors({
-    origin: 'http://localhost:4200', // Specify the allowed origin
-    credentials: true,              // Allow credentials (cookies, etc.)
+    origin: [
+      'https://blizz-chat-a0erk5fzm-balazs-olahs-projects.vercel.app', // Web frontend
+      '*', // Allow mobile clients
+    ],
+    credentials: true, // Allow credentials
   });
   app.use(cookieParser());
-  await app.listen(3000);
+  const port = process.env.PORT || 3000;
+  await app.listen(port);
 }
 bootstrap();

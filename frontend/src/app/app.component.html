@@ -3,7 +3,7 @@
     @if ((auth.user$ | async) && router.url !== '/login' && router.url !== '/signup') {
         <div id="nav-buttons">
             <button mat-button class="!text" routerLink="/workspace" [class.active]="router.url.includes('/workspace')">Workspace</button>
-            <button mat-button class="!text" routerLink="/profile" [class.active]="router.url.includes('/profile')">Profile</button>
+            <!-- <button mat-button class="!text" routerLink="/profile" [class.active]="router.url.includes('/profile')">Profile</button> -->
             <button mat-button class="!text" routerLink="/welcome">Logout</button>
         </div>
     }

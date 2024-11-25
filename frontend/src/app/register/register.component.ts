@@ -55,7 +55,7 @@ export class RegisterComponent {
         this.rePassword?.value as string,
       ).subscribe((user) => {
         if (user) {
-          this.router.navigateByUrl('/profile');
+          this.router.navigateByUrl('/workspace');
         } else {
           console.error('Failed to create user');
         }

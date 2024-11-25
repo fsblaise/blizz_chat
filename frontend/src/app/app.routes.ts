@@ -14,15 +14,15 @@ export const routes: Routes = [
     { path: 'signup', component: RegisterComponent },
     { path: 'login', component: LoginComponent },
     { path: 'workspace', component: CompanyComponent, canActivate: [AuthGuard] },
-    {
-        path: 'profile', component: ProfileComponent, 
-        canActivate: [AuthGuard],
-        children: [
-            { path: 'personal', component: PersonalComponent },
-            { path: 'security', component: SecurityComponent },
-            { path: 'preferences', component: PreferencesComponent },
-            { path: '**', redirectTo: '/profile/personal' },
-        ],
-    },
+    // {
+    //     path: 'profile', component: ProfileComponent, 
+    //     canActivate: [AuthGuard],
+    //     children: [
+    //         { path: 'personal', component: PersonalComponent },
+    //         { path: 'security', component: SecurityComponent },
+    //         { path: 'preferences', component: PreferencesComponent },
+    //         { path: '**', redirectTo: '/profile/personal' },
+    //     ],
+    // },
     { path: '**', redirectTo: '/welcome' },
 ];
