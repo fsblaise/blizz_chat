@@ -137,9 +137,9 @@ export class CompanyComponent implements OnInit, OnDestroy {
     });
   }
 
-  deleteMember(id: string, email: string) {
+  deleteMember(company: Company, email: string) {
     this.subscriptions.push(
-      this.companyService.deleteMember(id, email)
+      this.companyService.deleteMember(company, email)
         .subscribe(company => {
           console.log(company);
         })

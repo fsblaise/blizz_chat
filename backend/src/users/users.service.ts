@@ -174,8 +174,12 @@ export class UsersService {
     return this.convertEntityToProfileDto(userEntity);
   }
 
-  remove(id: number) {
-    return this.userModel.findByIdAndDelete(id).exec();
+  async remove(email: string): Promise<boolean> {
+    const result = await this.userModel.findOneAndDelete({ email }).exec();
+    if (!result) {
+      throw new NotFoundException('User not found');
+    }
+    return true;
   }
 
   async removeContact(email: string, userId: number): Promise<UserProfileDto> {

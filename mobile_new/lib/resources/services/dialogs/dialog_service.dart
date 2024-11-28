@@ -146,7 +146,7 @@ class DialogService {
                   builder: (context, setState) {
                     return ListTile(
                       title: Text(sessions[index].user!.email),
-                      subtitle: Text(sessions[index].apiUrl),
+                      subtitle: Text(sessions[index].companyName),
                       onTap: !sessions[index].isActive
                           ? () async {
                               setState(() {

@@ -40,7 +40,7 @@
                 <span class="w-[30%]">{{ member.role | titlecase }}</span>
                 <span class="w-[10%]">
                   @if (user.email !== member.email) {
-                    <button mat-icon-button (click)="deleteMember(company.id, member.email)">
+                    <button mat-icon-button (click)="deleteMember(company, member.email)">
                       <mat-icon fontIcon="delete"></mat-icon>
                     </button> 
                     <button mat-icon-button (click)="updateMember(company.id, member)">

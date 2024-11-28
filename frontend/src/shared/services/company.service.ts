@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from '../../environments/environment';
-import { BehaviorSubject, catchError, map, Observable, of } from 'rxjs';
+import { BehaviorSubject, catchError, finalize, map, Observable, of, switchMap, take, tap } from 'rxjs';
 import { Company, Member } from '../models/company.model';
 import { CreateCompanyDto } from '../models/company.dtos';
 
@@ -138,25 +138,50 @@ export class CompanyService {
     );
   }
 
-  deleteMember(id: string, email: string): Observable<Company | null> {
-    return this.http.delete(`${environment.API_URL}/companies/${id}/members/${email}`, { observe: 'response', withCredentials: true }).pipe(
-      map((response: any) => {
-        if (response.ok && response.body) {
-          const company = response.body as Company;
-          const currentCompanies = this.companiesSubject.value;
-          const updatedCompanies = currentCompanies.map((c: Company) => c.id === company.id ? company : c);
-          this.companiesSubject.next(updatedCompanies);
-          return company;
-        } else {
-          throw new Error('Failed to delete member');
+  deleteMember(company: Company, email: string): Observable<Company | null> {
+    const deleteMemberFromCompany$ = this.http
+      .delete(`${environment.API_URL}/companies/${company.id}/members/${email}`, {
+        observe: 'response',
+        withCredentials: true,
+      })
+      .pipe(
+        map((response: any) => {
+          if (response.ok && response.body) {
+            const updatedCompany = response.body as Company;
+            const currentCompanies = this.companiesSubject.value;
+            const updatedCompanies = currentCompanies.map((c: Company) => c.id === updatedCompany.id ? updatedCompany : c);
+            this.companiesSubject.next(updatedCompanies);
+            return updatedCompany;
+          } else {
+            throw new Error('Failed to delete member from company');
+          }
+        }),
+        catchError((error) => {
+          console.error(error);
+          return of(null);
+        })
+      );
+  
+    // Delete user profile from the company's api
+    const deleteMemberFromAuth$ = this.http
+      .delete(`${company.apiUrl}/users/${email}`, {
+        observe: 'response',
+        withCredentials: true,
+      })
+      .pipe(
+        catchError((error) => {
+          console.warn('Failed to delete user from api', error);
+          return of(null);
+        }),
+        finalize(() => console.log('User deleted'))
+      );
+  
+    return deleteMemberFromCompany$.pipe(
+      tap((updatedCompany) => {
+        if (updatedCompany) {
+          deleteMemberFromAuth$.pipe(take(1)).subscribe();
         }
-      }),
-      catchError((error: any) => {
-        console.error(error);
-        return of(null);
-      }),
+      })
     );
-  }
-
-
+  }  
 }

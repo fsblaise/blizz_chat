@@ -133,8 +133,8 @@ export class UsersController {
 
   @Delete()
   @UseGuards(AuthGuard)
-  remove(@Param('id') id: string) {
-    return this.usersService.remove(+id);
+  remove(@Param('email') email: string) {
+    return this.usersService.remove(email);
   }
 
   @Delete('/contact/:email')
