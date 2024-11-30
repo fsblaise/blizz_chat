@@ -1,6 +1,5 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:blizz_chat/resources/routes/app_router.dart';
-import 'package:blizz_chat/resources/services/services.dart';
 import 'package:blizz_chat/ui/ui.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -14,6 +13,9 @@ class WelcomePage extends StatefulWidget {
 }
 
 class _WelcomePageState extends State<WelcomePage> {
+  late final AppLifecycleListener _listener;
+  bool _reConnectWs = false;
+
   late final AuthCubit _authCubit;
   late final UsersCubit _usersCubit;
   late final ChatsCubit _chatsCubit;
@@ -23,6 +25,9 @@ class _WelcomePageState extends State<WelcomePage> {
   @override
   initState() {
     super.initState();
+    _listener = AppLifecycleListener(
+      onStateChange: _onStateChanged,
+    );
     _authCubit = context.read<AuthCubit>();
     _usersCubit = context.read<UsersCubit>();
     _chatsCubit = context.read<ChatsCubit>();
@@ -34,6 +39,53 @@ class _WelcomePageState extends State<WelcomePage> {
   dispose() {
     print('welcome disposed');
     super.dispose();
+  }
+
+  void _onStateChanged(AppLifecycleState state) {
+    switch (state) {
+      case AppLifecycleState.detached:
+        _onDetached();
+      case AppLifecycleState.resumed:
+        _onResumed();
+      case AppLifecycleState.inactive:
+        _onInactive();
+      case AppLifecycleState.hidden:
+        _onHidden();
+      case AppLifecycleState.paused:
+        _onPaused();
+    }
+  }
+
+  void _onDetached() {
+    print('detached');
+    _reConnectWs = true;
+    hasInit = false;
+  }
+
+  void _onResumed() {
+    final state = _authCubit.state;
+    if (_reConnectWs && state is AuthAuthenticated) {
+      _initWs(state);
+      _reConnectWs = false;
+    }
+  }
+
+  void _onInactive() {
+    print('inactive');
+    _reConnectWs = true;
+    hasInit = false;
+  }
+
+  void _onHidden() {
+    print('hidden');
+    _reConnectWs = true;
+    hasInit = false;
+  }
+
+  void _onPaused() {
+    print('paused');
+    _reConnectWs = true;
+    hasInit = false;
   }
 
   void _initWs(AuthAuthenticated state) {
