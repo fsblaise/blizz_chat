@@ -76,7 +76,6 @@ export class MessagesGateway {
 
   @SubscribeMessage('createMessage')
   async create(@MessageBody() createMessageDto: CreateMessageDto) {
-    // iterate through all recipients
     console.log(`Message: ${createMessageDto.message}`);
     
     createMessageDto.to.forEach(async recipientEmail => {
@@ -92,7 +91,6 @@ export class MessagesGateway {
           chatId: createMessageDto.chatId
         });
       } else {
-        // add message to queue if recipient is offline
         await this.messagesService.create(
           createMessageDto.id,
           createMessageDto.from,

@@ -20,7 +20,7 @@ export class CompanyService {
     console.log('Getting companies');
     console.log(`${environment.API_URL}/companies/init/${email}`);
 
-    return this.http.get(`${environment.API_URL}/companies/init/${email}`, { observe: 'response' }).pipe(
+    return this.http.get(`${environment.API_URL}/companies/init/${email}`, { observe: 'response', withCredentials: true }).pipe(
       map((response: any) => {
         if (response.ok && response.body) {
           console.log("Success");
