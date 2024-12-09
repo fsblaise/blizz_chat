@@ -42,7 +42,7 @@ export class UsersController {
     const dto = await this.usersService.signUp(createUserDto);
     res.cookie('authToken', dto.token, {
       httpOnly: true,
-      secure: false,     // Use 'true' in production (for HTTPS)
+      secure: true,
       sameSite: 'strict',
     });
     return dto;
@@ -55,7 +55,7 @@ export class UsersController {
     const dto = await this.usersService.signIn(signInUserDto);
     res.cookie('authToken', dto.token, {
       httpOnly: true,
-      secure: false,     // Use 'true' in production (for HTTPS)
+      secure: true,
       sameSite: 'strict',
     });
     console.log("success?");

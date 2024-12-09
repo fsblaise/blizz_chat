@@ -62,7 +62,7 @@ export class MessagesGateway {
 
       const socketId = this.onlineUsersService.getUserSocketId(email);
 
-      this.server.sockets.sockets.get(socketId)?.disconnect(true); // Disconnect the old socket
+      this.server.sockets.sockets.get(socketId)?.disconnect(true);
 
       this.onlineUsersService.removeUser(email);
       console.log(JSON.stringify(Array.from(this.onlineUsersService.getOnlineUsers())));
@@ -92,7 +92,7 @@ export class MessagesGateway {
           chatId: createMessageDto.chatId
         });
       } else {
-        // Add message to queue if recipient is offline
+        // add message to queue if recipient is offline
         await this.messagesService.create(
           createMessageDto.id,
           createMessageDto.from,
@@ -121,7 +121,7 @@ export class MessagesGateway {
             to: recipientEmail
           });
         } else {
-          // Add message to queue if recipient is offline
+          // add message to queue if recipient is offline
           await this.messagesService.createDistributionKey(
             createDistributionKeyDto.key,
             createDistributionKeyDto.senderEmail,

@@ -156,14 +156,6 @@ class LibsignalService {
 
     sendDistributionMessageToMembers(groupId, distributionMessage);
 
-    // According to the example inside the package repo,
-    // we should send a message containing a from, msd and type
-    // to the members of the group
-    // from: user's email
-    // msg: senderKeyDistributionMessage.serialize()
-    // type: CiphertextMessage.senderKeyDistributionType
-    // then jsonEncode it and send it to the members
-
     // Idea: send a callback as parameter that will be handled in the repository
     // to send the message to the members
     // Or just return a half complete dto, and let the repository put in the

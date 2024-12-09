@@ -49,7 +49,7 @@ class _CameraViewPageState extends State<CameraViewPage> {
 
     try {
       _initializeControllerFuture = _controller.initialize();
-      // to notify the widgets that camera has been initialized and now camera preview can be done
+      // notify the widgets that the camera is ready
       setState(() {});
     } catch (e) {
       print(e);

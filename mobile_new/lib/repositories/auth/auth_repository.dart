@@ -24,6 +24,8 @@ class AuthRepository extends RepositoryInterface<AuthService> {
     // We should not fetch the user from the sharedprefs.
     // final user =
     //     getIt.get<SharedPreferencesService>().preferences!.getString('user');
+    // We should fetch the user from the db,
+    // which will check the token's validity too.
     try {
       final response = await _singleton.service.fetchUserByToken();
       if (token == null || !response.isSuccessful) {
@@ -40,9 +42,6 @@ class AuthRepository extends RepositoryInterface<AuthService> {
       print(e);
       rethrow;
     }
-
-    // We should fetch the user from the db,
-    // which will check the token's validity too.
   }
 
   static Future<void> signOut() async {

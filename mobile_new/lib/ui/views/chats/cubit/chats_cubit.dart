@@ -65,7 +65,7 @@ class ChatsCubit extends Cubit<ChatsState> {
           ],
         ),
       );
-      // Fetch updated chat list after creating a chat
+      // fetch updated chat list
       // await fetchChats();
       currentChats.add(chat);
       emit(ChatsState.fetched(chats: currentChats));

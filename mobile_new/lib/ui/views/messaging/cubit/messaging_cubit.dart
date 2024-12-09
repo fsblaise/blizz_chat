@@ -37,9 +37,6 @@ class MessagingCubit extends Cubit<MessagingState> {
     _listenersActive = false;
   }
 
-  // The Message that we send has an array of recipients,
-  // While the Message we save is joined string of recipients
-  // Locally we only need the to field, to determine if the message is for us
   void sendMessage(MessageDto message) {
     if (state is MessagingFetched) {
       final currentState = state as MessagingFetched;
@@ -82,7 +79,7 @@ class MessagingCubit extends Cubit<MessagingState> {
   }
 
   // This could be the init function of a chat/messaging
-  // Maybe put the key fetching and session creation call here
+  // Maybe put the key fetching and session creation call here?
   Future<void> fetchMessages(Chat? chat, String? userEmail) async {
     try {
       final messages = await messagingRepository!.fetchMessages(chat!.id);
