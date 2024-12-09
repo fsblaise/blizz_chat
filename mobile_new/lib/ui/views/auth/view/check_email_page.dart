@@ -47,14 +47,14 @@ class _CheckEmailPageState extends State<CheckEmailPage> {
       final companies = await context.read<CheckFormCubit>().checkEmail(email);
       if (companies != null && companies.isNotEmpty) {
         Company company;
+        companies.add(
+          Company(
+            name: 'Blizz Chat (default)',
+            apiUrl: dotenv.env['API_URL']!,
+            members: [],
+          ),
+        );
         if (companies.length > 1) {
-          companies.add(
-            Company(
-              name: 'Blizz Chat (default)',
-              apiUrl: dotenv.env['API_URL']!,
-              members: [],
-            ),
-          );
           company = (await showDialog<Company>(
             context: context,
             barrierDismissible: false,

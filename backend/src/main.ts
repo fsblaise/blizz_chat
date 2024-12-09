@@ -8,6 +8,7 @@ async function bootstrap() {
   app.enableCors({
     origin: [
       'https://blizz-chat.vercel.app',
+      '*'
     ],
     credentials: true,
   });

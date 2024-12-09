@@ -43,7 +43,7 @@ export class UsersController {
     res.cookie('authToken', dto.token, {
       httpOnly: true,
       secure: true,
-      sameSite: 'strict',
+      sameSite: 'none',
     });
     return dto;
   }
@@ -56,7 +56,7 @@ export class UsersController {
     res.cookie('authToken', dto.token, {
       httpOnly: true,
       secure: true,
-      sameSite: 'strict',
+      sameSite: 'none',
     });
     console.log("success?");
     

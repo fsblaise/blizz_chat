@@ -64,19 +64,3 @@ class UrlInterceptor implements Interceptor {
     return chain.proceed(request);
   }
 }
-
-class OriginInterceptor implements Interceptor {
-  OriginInterceptor();
-
-  @override
-  FutureOr<Response<BodyType>> intercept<BodyType>(
-    Chain<BodyType> chain,
-  ) async {
-    final request = chain.request.copyWith(
-      headers: {
-        'Origin': 'https://blizz-chat.vercel.app',
-      },
-    );
-    return chain.proceed(request);
-  }
-}
