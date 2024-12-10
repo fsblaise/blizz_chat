@@ -56,9 +56,9 @@ class MessagingRepository {
     _socket?.on('receiveMessage', (data) async {
       print(data);
       final tempMessage = Message.fromJson(data as Map<String, dynamic>);
-      // saveMessage(message); // Here we should not use this
-      // We should pass the onMessage from the cubit
-      // Inside the callback we should call the saveMessage function
+      // saveMessage(message); // Here i should not use this
+      // I should pass the onMessage from the cubit
+      // Inside the callback i should call the saveMessage function
       final encryptedMessage = base64Decode(tempMessage.message);
 
       if (tempMessage.messageType == CiphertextMessage.senderKeyType) {
@@ -202,7 +202,7 @@ class MessagingRepository {
       final groupId = chat.id;
       var participantSessionExists = false;
 
-      // We iterate through the participants (excl. user)
+      // Iterate through the participants (excl. user)
       // And check if a group session exists with the participant as sender
       final participantEmails = chat.participants
           .where((participant) => participant.email != userEmail)
@@ -222,7 +222,7 @@ class MessagingRepository {
       print('Participant session exists: $participantSessionExists');
 
       if (!participantSessionExists) {
-        // If no group session exists for a participant, we check if the user has one
+        // If no group session exists for a participant, check if the user has one
         final exists =
             await libsignalService.groupSessionExists(groupId, userEmail!);
 
@@ -253,7 +253,7 @@ class MessagingRepository {
                   key: distributionMessage.serialize(),
                   messageType: messageType,
                 );
-                // no need for await, since we don't rely on the response
+                // no need for await, since response is not needed
                 await sendDistributionKey(shareDistributionKeyDto);
               }
             },
