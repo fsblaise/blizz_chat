@@ -92,6 +92,7 @@ class _WelcomePageState extends State<WelcomePage> {
     if (!hasInit) {
       final token = state.userSession.token;
       print(token);
+      _messagingCubit.listenersActive = false;
       _messagingCubit.connect(token);
       hasInit = true;
     }

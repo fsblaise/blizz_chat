@@ -31,6 +31,10 @@ class MessagingCubit extends Cubit<MessagingState> {
     _setupListeners();
   }
 
+  set listenersActive(bool value) {
+    _listenersActive = value;
+  }
+
   void disconnect() {
     messagingRepository!.disconnect();
     messagingRepository = null;
